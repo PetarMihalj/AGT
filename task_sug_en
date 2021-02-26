@@ -1,10 +1,10 @@
-Design of a programming language
+Design of a strongly typed programming language
 
 Programming languages play a central role in the development of software. 
 However, there is no silver bullet programming language, which would be efficient, easy to use, portable and consistent. 
 Many old programming languages exhibit bloat; they have been upgraded for decades now, and keeping up with their development is almost impossible. Other ones are easy to use, but painfully slow.
 
-The goal of this graduate thesis is to design a new programming language. The language should be used for performance critical applications, while at the same time be as self contained as possible. It should exhibit no or little undefined behaviour, allowing it to be as portable as can be. The language specification should be described in a formal form. Runtime environment should be decided later on. The language has to be consistent as possible, so that there is one preferred way to achieve the same goal. 
+The goal of this graduate thesis is to design a new programming language. The language should be used for performance critical applications, while at the same time be as self contained as possible. It should exhibit no or little undefined behaviour, allowing it to be as portable as can be. The language specification should be described in a formal form. Runtime environment should be decided later on. The language has to be consistent as possible, so that there is one preferred way to achieve some goal. 
 
 Design should be followed-up by a formal analysis of the language. One of the central points to prove should be the properties of the type system.
 
