@@ -2,34 +2,14 @@ import ply.yacc as yacc
 import token_rules
 from dataclasses import dataclass
 from types import MethodType
-from typing import Union, List
+from helpers import add, tree_print
+from typing import Union
 
-
-def add(to_list: List):
-    def f(cls: type):
-        to_list.append(cls)
-        return cls
-    return f
-
-
-def tree_print_r(obj, prefix):
-    for k, v in obj.__dict__.items():
-        if hasattr(v, "__dict__"):
-            print(f"{prefix} {k} = (")
-            tree_print_r(v, prefix+" - ")
-            print(f"{prefix} )")
-        else:
-            print(f"{prefix} {k} = {v}")
-
-def tree_print(obj):
-    print("compilationUnit = (")
-    tree_print_r(obj, "- ")
-    print(")")
+import literals
 
 
 rl = []
 
-# ----- Literals
 
 
 @add(rl)
@@ -87,18 +67,6 @@ class Literal:
         self.value = r[0]
 
 
-# ----- values
-
-
-@dataclass
-class Rvalue:
-    value: Union[Literal, "FunctionCall", "Expression"]
-
-
-@dataclass
-class Lvalue:
-    value: "ID"
-
 # ----- Operators
 
 
@@ -124,60 +92,103 @@ class RelationalOperator:
 # ----- Unary expressions
 
 
-@dataclass
+@add(rl)
 class IncrementAfter:
-    value: Lvalue
+    """IncrementAfter : ID INC"""
+    name: str
+
+    def __init__(self, r):
+        self.name = r[0]
 
 
-@dataclass
+@add(rl)
 class IncrementBefore:
-    value: Lvalue
+    """IncrementBefore : INC ID"""
+    name: str
+
+    def __init__(self, r):
+        self.name = r[0]
 
 
-@dataclass
+@add(rl)
 class DecrementAfter:
-    value: Lvalue
+    """DecrementAfter : ID DEC"""
+    name: str
+
+    def __init__(self, r):
+        self.name = r[0]
 
 
-@dataclass
+@add(rl)
 class DecrementBefore:
-    value: Lvalue
+    """DecrementBefore : DEC ID"""
+    name: str
+
+    def __init__(self, r):
+        self.name = r[0]
 
 
-@dataclass
+@add(rl)
 class Negate:
-    value: Union[Rvalue, Lvalue]
+    """Negate : '-' ID"""
+    name: str
+
+    def __init__(self, r):
+        self.name = r[0]
+
+
+@add(rl)
+class FunctionCall:
+    """FunctionCall : ID '(' ArgumentListR ')'"""
+
+    name: str
+    argumentListR: "ArgumentListR"
+
+    def __init__(self, r):
+        self.name = r[0]
+        self.argumentListR = r[2]
+
 
 # -----  Multiplicative expressions
 
 
-@dataclass
-class MultiplyExpression:
-    left: Union[Rvalue, Lvalue]
-    right: "MultiplyExpression"
-
 # ----- Expression
 
 
-@ dataclass
+@add(rl)
 class UnaryExpression:
-    value: str
+    """UnaryExpression : Negate
+                       | IncrementAfter
+                       | IncrementBefore
+                       | DecrementAfter
+                       | DecrementBefore
+                       | FunctionCall
+                       | ID
+                       | Literal
+    """
+    unaryExprValue: Union["Negate", "IncrementAfter",
+                          "IncrementBefore",
+                          "FunctionCall", "DecrementAfter", "DecrementBefore",
+                          str, "Literal"]
+
+    def __init__(self, r):
+        self.unaryExprValue = r[0]
 
 
-@ dataclass
+@add(rl)
+class Expression:
+    """Expression : UnaryExpression"""
+    exprValue: Union[UnaryExpression]
+
+    def __init__(self, r):
+        self.exprValue = r[0]
+
+
 class Factor:
     value: object
     next: 'Factor'
 
 
-@ dataclass
-class Expression:
-    term: "Term"
-    operator: str
-    next: "Expression"
-
-
-@ dataclass
 class Term:
     factor: "Factor"
     next: 'Term'
@@ -186,27 +197,36 @@ class Term:
 
 
 @add(rl)
+class Block:
+    "Block : '{' StatementListR '}'"
+    statementListR: "StatementListR"
+
+    def __init__(self, r):
+        self.statementListR = r[1]
+
+
+@add(rl)
 class FunctionDefinition:
-    """FunctionDefinition : TypeName ID '(' ParameterList ')' Block"""
+    """FunctionDefinition : TypeName ID '(' ParameterListR ')' Block"""
     returnType: "TypeName"
     name: str
-    parameterlist: "ParameterList"
-    block: "Block"
+    parameterlistR: "ParameterListR"
+    block: Block
 
     def __init__(self, r):
         self.returnType = r[0]
         self.name = r[1]
-        self.parameterList = r[3]
+        self.parameterListR = r[3]
         self.block = r[5]
 
 
 @add(rl)
-class DefinitionList:
-    '''DefinitionList : FunctionDefinition DefinitionList
+class DefinitionListR:
+    '''DefinitionListR : FunctionDefinition DefinitionListR
                       | empty
     '''
     functionDefinition: FunctionDefinition
-    nxt: "DefinitionList"
+    nxt: "DefinitionListR"
 
     def __init__(self, r):
         if len(r) == 1:
@@ -219,11 +239,11 @@ class DefinitionList:
 
 @add(rl)
 class CompilationUnit:
-    '''CompilationUnit : DefinitionList'''
-    definitionList: DefinitionList
+    '''CompilationUnit : DefinitionListR'''
+    definitionListR: DefinitionListR
 
     def __init__(self, r):
-        self.definitionList = r[0]
+        self.definitionListR = r[0]
 
 # -----
 
@@ -249,13 +269,13 @@ class Parameter:
 
 
 @add(rl)
-class ParameterList:
-    """ParameterList : Parameter ',' ParameterList
+class ParameterListR:
+    """ParameterListR : Parameter ',' ParameterListR
                      | Parameter
                      | empty
     """
     parameter: "Parameter"
-    nxt: "ParameterList"
+    nxt: "ParameterListR"
 
     def __init__(self, r):
         if r[0] == 'empty':
@@ -266,45 +286,37 @@ class ParameterList:
             self.nxt = None
         else:
             self.parameter = r[0]
-            self.nxt = r[1]
-
-# ----- statements
-
-
-@ dataclass
-class StatementList:
-    statement: "Statement"
-    next: "StatementList"
-
-
-@ dataclass
-class Statement:
-    pass
+            self.nxt = r[2]
 
 
 @add(rl)
-class Block:
-    "Block : '{' '}'"
+class Argument:
+    """Argument : Expression"""
+    expr: Expression
 
     def __init__(self, r):
-        pass
+        self.expr = r[0]
 
 
-@ dataclass
-class IfStatement:
-    condition: Expression
-    block: StatementList
+@add(rl)
+class ArgumentListR:
+    """ArgumentListR : Argument ',' ArgumentListR
+                     | Argument
+                     | empty
+    """
+    argument: "Argument"
+    nxt: "ArgumentListR"
 
-
-@ dataclass
-class ElseStatement:
-    block: StatementList
-
-
-@ dataclass
-class AssignmentStatement:
-    left: str
-    right: Expression
+    def __init__(self, r):
+        if r[0] == 'empty':
+            self.argument = None
+            self.nxt = None
+        elif len(r) == 1:
+            self.argument = r[0]
+            self.nxt = None
+        else:
+            self.argument = r[0]
+            self.nxt = r[2]
 
 
 class Parser:
@@ -317,8 +329,8 @@ class Parser:
         self.tokens = lexer.tokens
         self.parser = yacc.yacc(module=self, **kwargs)
 
-    def parse(self, data):
-        return self.parser.parse(data, lexer=self.lexer)
+    def parse(self, data, **kvargs):
+        return self.parser.parse(data, lexer=self.lexer, **kvargs)
 
     def injectRule(self, rule_class):
         def method(self, p):
@@ -337,7 +349,12 @@ class Parser:
 
 if __name__ == '__main__':
     data = '''
-    void a(u32 p){}
+    void a(u32 p, u32 t){
+        //for (a;432;a){a++;}
+        while (a){
+            a--;
+        }
+    }
     '''
     lexer = token_rules.Lexer()
     lexer.test(data)

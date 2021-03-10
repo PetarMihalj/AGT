@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "CompilationUnitADD BEQ BOOLL BREAK CHARL COMMENT CONTINUE DIV ELSE EQ FOR ID IF INTL LEQ LPAREN MUL NEQ RETURN RPAREN SUB WHILEBlock : '{' '}'BoolLiteral : BOOLLCharLiteral : CHARLCompilationUnit : DefinitionListDefinitionList : FunctionDefinition DefinitionList\n                      | empty\n    FunctionDefinition : TypeName ID '(' ParameterList ')' BlockIntLiteral : INTLLiteral : IntLiteral\n               | BoolLiteral\n               | CharLiteral\n    Parameter : TypeName IDParameterList : Parameter ',' ParameterList\n                     | Parameter\n                     | empty\n    TypeName : IDempty :"
+_lr_signature = "CompilationUnitBEQ BOOLL BREAK CHARL DEC ELSE EQ FOR ID IF INC INTL LEQ NEQ RETURN WHILEArgument : ExpressionArgumentListR : Argument ',' ArgumentListR\n                     | Argument\n                     | empty\n    AssignmentStatement : ID '=' Expression ';'Block : '{' StatementListR '}'BoolLiteral : BOOLLBreakStatement : BREAK INTL ';'\n                      | BREAK ';'\n    CharLiteral : CHARLCompilationUnit : DefinitionListRDeclarationAssignmentStatement : TypeName ID '=' Expression ';'DeclarationStatement : TypeName ID ';'DecrementAfter : ID DECDecrementBefore : DEC IDDefinitionListR : FunctionDefinition DefinitionListR\n                      | empty\n    Expression : UnaryExpressionForStatement : FOR '(' Statement ';' Expression ';' Statement ')' Block\n    FunctionCall : ID '(' ArgumentListR ')'FunctionDefinition : TypeName ID '(' ParameterListR ')' BlockIfElseStatement : IF '(' Expression ')' Block ELSE Block\n    IncrementAfter : ID INCIncrementBefore : INC IDIntLiteral : INTLLiteral : IntLiteral\n               | BoolLiteral\n               | CharLiteral\n    Negate : '-' IDParameter : TypeName IDParameterListR : Parameter ',' ParameterListR\n                     | Parameter\n                     | empty\n    ReturnStatement : RETURN Expression ';'\n                       | RETURN ';'\n    Statement : AssignmentStatement\n                 | DeclarationAssignmentStatement\n                 | Expression ';'\n                 | DeclarationStatement\n                 | IfElseStatement\n                 | ForStatement\n                 | WhileStatement\n                 | BreakStatement\n                 | ReturnStatement\n    StatementListR : Statement StatementListR\n                      | empty\n    TypeName : IDUnaryExpression : Negate\n                       | IncrementAfter\n                       | IncrementBefore\n                       | DecrementAfter\n                       | DecrementBefore\n                       | FunctionCall\n                       | ID\n                       | Literal\n    WhileStatement : WHILE '(' Expression ')' Block\n    empty :"
     
-_lr_action_items = {'$end':([0,1,2,3,4,7,17,20,],[-17,0,-4,-17,-6,-5,-7,-1,]),'ID':([0,3,5,6,9,10,16,17,20,],[6,6,8,-16,6,14,6,-7,-1,]),'(':([8,],[9,]),')':([9,11,12,13,14,16,19,],[-17,15,-14,-15,-12,-17,-13,]),',':([12,14,],[16,-12,]),'{':([15,],[18,]),'}':([18,],[20,]),}
+_lr_action_items = {'$end':([0,1,2,3,4,7,17,56,],[-57,0,-11,-57,-17,-16,-21,-6,]),'ID':([0,3,5,6,9,10,16,17,18,21,23,24,26,27,28,29,30,31,32,33,40,48,49,50,56,58,59,62,64,65,66,68,70,80,81,85,86,87,89,92,95,98,100,101,104,],[6,6,8,-47,6,14,6,-21,32,32,-36,-37,-39,-40,-41,-42,-43,-44,-47,63,71,72,73,74,-6,-38,71,71,71,32,71,-9,-35,71,-13,-8,-34,-5,71,71,-12,-56,32,-22,-19,]),'(':([8,32,35,36,37,71,],[9,62,64,65,66,62,]),')':([9,11,12,13,14,16,19,23,24,26,27,28,29,30,31,34,39,41,42,43,44,45,46,47,51,52,53,54,55,56,58,60,61,62,68,70,71,72,73,74,76,77,78,79,81,82,84,85,86,87,88,89,94,95,98,101,102,104,],[-57,15,-32,-33,-30,-57,-31,-36,-37,-39,-40,-41,-42,-43,-44,-18,-25,-48,-49,-50,-51,-52,-53,-55,-26,-27,-28,-7,-10,-6,-38,-23,-14,-57,-9,-35,-54,-29,-24,-15,88,-3,-4,-1,-13,91,93,-8,-34,-5,-20,-57,-2,-12,-56,-22,103,-19,]),',':([12,14,34,39,41,42,43,44,45,46,47,51,52,53,54,55,60,61,71,72,73,74,77,79,88,],[16,-30,-18,-25,-48,-49,-50,-51,-52,-53,-55,-26,-27,-28,-7,-10,-23,-14,-54,-29,-24,-15,89,-1,-20,]),'{':([15,91,93,99,103,],[18,18,18,18,18,]),'}':([18,20,21,22,23,24,26,27,28,29,30,31,56,57,58,68,70,81,85,86,87,95,98,101,104,],[-57,56,-57,-46,-36,-37,-39,-40,-41,-42,-43,-44,-6,-45,-38,-9,-35,-13,-8,-34,-5,-12,-56,-22,-19,]),'IF':([18,21,23,24,26,27,28,29,30,31,56,58,65,68,70,81,85,86,87,95,98,100,101,104,],[35,35,-36,-37,-39,-40,-41,-42,-43,-44,-6,-38,35,-9,-35,-13,-8,-34,-5,-12,-56,35,-22,-19,]),'FOR':([18,21,23,24,26,27,28,29,30,31,56,58,65,68,70,81,85,86,87,95,98,100,101,104,],[36,36,-36,-37,-39,-40,-41,-42,-43,-44,-6,-38,36,-9,-35,-13,-8,-34,-5,-12,-56,36,-22,-19,]),'WHILE':([18,21,23,24,26,27,28,29,30,31,56,58,65,68,70,81,85,86,87,95,98,100,101,104,],[37,37,-36,-37,-39,-40,-41,-42,-43,-44,-6,-38,37,-9,-35,-13,-8,-34,-5,-12,-56,37,-22,-19,]),'BREAK':([18,21,23,24,26,27,28,29,30,31,56,58,65,68,70,81,85,86,87,95,98,100,101,104,],[38,38,-36,-37,-39,-40,-41,-42,-43,-44,-6,-38,38,-9,-35,-13,-8,-34,-5,-12,-56,38,-22,-19,]),'RETURN':([18,21,23,24,26,27,28,29,30,31,56,58,65,68,70,81,85,86,87,95,98,100,101,104,],[40,40,-36,-37,-39,-40,-41,-42,-43,-44,-6,-38,40,-9,-35,-13,-8,-34,-5,-12,-56,40,-22,-19,]),'-':([18,21,23,24,26,27,28,29,30,31,40,56,58,59,62,64,65,66,68,70,80,81,85,86,87,89,92,95,98,100,101,104,],[48,48,-36,-37,-39,-40,-41,-42,-43,-44,48,-6,-38,48,48,48,48,48,-9,-35,48,-13,-8,-34,-5,48,48,-12,-56,48,-22,-19,]),'INC':([18,21,23,24,26,27,28,29,30,31,32,40,56,58,59,62,64,65,66,68,70,71,80,81,85,86,87,89,92,95,98,100,101,104,],[49,49,-36,-37,-39,-40,-41,-42,-43,-44,60,49,-6,-38,49,49,49,49,49,-9,-35,60,49,-13,-8,-34,-5,49,49,-12,-56,49,-22,-19,]),'DEC':([18,21,23,24,26,27,28,29,30,31,32,40,56,58,59,62,64,65,66,68,70,71,80,81,85,86,87,89,92,95,98,100,101,104,],[50,50,-36,-37,-39,-40,-41,-42,-43,-44,61,50,-6,-38,50,50,50,50,50,-9,-35,61,50,-13,-8,-34,-5,50,50,-12,-56,50,-22,-19,]),'INTL':([18,21,23,24,26,27,28,29,30,31,38,40,56,58,59,62,64,65,66,68,70,80,81,85,86,87,89,92,95,98,100,101,104,],[39,39,-36,-37,-39,-40,-41,-42,-43,-44,67,39,-6,-38,39,39,39,39,39,-9,-35,39,-13,-8,-34,-5,39,39,-12,-56,39,-22,-19,]),'BOOLL':([18,21,23,24,26,27,28,29,30,31,40,56,58,59,62,64,65,66,68,70,80,81,85,86,87,89,92,95,98,100,101,104,],[54,54,-36,-37,-39,-40,-41,-42,-43,-44,54,-6,-38,54,54,54,54,54,-9,-35,54,-13,-8,-34,-5,54,54,-12,-56,54,-22,-19,]),'CHARL':([18,21,23,24,26,27,28,29,30,31,40,56,58,59,62,64,65,66,68,70,80,81,85,86,87,89,92,95,98,100,101,104,],[55,55,-36,-37,-39,-40,-41,-42,-43,-44,55,-6,-38,55,55,55,55,55,-9,-35,55,-13,-8,-34,-5,55,55,-12,-56,55,-22,-19,]),';':([23,24,25,26,27,28,29,30,31,32,34,38,39,40,41,42,43,44,45,46,47,51,52,53,54,55,56,58,60,61,63,67,68,69,70,71,72,73,74,75,81,83,85,86,87,88,90,95,97,98,101,104,],[-36,-37,58,-39,-40,-41,-42,-43,-44,-54,-18,68,-25,70,-48,-49,-50,-51,-52,-53,-55,-26,-27,-28,-7,-10,-6,-38,-23,-14,81,85,-9,86,-35,-54,-29,-24,-15,87,-13,92,-8,-34,-5,-20,95,-12,100,-56,-22,-19,]),'=':([32,63,],[59,80,]),'ELSE':([56,96,],[-6,99,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'CompilationUnit':([0,],[1,]),'DefinitionList':([0,3,],[2,7,]),'FunctionDefinition':([0,3,],[3,3,]),'empty':([0,3,9,16,],[4,4,13,13,]),'TypeName':([0,3,9,16,],[5,5,10,10,]),'ParameterList':([9,16,],[11,19,]),'Parameter':([9,16,],[12,12,]),'Block':([15,],[17,]),}
+_lr_goto_items = {'CompilationUnit':([0,],[1,]),'DefinitionListR':([0,3,],[2,7,]),'FunctionDefinition':([0,3,],[3,3,]),'empty':([0,3,9,16,18,21,62,89,],[4,4,13,13,22,22,78,78,]),'TypeName':([0,3,9,16,18,21,65,100,],[5,5,10,10,33,33,33,33,]),'ParameterListR':([9,16,],[11,19,]),'Parameter':([9,16,],[12,12,]),'Block':([15,91,93,99,103,],[17,96,98,101,104,]),'StatementListR':([18,21,],[20,57,]),'Statement':([18,21,65,100,],[21,21,83,102,]),'AssignmentStatement':([18,21,65,100,],[23,23,23,23,]),'DeclarationAssignmentStatement':([18,21,65,100,],[24,24,24,24,]),'Expression':([18,21,40,59,62,64,65,66,80,89,92,100,],[25,25,69,75,79,82,25,84,90,79,97,25,]),'DeclarationStatement':([18,21,65,100,],[26,26,26,26,]),'IfElseStatement':([18,21,65,100,],[27,27,27,27,]),'ForStatement':([18,21,65,100,],[28,28,28,28,]),'WhileStatement':([18,21,65,100,],[29,29,29,29,]),'BreakStatement':([18,21,65,100,],[30,30,30,30,]),'ReturnStatement':([18,21,65,100,],[31,31,31,31,]),'UnaryExpression':([18,21,40,59,62,64,65,66,80,89,92,100,],[34,34,34,34,34,34,34,34,34,34,34,34,]),'Negate':([18,21,40,59,62,64,65,66,80,89,92,100,],[41,41,41,41,41,41,41,41,41,41,41,41,]),'IncrementAfter':([18,21,40,59,62,64,65,66,80,89,92,100,],[42,42,42,42,42,42,42,42,42,42,42,42,]),'IncrementBefore':([18,21,40,59,62,64,65,66,80,89,92,100,],[43,43,43,43,43,43,43,43,43,43,43,43,]),'DecrementAfter':([18,21,40,59,62,64,65,66,80,89,92,100,],[44,44,44,44,44,44,44,44,44,44,44,44,]),'DecrementBefore':([18,21,40,59,62,64,65,66,80,89,92,100,],[45,45,45,45,45,45,45,45,45,45,45,45,]),'FunctionCall':([18,21,40,59,62,64,65,66,80,89,92,100,],[46,46,46,46,46,46,46,46,46,46,46,46,]),'Literal':([18,21,40,59,62,64,65,66,80,89,92,100,],[47,47,47,47,47,47,47,47,47,47,47,47,]),'IntLiteral':([18,21,40,59,62,64,65,66,80,89,92,100,],[51,51,51,51,51,51,51,51,51,51,51,51,]),'BoolLiteral':([18,21,40,59,62,64,65,66,80,89,92,100,],[52,52,52,52,52,52,52,52,52,52,52,52,]),'CharLiteral':([18,21,40,59,62,64,65,66,80,89,92,100,],[53,53,53,53,53,53,53,53,53,53,53,53,]),'ArgumentListR':([62,89,],[76,94,]),'Argument':([62,89,],[77,77,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,21 +27,61 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> CompilationUnit","S'",1,None,None,None),
-  ('Block -> { }','Block',2,"p_<class '__main__.Block'>",'parser_rules.py',319),
-  ('BoolLiteral -> BOOLL','BoolLiteral',1,"p_<class '__main__.BoolLiteral'>",'parser_rules.py',319),
-  ('CharLiteral -> CHARL','CharLiteral',1,"p_<class '__main__.CharLiteral'>",'parser_rules.py',319),
-  ('CompilationUnit -> DefinitionList','CompilationUnit',1,"p_<class '__main__.CompilationUnit'>",'parser_rules.py',319),
-  ('DefinitionList -> FunctionDefinition DefinitionList','DefinitionList',2,"p_<class '__main__.DefinitionList'>",'parser_rules.py',319),
-  ('DefinitionList -> empty','DefinitionList',1,"p_<class '__main__.DefinitionList'>",'parser_rules.py',320),
-  ('FunctionDefinition -> TypeName ID ( ParameterList ) Block','FunctionDefinition',6,"p_<class '__main__.FunctionDefinition'>",'parser_rules.py',319),
-  ('IntLiteral -> INTL','IntLiteral',1,"p_<class '__main__.IntLiteral'>",'parser_rules.py',319),
-  ('Literal -> IntLiteral','Literal',1,"p_<class '__main__.Literal'>",'parser_rules.py',319),
-  ('Literal -> BoolLiteral','Literal',1,"p_<class '__main__.Literal'>",'parser_rules.py',320),
-  ('Literal -> CharLiteral','Literal',1,"p_<class '__main__.Literal'>",'parser_rules.py',321),
-  ('Parameter -> TypeName ID','Parameter',2,"p_<class '__main__.Parameter'>",'parser_rules.py',319),
-  ('ParameterList -> Parameter , ParameterList','ParameterList',3,"p_<class '__main__.ParameterList'>",'parser_rules.py',319),
-  ('ParameterList -> Parameter','ParameterList',1,"p_<class '__main__.ParameterList'>",'parser_rules.py',320),
-  ('ParameterList -> empty','ParameterList',1,"p_<class '__main__.ParameterList'>",'parser_rules.py',321),
-  ('TypeName -> ID','TypeName',1,"p_<class '__main__.TypeName'>",'parser_rules.py',319),
-  ('empty -> <empty>','empty',0,'p_empty','parser_rules.py',326),
+  ('Argument -> Expression','Argument',1,"p_<class '__main__.Argument'>",'parser_rules.py',503),
+  ('ArgumentListR -> Argument , ArgumentListR','ArgumentListR',3,"p_<class '__main__.ArgumentListR'>",'parser_rules.py',503),
+  ('ArgumentListR -> Argument','ArgumentListR',1,"p_<class '__main__.ArgumentListR'>",'parser_rules.py',504),
+  ('ArgumentListR -> empty','ArgumentListR',1,"p_<class '__main__.ArgumentListR'>",'parser_rules.py',505),
+  ('AssignmentStatement -> ID = Expression ;','AssignmentStatement',4,"p_<class '__main__.AssignmentStatement'>",'parser_rules.py',503),
+  ('Block -> { StatementListR }','Block',3,"p_<class '__main__.Block'>",'parser_rules.py',503),
+  ('BoolLiteral -> BOOLL','BoolLiteral',1,"p_<class '__main__.BoolLiteral'>",'parser_rules.py',503),
+  ('BreakStatement -> BREAK INTL ;','BreakStatement',3,"p_<class '__main__.BreakStatement'>",'parser_rules.py',503),
+  ('BreakStatement -> BREAK ;','BreakStatement',2,"p_<class '__main__.BreakStatement'>",'parser_rules.py',504),
+  ('CharLiteral -> CHARL','CharLiteral',1,"p_<class '__main__.CharLiteral'>",'parser_rules.py',503),
+  ('CompilationUnit -> DefinitionListR','CompilationUnit',1,"p_<class '__main__.CompilationUnit'>",'parser_rules.py',503),
+  ('DeclarationAssignmentStatement -> TypeName ID = Expression ;','DeclarationAssignmentStatement',5,"p_<class '__main__.DeclarationAssignmentStatement'>",'parser_rules.py',503),
+  ('DeclarationStatement -> TypeName ID ;','DeclarationStatement',3,"p_<class '__main__.DeclarationStatement'>",'parser_rules.py',503),
+  ('DecrementAfter -> ID DEC','DecrementAfter',2,"p_<class '__main__.DecrementAfter'>",'parser_rules.py',503),
+  ('DecrementBefore -> DEC ID','DecrementBefore',2,"p_<class '__main__.DecrementBefore'>",'parser_rules.py',503),
+  ('DefinitionListR -> FunctionDefinition DefinitionListR','DefinitionListR',2,"p_<class '__main__.DefinitionListR'>",'parser_rules.py',503),
+  ('DefinitionListR -> empty','DefinitionListR',1,"p_<class '__main__.DefinitionListR'>",'parser_rules.py',504),
+  ('Expression -> UnaryExpression','Expression',1,"p_<class '__main__.Expression'>",'parser_rules.py',503),
+  ('ForStatement -> FOR ( Statement ; Expression ; Statement ) Block','ForStatement',9,"p_<class '__main__.ForStatement'>",'parser_rules.py',503),
+  ('FunctionCall -> ID ( ArgumentListR )','FunctionCall',4,"p_<class '__main__.FunctionCall'>",'parser_rules.py',503),
+  ('FunctionDefinition -> TypeName ID ( ParameterListR ) Block','FunctionDefinition',6,"p_<class '__main__.FunctionDefinition'>",'parser_rules.py',503),
+  ('IfElseStatement -> IF ( Expression ) Block ELSE Block','IfElseStatement',7,"p_<class '__main__.IfElseStatement'>",'parser_rules.py',503),
+  ('IncrementAfter -> ID INC','IncrementAfter',2,"p_<class '__main__.IncrementAfter'>",'parser_rules.py',503),
+  ('IncrementBefore -> INC ID','IncrementBefore',2,"p_<class '__main__.IncrementBefore'>",'parser_rules.py',503),
+  ('IntLiteral -> INTL','IntLiteral',1,"p_<class '__main__.IntLiteral'>",'parser_rules.py',503),
+  ('Literal -> IntLiteral','Literal',1,"p_<class '__main__.Literal'>",'parser_rules.py',503),
+  ('Literal -> BoolLiteral','Literal',1,"p_<class '__main__.Literal'>",'parser_rules.py',504),
+  ('Literal -> CharLiteral','Literal',1,"p_<class '__main__.Literal'>",'parser_rules.py',505),
+  ('Negate -> - ID','Negate',2,"p_<class '__main__.Negate'>",'parser_rules.py',503),
+  ('Parameter -> TypeName ID','Parameter',2,"p_<class '__main__.Parameter'>",'parser_rules.py',503),
+  ('ParameterListR -> Parameter , ParameterListR','ParameterListR',3,"p_<class '__main__.ParameterListR'>",'parser_rules.py',503),
+  ('ParameterListR -> Parameter','ParameterListR',1,"p_<class '__main__.ParameterListR'>",'parser_rules.py',504),
+  ('ParameterListR -> empty','ParameterListR',1,"p_<class '__main__.ParameterListR'>",'parser_rules.py',505),
+  ('ReturnStatement -> RETURN Expression ;','ReturnStatement',3,"p_<class '__main__.ReturnStatement'>",'parser_rules.py',503),
+  ('ReturnStatement -> RETURN ;','ReturnStatement',2,"p_<class '__main__.ReturnStatement'>",'parser_rules.py',504),
+  ('Statement -> AssignmentStatement','Statement',1,"p_<class '__main__.Statement'>",'parser_rules.py',503),
+  ('Statement -> DeclarationAssignmentStatement','Statement',1,"p_<class '__main__.Statement'>",'parser_rules.py',504),
+  ('Statement -> Expression ;','Statement',2,"p_<class '__main__.Statement'>",'parser_rules.py',505),
+  ('Statement -> DeclarationStatement','Statement',1,"p_<class '__main__.Statement'>",'parser_rules.py',506),
+  ('Statement -> IfElseStatement','Statement',1,"p_<class '__main__.Statement'>",'parser_rules.py',507),
+  ('Statement -> ForStatement','Statement',1,"p_<class '__main__.Statement'>",'parser_rules.py',508),
+  ('Statement -> WhileStatement','Statement',1,"p_<class '__main__.Statement'>",'parser_rules.py',509),
+  ('Statement -> BreakStatement','Statement',1,"p_<class '__main__.Statement'>",'parser_rules.py',510),
+  ('Statement -> ReturnStatement','Statement',1,"p_<class '__main__.Statement'>",'parser_rules.py',511),
+  ('StatementListR -> Statement StatementListR','StatementListR',2,"p_<class '__main__.StatementListR'>",'parser_rules.py',503),
+  ('StatementListR -> empty','StatementListR',1,"p_<class '__main__.StatementListR'>",'parser_rules.py',504),
+  ('TypeName -> ID','TypeName',1,"p_<class '__main__.TypeName'>",'parser_rules.py',503),
+  ('UnaryExpression -> Negate','UnaryExpression',1,"p_<class '__main__.UnaryExpression'>",'parser_rules.py',503),
+  ('UnaryExpression -> IncrementAfter','UnaryExpression',1,"p_<class '__main__.UnaryExpression'>",'parser_rules.py',504),
+  ('UnaryExpression -> IncrementBefore','UnaryExpression',1,"p_<class '__main__.UnaryExpression'>",'parser_rules.py',505),
+  ('UnaryExpression -> DecrementAfter','UnaryExpression',1,"p_<class '__main__.UnaryExpression'>",'parser_rules.py',506),
+  ('UnaryExpression -> DecrementBefore','UnaryExpression',1,"p_<class '__main__.UnaryExpression'>",'parser_rules.py',507),
+  ('UnaryExpression -> FunctionCall','UnaryExpression',1,"p_<class '__main__.UnaryExpression'>",'parser_rules.py',508),
+  ('UnaryExpression -> ID','UnaryExpression',1,"p_<class '__main__.UnaryExpression'>",'parser_rules.py',509),
+  ('UnaryExpression -> Literal','UnaryExpression',1,"p_<class '__main__.UnaryExpression'>",'parser_rules.py',510),
+  ('WhileStatement -> WHILE ( Expression ) Block','WhileStatement',5,"p_<class '__main__.WhileStatement'>",'parser_rules.py',503),
+  ('empty -> <empty>','empty',0,'p_empty','parser_rules.py',510),
 ]

@@ -3,13 +3,10 @@ import ply.lex as lex
 
 class Lexer():
     tokens = (
-        'COMMENT',
-        'ADD', 'SUB', 'MUL', 'DIV',
-        #'INTTYPE', 'BOOLTYPE', 'CHARTYPE', 'VOIDTYPE', 'VARTYPE',
+        'INC', 'DEC',
         'INTL', 'BOOLL', 'CHARL',
-        'LPAREN', 'RPAREN',
         'ID',
-        'IF', 'ELSE', 'BREAK', 'CONTINUE', 'FOR', 'WHILE', 'RETURN',
+        'IF', 'ELSE', 'BREAK', 'FOR', 'WHILE', 'RETURN',
         'BEQ', 'LEQ', 'EQ', 'NEQ',
     )
 
@@ -27,7 +24,7 @@ class Lexer():
     def t_COMMENT(self, t):
         r'//.*'
         t.value = t.value[2:]
-        return t
+        pass
 
     def t_ENTERMLC(self, t):
         r'/\*'
@@ -59,10 +56,6 @@ class Lexer():
         r'break'
         return t
 
-    def t_CONTINUE(self, t):
-        r'continue'
-        return t
-
     def t_FOR(self, t):
         r'for'
         return t
@@ -76,6 +69,13 @@ class Lexer():
         return t
 
     # ---- BIG OPERATORS
+    def t_INC(self, t):
+        r'\+\+'
+        return t
+
+    def t_DEC(self, t):
+        r'\-\-'
+        return t
 
     def t_BEQ(self, t):
         r'>='
