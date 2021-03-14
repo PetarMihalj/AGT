@@ -1,5 +1,4 @@
 from helpers import add
-from typing import Union
 rl = []
 
 
@@ -25,8 +24,6 @@ class StatementListR:
     """StatementListR : Statement StatementListR
                       | empty
     """
-    statement: "Statement"
-    nxt: "StatementListR"
 
     def __init__(self, r):
         if len(r) == 1:
@@ -40,9 +37,6 @@ class StatementListR:
 @add(rl)
 class DeclarationAssignmentStatement:
     """DeclarationAssignmentStatement : TypeName ID '=' Expression ';'"""
-    typeName: TypeName
-    name: str
-    expr: Expression
 
     def __init__(self, r):
         self.typeName = r[0]
@@ -53,8 +47,6 @@ class DeclarationAssignmentStatement:
 @add(rl)
 class DeclarationStatement:
     """DeclarationStatement : TypeName ID ';'"""
-    typeName: TypeName
-    name: str
 
     def __init__(self, r):
         self.typeName = r[0]
@@ -64,8 +56,6 @@ class DeclarationStatement:
 @add(rl)
 class AssignmentStatement:
     """AssignmentStatement : ID '=' Expression ';'"""
-    name: str
-    expr: Expression
 
     def __init__(self, r):
         self.name = r[0]
@@ -76,9 +66,6 @@ class AssignmentStatement:
 class IfElseStatement:
     """IfElseStatement : IF '(' Expression ')' Block ELSE Block
     """
-    expr: Expression
-    blockIf: Block
-    blockElse: Block
 
     def __init__(self, r):
         self.expr = r[2]
@@ -90,10 +77,6 @@ class IfElseStatement:
 class ForStatement:
     """ForStatement : FOR '(' Statement ';' Expression ';' Statement ')' Block
     """
-    statementInit: Statement
-    exprCheck: Expression
-    statementChange: Statement
-    block: Block
 
     def __init__(self, r):
         self.statementInit = r[2]
@@ -106,8 +89,6 @@ class ForStatement:
 class WhileStatement:
     """WhileStatement : WHILE '(' Expression ')' Block
     """
-    expr: Expression
-    block: Block
 
     def __init__(self, r):
         self.expr = r[2]
@@ -119,7 +100,6 @@ class ReturnStatement:
     """ReturnStatement : RETURN Expression ';'
                        | RETURN ';'
     """
-    expr: Expression
 
     def __init__(self, r):
         if len(r) == 3:
@@ -133,7 +113,6 @@ class BreakStatement:
     """BreakStatement : BREAK INTL ';'
                       | BREAK ';'
     """
-    count: IntLiteral
 
     def __init__(self, r):
         if len(r) == 3:

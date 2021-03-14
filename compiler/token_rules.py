@@ -7,14 +7,14 @@ class Lexer():
         'INTL', 'BOOLL', 'CHARL',
         'ID',
         'IF', 'ELSE', 'BREAK', 'FOR', 'WHILE', 'RETURN',
-        'BEQ', 'LEQ', 'EQ', 'NEQ',
+        'GEQ', 'LEQ', 'LT', 'GT', 'EQ', 'NEQ',
     )
 
     states = (
         ('mlc', 'exclusive'),
     )
 
-    literals = "+-*/()[]{},;><="
+    literals = "+-*/()[]{},;="
 
     def __init__(self, **kwargs):
         self.lexer = lex.lex(module=self, **kwargs)
@@ -77,12 +77,20 @@ class Lexer():
         r'\-\-'
         return t
 
-    def t_BEQ(self, t):
+    def t_GEQ(self, t):
         r'>='
         return t
 
     def t_LEQ(self, t):
         r'<='
+        return t
+
+    def t_GT(self, t):
+        r'>'
+        return t
+
+    def t_LT(self, t):
+        r'<'
         return t
 
     def t_EQ(self, t):
