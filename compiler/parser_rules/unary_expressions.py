@@ -1,11 +1,6 @@
-from helpers import add
-rl = []
-
-
-@add(rl)
-class UnaryExpression:
-    """UnaryExpression : Negate
-                       | IncrementAfter
+from parser_rules import ParserRule
+class UnaryExpression(ParserRule):
+    """UnaryExpression : IncrementAfter
                        | IncrementBefore
                        | DecrementAfter
                        | DecrementBefore
@@ -17,52 +12,56 @@ class UnaryExpression:
 
     def __init__(self, r):
         self.unaryExprValue = r[0]
+    def rpn(self):
+        if type(self) != list:
+            return [self.unaryExprValue.rpn()]
+        else:
+            return self.unaryExprValue.rpn()
 
 
-@add(rl)
-class IncrementAfter:
-    """IncrementAfter : VarName INC"""
-
-    def __init__(self, r):
-        self.name = r[0]
-
-
-@add(rl)
-class IncrementBefore:
-    """IncrementBefore : INC VarName"""
+class IncrementAfter(ParserRule):
+    """IncrementAfter : VarName Inc"""
 
     def __init__(self, r):
         self.name = r[0]
+    def rpn(self):
+        return [self.name, "++"]
 
 
-@add(rl)
-class DecrementAfter:
-    """DecrementAfter : VarName DEC"""
-
-    def __init__(self, r):
-        self.name = r[0]
-
-
-@add(rl)
-class DecrementBefore:
-    """DecrementBefore : DEC VarName"""
+class IncrementBefore(ParserRule):
+    """IncrementBefore : Inc VarName"""
 
     def __init__(self, r):
         self.name = r[0]
+    def rpn(self):
+        return ["++", self.name]
 
 
-@add(rl)
-class Negate:
-    """Negate : '-' VarName"""
+class DecrementAfter(ParserRule):
+    """DecrementAfter : VarName Dec"""
 
     def __init__(self, r):
         self.name = r[0]
+    def rpn(self):
+        return [self.name, "--"]
+ 
 
 
-@add(rl)
-class FunctionCall:
+class DecrementBefore(ParserRule):
+    """DecrementBefore : Dec VarName"""
+
+    def __init__(self, r):
+        self.name = r[0]
+    def rpn(self):
+        return ["--", self.name]
+
+
+class FunctionCall(ParserRule):
     """FunctionCall : VarName '(' ArgumentListR ')'"""
 
     def __init__(self, r):
         self.name = r[0]
         self.argumentListR = r[2]
+
+    def rpn(self):
+        return [self]

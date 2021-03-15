@@ -7,7 +7,7 @@ class Lexer():
         'INTL', 'BOOLL', 'CHARL',
         'ID',
         'IF', 'ELSE', 'BREAK', 'FOR', 'WHILE', 'RETURN',
-        'GEQ', 'LEQ', 'LT', 'GT', 'EQ', 'NEQ',
+        'GEQ', 'LEQ', 'LT', 'GT', 'EQ', 'NE',
     )
 
     states = (

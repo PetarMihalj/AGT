@@ -1,9 +1,5 @@
-from helpers import add
-rl = []
-
-
-@add(rl)
-class Statement:
+from parser_rules import ParserRule
+class Statement(ParserRule):
     '''Statement : AssignmentStatement
                  | DeclarationAssignmentStatement
                  | Expression ';'
@@ -13,14 +9,17 @@ class Statement:
                  | WhileStatement
                  | BreakStatement
                  | ReturnStatement
+                 | BlankStatement
     '''
 
     def __init__(self, r):
-        self.value = r[0]
+        self.statement = r[0]
+    def rpn(self):
+        return self.statement.rpn()
 
 
-@add(rl)
-class StatementListR:
+
+class StatementListR(ParserRule):
     """StatementListR : Statement StatementListR
                       | empty
     """
@@ -33,9 +32,18 @@ class StatementListR:
             self.statement = r[0]
             self.nxt = r[1]
 
+    def rpn(self):
+        if self.statement == None:
+            return []
+        else:
+            return [self.statement.rpn()] + self.nxt.rpn()
 
-@add(rl)
-class DeclarationAssignmentStatement:
+class BlankStatement(ParserRule):
+    "BlankStatement : ';'"
+    def __init__(self, r):
+        pass
+
+class DeclarationAssignmentStatement(ParserRule):
     """DeclarationAssignmentStatement : TypeName ID '=' Expression ';'"""
 
     def __init__(self, r):
@@ -44,8 +52,7 @@ class DeclarationAssignmentStatement:
         self.expr = r[3]
 
 
-@add(rl)
-class DeclarationStatement:
+class DeclarationStatement(ParserRule):
     """DeclarationStatement : TypeName ID ';'"""
 
     def __init__(self, r):
@@ -53,17 +60,17 @@ class DeclarationStatement:
         self.name = r[1]
 
 
-@add(rl)
-class AssignmentStatement:
-    """AssignmentStatement : ID '=' Expression ';'"""
+class AssignmentStatement(ParserRule):
+    """AssignmentStatement : ID '=' Expression ';'
+                           | ID '=' Expression
+    """
 
     def __init__(self, r):
         self.name = r[0]
         self.expr = r[2]
 
 
-@add(rl)
-class IfElseStatement:
+class IfElseStatement(ParserRule):
     """IfElseStatement : IF '(' Expression ')' Block ELSE Block
     """
 
@@ -73,20 +80,18 @@ class IfElseStatement:
         self.blockElse = r[6]
 
 
-@add(rl)
-class ForStatement:
-    """ForStatement : FOR '(' Statement ';' Expression ';' Statement ')' Block
+class ForStatement(ParserRule):
+    """ForStatement : FOR '(' Statement Expression ';' Statement ')' Block
     """
 
     def __init__(self, r):
         self.statementInit = r[2]
-        self.exprCheck = r[4]
-        self.statementChange = r[6]
-        self.block = r[8]
+        self.exprCheck = r[3]
+        self.statementChange = r[5]
+        self.block = r[7]
 
 
-@add(rl)
-class WhileStatement:
+class WhileStatement(ParserRule):
     """WhileStatement : WHILE '(' Expression ')' Block
     """
 
@@ -95,8 +100,7 @@ class WhileStatement:
         self.block = r[4]
 
 
-@add(rl)
-class ReturnStatement:
+class ReturnStatement(ParserRule):
     """ReturnStatement : RETURN Expression ';'
                        | RETURN ';'
     """
@@ -108,8 +112,7 @@ class ReturnStatement:
             self.expr = None
 
 
-@add(rl)
-class BreakStatement:
+class BreakStatement(ParserRule):
     """BreakStatement : BREAK INTL ';'
                       | BREAK ';'
     """

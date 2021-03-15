@@ -1,28 +1,23 @@
-from helpers import add
-rl = []
+from parser_rules import ParserRule
 
-
-@add(rl)
-class Block:
+class Block(ParserRule):
     "Block : '{' StatementListR '}'"
 
     def __init__(self, r):
-        self.statementListR = r[1]
+        self.statementList = r[1]
 
 
-@add(rl)
-class FunctionDefinition:
+class FunctionDefinition(ParserRule):
     """FunctionDefinition : TypeName ID '(' ParameterListR ')' Block"""
 
     def __init__(self, r):
         self.returnType = r[0]
         self.name = r[1]
-        self.parameterListR = r[3]
+        self.parameterList = r[3]
         self.block = r[5]
 
 
-@add(rl)
-class DefinitionListR:
+class DefinitionListR(ParserRule):
     '''DefinitionListR : FunctionDefinition DefinitionListR
                        | empty
     '''
@@ -35,35 +30,39 @@ class DefinitionListR:
             self.functionDefinition = r[0]
             self.nxt = r[1]
 
+    def rpn(self):
+        if self.functionDefinition == None:
+            return []
+        else:
+            return [self.functionDefinition.rpn()] + self.nxt.rpn()
 
-@add(rl)
-class CompilationUnit:
+
+class CompilationUnit(ParserRule):
     '''CompilationUnit : DefinitionListR'''
 
     def __init__(self, r):
-        self.definitionListR = r[0]
+        self.definitionList = r[0]
 
 # -----
 
 
-@add(rl)
-class TypeName:
+class TypeName(ParserRule):
     '''TypeName : ID'''
 
     def __init__(self, r):
         self.name = r[0]
 
 
-@add(rl)
-class VarName:
+class VarName(ParserRule):
     '''VarName : ID'''
 
     def __init__(self, r):
         self.name = r[0]
+    def rpn(self):
+        return self
 
 
-@add(rl)
-class Parameter:
+class Parameter(ParserRule):
     """Parameter : TypeName ID"""
 
     def __init__(self, r):
@@ -71,8 +70,7 @@ class Parameter:
         self.name = r[1]
 
 
-@add(rl)
-class ParameterListR:
+class ParameterListR(ParserRule):
     """ParameterListR : Parameter ',' ParameterListR
                      | Parameter
                      | empty
@@ -89,17 +87,24 @@ class ParameterListR:
             self.parameter = r[0]
             self.nxt = r[2]
 
+    def rpn(self):
+        if self.parameter == None:
+            return []
+        elif self.nxt == None:
+            return [self.parameter.rpn()]
+        else:
+            return [self.parameter.rpn()] + self.nxt.rpn()
 
-@add(rl)
-class Argument:
+
+class Argument(ParserRule):
     """Argument : Expression"""
 
     def __init__(self, r):
         self.expr = r[0]
 
 
-@add(rl)
-class ArgumentListR:
+
+class ArgumentListR(ParserRule):
     """ArgumentListR : Argument ',' ArgumentListR
                      | Argument
                      | empty
@@ -115,3 +120,11 @@ class ArgumentListR:
         else:
             self.argument = r[0]
             self.nxt = r[2]
+
+    def rpn(self):
+        if self.argument == None:
+            return []
+        elif self.argument == None:
+            return [self.argument.rpn()]
+        else:
+            return [self.argument.rpn()] + self.nxt.rpn()

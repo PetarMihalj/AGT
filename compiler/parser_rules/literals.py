@@ -1,9 +1,6 @@
-from helpers import add
-rl = []
 
-
-@add(rl)
-class IntLiteral:
+from parser_rules import ParserRule
+class IntLiteral(ParserRule):
     '''IntLiteral : INTL'''
 
     def __init__(self, r):
@@ -24,24 +21,21 @@ class IntLiteral:
             self.value = int(r[0])
 
 
-@add(rl)
-class CharLiteral:
+class CharLiteral(ParserRule):
     '''CharLiteral : CHARL'''
 
     def __init__(self, r):
         self.value = ord(r[0][1])
 
 
-@add(rl)
-class BoolLiteral:
+class BoolLiteral(ParserRule):
     '''BoolLiteral : BOOLL'''
 
     def __init__(self, r):
         self.value = r[0] in ('True', 'true')
 
 
-@add(rl)
-class Literal:
+class Literal(ParserRule):
     '''Literal : IntLiteral
                | BoolLiteral
                | CharLiteral

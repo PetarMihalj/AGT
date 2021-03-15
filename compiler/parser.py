@@ -1,28 +1,15 @@
+import inspect
+import parser_rules
 import ply.yacc as yacc
-import token_rules
 from types import MethodType
-from helpers import tree_print
-
-import statements
-import literals
-import binary_expressions
-import unary_expressions
-import structural
-
-
-rl = []
-rl.extend(statements.rl)
-rl.extend(literals.rl)
-rl.extend(binary_expressions.rl)
-rl.extend(unary_expressions.rl)
-rl.extend(structural.rl)
-
 
 class Parser:
-    def __init__(self, lexer, rules_list, **kwargs):
-        for cls in rules_list:
-            self.injectRule(cls)
-            print(f"Injected {cls}")
+    def __init__(self, lexer, **kwargs):
+        for mod in parser_rules.modules:
+            for name, obj in inspect.getmembers(mod):
+                if inspect.isclass(obj):
+                    self.injectRule(obj)
+                    print(f"Injected {obj}")
 
         self.lexer = lexer
         self.tokens = lexer.tokens
@@ -55,8 +42,10 @@ if __name__ == '__main__':
         }
     }
     '''
-    lexer = token_rules.Lexer()
+    import lexer
+    from helpers import tree_print
+    lexer = lexer.Lexer()
     lexer.test(data)
-    parser = Parser(lexer, rl, debug=True)
+    parser = Parser(lexer, debug=True)
     a = parser.parse(data)
     tree_print(a)

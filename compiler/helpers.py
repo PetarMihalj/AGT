@@ -1,24 +1,23 @@
-from typing import List
+def tree_print_r(name, obj, prefix):
+    if name is None:
+        print(f"{prefix} ",end='')
+    else:
+        print(f"{prefix} {name} = ",end='')
 
+    if hasattr(obj, "__dict__"):
+        print(f"{type(obj).__name__}(")
+        for k, v in obj.__dict__.items():
+            tree_print_r(k, v, prefix+" - ")
+        print(f"{prefix} )")
+    elif type(obj) == list:
+        print("[")
+        for i in obj:
+            tree_print_r(None, i, prefix+" - ")
+        print(f"{prefix} ]")
+    else:
+        print(f"{type(obj).__name__}({obj})")
 
-def add(to_list: List):
-    def f(cls: type):
-        to_list.append(cls)
-        return cls
-    return f
-
-
-def tree_print_r(obj, prefix):
-    for k, v in obj.__dict__.items():
-        if hasattr(v, "__dict__"):
-            print(f"{prefix} {k} = (")
-            tree_print_r(v, prefix+" - ")
-            print(f"{prefix} )")
-        else:
-            print(f"{prefix} {k} = {v}")
 
 
 def tree_print(obj):
-    print("compilationUnit = (")
-    tree_print_r(obj, "- ")
-    print(")")
+    tree_print_r("compilationUnit",obj, "")
