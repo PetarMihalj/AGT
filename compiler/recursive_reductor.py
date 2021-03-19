@@ -4,11 +4,11 @@ from types import SimpleNamespace
 
 if __name__ == '__main__':
     data = '''
+    struct petar(i32 a, i32 b)
+
     void a(u32 p, u32 t){
-        for (a=2;a<3;a=a+3){a++;}
-        while (a){
-            a=a-a;
-        };
+        i32 a;
+        a = (a+a)*a;
     }
     '''
     print(data)

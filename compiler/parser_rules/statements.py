@@ -44,7 +44,7 @@ class BlankStatement(ParserRule):
         pass
 
 class DeclarationAssignmentStatement(ParserRule):
-    """DeclarationAssignmentStatement : TypeName ID '=' Expression ';'"""
+    """DeclarationAssignmentStatement : Id Id '=' Expression ';'"""
 
     def __init__(self, r):
         self.typeName = r[0]
@@ -53,7 +53,7 @@ class DeclarationAssignmentStatement(ParserRule):
 
 
 class DeclarationStatement(ParserRule):
-    """DeclarationStatement : TypeName ID ';'"""
+    """DeclarationStatement : Id Id ';'"""
 
     def __init__(self, r):
         self.typeName = r[0]
@@ -61,8 +61,8 @@ class DeclarationStatement(ParserRule):
 
 
 class AssignmentStatement(ParserRule):
-    """AssignmentStatement : ID '=' Expression ';'
-                           | ID '=' Expression
+    """AssignmentStatement : Id '=' Expression ';'
+                           | Id '=' Expression
     """
 
     def __init__(self, r):

@@ -9,11 +9,9 @@ class ParserRule:
         pass
 
 import parser_rules.statements
-import parser_rules.binary_expressions
-import parser_rules.unary_expressions
+import parser_rules.expressions
 import parser_rules.structural
-import parser_rules.literals 
-import parser_rules.operators 
+import parser_rules.atomic 
 
-modules = [statements,binary_expressions, unary_expressions, structural, literals, operators]
+modules = [statements,expressions,  structural, atomic]
 

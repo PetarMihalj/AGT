@@ -1,5 +1,45 @@
-
 from parser_rules import ParserRule
+
+class Id(ParserRule):
+    "Id : ID"
+    def __init__(self, r):
+        self.name = r[0]
+
+class Add(ParserRule):
+    "Add : '+'"
+class Sub(ParserRule):
+    "Sub : '-'"
+class Mul(ParserRule):
+    "Mul : '*'"
+class Div(ParserRule):
+    "Div : '/'"
+class Mod(ParserRule):
+    "Mod : '%'"
+
+class Equal(ParserRule):
+    '''Equal : EQ'''
+class NotEqual(ParserRule):
+    '''NotEqual : NE'''
+class LessEqual(ParserRule):
+    '''LessEqual : GEQ'''
+class GreaterEqual(ParserRule):
+    '''GreaterEqual : LEQ'''
+class Less(ParserRule):
+    '''Less : LT'''
+class Greater(ParserRule):
+    '''Greater : GT'''
+
+# Literals
+
+class Literal(ParserRule):
+    '''Literal : IntLiteral
+               | BoolLiteral
+               | CharLiteral
+    '''
+
+    def __init__(self, r):
+        self.value = r[0]
+
 class IntLiteral(ParserRule):
     '''IntLiteral : INTL'''
 
@@ -33,13 +73,3 @@ class BoolLiteral(ParserRule):
 
     def __init__(self, r):
         self.value = r[0] in ('True', 'true')
-
-
-class Literal(ParserRule):
-    '''Literal : IntLiteral
-               | BoolLiteral
-               | CharLiteral
-    '''
-
-    def __init__(self, r):
-        self.value = r[0]

@@ -3,11 +3,11 @@ import ply.lex as lex
 
 class Lexer():
     tokens = (
-        'INC', 'DEC',
         'INTL', 'BOOLL', 'CHARL',
         'ID',
         'IF', 'ELSE', 'BREAK', 'FOR', 'WHILE', 'RETURN',
         'GEQ', 'LEQ', 'LT', 'GT', 'EQ', 'NE',
+        'STRUCT', 'NAMESPACE'
     )
 
     states = (
@@ -69,13 +69,6 @@ class Lexer():
         return t
 
     # ---- BIG OPERATORS
-    def t_INC(self, t):
-        r'\+\+'
-        return t
-
-    def t_DEC(self, t):
-        r'\-\-'
-        return t
 
     def t_GEQ(self, t):
         r'>='
@@ -100,6 +93,8 @@ class Lexer():
     def t_NEQ(self, t):
         r'=='
         return t
+
+    # ----- 
 
     # ----- BUILTIN TYPES
     """
@@ -137,6 +132,15 @@ class Lexer():
 
     def t_CHARL(self, t):
         r"'[^']'"
+        return t
+    # ---- STRUCTURAL
+
+    def t_STRUCT(self, t):
+        r'struct'
+        return t
+
+    def t_NAMESPACE(self, t):
+        r'namespace'
         return t
 
     # ---- ID
