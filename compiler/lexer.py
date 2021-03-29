@@ -2,22 +2,62 @@ import ply.lex as lex
 
 
 class Lexer():
-    tokens = (
-        'INTL', 'BOOLL', 'CHARL',
-        'ID',
-        'IF', 'ELSE', 'BREAK', 'FOR', 'WHILE', 'RETURN',
-        'GEQ', 'LEQ', 'LT', 'GT', 'EQ', 'NE',
-        'STRUCT', 'NAMESPACE'
-    )
+    def __init__(self, **kwargs):
+        self.lexer = lex.lex(module=self, **kwargs)
 
     states = (
         ('mlc', 'exclusive'),
     )
 
-    literals = "+-*/()[]{},;="
+    tokens = (
+        'INTL', 'BOOLL',
+        'ID',
+        'IF', 'ELSE', 'BREAK', 'FOR', 'WHILE', 'RETURN',
+        'GEQ', 'LEQ', 'LT', 'GT', 'EQ', 'NE',
+        'STRUCT',
+        'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD',
+        'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
+        'DOT', 'COMMA', 'SEMICOLON', 'ASSIGNMENT'
+    )
 
-    def __init__(self, **kwargs):
-        self.lexer = lex.lex(module=self, **kwargs)
+    t_PLUS = r'\+'
+    t_MINUS = r'-'
+    t_TIMES = r'\*'
+    t_DIVIDE = r'/'
+    t_MOD = r'%'
+    t_LPAREN = r'\('
+    t_RPAREN = r'\)'
+    t_LBRACE = r'{'
+    t_RBRACE = r'}'
+    t_LBRACKET = r'\['
+    t_RBRACKET = r'\]'
+    t_DOT = r'\.'
+    t_COMMA = r','
+    t_SEMICOLON = r';'
+    t_ASSIGNMENT = r'='
+    t_GEQ = r'>='
+    t_LEQ = r'<='
+    t_GT = r'>'
+    t_LT = r'<'
+    t_EQ = r'=='
+    t_NE = r'!='
+
+    t_IF = r'if'+' '*20
+    t_ELSE = r'else'+' '*20
+    t_BREAK = r'break'+' '*20
+    t_FOR = r'for'+' '*20
+    t_WHILE = r'while'+' '*20
+    t_RETURN = r'return'+' '*20
+    t_STRUCT = r'struct'+' '*20
+    t_ID = r'[a-zA-Z_][a-zA-Z_0-9]*'
+
+    def t_INTL(self, t):
+        r'(-{0,1}\d+)([UuIi]{0,1})(8|16|32|64|128){0,1}'
+        return t
+
+    def t_BOOLL(self, t):
+        r'true|false|True|False'
+        return t
 
     # MAIN STATE
 
@@ -28,173 +68,72 @@ class Lexer():
 
     def t_ENTERMLC(self, t):
         r'/\*'
-        self.mlc = ""
-        self.mlc_line = t.lexer.lineno
+        self.mlc_line = 0
         t.lexer.push_state('mlc')
         pass
 
     def t_NEWLINE(self, t):
         r'\n'
-        t.lexer.lineno += 1
+        self.lexer.lineno += 1
         pass
 
     def t_SPACE(self, t):
         r'\s'
         pass
 
-    # ----- FLOW CONTROL
-
-    def t_IF(self, t):
-        r'if'
-        return t
-
-    def t_ELSE(self, t):
-        r'else'
-        return t
-
-    def t_BREAK(self, t):
-        r'break'
-        return t
-
-    def t_FOR(self, t):
-        r'for'
-        return t
-
-    def t_WHILE(self, t):
-        r'while'
-        return t
-
-    def t_RETURN(self, t):
-        r'return'
-        return t
-
-    # ---- BIG OPERATORS
-
-    def t_GEQ(self, t):
-        r'>='
-        return t
-
-    def t_LEQ(self, t):
-        r'<='
-        return t
-
-    def t_GT(self, t):
-        r'>'
-        return t
-
-    def t_LT(self, t):
-        r'<'
-        return t
-
-    def t_EQ(self, t):
-        r'=='
-        return t
-
-    def t_NEQ(self, t):
-        r'=='
-        return t
-
-    # ----- 
-
-    # ----- BUILTIN TYPES
-    """
-
-    def t_INTTYPE(self, t):
-        r'(int|uint|[UuIi])(8|16|32|64|128){0,1}'
-        return t
-
-    def t_BOOLTYPE(self, t):
-        r'bool|boolean'
-        return t
-
-    def t_CHARTYPE(self, t):
-        r'char'
-        return t
-
-    def t_VOIDTYPE(self, t):
-        r'void'
-        return t
-
-    def t_VARTYPE(self, t):
-        r'var'
-        return t
-    """
-
-    # ----- CONST LITERALS
-
-    def t_INTL(self, t):
-        r'(-{0,1}\d+)([UuIi]{0,1})(8|16|32|64|128){0,1}'
-        return t
-
-    def t_BOOLL(self, t):
-        r'true|false|True|False'
-        return t
-
-    def t_CHARL(self, t):
-        r"'[^']'"
-        return t
-    # ---- STRUCTURAL
-
-    def t_STRUCT(self, t):
-        r'struct'
-        return t
-
-    def t_NAMESPACE(self, t):
-        r'namespace'
-        return t
-
-    # ---- ID
-
-    def t_ID(self, t):
-        r'[a-zA-z_][a-zA-z_0-9]*'
-        return t
-
     # MULTILINE COMMENT STATE
 
     def t_mlc_COMMENT(self, t):
         r'\*/'
-        t.value = self.mlc
-        t.lineno = self.mlc_line
-        del self.mlc, self.mlc_line
+        self.lexer.lineno += self.mlc_line
+        del self.mlc_line
         t.lexer.pop_state()
-        return t
+        pass
 
     def t_mlc_newline(self, t):
         r'\n'
-        self.mlc += t.value
-        t.lexer.lineno += 1
+        self.lexer.lineno += 1
         pass
 
     def t_mlc_anything(self, t):
         r'.'
-        self.mlc += t.value
         t.value = t.value[2:]
         pass
 
     # UTILS
 
+    def t_error(self, t):
+        print(f"illegal token (main state) at line\
+                {t.lexer.lineno}: '{t.value}'")
+        self.lexer.skip(1)
+
+    def t_mlc_error(self, t):
+        print(f"illegal token (mlc state) at line\
+              {t.lexer.lineno}: '{t.value}'")
+        self.lexer.skip(1)
+
     def input(self, data):
+        """
+        Feed the lexer with data.
+        """
         self.lexer.input(data)
 
     def token(self):
+        """
+        Get the next token, from data (generator).
+        """
         return self.lexer.token()
 
     def test(self, data):
+        """
+        Prints out all the tokens
+        """
         self.lexer.input(data)
         for tok in self.lexer:
             print(tok)
 
 
 if __name__ == '__main__':
+    data = open('prog1.st').read()
     lexer = Lexer(debug=1)
-    data = '''
-    3u+5
-    True
-    true
-    'a'
-    /
-    *
-    "fasdfas"
-    '''
-    data = open('ex2.st').read()
     lexer.test(data)

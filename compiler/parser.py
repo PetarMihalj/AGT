@@ -1,15 +1,20 @@
 import inspect
 import parser_rules
 import ply.yacc as yacc
+import lexer
 from types import MethodType
+from helpers import tree_print
+
 
 class Parser:
     def __init__(self, lexer, **kwargs):
-        for mod in parser_rules.modules:
-            for name, obj in inspect.getmembers(mod):
-                if inspect.isclass(obj):
-                    self.injectRule(obj)
-                    print(f"Injected {obj}")
+        for name, obj in inspect.getmembers(parser_rules):
+            if inspect.isclass(obj)\
+                    and issubclass(obj, parser_rules.ParserRule)\
+                    and obj is not parser_rules.ParserRule:
+                self.injectRule(obj)
+                print(f"Injected {obj}")
+        self.precedence = parser_rules.precedence
 
         self.lexer = lexer
         self.tokens = lexer.tokens
@@ -30,20 +35,13 @@ class Parser:
         '''empty :'''
         pass
 
+    def p_error(self, p):
+        print(f"ERROR: {p}")
+
     start = 'CompilationUnit'
 
-
 if __name__ == '__main__':
-    data = '''
-    void a(u32 p, u32 t){
-        //for (a;432;a){a++;}
-        while (a){
-            a--;
-        }
-    }
-    '''
-    import lexer
-    from helpers import tree_print
+    data = open('prog1.st').read()
     lexer = lexer.Lexer()
     lexer.test(data)
     parser = Parser(lexer, debug=True)

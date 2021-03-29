@@ -1,6 +1,7 @@
 import parser
 import lexer
 
+
 if __name__ == '__main__':
     data = '''
     struct petar(i32 a, i32 b)
