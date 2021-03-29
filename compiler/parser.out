@@ -37,8 +37,8 @@ Rule 31    DefinitionListR -> empty
 Rule 32    Expression -> BinaryExpression
 Rule 33    Expression -> UnaryExpression
 Rule 34    ForStatement -> FOR LPAREN Statement Expression SEMICOLON Statement RPAREN Block
-Rule 35    FunctionCall -> ID LPAREN ArgumentListR RPAREN
-Rule 36    FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+Rule 35    FunctionCall -> IdListR LPAREN ArgumentListR RPAREN
+Rule 36    FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
 Rule 37    FunctionDefinition -> ID ID LPAREN ParameterListR RPAREN Block
 Rule 38    FunctionDefinition -> ID ID LT TypeParameterListR GT LPAREN ParameterListR RPAREN Block
 Rule 39    IdListR -> ID DOT IdListR
@@ -101,7 +101,7 @@ EQ                   : 16
 FOR                  : 34
 GEQ                  : 13
 GT                   : 15 36 38 67 72
-ID                   : 26 28 35 36 37 37 38 38 39 40 45 67 68 71 72 73
+ID                   : 26 28 37 37 38 38 39 40 45 67 68 71 72 73
 IF                   : 41
 INTL                 : 23 42
 LBRACE               : 19 67 68
@@ -144,7 +144,7 @@ Expression           : 1 5 6 7 7 8 8 9 9 10 10 11 11 12 12 13 13 14 14 15 15 16 
 ForStatement         : 59
 FunctionCall         : 27 79
 FunctionDefinition   : 29
-IdListR              : 5 6 22 39 77
+IdListR              : 5 6 22 35 36 39 77
 IfElseStatement      : 58
 IntLiteral           : 43
 Literal              : 78
@@ -701,8 +701,8 @@ state 46
     (19) Block -> . LBRACE StatementListR RBRACE
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
@@ -893,8 +893,8 @@ state 54
     (19) Block -> . LBRACE StatementListR RBRACE
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
@@ -1188,8 +1188,11 @@ state 68
     (5) AssignmentStatement -> IdListR . ASSIGNMENT Expression SEMICOLON
     (6) AssignmentStatement -> IdListR . ASSIGNMENT Expression
     (77) UnaryExpression -> IdListR .
+    (35) FunctionCall -> IdListR . LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> IdListR . LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> IdListR . LBRACKET Expression RBRACKET
 
+  ! shift/reduce conflict for LT resolved as shift
     ASSIGNMENT      shift and go to state 105
     SEMICOLON       reduce using rule 77 (UnaryExpression -> IdListR .)
     PLUS            reduce using rule 77 (UnaryExpression -> IdListR .)
@@ -1199,11 +1202,14 @@ state 68
     MOD             reduce using rule 77 (UnaryExpression -> IdListR .)
     LEQ             reduce using rule 77 (UnaryExpression -> IdListR .)
     GEQ             reduce using rule 77 (UnaryExpression -> IdListR .)
-    LT              reduce using rule 77 (UnaryExpression -> IdListR .)
     GT              reduce using rule 77 (UnaryExpression -> IdListR .)
     EQ              reduce using rule 77 (UnaryExpression -> IdListR .)
     NE              reduce using rule 77 (UnaryExpression -> IdListR .)
-    LBRACKET        shift and go to state 106
+    LPAREN          shift and go to state 106
+    LT              shift and go to state 107
+    LBRACKET        shift and go to state 108
+
+  ! LT              [ reduce using rule 77 (UnaryExpression -> IdListR .) ]
 
 
 state 69
@@ -1211,12 +1217,15 @@ state 69
     (26) DeclarationAssignmentStatement -> Type . ID ASSIGNMENT Expression SEMICOLON
     (27) DeclarationFunctionCallStatement -> Type . FunctionCall SEMICOLON
     (28) DeclarationStatement -> Type . ID SEMICOLON
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (39) IdListR -> . ID DOT IdListR
+    (40) IdListR -> . ID
 
-    ID              shift and go to state 107
+    ID              shift and go to state 109
 
-    FunctionCall                   shift and go to state 108
+    FunctionCall                   shift and go to state 110
+    IdListR                        shift and go to state 111
 
 state 70
 
@@ -1224,16 +1233,15 @@ state 70
     (40) IdListR -> ID .
     (71) Type -> ID . PointerListR
     (72) Type -> ID . LT TypeParameterListR GT PointerListR
-    (35) FunctionCall -> ID . LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> ID . LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (49) PointerListR -> . TIMES PointerListR
     (50) PointerListR -> . empty
     (83) empty -> .
 
   ! shift/reduce conflict for LT resolved as shift
   ! shift/reduce conflict for TIMES resolved as shift
-    DOT             shift and go to state 109
+    DOT             shift and go to state 112
     ASSIGNMENT      reduce using rule 40 (IdListR -> ID .)
+    LPAREN          reduce using rule 40 (IdListR -> ID .)
     LBRACKET        reduce using rule 40 (IdListR -> ID .)
     SEMICOLON       reduce using rule 40 (IdListR -> ID .)
     PLUS            reduce using rule 40 (IdListR -> ID .)
@@ -1245,13 +1253,12 @@ state 70
     GT              reduce using rule 40 (IdListR -> ID .)
     EQ              reduce using rule 40 (IdListR -> ID .)
     NE              reduce using rule 40 (IdListR -> ID .)
-    LT              shift and go to state 110
-    LPAREN          shift and go to state 111
+    LT              shift and go to state 31
     TIMES           shift and go to state 32
     ID              reduce using rule 83 (empty -> .)
 
-  ! TIMES           [ reduce using rule 40 (IdListR -> ID .) ]
   ! LT              [ reduce using rule 40 (IdListR -> ID .) ]
+  ! TIMES           [ reduce using rule 40 (IdListR -> ID .) ]
 
     PointerListR                   shift and go to state 30
     empty                          shift and go to state 33
@@ -1285,8 +1292,8 @@ state 71
     INTL            reduce using rule 79 (UnaryExpression -> FunctionCall .)
     BOOLL           reduce using rule 79 (UnaryExpression -> FunctionCall .)
     RBRACE          reduce using rule 79 (UnaryExpression -> FunctionCall .)
-    RBRACKET        reduce using rule 79 (UnaryExpression -> FunctionCall .)
     COMMA           reduce using rule 79 (UnaryExpression -> FunctionCall .)
+    RBRACKET        reduce using rule 79 (UnaryExpression -> FunctionCall .)
 
 
 state 72
@@ -1318,8 +1325,8 @@ state 72
     INTL            reduce using rule 32 (Expression -> BinaryExpression .)
     BOOLL           reduce using rule 32 (Expression -> BinaryExpression .)
     RBRACE          reduce using rule 32 (Expression -> BinaryExpression .)
-    RBRACKET        reduce using rule 32 (Expression -> BinaryExpression .)
     COMMA           reduce using rule 32 (Expression -> BinaryExpression .)
+    RBRACKET        reduce using rule 32 (Expression -> BinaryExpression .)
 
 
 state 73
@@ -1351,15 +1358,15 @@ state 73
     INTL            reduce using rule 33 (Expression -> UnaryExpression .)
     BOOLL           reduce using rule 33 (Expression -> UnaryExpression .)
     RBRACE          reduce using rule 33 (Expression -> UnaryExpression .)
-    RBRACKET        reduce using rule 33 (Expression -> UnaryExpression .)
     COMMA           reduce using rule 33 (Expression -> UnaryExpression .)
+    RBRACKET        reduce using rule 33 (Expression -> UnaryExpression .)
 
 
 state 74
 
     (41) IfElseStatement -> IF . LPAREN Expression RPAREN Block ELSE Block
 
-    LPAREN          shift and go to state 112
+    LPAREN          shift and go to state 113
 
 
 state 75
@@ -1387,21 +1394,21 @@ state 75
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 113
+    Expression                     shift and go to state 114
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
@@ -1431,14 +1438,14 @@ state 77
 
     (34) ForStatement -> FOR . LPAREN Statement Expression SEMICOLON Statement RPAREN Block
 
-    LPAREN          shift and go to state 116
+    LPAREN          shift and go to state 117
 
 
 state 78
 
     (82) WhileStatement -> WHILE . LPAREN Expression RPAREN Block
 
-    LPAREN          shift and go to state 117
+    LPAREN          shift and go to state 118
 
 
 state 79
@@ -1446,8 +1453,8 @@ state 79
     (23) BreakStatement -> BREAK . INTL SEMICOLON
     (24) BreakStatement -> BREAK . SEMICOLON
 
-    INTL            shift and go to state 118
-    SEMICOLON       shift and go to state 119
+    INTL            shift and go to state 119
+    SEMICOLON       shift and go to state 120
 
 
 state 80
@@ -1479,8 +1486,8 @@ state 80
     INTL            reduce using rule 42 (IntLiteral -> INTL .)
     BOOLL           reduce using rule 42 (IntLiteral -> INTL .)
     RBRACE          reduce using rule 42 (IntLiteral -> INTL .)
-    RBRACKET        reduce using rule 42 (IntLiteral -> INTL .)
     COMMA           reduce using rule 42 (IntLiteral -> INTL .)
+    RBRACKET        reduce using rule 42 (IntLiteral -> INTL .)
 
 
 state 81
@@ -1509,22 +1516,22 @@ state 81
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
-    SEMICOLON       shift and go to state 121
+    SEMICOLON       shift and go to state 122
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 120
+    Expression                     shift and go to state 121
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
@@ -1579,8 +1586,8 @@ state 83
     INTL            reduce using rule 78 (UnaryExpression -> Literal .)
     BOOLL           reduce using rule 78 (UnaryExpression -> Literal .)
     RBRACE          reduce using rule 78 (UnaryExpression -> Literal .)
-    RBRACKET        reduce using rule 78 (UnaryExpression -> Literal .)
     COMMA           reduce using rule 78 (UnaryExpression -> Literal .)
+    RBRACKET        reduce using rule 78 (UnaryExpression -> Literal .)
 
 
 state 84
@@ -1612,8 +1619,8 @@ state 84
     INTL            reduce using rule 80 (UnaryExpression -> BracketCall .)
     BOOLL           reduce using rule 80 (UnaryExpression -> BracketCall .)
     RBRACE          reduce using rule 80 (UnaryExpression -> BracketCall .)
-    RBRACKET        reduce using rule 80 (UnaryExpression -> BracketCall .)
     COMMA           reduce using rule 80 (UnaryExpression -> BracketCall .)
+    RBRACKET        reduce using rule 80 (UnaryExpression -> BracketCall .)
 
 
 state 85
@@ -1645,8 +1652,8 @@ state 85
     INTL            reduce using rule 43 (Literal -> IntLiteral .)
     BOOLL           reduce using rule 43 (Literal -> IntLiteral .)
     RBRACE          reduce using rule 43 (Literal -> IntLiteral .)
-    RBRACKET        reduce using rule 43 (Literal -> IntLiteral .)
     COMMA           reduce using rule 43 (Literal -> IntLiteral .)
+    RBRACKET        reduce using rule 43 (Literal -> IntLiteral .)
 
 
 state 86
@@ -1678,8 +1685,8 @@ state 86
     INTL            reduce using rule 44 (Literal -> BoolLiteral .)
     BOOLL           reduce using rule 44 (Literal -> BoolLiteral .)
     RBRACE          reduce using rule 44 (Literal -> BoolLiteral .)
-    RBRACKET        reduce using rule 44 (Literal -> BoolLiteral .)
     COMMA           reduce using rule 44 (Literal -> BoolLiteral .)
+    RBRACKET        reduce using rule 44 (Literal -> BoolLiteral .)
 
 
 state 87
@@ -1711,22 +1718,22 @@ state 87
     INTL            reduce using rule 21 (BoolLiteral -> BOOLL .)
     BOOLL           reduce using rule 21 (BoolLiteral -> BOOLL .)
     RBRACE          reduce using rule 21 (BoolLiteral -> BOOLL .)
-    RBRACKET        reduce using rule 21 (BoolLiteral -> BOOLL .)
     COMMA           reduce using rule 21 (BoolLiteral -> BOOLL .)
+    RBRACKET        reduce using rule 21 (BoolLiteral -> BOOLL .)
 
 
 state 88
 
     (38) FunctionDefinition -> ID ID LT TypeParameterListR GT LPAREN ParameterListR . RPAREN Block
 
-    RPAREN          shift and go to state 122
+    RPAREN          shift and go to state 123
 
 
 state 89
 
     (67) StructDefinition -> STRUCT ID LT TypeParameterListR GT LBRACE StructMemberDeclarationListR . RBRACE
 
-    RBRACE          shift and go to state 123
+    RBRACE          shift and go to state 124
 
 
 state 90
@@ -1809,21 +1816,21 @@ state 94
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 124
+    Expression                     shift and go to state 125
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
@@ -1855,21 +1862,21 @@ state 95
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 125
+    Expression                     shift and go to state 126
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
@@ -1901,21 +1908,21 @@ state 96
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 126
+    Expression                     shift and go to state 127
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
@@ -1947,21 +1954,21 @@ state 97
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 127
+    Expression                     shift and go to state 128
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
@@ -1993,21 +2000,21 @@ state 98
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 128
+    Expression                     shift and go to state 129
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
@@ -2039,21 +2046,21 @@ state 99
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 129
+    Expression                     shift and go to state 130
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
@@ -2085,21 +2092,21 @@ state 100
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 130
+    Expression                     shift and go to state 131
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
@@ -2131,21 +2138,21 @@ state 101
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 131
+    Expression                     shift and go to state 132
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
@@ -2177,21 +2184,21 @@ state 102
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 132
+    Expression                     shift and go to state 133
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
@@ -2223,21 +2230,21 @@ state 103
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 133
+    Expression                     shift and go to state 134
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
@@ -2269,21 +2276,21 @@ state 104
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 134
+    Expression                     shift and go to state 135
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
@@ -2316,19 +2323,19 @@ state 105
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    IdListR                        shift and go to state 114
-    Expression                     shift and go to state 135
+    IdListR                        shift and go to state 115
+    Expression                     shift and go to state 136
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
     Literal                        shift and go to state 83
@@ -2339,100 +2346,7 @@ state 105
 
 state 106
 
-    (22) BracketCall -> IdListR LBRACKET . Expression RBRACKET
-    (32) Expression -> . BinaryExpression
-    (33) Expression -> . UnaryExpression
-    (7) BinaryExpression -> . Expression PLUS Expression
-    (8) BinaryExpression -> . Expression MINUS Expression
-    (9) BinaryExpression -> . Expression TIMES Expression
-    (10) BinaryExpression -> . Expression DIVIDE Expression
-    (11) BinaryExpression -> . Expression MOD Expression
-    (12) BinaryExpression -> . Expression LEQ Expression
-    (13) BinaryExpression -> . Expression GEQ Expression
-    (14) BinaryExpression -> . Expression LT Expression
-    (15) BinaryExpression -> . Expression GT Expression
-    (16) BinaryExpression -> . Expression EQ Expression
-    (17) BinaryExpression -> . Expression NE Expression
-    (77) UnaryExpression -> . IdListR
-    (78) UnaryExpression -> . Literal
-    (79) UnaryExpression -> . FunctionCall
-    (80) UnaryExpression -> . BracketCall
-    (81) UnaryExpression -> . LPAREN Expression RPAREN
-    (39) IdListR -> . ID DOT IdListR
-    (40) IdListR -> . ID
-    (43) Literal -> . IntLiteral
-    (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
-    (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
-    (42) IntLiteral -> . INTL
-    (21) BoolLiteral -> . BOOLL
-
-    LPAREN          shift and go to state 75
-    ID              shift and go to state 115
-    INTL            shift and go to state 80
-    BOOLL           shift and go to state 87
-
-    IdListR                        shift and go to state 114
-    Expression                     shift and go to state 136
-    BinaryExpression               shift and go to state 72
-    UnaryExpression                shift and go to state 73
-    Literal                        shift and go to state 83
-    FunctionCall                   shift and go to state 71
-    BracketCall                    shift and go to state 84
-    IntLiteral                     shift and go to state 85
-    BoolLiteral                    shift and go to state 86
-
-state 107
-
-    (26) DeclarationAssignmentStatement -> Type ID . ASSIGNMENT Expression SEMICOLON
-    (28) DeclarationStatement -> Type ID . SEMICOLON
-    (35) FunctionCall -> ID . LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> ID . LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
-
-    ASSIGNMENT      shift and go to state 137
-    SEMICOLON       shift and go to state 51
-    LPAREN          shift and go to state 111
-    LT              shift and go to state 138
-
-
-state 108
-
-    (27) DeclarationFunctionCallStatement -> Type FunctionCall . SEMICOLON
-
-    SEMICOLON       shift and go to state 139
-
-
-state 109
-
-    (39) IdListR -> ID DOT . IdListR
-    (39) IdListR -> . ID DOT IdListR
-    (40) IdListR -> . ID
-
-    ID              shift and go to state 140
-
-    IdListR                        shift and go to state 141
-
-state 110
-
-    (72) Type -> ID LT . TypeParameterListR GT PointerListR
-    (36) FunctionCall -> ID LT . TypeParameterListR GT LPAREN ArgumentListR RPAREN
-    (74) TypeParameterListR -> . TypeParameter COMMA TypeParameterListR
-    (75) TypeParameterListR -> . TypeParameter
-    (76) TypeParameterListR -> . empty
-    (73) TypeParameter -> . ID
-    (83) empty -> .
-
-    ID              shift and go to state 21
-    GT              reduce using rule 83 (empty -> .)
-
-    TypeParameterListR             shift and go to state 142
-    TypeParameter                  shift and go to state 23
-    empty                          shift and go to state 24
-
-state 111
-
-    (35) FunctionCall -> ID LPAREN . ArgumentListR RPAREN
+    (35) FunctionCall -> IdListR LPAREN . ArgumentListR RPAREN
     (2) ArgumentListR -> . Argument COMMA ArgumentListR
     (3) ArgumentListR -> . Argument
     (4) ArgumentListR -> . empty
@@ -2460,32 +2374,134 @@ state 111
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     RPAREN          reduce using rule 83 (empty -> .)
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    ArgumentListR                  shift and go to state 143
-    Argument                       shift and go to state 144
-    empty                          shift and go to state 145
-    Expression                     shift and go to state 146
+    IdListR                        shift and go to state 115
+    ArgumentListR                  shift and go to state 137
+    Argument                       shift and go to state 138
+    empty                          shift and go to state 139
+    Expression                     shift and go to state 140
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
     IntLiteral                     shift and go to state 85
     BoolLiteral                    shift and go to state 86
 
+state 107
+
+    (36) FunctionCall -> IdListR LT . TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (74) TypeParameterListR -> . TypeParameter COMMA TypeParameterListR
+    (75) TypeParameterListR -> . TypeParameter
+    (76) TypeParameterListR -> . empty
+    (73) TypeParameter -> . ID
+    (83) empty -> .
+
+    ID              shift and go to state 21
+    GT              reduce using rule 83 (empty -> .)
+
+    TypeParameterListR             shift and go to state 141
+    TypeParameter                  shift and go to state 23
+    empty                          shift and go to state 24
+
+state 108
+
+    (22) BracketCall -> IdListR LBRACKET . Expression RBRACKET
+    (32) Expression -> . BinaryExpression
+    (33) Expression -> . UnaryExpression
+    (7) BinaryExpression -> . Expression PLUS Expression
+    (8) BinaryExpression -> . Expression MINUS Expression
+    (9) BinaryExpression -> . Expression TIMES Expression
+    (10) BinaryExpression -> . Expression DIVIDE Expression
+    (11) BinaryExpression -> . Expression MOD Expression
+    (12) BinaryExpression -> . Expression LEQ Expression
+    (13) BinaryExpression -> . Expression GEQ Expression
+    (14) BinaryExpression -> . Expression LT Expression
+    (15) BinaryExpression -> . Expression GT Expression
+    (16) BinaryExpression -> . Expression EQ Expression
+    (17) BinaryExpression -> . Expression NE Expression
+    (77) UnaryExpression -> . IdListR
+    (78) UnaryExpression -> . Literal
+    (79) UnaryExpression -> . FunctionCall
+    (80) UnaryExpression -> . BracketCall
+    (81) UnaryExpression -> . LPAREN Expression RPAREN
+    (39) IdListR -> . ID DOT IdListR
+    (40) IdListR -> . ID
+    (43) Literal -> . IntLiteral
+    (44) Literal -> . BoolLiteral
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
+    (42) IntLiteral -> . INTL
+    (21) BoolLiteral -> . BOOLL
+
+    LPAREN          shift and go to state 75
+    ID              shift and go to state 116
+    INTL            shift and go to state 80
+    BOOLL           shift and go to state 87
+
+    IdListR                        shift and go to state 115
+    Expression                     shift and go to state 142
+    BinaryExpression               shift and go to state 72
+    UnaryExpression                shift and go to state 73
+    Literal                        shift and go to state 83
+    FunctionCall                   shift and go to state 71
+    BracketCall                    shift and go to state 84
+    IntLiteral                     shift and go to state 85
+    BoolLiteral                    shift and go to state 86
+
+state 109
+
+    (26) DeclarationAssignmentStatement -> Type ID . ASSIGNMENT Expression SEMICOLON
+    (28) DeclarationStatement -> Type ID . SEMICOLON
+    (39) IdListR -> ID . DOT IdListR
+    (40) IdListR -> ID .
+
+    ASSIGNMENT      shift and go to state 143
+    SEMICOLON       shift and go to state 51
+    DOT             shift and go to state 112
+    LPAREN          reduce using rule 40 (IdListR -> ID .)
+    LT              reduce using rule 40 (IdListR -> ID .)
+
+
+state 110
+
+    (27) DeclarationFunctionCallStatement -> Type FunctionCall . SEMICOLON
+
+    SEMICOLON       shift and go to state 144
+
+
+state 111
+
+    (35) FunctionCall -> IdListR . LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> IdListR . LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+
+    LPAREN          shift and go to state 106
+    LT              shift and go to state 107
+
+
 state 112
+
+    (39) IdListR -> ID DOT . IdListR
+    (39) IdListR -> . ID DOT IdListR
+    (40) IdListR -> . ID
+
+    ID              shift and go to state 116
+
+    IdListR                        shift and go to state 145
+
+state 113
 
     (41) IfElseStatement -> IF LPAREN . Expression RPAREN Block ELSE Block
     (32) Expression -> . BinaryExpression
@@ -2510,28 +2526,28 @@ state 112
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 147
+    Expression                     shift and go to state 146
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
     IntLiteral                     shift and go to state 85
     BoolLiteral                    shift and go to state 86
 
-state 113
+state 114
 
     (81) UnaryExpression -> LPAREN Expression . RPAREN
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -2546,7 +2562,7 @@ state 113
     (16) BinaryExpression -> Expression . EQ Expression
     (17) BinaryExpression -> Expression . NE Expression
 
-    RPAREN          shift and go to state 148
+    RPAREN          shift and go to state 147
     PLUS            shift and go to state 94
     MINUS           shift and go to state 95
     TIMES           shift and go to state 96
@@ -2560,11 +2576,15 @@ state 113
     NE              shift and go to state 104
 
 
-state 114
+state 115
 
     (77) UnaryExpression -> IdListR .
+    (35) FunctionCall -> IdListR . LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> IdListR . LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> IdListR . LBRACKET Expression RBRACKET
 
+  ! shift/reduce conflict for LPAREN resolved as shift
+  ! shift/reduce conflict for LT resolved as shift
     RPAREN          reduce using rule 77 (UnaryExpression -> IdListR .)
     PLUS            reduce using rule 77 (UnaryExpression -> IdListR .)
     MINUS           reduce using rule 77 (UnaryExpression -> IdListR .)
@@ -2573,7 +2593,6 @@ state 114
     MOD             reduce using rule 77 (UnaryExpression -> IdListR .)
     LEQ             reduce using rule 77 (UnaryExpression -> IdListR .)
     GEQ             reduce using rule 77 (UnaryExpression -> IdListR .)
-    LT              reduce using rule 77 (UnaryExpression -> IdListR .)
     GT              reduce using rule 77 (UnaryExpression -> IdListR .)
     EQ              reduce using rule 77 (UnaryExpression -> IdListR .)
     NE              reduce using rule 77 (UnaryExpression -> IdListR .)
@@ -2585,26 +2604,28 @@ state 114
     RETURN          reduce using rule 77 (UnaryExpression -> IdListR .)
     ;               reduce using rule 77 (UnaryExpression -> IdListR .)
     ID              reduce using rule 77 (UnaryExpression -> IdListR .)
-    LPAREN          reduce using rule 77 (UnaryExpression -> IdListR .)
     LBRACE          reduce using rule 77 (UnaryExpression -> IdListR .)
     INTL            reduce using rule 77 (UnaryExpression -> IdListR .)
     BOOLL           reduce using rule 77 (UnaryExpression -> IdListR .)
     RBRACE          reduce using rule 77 (UnaryExpression -> IdListR .)
-    RBRACKET        reduce using rule 77 (UnaryExpression -> IdListR .)
     COMMA           reduce using rule 77 (UnaryExpression -> IdListR .)
-    LBRACKET        shift and go to state 106
+    RBRACKET        reduce using rule 77 (UnaryExpression -> IdListR .)
+    LPAREN          shift and go to state 106
+    LT              shift and go to state 107
+    LBRACKET        shift and go to state 108
+
+  ! LT              [ reduce using rule 77 (UnaryExpression -> IdListR .) ]
+  ! LPAREN          [ reduce using rule 77 (UnaryExpression -> IdListR .) ]
 
 
-state 115
+state 116
 
     (39) IdListR -> ID . DOT IdListR
     (40) IdListR -> ID .
-    (35) FunctionCall -> ID . LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> ID . LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
 
-  ! shift/reduce conflict for LPAREN resolved as shift
-  ! shift/reduce conflict for LT resolved as shift
-    DOT             shift and go to state 109
+    DOT             shift and go to state 112
+    LPAREN          reduce using rule 40 (IdListR -> ID .)
+    LT              reduce using rule 40 (IdListR -> ID .)
     LBRACKET        reduce using rule 40 (IdListR -> ID .)
     RPAREN          reduce using rule 40 (IdListR -> ID .)
     PLUS            reduce using rule 40 (IdListR -> ID .)
@@ -2629,16 +2650,12 @@ state 115
     INTL            reduce using rule 40 (IdListR -> ID .)
     BOOLL           reduce using rule 40 (IdListR -> ID .)
     RBRACE          reduce using rule 40 (IdListR -> ID .)
-    RBRACKET        reduce using rule 40 (IdListR -> ID .)
     COMMA           reduce using rule 40 (IdListR -> ID .)
-    LPAREN          shift and go to state 111
-    LT              shift and go to state 138
-
-  ! LT              [ reduce using rule 40 (IdListR -> ID .) ]
-  ! LPAREN          [ reduce using rule 40 (IdListR -> ID .) ]
+    RBRACKET        reduce using rule 40 (IdListR -> ID .)
+    ASSIGNMENT      reduce using rule 40 (IdListR -> ID .)
 
 
-state 116
+state 117
 
     (34) ForStatement -> FOR LPAREN . Statement Expression SEMICOLON Statement RPAREN Block
     (53) Statement -> . AssignmentStatement
@@ -2692,8 +2709,8 @@ state 116
     (19) Block -> . LBRACE StatementListR RBRACE
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
@@ -2710,7 +2727,7 @@ state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Statement                      shift and go to state 149
+    Statement                      shift and go to state 148
     Expression                     shift and go to state 60
     Block                          shift and go to state 76
     AssignmentStatement            shift and go to state 56
@@ -2734,7 +2751,7 @@ state 116
     IntLiteral                     shift and go to state 85
     BoolLiteral                    shift and go to state 86
 
-state 117
+state 118
 
     (82) WhileStatement -> WHILE LPAREN . Expression RPAREN Block
     (32) Expression -> . BinaryExpression
@@ -2759,35 +2776,35 @@ state 117
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 150
+    Expression                     shift and go to state 149
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
     IntLiteral                     shift and go to state 85
     BoolLiteral                    shift and go to state 86
 
-state 118
+state 119
 
     (23) BreakStatement -> BREAK INTL . SEMICOLON
 
-    SEMICOLON       shift and go to state 151
+    SEMICOLON       shift and go to state 150
 
 
-state 119
+state 120
 
     (24) BreakStatement -> BREAK SEMICOLON .
 
@@ -2806,7 +2823,7 @@ state 119
     RPAREN          reduce using rule 24 (BreakStatement -> BREAK SEMICOLON .)
 
 
-state 120
+state 121
 
     (51) ReturnStatement -> RETURN Expression . SEMICOLON
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -2821,7 +2838,7 @@ state 120
     (16) BinaryExpression -> Expression . EQ Expression
     (17) BinaryExpression -> Expression . NE Expression
 
-    SEMICOLON       shift and go to state 152
+    SEMICOLON       shift and go to state 151
     PLUS            shift and go to state 94
     MINUS           shift and go to state 95
     TIMES           shift and go to state 96
@@ -2835,7 +2852,7 @@ state 120
     NE              shift and go to state 104
 
 
-state 121
+state 122
 
     (52) ReturnStatement -> RETURN SEMICOLON .
 
@@ -2854,16 +2871,16 @@ state 121
     RPAREN          reduce using rule 52 (ReturnStatement -> RETURN SEMICOLON .)
 
 
-state 122
+state 123
 
     (38) FunctionDefinition -> ID ID LT TypeParameterListR GT LPAREN ParameterListR RPAREN . Block
     (19) Block -> . LBRACE StatementListR RBRACE
 
     LBRACE          shift and go to state 46
 
-    Block                          shift and go to state 153
+    Block                          shift and go to state 152
 
-state 123
+state 124
 
     (67) StructDefinition -> STRUCT ID LT TypeParameterListR GT LBRACE StructMemberDeclarationListR RBRACE .
 
@@ -2872,7 +2889,7 @@ state 123
     $end            reduce using rule 67 (StructDefinition -> STRUCT ID LT TypeParameterListR GT LBRACE StructMemberDeclarationListR RBRACE .)
 
 
-state 124
+state 125
 
     (7) BinaryExpression -> Expression PLUS Expression .
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -2903,8 +2920,8 @@ state 124
     INTL            reduce using rule 7 (BinaryExpression -> Expression PLUS Expression .)
     BOOLL           reduce using rule 7 (BinaryExpression -> Expression PLUS Expression .)
     RBRACE          reduce using rule 7 (BinaryExpression -> Expression PLUS Expression .)
-    RBRACKET        reduce using rule 7 (BinaryExpression -> Expression PLUS Expression .)
     COMMA           reduce using rule 7 (BinaryExpression -> Expression PLUS Expression .)
+    RBRACKET        reduce using rule 7 (BinaryExpression -> Expression PLUS Expression .)
     TIMES           shift and go to state 96
     DIVIDE          shift and go to state 97
     MOD             shift and go to state 98
@@ -2928,7 +2945,7 @@ state 124
   ! MINUS           [ shift and go to state 95 ]
 
 
-state 125
+state 126
 
     (8) BinaryExpression -> Expression MINUS Expression .
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -2959,8 +2976,8 @@ state 125
     INTL            reduce using rule 8 (BinaryExpression -> Expression MINUS Expression .)
     BOOLL           reduce using rule 8 (BinaryExpression -> Expression MINUS Expression .)
     RBRACE          reduce using rule 8 (BinaryExpression -> Expression MINUS Expression .)
-    RBRACKET        reduce using rule 8 (BinaryExpression -> Expression MINUS Expression .)
     COMMA           reduce using rule 8 (BinaryExpression -> Expression MINUS Expression .)
+    RBRACKET        reduce using rule 8 (BinaryExpression -> Expression MINUS Expression .)
     TIMES           shift and go to state 96
     DIVIDE          shift and go to state 97
     MOD             shift and go to state 98
@@ -2984,7 +3001,7 @@ state 125
   ! MINUS           [ shift and go to state 95 ]
 
 
-state 126
+state 127
 
     (9) BinaryExpression -> Expression TIMES Expression .
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -3018,8 +3035,8 @@ state 126
     INTL            reduce using rule 9 (BinaryExpression -> Expression TIMES Expression .)
     BOOLL           reduce using rule 9 (BinaryExpression -> Expression TIMES Expression .)
     RBRACE          reduce using rule 9 (BinaryExpression -> Expression TIMES Expression .)
-    RBRACKET        reduce using rule 9 (BinaryExpression -> Expression TIMES Expression .)
     COMMA           reduce using rule 9 (BinaryExpression -> Expression TIMES Expression .)
+    RBRACKET        reduce using rule 9 (BinaryExpression -> Expression TIMES Expression .)
     LEQ             shift and go to state 99
     GEQ             shift and go to state 100
     LT              shift and go to state 101
@@ -3040,7 +3057,7 @@ state 126
   ! MOD             [ shift and go to state 98 ]
 
 
-state 127
+state 128
 
     (10) BinaryExpression -> Expression DIVIDE Expression .
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -3074,8 +3091,8 @@ state 127
     INTL            reduce using rule 10 (BinaryExpression -> Expression DIVIDE Expression .)
     BOOLL           reduce using rule 10 (BinaryExpression -> Expression DIVIDE Expression .)
     RBRACE          reduce using rule 10 (BinaryExpression -> Expression DIVIDE Expression .)
-    RBRACKET        reduce using rule 10 (BinaryExpression -> Expression DIVIDE Expression .)
     COMMA           reduce using rule 10 (BinaryExpression -> Expression DIVIDE Expression .)
+    RBRACKET        reduce using rule 10 (BinaryExpression -> Expression DIVIDE Expression .)
     LEQ             shift and go to state 99
     GEQ             shift and go to state 100
     LT              shift and go to state 101
@@ -3096,7 +3113,7 @@ state 127
   ! MOD             [ shift and go to state 98 ]
 
 
-state 128
+state 129
 
     (11) BinaryExpression -> Expression MOD Expression .
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -3130,8 +3147,8 @@ state 128
     INTL            reduce using rule 11 (BinaryExpression -> Expression MOD Expression .)
     BOOLL           reduce using rule 11 (BinaryExpression -> Expression MOD Expression .)
     RBRACE          reduce using rule 11 (BinaryExpression -> Expression MOD Expression .)
-    RBRACKET        reduce using rule 11 (BinaryExpression -> Expression MOD Expression .)
     COMMA           reduce using rule 11 (BinaryExpression -> Expression MOD Expression .)
+    RBRACKET        reduce using rule 11 (BinaryExpression -> Expression MOD Expression .)
     LEQ             shift and go to state 99
     GEQ             shift and go to state 100
     LT              shift and go to state 101
@@ -3152,7 +3169,7 @@ state 128
   ! MOD             [ shift and go to state 98 ]
 
 
-state 129
+state 130
 
     (12) BinaryExpression -> Expression LEQ Expression .
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -3192,8 +3209,8 @@ state 129
     INTL            reduce using rule 12 (BinaryExpression -> Expression LEQ Expression .)
     BOOLL           reduce using rule 12 (BinaryExpression -> Expression LEQ Expression .)
     RBRACE          reduce using rule 12 (BinaryExpression -> Expression LEQ Expression .)
-    RBRACKET        reduce using rule 12 (BinaryExpression -> Expression LEQ Expression .)
     COMMA           reduce using rule 12 (BinaryExpression -> Expression LEQ Expression .)
+    RBRACKET        reduce using rule 12 (BinaryExpression -> Expression LEQ Expression .)
 
   ! PLUS            [ shift and go to state 94 ]
   ! MINUS           [ shift and go to state 95 ]
@@ -3208,7 +3225,7 @@ state 129
   ! NE              [ shift and go to state 104 ]
 
 
-state 130
+state 131
 
     (13) BinaryExpression -> Expression GEQ Expression .
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -3248,8 +3265,8 @@ state 130
     INTL            reduce using rule 13 (BinaryExpression -> Expression GEQ Expression .)
     BOOLL           reduce using rule 13 (BinaryExpression -> Expression GEQ Expression .)
     RBRACE          reduce using rule 13 (BinaryExpression -> Expression GEQ Expression .)
-    RBRACKET        reduce using rule 13 (BinaryExpression -> Expression GEQ Expression .)
     COMMA           reduce using rule 13 (BinaryExpression -> Expression GEQ Expression .)
+    RBRACKET        reduce using rule 13 (BinaryExpression -> Expression GEQ Expression .)
 
   ! PLUS            [ shift and go to state 94 ]
   ! MINUS           [ shift and go to state 95 ]
@@ -3264,7 +3281,7 @@ state 130
   ! NE              [ shift and go to state 104 ]
 
 
-state 131
+state 132
 
     (14) BinaryExpression -> Expression LT Expression .
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -3304,8 +3321,8 @@ state 131
     INTL            reduce using rule 14 (BinaryExpression -> Expression LT Expression .)
     BOOLL           reduce using rule 14 (BinaryExpression -> Expression LT Expression .)
     RBRACE          reduce using rule 14 (BinaryExpression -> Expression LT Expression .)
-    RBRACKET        reduce using rule 14 (BinaryExpression -> Expression LT Expression .)
     COMMA           reduce using rule 14 (BinaryExpression -> Expression LT Expression .)
+    RBRACKET        reduce using rule 14 (BinaryExpression -> Expression LT Expression .)
 
   ! PLUS            [ shift and go to state 94 ]
   ! MINUS           [ shift and go to state 95 ]
@@ -3320,7 +3337,7 @@ state 131
   ! NE              [ shift and go to state 104 ]
 
 
-state 132
+state 133
 
     (15) BinaryExpression -> Expression GT Expression .
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -3360,8 +3377,8 @@ state 132
     INTL            reduce using rule 15 (BinaryExpression -> Expression GT Expression .)
     BOOLL           reduce using rule 15 (BinaryExpression -> Expression GT Expression .)
     RBRACE          reduce using rule 15 (BinaryExpression -> Expression GT Expression .)
-    RBRACKET        reduce using rule 15 (BinaryExpression -> Expression GT Expression .)
     COMMA           reduce using rule 15 (BinaryExpression -> Expression GT Expression .)
+    RBRACKET        reduce using rule 15 (BinaryExpression -> Expression GT Expression .)
 
   ! PLUS            [ shift and go to state 94 ]
   ! MINUS           [ shift and go to state 95 ]
@@ -3376,7 +3393,7 @@ state 132
   ! NE              [ shift and go to state 104 ]
 
 
-state 133
+state 134
 
     (16) BinaryExpression -> Expression EQ Expression .
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -3416,8 +3433,8 @@ state 133
     INTL            reduce using rule 16 (BinaryExpression -> Expression EQ Expression .)
     BOOLL           reduce using rule 16 (BinaryExpression -> Expression EQ Expression .)
     RBRACE          reduce using rule 16 (BinaryExpression -> Expression EQ Expression .)
-    RBRACKET        reduce using rule 16 (BinaryExpression -> Expression EQ Expression .)
     COMMA           reduce using rule 16 (BinaryExpression -> Expression EQ Expression .)
+    RBRACKET        reduce using rule 16 (BinaryExpression -> Expression EQ Expression .)
 
   ! PLUS            [ shift and go to state 94 ]
   ! MINUS           [ shift and go to state 95 ]
@@ -3432,7 +3449,7 @@ state 133
   ! NE              [ shift and go to state 104 ]
 
 
-state 134
+state 135
 
     (17) BinaryExpression -> Expression NE Expression .
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -3472,8 +3489,8 @@ state 134
     INTL            reduce using rule 17 (BinaryExpression -> Expression NE Expression .)
     BOOLL           reduce using rule 17 (BinaryExpression -> Expression NE Expression .)
     RBRACE          reduce using rule 17 (BinaryExpression -> Expression NE Expression .)
-    RBRACKET        reduce using rule 17 (BinaryExpression -> Expression NE Expression .)
     COMMA           reduce using rule 17 (BinaryExpression -> Expression NE Expression .)
+    RBRACKET        reduce using rule 17 (BinaryExpression -> Expression NE Expression .)
 
   ! PLUS            [ shift and go to state 94 ]
   ! MINUS           [ shift and go to state 95 ]
@@ -3488,7 +3505,7 @@ state 134
   ! NE              [ shift and go to state 104 ]
 
 
-state 135
+state 136
 
     (5) AssignmentStatement -> IdListR ASSIGNMENT Expression . SEMICOLON
     (6) AssignmentStatement -> IdListR ASSIGNMENT Expression .
@@ -3504,7 +3521,7 @@ state 135
     (16) BinaryExpression -> Expression . EQ Expression
     (17) BinaryExpression -> Expression . NE Expression
 
-    SEMICOLON       shift and go to state 154
+    SEMICOLON       shift and go to state 153
     IF              reduce using rule 6 (AssignmentStatement -> IdListR ASSIGNMENT Expression .)
     FOR             reduce using rule 6 (AssignmentStatement -> IdListR ASSIGNMENT Expression .)
     WHILE           reduce using rule 6 (AssignmentStatement -> IdListR ASSIGNMENT Expression .)
@@ -3531,220 +3548,30 @@ state 135
     NE              shift and go to state 104
 
 
-state 136
-
-    (22) BracketCall -> IdListR LBRACKET Expression . RBRACKET
-    (7) BinaryExpression -> Expression . PLUS Expression
-    (8) BinaryExpression -> Expression . MINUS Expression
-    (9) BinaryExpression -> Expression . TIMES Expression
-    (10) BinaryExpression -> Expression . DIVIDE Expression
-    (11) BinaryExpression -> Expression . MOD Expression
-    (12) BinaryExpression -> Expression . LEQ Expression
-    (13) BinaryExpression -> Expression . GEQ Expression
-    (14) BinaryExpression -> Expression . LT Expression
-    (15) BinaryExpression -> Expression . GT Expression
-    (16) BinaryExpression -> Expression . EQ Expression
-    (17) BinaryExpression -> Expression . NE Expression
-
-    RBRACKET        shift and go to state 155
-    PLUS            shift and go to state 94
-    MINUS           shift and go to state 95
-    TIMES           shift and go to state 96
-    DIVIDE          shift and go to state 97
-    MOD             shift and go to state 98
-    LEQ             shift and go to state 99
-    GEQ             shift and go to state 100
-    LT              shift and go to state 101
-    GT              shift and go to state 102
-    EQ              shift and go to state 103
-    NE              shift and go to state 104
-
-
 state 137
 
-    (26) DeclarationAssignmentStatement -> Type ID ASSIGNMENT . Expression SEMICOLON
-    (32) Expression -> . BinaryExpression
-    (33) Expression -> . UnaryExpression
-    (7) BinaryExpression -> . Expression PLUS Expression
-    (8) BinaryExpression -> . Expression MINUS Expression
-    (9) BinaryExpression -> . Expression TIMES Expression
-    (10) BinaryExpression -> . Expression DIVIDE Expression
-    (11) BinaryExpression -> . Expression MOD Expression
-    (12) BinaryExpression -> . Expression LEQ Expression
-    (13) BinaryExpression -> . Expression GEQ Expression
-    (14) BinaryExpression -> . Expression LT Expression
-    (15) BinaryExpression -> . Expression GT Expression
-    (16) BinaryExpression -> . Expression EQ Expression
-    (17) BinaryExpression -> . Expression NE Expression
-    (77) UnaryExpression -> . IdListR
-    (78) UnaryExpression -> . Literal
-    (79) UnaryExpression -> . FunctionCall
-    (80) UnaryExpression -> . BracketCall
-    (81) UnaryExpression -> . LPAREN Expression RPAREN
-    (39) IdListR -> . ID DOT IdListR
-    (40) IdListR -> . ID
-    (43) Literal -> . IntLiteral
-    (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
-    (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
-    (42) IntLiteral -> . INTL
-    (21) BoolLiteral -> . BOOLL
+    (35) FunctionCall -> IdListR LPAREN ArgumentListR . RPAREN
 
-    LPAREN          shift and go to state 75
-    ID              shift and go to state 115
-    INTL            shift and go to state 80
-    BOOLL           shift and go to state 87
+    RPAREN          shift and go to state 154
 
-    Expression                     shift and go to state 156
-    BinaryExpression               shift and go to state 72
-    UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
-    Literal                        shift and go to state 83
-    FunctionCall                   shift and go to state 71
-    BracketCall                    shift and go to state 84
-    IntLiteral                     shift and go to state 85
-    BoolLiteral                    shift and go to state 86
 
 state 138
-
-    (36) FunctionCall -> ID LT . TypeParameterListR GT LPAREN ArgumentListR RPAREN
-    (74) TypeParameterListR -> . TypeParameter COMMA TypeParameterListR
-    (75) TypeParameterListR -> . TypeParameter
-    (76) TypeParameterListR -> . empty
-    (73) TypeParameter -> . ID
-    (83) empty -> .
-
-    ID              shift and go to state 21
-    GT              reduce using rule 83 (empty -> .)
-
-    TypeParameterListR             shift and go to state 157
-    TypeParameter                  shift and go to state 23
-    empty                          shift and go to state 24
-
-state 139
-
-    (27) DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .
-
-    IF              reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
-    FOR             reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
-    WHILE           reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
-    BREAK           reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
-    RETURN          reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
-    ;               reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
-    ID              reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
-    LPAREN          reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
-    LBRACE          reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
-    INTL            reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
-    BOOLL           reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
-    RBRACE          reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
-    RPAREN          reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
-
-
-state 140
-
-    (39) IdListR -> ID . DOT IdListR
-    (40) IdListR -> ID .
-
-    DOT             shift and go to state 109
-    ASSIGNMENT      reduce using rule 40 (IdListR -> ID .)
-    LBRACKET        reduce using rule 40 (IdListR -> ID .)
-    SEMICOLON       reduce using rule 40 (IdListR -> ID .)
-    PLUS            reduce using rule 40 (IdListR -> ID .)
-    MINUS           reduce using rule 40 (IdListR -> ID .)
-    TIMES           reduce using rule 40 (IdListR -> ID .)
-    DIVIDE          reduce using rule 40 (IdListR -> ID .)
-    MOD             reduce using rule 40 (IdListR -> ID .)
-    LEQ             reduce using rule 40 (IdListR -> ID .)
-    GEQ             reduce using rule 40 (IdListR -> ID .)
-    LT              reduce using rule 40 (IdListR -> ID .)
-    GT              reduce using rule 40 (IdListR -> ID .)
-    EQ              reduce using rule 40 (IdListR -> ID .)
-    NE              reduce using rule 40 (IdListR -> ID .)
-    RPAREN          reduce using rule 40 (IdListR -> ID .)
-    IF              reduce using rule 40 (IdListR -> ID .)
-    FOR             reduce using rule 40 (IdListR -> ID .)
-    WHILE           reduce using rule 40 (IdListR -> ID .)
-    BREAK           reduce using rule 40 (IdListR -> ID .)
-    RETURN          reduce using rule 40 (IdListR -> ID .)
-    ;               reduce using rule 40 (IdListR -> ID .)
-    ID              reduce using rule 40 (IdListR -> ID .)
-    LPAREN          reduce using rule 40 (IdListR -> ID .)
-    LBRACE          reduce using rule 40 (IdListR -> ID .)
-    INTL            reduce using rule 40 (IdListR -> ID .)
-    BOOLL           reduce using rule 40 (IdListR -> ID .)
-    RBRACE          reduce using rule 40 (IdListR -> ID .)
-    RBRACKET        reduce using rule 40 (IdListR -> ID .)
-    COMMA           reduce using rule 40 (IdListR -> ID .)
-
-
-state 141
-
-    (39) IdListR -> ID DOT IdListR .
-
-    ASSIGNMENT      reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    LBRACKET        reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    SEMICOLON       reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    PLUS            reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    MINUS           reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    TIMES           reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    DIVIDE          reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    MOD             reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    LEQ             reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    GEQ             reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    LT              reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    GT              reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    EQ              reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    NE              reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    RPAREN          reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    IF              reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    FOR             reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    WHILE           reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    BREAK           reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    RETURN          reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    ;               reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    ID              reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    LPAREN          reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    LBRACE          reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    INTL            reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    BOOLL           reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    RBRACE          reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    RBRACKET        reduce using rule 39 (IdListR -> ID DOT IdListR .)
-    COMMA           reduce using rule 39 (IdListR -> ID DOT IdListR .)
-
-
-state 142
-
-    (72) Type -> ID LT TypeParameterListR . GT PointerListR
-    (36) FunctionCall -> ID LT TypeParameterListR . GT LPAREN ArgumentListR RPAREN
-
-    GT              shift and go to state 158
-
-
-state 143
-
-    (35) FunctionCall -> ID LPAREN ArgumentListR . RPAREN
-
-    RPAREN          shift and go to state 159
-
-
-state 144
 
     (2) ArgumentListR -> Argument . COMMA ArgumentListR
     (3) ArgumentListR -> Argument .
 
-    COMMA           shift and go to state 160
+    COMMA           shift and go to state 155
     RPAREN          reduce using rule 3 (ArgumentListR -> Argument .)
 
 
-state 145
+state 139
 
     (4) ArgumentListR -> empty .
 
     RPAREN          reduce using rule 4 (ArgumentListR -> empty .)
 
 
-state 146
+state 140
 
     (1) Argument -> Expression .
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -3774,7 +3601,143 @@ state 146
     NE              shift and go to state 104
 
 
-state 147
+state 141
+
+    (36) FunctionCall -> IdListR LT TypeParameterListR . GT LPAREN ArgumentListR RPAREN
+
+    GT              shift and go to state 156
+
+
+state 142
+
+    (22) BracketCall -> IdListR LBRACKET Expression . RBRACKET
+    (7) BinaryExpression -> Expression . PLUS Expression
+    (8) BinaryExpression -> Expression . MINUS Expression
+    (9) BinaryExpression -> Expression . TIMES Expression
+    (10) BinaryExpression -> Expression . DIVIDE Expression
+    (11) BinaryExpression -> Expression . MOD Expression
+    (12) BinaryExpression -> Expression . LEQ Expression
+    (13) BinaryExpression -> Expression . GEQ Expression
+    (14) BinaryExpression -> Expression . LT Expression
+    (15) BinaryExpression -> Expression . GT Expression
+    (16) BinaryExpression -> Expression . EQ Expression
+    (17) BinaryExpression -> Expression . NE Expression
+
+    RBRACKET        shift and go to state 157
+    PLUS            shift and go to state 94
+    MINUS           shift and go to state 95
+    TIMES           shift and go to state 96
+    DIVIDE          shift and go to state 97
+    MOD             shift and go to state 98
+    LEQ             shift and go to state 99
+    GEQ             shift and go to state 100
+    LT              shift and go to state 101
+    GT              shift and go to state 102
+    EQ              shift and go to state 103
+    NE              shift and go to state 104
+
+
+state 143
+
+    (26) DeclarationAssignmentStatement -> Type ID ASSIGNMENT . Expression SEMICOLON
+    (32) Expression -> . BinaryExpression
+    (33) Expression -> . UnaryExpression
+    (7) BinaryExpression -> . Expression PLUS Expression
+    (8) BinaryExpression -> . Expression MINUS Expression
+    (9) BinaryExpression -> . Expression TIMES Expression
+    (10) BinaryExpression -> . Expression DIVIDE Expression
+    (11) BinaryExpression -> . Expression MOD Expression
+    (12) BinaryExpression -> . Expression LEQ Expression
+    (13) BinaryExpression -> . Expression GEQ Expression
+    (14) BinaryExpression -> . Expression LT Expression
+    (15) BinaryExpression -> . Expression GT Expression
+    (16) BinaryExpression -> . Expression EQ Expression
+    (17) BinaryExpression -> . Expression NE Expression
+    (77) UnaryExpression -> . IdListR
+    (78) UnaryExpression -> . Literal
+    (79) UnaryExpression -> . FunctionCall
+    (80) UnaryExpression -> . BracketCall
+    (81) UnaryExpression -> . LPAREN Expression RPAREN
+    (39) IdListR -> . ID DOT IdListR
+    (40) IdListR -> . ID
+    (43) Literal -> . IntLiteral
+    (44) Literal -> . BoolLiteral
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
+    (42) IntLiteral -> . INTL
+    (21) BoolLiteral -> . BOOLL
+
+    LPAREN          shift and go to state 75
+    ID              shift and go to state 116
+    INTL            shift and go to state 80
+    BOOLL           shift and go to state 87
+
+    Expression                     shift and go to state 158
+    BinaryExpression               shift and go to state 72
+    UnaryExpression                shift and go to state 73
+    IdListR                        shift and go to state 115
+    Literal                        shift and go to state 83
+    FunctionCall                   shift and go to state 71
+    BracketCall                    shift and go to state 84
+    IntLiteral                     shift and go to state 85
+    BoolLiteral                    shift and go to state 86
+
+state 144
+
+    (27) DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .
+
+    IF              reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
+    FOR             reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
+    WHILE           reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
+    BREAK           reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
+    RETURN          reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
+    ;               reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
+    ID              reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
+    LPAREN          reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
+    LBRACE          reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
+    INTL            reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
+    BOOLL           reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
+    RBRACE          reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
+    RPAREN          reduce using rule 27 (DeclarationFunctionCallStatement -> Type FunctionCall SEMICOLON .)
+
+
+state 145
+
+    (39) IdListR -> ID DOT IdListR .
+
+    ASSIGNMENT      reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    LPAREN          reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    LT              reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    LBRACKET        reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    SEMICOLON       reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    PLUS            reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    MINUS           reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    TIMES           reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    DIVIDE          reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    MOD             reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    LEQ             reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    GEQ             reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    GT              reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    EQ              reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    NE              reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    RPAREN          reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    IF              reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    FOR             reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    WHILE           reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    BREAK           reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    RETURN          reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    ;               reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    ID              reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    LBRACE          reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    INTL            reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    BOOLL           reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    RBRACE          reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    COMMA           reduce using rule 39 (IdListR -> ID DOT IdListR .)
+    RBRACKET        reduce using rule 39 (IdListR -> ID DOT IdListR .)
+
+
+state 146
 
     (41) IfElseStatement -> IF LPAREN Expression . RPAREN Block ELSE Block
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -3789,7 +3752,7 @@ state 147
     (16) BinaryExpression -> Expression . EQ Expression
     (17) BinaryExpression -> Expression . NE Expression
 
-    RPAREN          shift and go to state 161
+    RPAREN          shift and go to state 159
     PLUS            shift and go to state 94
     MINUS           shift and go to state 95
     TIMES           shift and go to state 96
@@ -3803,7 +3766,7 @@ state 147
     NE              shift and go to state 104
 
 
-state 148
+state 147
 
     (81) UnaryExpression -> LPAREN Expression RPAREN .
 
@@ -3832,11 +3795,11 @@ state 148
     INTL            reduce using rule 81 (UnaryExpression -> LPAREN Expression RPAREN .)
     BOOLL           reduce using rule 81 (UnaryExpression -> LPAREN Expression RPAREN .)
     RBRACE          reduce using rule 81 (UnaryExpression -> LPAREN Expression RPAREN .)
-    RBRACKET        reduce using rule 81 (UnaryExpression -> LPAREN Expression RPAREN .)
     COMMA           reduce using rule 81 (UnaryExpression -> LPAREN Expression RPAREN .)
+    RBRACKET        reduce using rule 81 (UnaryExpression -> LPAREN Expression RPAREN .)
 
 
-state 149
+state 148
 
     (34) ForStatement -> FOR LPAREN Statement . Expression SEMICOLON Statement RPAREN Block
     (32) Expression -> . BinaryExpression
@@ -3861,28 +3824,28 @@ state 149
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Expression                     shift and go to state 162
+    Expression                     shift and go to state 160
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
     IntLiteral                     shift and go to state 85
     BoolLiteral                    shift and go to state 86
 
-state 150
+state 149
 
     (82) WhileStatement -> WHILE LPAREN Expression . RPAREN Block
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -3897,7 +3860,7 @@ state 150
     (16) BinaryExpression -> Expression . EQ Expression
     (17) BinaryExpression -> Expression . NE Expression
 
-    RPAREN          shift and go to state 163
+    RPAREN          shift and go to state 161
     PLUS            shift and go to state 94
     MINUS           shift and go to state 95
     TIMES           shift and go to state 96
@@ -3911,7 +3874,7 @@ state 150
     NE              shift and go to state 104
 
 
-state 151
+state 150
 
     (23) BreakStatement -> BREAK INTL SEMICOLON .
 
@@ -3930,7 +3893,7 @@ state 151
     RPAREN          reduce using rule 23 (BreakStatement -> BREAK INTL SEMICOLON .)
 
 
-state 152
+state 151
 
     (51) ReturnStatement -> RETURN Expression SEMICOLON .
 
@@ -3949,7 +3912,7 @@ state 152
     RPAREN          reduce using rule 51 (ReturnStatement -> RETURN Expression SEMICOLON .)
 
 
-state 153
+state 152
 
     (38) FunctionDefinition -> ID ID LT TypeParameterListR GT LPAREN ParameterListR RPAREN Block .
 
@@ -3958,7 +3921,7 @@ state 153
     $end            reduce using rule 38 (FunctionDefinition -> ID ID LT TypeParameterListR GT LPAREN ParameterListR RPAREN Block .)
 
 
-state 154
+state 153
 
     (5) AssignmentStatement -> IdListR ASSIGNMENT Expression SEMICOLON .
 
@@ -3977,124 +3940,40 @@ state 154
     RPAREN          reduce using rule 5 (AssignmentStatement -> IdListR ASSIGNMENT Expression SEMICOLON .)
 
 
+state 154
+
+    (35) FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .
+
+    SEMICOLON       reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    PLUS            reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    MINUS           reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    TIMES           reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    DIVIDE          reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    MOD             reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    LEQ             reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    GEQ             reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    LT              reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    GT              reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    EQ              reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    NE              reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    RPAREN          reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    IF              reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    FOR             reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    WHILE           reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    BREAK           reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    RETURN          reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    ;               reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    ID              reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    LPAREN          reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    LBRACE          reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    INTL            reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    BOOLL           reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    RBRACE          reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    COMMA           reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+    RBRACKET        reduce using rule 35 (FunctionCall -> IdListR LPAREN ArgumentListR RPAREN .)
+
+
 state 155
-
-    (22) BracketCall -> IdListR LBRACKET Expression RBRACKET .
-
-    SEMICOLON       reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    PLUS            reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    MINUS           reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    TIMES           reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    DIVIDE          reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    MOD             reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    LEQ             reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    GEQ             reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    LT              reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    GT              reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    EQ              reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    NE              reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    RPAREN          reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    IF              reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    FOR             reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    WHILE           reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    BREAK           reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    RETURN          reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    ;               reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    ID              reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    LPAREN          reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    LBRACE          reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    INTL            reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    BOOLL           reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    RBRACE          reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    RBRACKET        reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-    COMMA           reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
-
-
-state 156
-
-    (26) DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression . SEMICOLON
-    (7) BinaryExpression -> Expression . PLUS Expression
-    (8) BinaryExpression -> Expression . MINUS Expression
-    (9) BinaryExpression -> Expression . TIMES Expression
-    (10) BinaryExpression -> Expression . DIVIDE Expression
-    (11) BinaryExpression -> Expression . MOD Expression
-    (12) BinaryExpression -> Expression . LEQ Expression
-    (13) BinaryExpression -> Expression . GEQ Expression
-    (14) BinaryExpression -> Expression . LT Expression
-    (15) BinaryExpression -> Expression . GT Expression
-    (16) BinaryExpression -> Expression . EQ Expression
-    (17) BinaryExpression -> Expression . NE Expression
-
-    SEMICOLON       shift and go to state 164
-    PLUS            shift and go to state 94
-    MINUS           shift and go to state 95
-    TIMES           shift and go to state 96
-    DIVIDE          shift and go to state 97
-    MOD             shift and go to state 98
-    LEQ             shift and go to state 99
-    GEQ             shift and go to state 100
-    LT              shift and go to state 101
-    GT              shift and go to state 102
-    EQ              shift and go to state 103
-    NE              shift and go to state 104
-
-
-state 157
-
-    (36) FunctionCall -> ID LT TypeParameterListR . GT LPAREN ArgumentListR RPAREN
-
-    GT              shift and go to state 165
-
-
-state 158
-
-    (72) Type -> ID LT TypeParameterListR GT . PointerListR
-    (36) FunctionCall -> ID LT TypeParameterListR GT . LPAREN ArgumentListR RPAREN
-    (49) PointerListR -> . TIMES PointerListR
-    (50) PointerListR -> . empty
-    (83) empty -> .
-
-    LPAREN          shift and go to state 166
-    TIMES           shift and go to state 32
-    ID              reduce using rule 83 (empty -> .)
-
-    PointerListR                   shift and go to state 90
-    empty                          shift and go to state 33
-
-state 159
-
-    (35) FunctionCall -> ID LPAREN ArgumentListR RPAREN .
-
-    SEMICOLON       reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    PLUS            reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    MINUS           reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    TIMES           reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    DIVIDE          reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    MOD             reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    LEQ             reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    GEQ             reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    LT              reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    GT              reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    EQ              reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    NE              reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    RPAREN          reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    IF              reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    FOR             reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    WHILE           reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    BREAK           reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    RETURN          reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    ;               reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    ID              reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    LPAREN          reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    LBRACE          reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    INTL            reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    BOOLL           reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    RBRACE          reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    RBRACKET        reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-    COMMA           reduce using rule 35 (FunctionCall -> ID LPAREN ArgumentListR RPAREN .)
-
-
-state 160
 
     (2) ArgumentListR -> Argument COMMA . ArgumentListR
     (2) ArgumentListR -> . Argument COMMA ArgumentListR
@@ -4124,41 +4003,110 @@ state 160
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     RPAREN          reduce using rule 83 (empty -> .)
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Argument                       shift and go to state 144
-    ArgumentListR                  shift and go to state 167
-    empty                          shift and go to state 145
-    Expression                     shift and go to state 146
+    Argument                       shift and go to state 138
+    ArgumentListR                  shift and go to state 162
+    empty                          shift and go to state 139
+    Expression                     shift and go to state 140
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
+    IdListR                        shift and go to state 115
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
     IntLiteral                     shift and go to state 85
     BoolLiteral                    shift and go to state 86
 
-state 161
+state 156
+
+    (36) FunctionCall -> IdListR LT TypeParameterListR GT . LPAREN ArgumentListR RPAREN
+
+    LPAREN          shift and go to state 163
+
+
+state 157
+
+    (22) BracketCall -> IdListR LBRACKET Expression RBRACKET .
+
+    SEMICOLON       reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    PLUS            reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    MINUS           reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    TIMES           reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    DIVIDE          reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    MOD             reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    LEQ             reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    GEQ             reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    LT              reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    GT              reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    EQ              reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    NE              reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    RPAREN          reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    IF              reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    FOR             reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    WHILE           reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    BREAK           reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    RETURN          reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    ;               reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    ID              reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    LPAREN          reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    LBRACE          reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    INTL            reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    BOOLL           reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    RBRACE          reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    COMMA           reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+    RBRACKET        reduce using rule 22 (BracketCall -> IdListR LBRACKET Expression RBRACKET .)
+
+
+state 158
+
+    (26) DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression . SEMICOLON
+    (7) BinaryExpression -> Expression . PLUS Expression
+    (8) BinaryExpression -> Expression . MINUS Expression
+    (9) BinaryExpression -> Expression . TIMES Expression
+    (10) BinaryExpression -> Expression . DIVIDE Expression
+    (11) BinaryExpression -> Expression . MOD Expression
+    (12) BinaryExpression -> Expression . LEQ Expression
+    (13) BinaryExpression -> Expression . GEQ Expression
+    (14) BinaryExpression -> Expression . LT Expression
+    (15) BinaryExpression -> Expression . GT Expression
+    (16) BinaryExpression -> Expression . EQ Expression
+    (17) BinaryExpression -> Expression . NE Expression
+
+    SEMICOLON       shift and go to state 164
+    PLUS            shift and go to state 94
+    MINUS           shift and go to state 95
+    TIMES           shift and go to state 96
+    DIVIDE          shift and go to state 97
+    MOD             shift and go to state 98
+    LEQ             shift and go to state 99
+    GEQ             shift and go to state 100
+    LT              shift and go to state 101
+    GT              shift and go to state 102
+    EQ              shift and go to state 103
+    NE              shift and go to state 104
+
+
+state 159
 
     (41) IfElseStatement -> IF LPAREN Expression RPAREN . Block ELSE Block
     (19) Block -> . LBRACE StatementListR RBRACE
 
     LBRACE          shift and go to state 46
 
-    Block                          shift and go to state 168
+    Block                          shift and go to state 165
 
-state 162
+state 160
 
     (34) ForStatement -> FOR LPAREN Statement Expression . SEMICOLON Statement RPAREN Block
     (7) BinaryExpression -> Expression . PLUS Expression
@@ -4173,7 +4121,7 @@ state 162
     (16) BinaryExpression -> Expression . EQ Expression
     (17) BinaryExpression -> Expression . NE Expression
 
-    SEMICOLON       shift and go to state 169
+    SEMICOLON       shift and go to state 166
     PLUS            shift and go to state 94
     MINUS           shift and go to state 95
     TIMES           shift and go to state 96
@@ -4187,44 +4135,25 @@ state 162
     NE              shift and go to state 104
 
 
-state 163
+state 161
 
     (82) WhileStatement -> WHILE LPAREN Expression RPAREN . Block
     (19) Block -> . LBRACE StatementListR RBRACE
 
     LBRACE          shift and go to state 46
 
-    Block                          shift and go to state 170
+    Block                          shift and go to state 167
 
-state 164
+state 162
 
-    (26) DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .
+    (2) ArgumentListR -> Argument COMMA ArgumentListR .
 
-    IF              reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
-    FOR             reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
-    WHILE           reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
-    BREAK           reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
-    RETURN          reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
-    ;               reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
-    ID              reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
-    LPAREN          reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
-    LBRACE          reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
-    INTL            reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
-    BOOLL           reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
-    RBRACE          reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
-    RPAREN          reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
+    RPAREN          reduce using rule 2 (ArgumentListR -> Argument COMMA ArgumentListR .)
 
 
-state 165
+state 163
 
-    (36) FunctionCall -> ID LT TypeParameterListR GT . LPAREN ArgumentListR RPAREN
-
-    LPAREN          shift and go to state 166
-
-
-state 166
-
-    (36) FunctionCall -> ID LT TypeParameterListR GT LPAREN . ArgumentListR RPAREN
+    (36) FunctionCall -> IdListR LT TypeParameterListR GT LPAREN . ArgumentListR RPAREN
     (2) ArgumentListR -> . Argument COMMA ArgumentListR
     (3) ArgumentListR -> . Argument
     (4) ArgumentListR -> . empty
@@ -4252,46 +4181,58 @@ state 166
     (40) IdListR -> . ID
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
 
     RPAREN          reduce using rule 83 (empty -> .)
     LPAREN          shift and go to state 75
-    ID              shift and go to state 115
+    ID              shift and go to state 116
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    ArgumentListR                  shift and go to state 171
-    Argument                       shift and go to state 144
-    empty                          shift and go to state 145
-    Expression                     shift and go to state 146
+    IdListR                        shift and go to state 115
+    ArgumentListR                  shift and go to state 168
+    Argument                       shift and go to state 138
+    empty                          shift and go to state 139
+    Expression                     shift and go to state 140
     BinaryExpression               shift and go to state 72
     UnaryExpression                shift and go to state 73
-    IdListR                        shift and go to state 114
     Literal                        shift and go to state 83
     FunctionCall                   shift and go to state 71
     BracketCall                    shift and go to state 84
     IntLiteral                     shift and go to state 85
     BoolLiteral                    shift and go to state 86
 
-state 167
+state 164
 
-    (2) ArgumentListR -> Argument COMMA ArgumentListR .
+    (26) DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .
 
-    RPAREN          reduce using rule 2 (ArgumentListR -> Argument COMMA ArgumentListR .)
+    IF              reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
+    FOR             reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
+    WHILE           reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
+    BREAK           reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
+    RETURN          reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
+    ;               reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
+    ID              reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
+    LPAREN          reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
+    LBRACE          reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
+    INTL            reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
+    BOOLL           reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
+    RBRACE          reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
+    RPAREN          reduce using rule 26 (DeclarationAssignmentStatement -> Type ID ASSIGNMENT Expression SEMICOLON .)
 
 
-state 168
+state 165
 
     (41) IfElseStatement -> IF LPAREN Expression RPAREN Block . ELSE Block
 
-    ELSE            shift and go to state 172
+    ELSE            shift and go to state 169
 
 
-state 169
+state 166
 
     (34) ForStatement -> FOR LPAREN Statement Expression SEMICOLON . Statement RPAREN Block
     (53) Statement -> . AssignmentStatement
@@ -4345,8 +4286,8 @@ state 169
     (19) Block -> . LBRACE StatementListR RBRACE
     (43) Literal -> . IntLiteral
     (44) Literal -> . BoolLiteral
-    (35) FunctionCall -> . ID LPAREN ArgumentListR RPAREN
-    (36) FunctionCall -> . ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
+    (35) FunctionCall -> . IdListR LPAREN ArgumentListR RPAREN
+    (36) FunctionCall -> . IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN
     (22) BracketCall -> . IdListR LBRACKET Expression RBRACKET
     (42) IntLiteral -> . INTL
     (21) BoolLiteral -> . BOOLL
@@ -4363,7 +4304,7 @@ state 169
     INTL            shift and go to state 80
     BOOLL           shift and go to state 87
 
-    Statement                      shift and go to state 173
+    Statement                      shift and go to state 170
     Expression                     shift and go to state 60
     Block                          shift and go to state 76
     AssignmentStatement            shift and go to state 56
@@ -4387,7 +4328,7 @@ state 169
     IntLiteral                     shift and go to state 85
     BoolLiteral                    shift and go to state 86
 
-state 170
+state 167
 
     (82) WhileStatement -> WHILE LPAREN Expression RPAREN Block .
 
@@ -4406,63 +4347,63 @@ state 170
     RPAREN          reduce using rule 82 (WhileStatement -> WHILE LPAREN Expression RPAREN Block .)
 
 
-state 171
+state 168
 
-    (36) FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR . RPAREN
+    (36) FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR . RPAREN
 
-    RPAREN          shift and go to state 174
+    RPAREN          shift and go to state 171
 
 
-state 172
+state 169
 
     (41) IfElseStatement -> IF LPAREN Expression RPAREN Block ELSE . Block
     (19) Block -> . LBRACE StatementListR RBRACE
 
     LBRACE          shift and go to state 46
 
-    Block                          shift and go to state 175
+    Block                          shift and go to state 172
 
-state 173
+state 170
 
     (34) ForStatement -> FOR LPAREN Statement Expression SEMICOLON Statement . RPAREN Block
 
-    RPAREN          shift and go to state 176
+    RPAREN          shift and go to state 173
 
 
-state 174
+state 171
 
-    (36) FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .
+    (36) FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .
 
-    SEMICOLON       reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    PLUS            reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    MINUS           reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    TIMES           reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    DIVIDE          reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    MOD             reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    LEQ             reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    GEQ             reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    LT              reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    GT              reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    EQ              reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    NE              reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    RPAREN          reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    IF              reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    FOR             reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    WHILE           reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    BREAK           reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    RETURN          reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    ;               reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    ID              reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    LPAREN          reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    LBRACE          reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    INTL            reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    BOOLL           reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    RBRACE          reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    RBRACKET        reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
-    COMMA           reduce using rule 36 (FunctionCall -> ID LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    SEMICOLON       reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    PLUS            reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    MINUS           reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    TIMES           reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    DIVIDE          reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    MOD             reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    LEQ             reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    GEQ             reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    LT              reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    GT              reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    EQ              reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    NE              reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    RPAREN          reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    IF              reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    FOR             reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    WHILE           reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    BREAK           reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    RETURN          reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    ;               reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    ID              reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    LPAREN          reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    LBRACE          reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    INTL            reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    BOOLL           reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    RBRACE          reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    COMMA           reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
+    RBRACKET        reduce using rule 36 (FunctionCall -> IdListR LT TypeParameterListR GT LPAREN ArgumentListR RPAREN .)
 
 
-state 175
+state 172
 
     (41) IfElseStatement -> IF LPAREN Expression RPAREN Block ELSE Block .
 
@@ -4481,16 +4422,16 @@ state 175
     RPAREN          reduce using rule 41 (IfElseStatement -> IF LPAREN Expression RPAREN Block ELSE Block .)
 
 
-state 176
+state 173
 
     (34) ForStatement -> FOR LPAREN Statement Expression SEMICOLON Statement RPAREN . Block
     (19) Block -> . LBRACE StatementListR RBRACE
 
     LBRACE          shift and go to state 46
 
-    Block                          shift and go to state 177
+    Block                          shift and go to state 174
 
-state 177
+state 174
 
     (34) ForStatement -> FOR LPAREN Statement Expression SEMICOLON Statement RPAREN Block .
 
@@ -4511,6 +4452,7 @@ state 177
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
+WARNING: shift/reduce conflict for LT in state 68 resolved as shift
 WARNING: shift/reduce conflict for LT in state 70 resolved as shift
 WARNING: shift/reduce conflict for TIMES in state 70 resolved as shift
 WARNING: shift/reduce conflict for LPAREN in state 115 resolved as shift

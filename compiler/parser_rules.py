@@ -1,3 +1,5 @@
+import flatIR
+
 class ParserRule:
     pass
 
@@ -5,12 +7,14 @@ class ParserRule:
 # STRUCTURAL
 ##
 
-
 class CompilationUnit(ParserRule):
     '''CompilationUnit : DefinitionListR'''
 
     def __init__(self, r):
         self.definitionList = r[0]
+
+    def get_ir(self, sm, ir):
+        get_ir(self.definitionList, sm, ir)
 
 
 class DefinitionListR(ParserRule):
@@ -26,6 +30,10 @@ class DefinitionListR(ParserRule):
         else:
             self.definition = r[0]
             self.nxt = r[1]
+
+    def get_ir(self, sm, ir):
+        get_ir(self.definition, sm, ir)
+        get_ir(self.nxt, sm, ir)
 
 
 class FunctionDefinition(ParserRule):

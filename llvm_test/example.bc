@@ -1,0 +1,21 @@
+
+; ModuleID = "__file__"
+target triple = "x86_64-unknown-linux-gnu"
+target datalayout = ""
+
+define double @"fadd_func"(double %".1", double %".2") 
+{
+entry:
+  %"res" = fadd double %".1", %".2"
+  %"res.1" = fadd double %"res", %"res"
+  ret double %"res.1"
+}
+
+define i32 @"main"() 
+{
+entry:
+  %".2" = call double @"fadd_func"(double 0x3ff0000000000000, double 0x3ff0000000000000)
+  %".3" = fptosi double %".2" to i32
+  ret i32 %".3"
+}
+
