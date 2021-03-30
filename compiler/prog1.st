@@ -1,4 +1,4 @@
-struct kvadrat<T>{
+struct kvadrat{
     T a;
     i32 b;
 }
@@ -10,7 +10,7 @@ void __init__(kvadrat* this, int a, int b){
 
 //this is a comment
 
-T sum<T>(T a, T b){
+T sum(T a, T b){
     return a+b;
 }
 
@@ -31,7 +31,7 @@ int main(){
     //i32[5] a;
     //i32 a[5];
     A[3];
-    sum<int>(2,3);
-    kvadrat<int> kv(a,b);
+    sum(2,3);
+    kvadrat kv(a,b);
     return kv.a * kv.b;
 }
