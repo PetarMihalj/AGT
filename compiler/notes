@@ -1,0 +1,16 @@
+Flattening:
+
+Goals:
+    - to simplify further type deduction by introducing a set of simple IR instructions
+    - should still capture the notion of a template / function / struct
+
+    Level 1 constructs:
+        - Function definition
+        - Struct definition
+    Both level 1 constructs can be parametrized (thus, they are templates). 
+
+    Level 2 constructs:
+        - 
+        
+
+        

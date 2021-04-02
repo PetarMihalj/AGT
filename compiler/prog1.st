@@ -25,7 +25,7 @@ and we cache it
 */
 
 int main(){
-    i32 a = 5i32;
+    let a = i32{5i32};
     i32 b = 10i32;
     i32* A = heap_alloc();
     //i32[5] a;

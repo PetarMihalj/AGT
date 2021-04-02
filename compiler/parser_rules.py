@@ -1,4 +1,5 @@
 import flatIR
+from typing import List
 
 
 class ParserRule:
@@ -13,10 +14,11 @@ class CompilationUnit(ParserRule):
     '''CompilationUnit : DefinitionListR'''
 
     def __init__(self, r):
-        self.definitionList = r[0]
+        self.definitionList = r[0].list
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        self.definitionList.get_ir(sm, ir)
+    def fill_flat_ir(self, sm: flatIR.ScopeManager, definitionList: List):
+        for dl in self.definitionList:
+            dl.fill_flat_ir(sm, definitionList)
 
 
 class DefinitionListR(ParserRule):
@@ -27,16 +29,51 @@ class DefinitionListR(ParserRule):
 
     def __init__(self, r):
         if len(r) == 1:
-            self.definition = None
-            self.nxt = None
+            self.list = []
         else:
-            self.definition = r[0]
-            self.nxt = r[1]
+            self.list = [r[0]]+r[1].list
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        if self.nxt is not None:
-            self.definition.get_ir(sm, ir)
-            self.nxt.get_ir(sm, ir)
+
+# Structs
+
+
+class StructDefinition(ParserRule):
+    """StructDefinition : STRUCT Id LBRACE StructMemberListR RBRACE
+    """
+
+    def __init__(self, r):
+        self.typeName = r[1]
+        self.structMemberList = r[3].list
+
+    def fill_flat_ir(self, sm: flatIR.ScopeManager, definitionList: List):
+        new_struct = flatIR.StructDefinition(self.typeName)
+        new_struct.members = self.structMemberList
+        definitionList.append(new_struct)
+
+
+class StructMemberListR(ParserRule):
+    """StructMemberListR : StructMember StructMemberListR
+                         | empty
+    """
+
+    def __init__(self, r):
+        if r[0] == 'empty':
+            self.list = []
+        elif len(r) == 1:
+            self.list = [r[0]]
+        else:
+            self.list = [r[0]]+r[1].list
+
+
+class StructMember(ParserRule):
+    """StructMember : Type Id SEMICOLON"""
+
+    def __init__(self, r):
+        self.type = r[0]
+        self.name = r[1]
+
+
+# Function Definitions
 
 
 class FunctionDefinition(ParserRule):
@@ -46,17 +83,21 @@ class FunctionDefinition(ParserRule):
     def __init__(self, r):
         self.name = r[1]
         self.returnType = r[0]
-        self.parameterList = r[3]
+        self.parameterList = r[3].list
+        self.templateParameterList = []
         self.block = r[5]
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        ir.start_func(self.name)
+    def fill_flat_ir(self, sm: flatIR.ScopeManager, definitionList: List):
+        new_func = flatIR.FunctionDefinition(self.name)
         sm.begin_scope()
-        ir.func().return_var = sm.get_var("return")
 
-        self.parameterList.get_ir(sm, ir)
-        self.block.get_ir(sm, ir)
+        new_func.parameters = self.parameterList
+        new_func.returnType = self.returnType
+
+        self.block.fill_flat_ir(sm, new_func, new_sc=False)
+
         sm.end_scope()
+        definitionList.append(new_func)
 
 
 class ParameterListR(ParserRule):
@@ -67,20 +108,11 @@ class ParameterListR(ParserRule):
 
     def __init__(self, r):
         if r[0] == 'empty':
-            self.parameter = None
-            self.nxt = None
+            self.list = []
         elif len(r) == 1:
-            self.parameter = r[0]
-            self.nxt = None
+            self.list = [r[0]]
         else:
-            self.parameter = r[0]
-            self.nxt = r[2]
-
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        if self.parameter is not None:
-            self.parameter.get_ir(sm, ir)
-        if self.nxt is not None:
-            self.nxt.get_ir(sm, ir)
+            self.list = [r[0]]+r[2].list
 
 
 class Parameter(ParserRule):
@@ -89,9 +121,6 @@ class Parameter(ParserRule):
     def __init__(self, r):
         self.type = r[0]
         self.name = r[1]
-
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        return ir.get_var(self.name, self.type)
 
 
 class Type(ParserRule):
@@ -120,63 +149,15 @@ class Block(ParserRule):
     def __init__(self, r):
         self.statementList = r[1]
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        sm.begin_scope()
-        self.statementList.get_ir(sm, ir)
-        sm.end_scope()
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition, new_sc=True):
+        if new_sc:
+            sm.begin_scope()
+        for stat in self.statementList:
+            stat.fill_flat_ir(sm, func)
+        if new_sc:
+            sm.end_scope()
 
-
-class StructDefinition(ParserRule):
-    """StructDefinition : STRUCT Id\
-            LBRACE StructMemberListR RBRACE
-    """
-
-    def __init__(self, r):
-        self.typeName = r[1]
-        # self.typeParameterList = r[3]
-        if len(r) == 8:
-            self.structMemberDeclarationList = r[6]
-        else:
-            self.structMemberDeclarationList = r[3]
-
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        ir.start_struct(self.typeName)
-        self.structMemberDeclarationList.get_ir(sm, ir)
-
-
-class StructMemberListR(ParserRule):
-    """StructMemberListR : StructMember StructMemberListR
-                         | empty
-    """
-
-    def __init__(self, r):
-        if r[0] == 'empty':
-            self.declarationStatement = None
-            self.nxt = None
-        elif len(r) == 1:
-            self.declarationStatement = r[0]
-            self.nxt = None
-        else:
-            self.declarationStatement = r[0]
-            self.nxt = r[1]
-
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        if self.declarationStatement is not None:
-            self.declarationStatement.get_ir(sm, ir)
-        if self.nxt is not None:
-            self.nxt.get_ir(sm, ir)
-
-
-class StructMember(ParserRule):
-    """StructMember : Type Id SEMICOLON"""
-
-    def __init__(self, r):
-        self.type = r[0]
-        self.name = r[1]
-
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        return
-        raise NotImplementedError()
 
 ##
 # STATEMENTS
@@ -201,8 +182,9 @@ class Statement(ParserRule):
     def __init__(self, r):
         self.statement = r[0]
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        self.statement.get_ir(sm, ir)
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+        self.statement.fill_flat_ir(sm, func)
 
 
 class StatementListR(ParserRule):
@@ -212,17 +194,9 @@ class StatementListR(ParserRule):
 
     def __init__(self, r):
         if len(r) == 1:
-            self.statement = None
-            self.nxt = None
+            self.list = [r[0]]
         else:
-            self.statement = r[0]
-            self.nxt = r[1]
-
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        if self.statement is not None:
-            self.statement.get_ir(sm, ir)
-        if self.nxt is not None:
-            self.nxt.get_ir(sm, ir)
+            self.list = [r[0]]+r[1].list
 
 
 class BlankStatement(ParserRule):
@@ -231,7 +205,8 @@ class BlankStatement(ParserRule):
     def __init__(self, r):
         pass
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
         pass
 
 
@@ -241,55 +216,49 @@ class BlockStatement(ParserRule):
     def __init__(self, r):
         self.block = r[0]
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        sm.begin_scope()
-        self.block.get_ir(sm, ir)
-        sm.end_scope()
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+        self.block.fill_flat_ir(sm, func)
 
 
-class DeclarationAssignmentStatement(ParserRule):
-    """DeclarationAssignmentStatement : Type Id ASSIGNMENT\
-                                        Expression SEMICOLON"""
+class InitStatement(ParserRule):
+    """InitializationStatement : LET Id ASSIGNMENT\
+                                        InitCall SEMICOLON"""
 
     def __init__(self, r):
-        self.type = r[0]
         self.name = r[1]
-        self.expr = r[3]
+        self.initExpression = r[3]
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        expr_var = self.expr.get_ir(sm, ir)
-        decl_var = sm.get_var(self.name, self.type)
-        ir.func().body.append(ir.Assignment(decl_var, expr_var))
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
 
-
-class DeclarationFunctionCallStatement(ParserRule):
-    """DeclarationFunctionCallStatement : Type FunctionCall SEMICOLON"""
-
-    def __init__(self, r):
-        self.type = r[0]
-        self.funcCall = r[1]
-
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        (name, args) = self.funcCall.get_ir(sm, ir)
-
-        decl_var = sm.get_var(name)
-        ir.func().body.append(
-            ir.FunctionCallAssignment(decl_var, "__init__", args)
-        )
+        # this name will contain a ptr to stack
+        uniqn = sm.new_var_name(self.name)
+        init = self.initExpression.fill_flat_ir(sm, func)
+        self.body.append(flatIR.Assignment(uniqn, init))
 
 
-class DeclarationStatement(ParserRule):
-    """DeclarationStatement : Type Id SEMICOLON"""
+class InitCall(ParserRule):
+    """InitCall : Id LBRACE ArgumentListR RBRACE"""
 
     def __init__(self, r):
-        self.type = r[0]
-        self.name = r[1]
+        self.name = r[0]
+        self.argumentList = r[2]
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        decl_var = sm.get_var(self.name, self.type)
-        ir.func().body.append(
-            flatIR.FunctionCallAssignment(decl_var, "__init__", [])
-        )
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+
+        # this name will contain a ptr to stack
+        uniqn = sm.new_tmp_var_name()
+        func.body.append(flatIR.StackAllocate(uniqn, self.type))
+
+        tmp = sm.new_tmp_var_name()
+        self.body.append(flatIR.FunctionCall(tmp, "__init__",
+                                             [uniqn] +
+                                             self.argumentListR,
+                                             []
+                                             ))
+        return tmp
 
 
 class AssignmentStatement(ParserRule):
@@ -298,13 +267,14 @@ class AssignmentStatement(ParserRule):
     """
 
     def __init__(self, r):
-        self.name = r[0]
-        self.expr = r[2]
+        self.left = r[0]
+        self.right = r[2]
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        left = sm.get_var(self.name)
-        right = self.expr.get_ir(sm, ir)
-        ir.func().body.append(flatIR.Assignment(left, right))
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+        right = self.right.fill_flat_ir(sm, func, ptr=False)
+        left = self.left.fill_flat_ir(sm, func, ptr=True)
+        func.body.append(flatIR.StoreValueToPointer(left, right))
 
 
 class IfElseStatement(ParserRule):
@@ -316,18 +286,23 @@ class IfElseStatement(ParserRule):
         self.blockIf = r[4]
         self.blockElse = r[6]
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        self.sm.begin_scope()
-        label_true = sm.new_label("if_true")
-        label_true = sm.new_label("if_false")
-        label_true = sm.new_label("if_end")
-        e = self.expr.get_ir()
-        ir.func().body.append(label_true)
-        t = self.blockIf.get_ir()
-        ir.func().body.append(label_false)
-        f = self.blockElse.get_ir()
-        ir.func().body.append(label_end)
-        self.sm.end_scope()
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+        tl = sm.new_label_name("if_true")
+        fl = sm.new_label_name("if_false")
+        el = sm.new_label_name("if_end")
+
+        e = self.expr.fill_flat_ir(sm, func, ptr=False)
+        func.body.append(flatIR.JumpToLabelTrue(e, tl))
+
+        func.body.append(flatIR.Label(fl))
+        self.blockIf.fill_flat_ir(sm, func)
+        self.body.append(flatIR.JumpToLabel(el))
+
+        func.body.append(flatIR.Label(tl))
+        self.blockElse.fill_flat_ir(sm, func)
+
+        func.body.append(el)
 
 
 class ForStatement(ParserRule):
@@ -341,21 +316,26 @@ class ForStatement(ParserRule):
         self.statementChange = r[5]
         self.block = r[7]
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
         self.sm.begin_scope()
-        self.statementInit.get_ir()
-        label_check = sm.new_label("for_check")
-        label_begin = sm.new_label("for_begin")
-        label_end = sm.new_label("for_end")
 
-        ir.func().body.append(label_check)
-        check = self.exprCheck.get_ir()
-        ir.func.body.append(flatIR.Jump(check, label_begin, label_end))
-        ir.func.body.append(label_begin)
-        self.block.get_ir(sm, ir)
-        self.statementChange.get_ir(sm, ir)
-        ir.func.body.append(label_end)
+        fs = sm.new_label_name("for_start")
+        fe = sm.new_label_name("for_end")
+        self.sm.break_label_stack.append(fe)
 
+        self.statementInit.fill_flat_ir(sm, func)
+        func.body.append(flatIR.Label(fs))
+        e = self.exprCheck.fill_flat_ir(sm, func, ptr=False)
+        func.body.append(flatIR.JumpToLabelFalse(e, fe))
+
+        self.block.fill_flat_ir(sm, func)
+        self.statementChange.fill_flat_ir(sm, func)
+        self.body.append(flatIR.JumpToLabel(fs))
+
+        func.body.append(flatIR.Label(fe))
+
+        self.sm.break_label_stack.pop_back()
         self.sm.end_scope()
 
 
@@ -367,19 +347,24 @@ class WhileStatement(ParserRule):
         self.exprCheck = r[2]
         self.block = r[4]
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
         self.sm.begin_scope()
-        label_check = sm.new_label("while_check")
-        label_begin = sm.new_label("while_begin")
-        label_end = sm.new_label("while_end")
 
-        ir.func().body.append(label_check)
-        check = self.exprCheck.get_ir()
-        ir.func.body.append(flatIR.Jump(check, label_begin, label_end))
-        ir.func.body.append(label_begin)
-        self.block.get_ir(sm, ir)
-        ir.func.body.append(label_end)
+        ws = sm.new_label_name("while_start")
+        we = sm.new_label_name("while_end")
+        self.sm.break_label_stack.append(we)
 
+        func.body.append(flatIR.Label(ws))
+        e = self.exprCheck.fill_flat_ir(sm, func, ptr=False)
+        func.body.append(flatIR.JumpToLabelFalse(e, we))
+
+        self.block.fill_flat_ir(sm, func)
+        self.body.append(flatIR.JumpToLabel(ws))
+
+        func.body.append(flatIR.Label(we))
+
+        self.sm.break_label_stack.pop_back()
         self.sm.end_scope()
 
 
@@ -394,11 +379,11 @@ class ReturnStatement(ParserRule):
         else:
             self.expr = None
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        expr_var = self.expr.get_ir(sm, ir)
-        ir.fund().body.append(flatIR.Assignment(
-            sm.get_var("return"), expr_var)
-        )
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+        a = self.expr.fill_flat_ir(sm, func, ptr=False)
+        ret = sm.get_var_name("return")
+        func.body.append(flatIR.StoreValueToPointer(ret, a))
 
 
 class BreakStatement(ParserRule):
@@ -412,8 +397,9 @@ class BreakStatement(ParserRule):
         else:
             self.count = 1
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        raise NotImplementedError()
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+        func.body.append(flatIR.JumpToLabel(sm.break_label_stack[-self.count]))
 
 ##
 # EXPRESSIONS
@@ -437,6 +423,10 @@ class Expression(ParserRule):
     def __init__(self, r):
         self.expr = r[0]
 
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+        pass
+
     def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
         return self.expr.get_ir(sm, ir)
 
@@ -453,7 +443,6 @@ class BinaryExpression(ParserRule):
                         | Expression GT Expression
                         | Expression EQ Expression
                         | Expression NE Expression
-                        | Expression DOT Expression
 
     """
 
@@ -461,6 +450,10 @@ class BinaryExpression(ParserRule):
         self.left = r[0]
         self.op = r[1]
         self.right = r[2]
+
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+        pass
 
     def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
         v1 = self.left.get_ir(sm, ir)
@@ -488,9 +481,12 @@ class UnaryExpression(ParserRule):
         else:
             self.expr = r[0]
 
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+        pass
+
     def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
         return self.expr.get_ir(sm, ir)
-
 
 
 class Id(ParserRule):
@@ -498,6 +494,10 @@ class Id(ParserRule):
 
     def __init__(self, r):
         self.id = r[0]
+
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+        pass
 
     def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
         raise NotImplementedError()
@@ -509,10 +509,15 @@ class FunctionCall(ParserRule):
 
     def __init__(self, r):
         self.name = r[0]
-        self.argumentListR = r[2]
+        self.argumentList = r[2]
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        return (self.name, self.argumentListR.get_ir(sm, ir))
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+
+        tmp = sm.new_tmp_var_name()
+        args = [a.fill_flat_ir() for a in self.argumentList]
+        func.body.append(flatIR.FunctionCall(tmp, self.name, args, []))
+        return tmp
 
 
 class BracketCall(ParserRule):
@@ -521,6 +526,10 @@ class BracketCall(ParserRule):
     def __init__(self, r):
         self.name = r[0]
         self.expr = r[2]
+
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+        pass
 
     def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
         raise NotImplementedError()
@@ -534,25 +543,11 @@ class ArgumentListR(ParserRule):
 
     def __init__(self, r):
         if r[0] == 'empty':
-            self.argument = None
-            self.nxt = None
+            self.list = []
         elif len(r) == 1:
-            self.argument = r[0]
-            self.nxt = None
+            self.list = [r[0]]
         else:
-            self.argument = r[0]
-            self.nxt = r[2]
-
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        if self.argument is not None:
-            solo = [self.argument.get_ir(sm, ir)]
-        else:
-            solo = []
-        if self.nxt is not None:
-            others = self.nxt.get_ir(sm, ir)
-        else:
-            others = []
-        return solo+others
+            self.list = [r[0]] + r[2].list
 
 
 class Argument(ParserRule):
@@ -561,8 +556,9 @@ class Argument(ParserRule):
     def __init__(self, r):
         self.expr = r[0]
 
-    def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
-        return self.expr.get_ir(sm, ir)
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+        pass
 
 
 class Literal(ParserRule):
@@ -572,6 +568,10 @@ class Literal(ParserRule):
 
     def __init__(self, r):
         self.value = r[0]
+
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+        pass
 
     def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
         raise NotImplementedError()
@@ -597,6 +597,10 @@ class IntLiteral(ParserRule):
         else:
             self.value = int(r[0])
 
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+        pass
+
     def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
         raise NotImplementedError()
 
@@ -606,6 +610,10 @@ class BoolLiteral(ParserRule):
 
     def __init__(self, r):
         self.value = r[0] in ('True', 'true')
+
+    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+        pass
 
     def get_ir(self, sm: flatIR.ScopeManager, ir: flatIR.FlatIR):
         raise NotImplementedError()
