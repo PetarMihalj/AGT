@@ -13,4 +13,4 @@ Type inference
 https://eli.thegreenplace.net/2018/type-inference/
 http://www.faadooengineers.com/online-study/post/cse/compiler-design/226/type-inference-and-polymorphic-functions
 https://course.ccs.neu.edu/cs4410sp20/lec_type-inference_notes.html
-
+https://stackoverflow.com/questions/415532/implementing-type-inference

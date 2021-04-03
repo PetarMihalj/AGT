@@ -3,18 +3,22 @@ struct kvadrat<T>{
     T b;
 }
 
-fn __init__<T>(kvadrat<T>* this, T a, T b){
+fn __init__<T>(kvadrat<T>* this, T a, T b) -> T{
     this.a = a;
     this.b = b;
 }
 
 //this is a comment
 
-fn sum(T a, T b){
-    return a+b;
+
+fn sum<T>(T a, T b) -> T{
+    if (b==T{}){
+        return a; 
+    }
+    return sum<T>(a+T{1},b-T{1});
 }
 
-fn __mul__(int* a, int** b){
+fn __mul__(int a, int b){
 
 }
 
