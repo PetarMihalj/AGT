@@ -5,7 +5,7 @@ separator = "_$_"
 
 class ScopeManager:
     def __init__(self):
-        self.scope_stack: List[dict[str]] = [None]
+        self.scope_stack: List[dict[str]] = []
         self.label_cnt = 0
         self.tmp_var_cnt = 0
         self.var_cnt = 0
@@ -24,15 +24,15 @@ class ScopeManager:
 
     def new_label_name(self, description=""):
         self.label_cnt += 1
-        return "label " + description + separator + self.label_cnt
+        return f"label{description}{separator}{self.label_cnt}"
 
     def new_tmp_var_name(self, description=""):
         self.tmp_var_cnt += 1
-        return "tmp_var " + description + separator + self.tmp_var_cnt
+        return f"tmp_var{description}{separator}{self.tmp_var_cnt}"
 
     def new_var_name(self, name):
         self.var_cnt += 1
-        res_var = "var " + separator + name + separator + self.var_cnt
+        res_var = f"var{separator}{name}{separator}{self.var_cnt}"
         self.scope_stack[-1][name] = res_var
         return res_var
 
@@ -43,15 +43,14 @@ class FunctionDefinition:
     def __init__(self, name):
         self.name = name
         self.parameters: List[str] = []
-        self.templateParameters: List[str] = []
-        self.returnType: str = None
+        self.typeParameters: List[str] = []
         self.body = []
-        self.declarations = []
 
 
 class StructDefinition:
     def __init__(self, typeName):
         self.typeName: str = typeName
+        self.typeParameters: List[str] = []
         self.members: List[Tuple[str, str]] = []
 
 # Type system instructions
@@ -116,6 +115,11 @@ class Label:
         self.name = name
 
 
+class Description:
+    def __init__(self, name):
+        self.name = name
+
+
 class JumpToLabelTrue:
     def __init__(self, var, label_true):
         self.var: str = var
@@ -141,23 +145,42 @@ class GetPointerOffset:
 
 
 class GetElementPtr:
-    def __init__(self, dest, src, element_names: List[str]):
+    def __init__(self, dest, src, element_name):
         self.dest = dest
         self.src = src
-        self.element_names = element_names
+        self.element_name = element_name
+
+
+class IntConstant:
+    def __init__(self, dest, value, size, signed):
+        self.dest = dest
+        self.value = value
+        self.size = size
+        self.signed = signed
+
+
+class BoolConstant:
+    def __init__(self, dest, value):
+        self.dest = dest
+        self.value = value
 
 
 if __name__ == '__main__':
     from lexer import Lexer
     from parser import Parser
     from helpers import tree_print
-    data = open('prog3.st').read()
+    data = open('prog1.st').read()
+    print(data)
+    print()
+    # lex and parse
     lexer = Lexer()
     lexer.test(data)
     parser = Parser(lexer, debug=True)
     a = parser.parse(data)
     tree_print(a)
-
+    print()
+    # resolve scopes
     defs = []
     sm = ScopeManager()
-    a.get_ir(sm, defs)
+    a.fill_flat_ir(sm, defs)
+    tree_print(defs)
