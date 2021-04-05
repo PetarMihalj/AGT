@@ -1,7 +1,36 @@
-from typing import Tuple
-import dataclass
-import flatIR
+from dataclasses import dataclass
 from typing import List
+from resolver import ScopeManager
+import resolver as res
+import flatIR
+
+
+class TypeIdentifierStructured:
+    pass
+
+
+@dataclass
+class IdTypeIdentifier(TypeIdentifierStructured):
+    name: str
+
+
+@dataclass
+class IndexTypeIdentifier(TypeIdentifierStructured):
+    nameType: str
+    member: IdTypeIdentifier
+
+
+@dataclass
+class IdParametersTypeIdentifier(TypeIdentifierStructured):
+    name: IdTypeIdentifier
+    parameters: List[TypeIdentifierStructured]
+
+
+@dataclass
+class PointerTypeIdentifier(TypeIdentifierStructured):
+    pointedToType: TypeIdentifierStructured
+
+##
 
 
 class ParserRule:
@@ -51,7 +80,7 @@ class StructDefinition(ParserRule):
             self.structMemberList = r[6].list
             self.typeParameterList = r[3].list
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager, definitionList: List):
+    def fill_flat_ir(self, sm: res.ScopeManager, definitionList: List):
         new_struct = flatIR.StructDefinition(self.typeName)
         new_struct.members = self.structMemberList
         new_struct.typeParameters = self.typeParameters
@@ -70,25 +99,17 @@ class TypeParameterListR(ParserRule):
         elif len(r) == 1:
             self.list = [r[0]]
         else:
-            self.list = [r[0]]+r[1].list
+            self.list = [r[0]]+r[2].list
+
 
 class TypeParameter(ParserRule):
-    """TypeParameter: ID 
-                    | ID ASSIGNMENT Type
+    """TypeParameter : TypeIdentifier
+                     | ID ASSIGNMENT TypeIdentifier
+                     | SPEC ID ASSIGNMENT TypeIdentifier
     """
 
     def __init__(self, r):
-        if len(r)==1:
-            self.id = r[0]
-            self.defaultType = None
-        else:
-
-class StructMember(ParserRule):
-    """StructMember : Type ID SEMICOLON"""
-
-    def __init__(self, r):
-        self.type = r[0]
-        self.name = r[1]
+        self.r = r
 
 
 class StructMemberListR(ParserRule):
@@ -106,10 +127,10 @@ class StructMemberListR(ParserRule):
 
 
 class StructMember(ParserRule):
-    """StructMember : Type ID SEMICOLON"""
+    """StructMember : TypeIdentifier ID SEMICOLON"""
 
     def __init__(self, r):
-        self.type = r[0]
+        self.typeIdentifier = r[0]
         self.name = r[1]
 
 
@@ -120,11 +141,11 @@ class FunctionDefinition(ParserRule):
     """FunctionDefinition : FN ID LPAREN ParameterListR RPAREN Block
                           | FN ID LT TypeParameterListR GT LPAREN\
                                   ParameterListR RPAREN Block
-                          | FN ID LPAREN ParameterListR RPAREN Block\
-                                  ARROW TypeExpression
+                          | FN ID LPAREN ParameterListR RPAREN\
+                                  ARROW TypeIdentifier Block
                           | FN ID LT TypeParameterListR GT LPAREN\
-                                  ParameterListR RPAREN Block\
-                                  ARROW TypeExpression
+                                  ParameterListR RPAREN \
+                                  ARROW TypeIdentifier Block
     """
 
     def __init__(self, r):
@@ -133,27 +154,30 @@ class FunctionDefinition(ParserRule):
             self.parameterList = r[3].list
             self.typeParameterList = []
             self.block = r[5]
-            self.returnType = "void"
+            self.returnType = IdTypeIdentifier("void")
         elif len(r) == 9:
             self.name = r[1]
             self.parameterList = r[6].list
             self.typeParameterList = r[3].list
             self.block = r[8]
+            self.returnType = IdTypeIdentifier("void")
         if len(r) == 8:
             self.name = r[1]
             self.parameterList = r[3].list
             self.typeParameterList = []
-            self.block = r[5]
+            self.block = r[7]
+            self.returnType = r[6].type
         elif len(r) == 11:
             self.name = r[1]
             self.parameterList = r[6].list
             self.typeParameterList = r[3].list
-            self.block = r[8]
+            self.block = r[10]
+            self.returnType = r[9].type
 
     def type(self, resolver, subs):
         pass
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager, definitionList: List):
+    def fill_flat_ir(self, sm: res.ScopeManager, definitionList: List):
         new_func = flatIR.FunctionDefinition(self.name)
         sm.begin_scope()
         sm.new_var_name("return")
@@ -191,7 +215,7 @@ class ParameterListR(ParserRule):
 
 
 class Parameter(ParserRule):
-    """Parameter : Type ID"""
+    """Parameter : TypeIdentifier ID"""
 
     def __init__(self, r):
         self.type = r[0]
@@ -199,39 +223,31 @@ class Parameter(ParserRule):
 
 
 class TypeIdentifier(ParserRule):
-    """TypeIdentifier : ID PointerListR
-            | ID LT TypeArgumentListR GT PointerListR"""
+    """TypeIdentifier : ID
+                      | TypeIdentifier DOT ID
+                      | TypeIdentifier TIMES
+                      | TypeIdentifier LT TypeArgumentListR GT"""
 
     def __init__(self, r):
-        if len(r) == 2:
-            self.name = r[0]
-            self.typeArgumentList = []
-            self.ptr_cnt = r[1].sz
+        if len(r) == 1:
+            self.type = IdTypeIdentifier(r[0])
+        elif r[1] == '.':
+            self.type = IndexTypeIdentifier(r[0], IdTypeIdentifier(r[2]))
+        elif r[1] == '*':
+            self.type = PointerTypeIdentifier(r[0])
         else:
-            self.name = r[0]
-            self.typeArgumentList = r[2].list
-            self.ptr_cnt = r[4].sz
-
-
-class PointerListR(ParserRule):
-    """PointerListR : TIMES PointerListR
-                    | empty
-    """
-
-    def __init__(self, r):
-        if len(r) == 2:
-            self.sz = r[1].sz+1
-        else:
-            self.sz = 0
+            self.type = IndexTypeIdentifier(r[0], IdTypeIdentifier(r[2]))
 
 
 class Block(ParserRule):
     "Block : LBRACE StatementListR RBRACE"
 
     def __init__(self, r):
+        if r is None:
+            return
         self.statementList = r[1].list
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition, new_sc=True):
         if new_sc:
             sm.begin_scope()
@@ -262,7 +278,7 @@ class Statement(ParserRule):
     def __init__(self, r):
         self.statement = r[0]
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition):
         if isinstance(self.statement, Expression):
             self.statement.fill_flat_ir(sm, func, ptr=False)
@@ -283,12 +299,12 @@ class StatementListR(ParserRule):
 
 
 class BlankStatement(ParserRule):
-    "BlankStatement : ';'"
+    "BlankStatement : SEMICOLON"
 
     def __init__(self, r):
         pass
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition):
         pass
 
@@ -299,49 +315,26 @@ class BlockStatement(ParserRule):
     def __init__(self, r):
         self.block = r[0]
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition):
         self.block.fill_flat_ir(sm, func)
 
 
 class InitStatement(ParserRule):
-    """InitStatement : LET ID ASSIGNMENT InitCall SEMICOLON"""
+    """InitStatement : LET ID ASSIGNMENT Expression SEMICOLON
+    """
 
     def __init__(self, r):
         self.name = r[1]
-        self.initExpression = r[3]
+        self.expr = r[3]
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition):
 
         # this name will contain a ptr to stack
         uniqn = sm.new_var_name(self.name)
         init = self.initExpression.fill_flat_ir(sm, func)
         func.body.append(flatIR.Assignment(uniqn, init))
-
-
-class InitCall(ParserRule):
-    """InitCall : TypeIdentifier LBRACE ArgumentListR RBRACE"""
-
-    def __init__(self, r):
-        self.typeIdentifier = r[0]
-        self.argumentList = r[2].list
-
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
-                     func: flatIR.FunctionDefinition):
-
-        # this name will contain a ptr to stack
-        uniqn = sm.new_tmp_var_name()
-        func.body.append(flatIR.StackAllocate(uniqn, self.type))
-
-        args = [a.fill_flat_ir(sm, func) for a in self.argumentList]
-        tmp = sm.new_tmp_var_name()
-        func.body.append(flatIR.FunctionCall(tmp, "__init__",
-                                             [uniqn] +
-                                             args,
-                                             self.typeArgumentList
-                                             ))
-        return tmp
 
 
 class AssignmentStatement(ParserRule):
@@ -353,7 +346,7 @@ class AssignmentStatement(ParserRule):
         self.left = r[0]
         self.right = r[2]
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition):
         right = self.right.fill_flat_ir(sm, func, ptr=False)
         left = self.left.fill_flat_ir(sm, func, ptr=True)
@@ -362,14 +355,20 @@ class AssignmentStatement(ParserRule):
 
 class IfElseStatement(ParserRule):
     """IfElseStatement : IF LPAREN Expression RPAREN Block ELSE Block
+                       | IF LPAREN Expression RPAREN Block
     """
 
     def __init__(self, r):
-        self.expr = r[2]
-        self.blockIf = r[4]
-        self.blockElse = r[6]
+        if len(r) == 7:
+            self.expr = r[2]
+            self.blockIf = r[4]
+            self.blockElse = r[6]
+        else:
+            self.expr = r[2]
+            self.blockIf = r[4]
+            self.blockElse = Block(None)
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition):
         tl = sm.new_label_name("if_true")
         fl = sm.new_label_name("if_false")
@@ -399,7 +398,7 @@ class ForStatement(ParserRule):
         self.statementChange = r[5]
         self.block = r[7]
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition):
         self.sm.begin_scope()
 
@@ -430,7 +429,7 @@ class WhileStatement(ParserRule):
         self.exprCheck = r[2]
         self.block = r[4]
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition):
         self.sm.begin_scope()
 
@@ -462,7 +461,7 @@ class ReturnStatement(ParserRule):
         else:
             self.expr = None
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition):
         a = self.expr.fill_flat_ir(sm, func, ptr=False)
         ret = sm.get_var_name("return")
@@ -480,7 +479,7 @@ class BreakStatement(ParserRule):
         else:
             self.count = 1
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition):
         func.body.append(flatIR.JumpToLabel(sm.break_label_stack[-self.count]))
 
@@ -501,18 +500,17 @@ precedence = (
 class Expression(ParserRule):
     """Expression : BinaryExpression
                   | UnaryExpression
-                  | IdExpression
     """
 
     def __init__(self, r):
         self.expr = r[0]
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition, ptr):
         return self.expr.fill_flat_ir(sm, func, ptr)
 
 
-class BinaryExpressionClassic(ParserRule):
+class BinaryExpression(ParserRule):
     """BinaryExpression : Expression PLUS Expression
                         | Expression MINUS Expression
                         | Expression TIMES Expression
@@ -544,7 +542,7 @@ class BinaryExpressionClassic(ParserRule):
         self.op = f"__{self.op_mapping[r[1]]}__"
         self.right = r[2]
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition, ptr):
 
         if ptr:
@@ -562,6 +560,7 @@ class UnaryExpression(ParserRule):
                        | FunctionCall
                        | BracketCall
                        | InitCall
+                       | DotExpression
                        | LPAREN Expression RPAREN
                        | DereferenceExpression
                        | AddressExpression
@@ -573,7 +572,7 @@ class UnaryExpression(ParserRule):
         else:
             self.expr = r[0]
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition, ptr):
         return self.expr.fill_flat_ir(sm, func, ptr)
 
@@ -593,7 +592,7 @@ class FunctionCall(ParserRule):
             self.argumentList = r[5].list
             self.typeArgumentList = r[2].list
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition, ptr):
         if ptr:
             raise RuntimeError()
@@ -606,8 +605,8 @@ class FunctionCall(ParserRule):
 
 
 class TypeArgumentListR(ParserRule):
-    """TypeArgumentListR : Type COMMA TypeArgumentListR
-                         | Type
+    """TypeArgumentListR : TypeIdentifier COMMA TypeArgumentListR
+                         | TypeIdentifier
                          | empty
     """
 
@@ -620,9 +619,9 @@ class TypeArgumentListR(ParserRule):
             self.list = [r[0]] + r[2].list
 
 
-class IdExpression(ParserRule):
-    """IdExpression : ID
-                    | IdExpression DOT ID
+class DotExpression(ParserRule):
+    """DotExpression : ID
+                     | Expression DOT ID
     """
 
     def __init__(self, r):
@@ -638,7 +637,7 @@ class IdExpression(ParserRule):
         lt = self.value.type.find_location_and_type(self.id)
         self.type = self.value.type
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition, ptr):
         if self.nxt is None:
             tar = sm.get_var_name(self.id)
@@ -653,6 +652,39 @@ class IdExpression(ParserRule):
             tar2 = sm.new_tmp_var_name()
             func.body.append(flatIR.LoadValueFromPointer(tar2, tar))
             return tar2
+
+
+class InitCall(ParserRule):
+    """InitCall : ID LBRACE ArgumentListR RBRACE
+                | LT TypeIdentifier GT LBRACE ArgumentListR RBRACE
+                | ID LT TypeArgumentListR GT LBRACE ArgumentListR RBRACE"""
+
+    def __init__(self, r):
+        if len(r) == 4:
+            self.typeIdentifier = IdTypeIdentifier(r[0])
+            self.argumentList = r[2].list
+        elif len(r) == 6:
+            self.typeIdentifier = r[1]
+            self.argumentList = r[4]
+        else:
+            self.typeIdentifier = IdParametersTypeIdentifier(r[0], r[2].list)
+            self.argumentList = r[5].list
+
+    def fill_flat_ir(self, sm: res.ScopeManager,
+                     func: flatIR.FunctionDefinition):
+
+        # this name will contain a ptr to stack
+        uniqn = sm.new_tmp_var_name()
+        func.body.append(flatIR.StackAllocate(uniqn, self.type))
+
+        args = [a.fill_flat_ir(sm, func) for a in self.argumentList]
+        tmp = sm.new_tmp_var_name()
+        func.body.append(flatIR.FunctionCall(tmp, "__init__",
+                                             [uniqn] +
+                                             args,
+                                             self.typeArgumentList
+                                             ))
+        return tmp
 
 
 class BracketCall(ParserRule):
@@ -673,7 +705,7 @@ class BracketCall(ParserRule):
 
         self.type = self.expr1.type.pointedToType
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition, ptr):
         container = self.name.fill_flat_ir(sm, func, ptr=True)
         offset = self.name.fill_flat_ir(sm, func, ptr=False)
@@ -711,7 +743,7 @@ class Argument(ParserRule):
     def resolve_types(self):
         self.type = self.expr.type
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition):
         return self.expr.fill_flat_ir(sm, func, ptr=False)
 
@@ -728,7 +760,7 @@ class DereferenceExpression(ParserRule):
             raise RuntimeError("NOT A PTR TYPE, CANT DEREF")
         self.type = self.value.type.pointedToType
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition, ptr):
         orig = self.expr.fill_flat_ir(sm, func, ptr)
         new = sm.new_tmp_var_name()
@@ -745,7 +777,7 @@ class AddressExpression(ParserRule):
         self.expr.resolve_types()
         self.type = PointerType(self.expr.type)
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition, ptr):
         if ptr:
             raise RuntimeError("")
@@ -765,7 +797,7 @@ class Literal(ParserRule):
         self.value.resolve_types()
         self.type = self.value.type
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition, ptr):
         if ptr:
             raise RuntimeError("Cant get lvalue to a literal")
@@ -796,7 +828,7 @@ class IntLiteral(ParserRule):
     def resolve_types(self):
         self.type = IntType(self.width, self.signed)
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition):
         tmp = sm.new_tmp_var_name()
         func.body.append(flatIR.IntConstant(
@@ -813,7 +845,7 @@ class BoolLiteral(ParserRule):
     def resolve_types(self):
         self.type = BoolType()
 
-    def fill_flat_ir(self, sm: flatIR.ScopeManager,
+    def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition):
         tmp = sm.new_tmp_var_name()
         func.body.append(flatIR.BoolConstant(tmp, self.value))
@@ -821,57 +853,3 @@ class BoolLiteral(ParserRule):
 
 
 # TYPE OBJECTS
-
-
-class Type:
-    pass
-
-
-@dataclass
-class IntType(Type):
-    self.width: int
-    self.signed: bool
-
-
-@dataclass
-class BoolType(Type):
-    pass
-
-
-@dataclass
-class VoidType(Type):
-    pass
-
-
-@dataclass
-class FunctionType(Type):
-    self.name: str
-    self.parameter_types: List[Type]
-    self.return_type: Type
-
-
-@dataclass
-class StructType(Type):
-    self.name: str
-    self.template_parameters: List[Tuple[str, Type]]
-    self.members: List[Tuple[str, Type]]
-
-    def find_location_and_type(self, name) -> Tuple[int, Type]:
-        for i, (nm, tp) in enumerate(self.members):
-            if nm == name:
-                return (i, tp)
-        return None
-
-
-@dataclass
-class PlainTypeName(Type):
-    self.name: str
-
-    def sub(self, subs):
-        if self.name in subs:
-            self.name = subs[self.name]
-
-
-@dataclass
-class PointerType(Type):
-    self.pointedToType: Type

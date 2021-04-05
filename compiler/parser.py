@@ -40,6 +40,7 @@ class Parser:
 
     start = 'CompilationUnit'
 
+
 if __name__ == '__main__':
     data = open('prog1.st').read()
     lexer = lexer.Lexer()

@@ -3,7 +3,6 @@ from parser import Parser
 from helpers import tree_print
 from typing import List, Tuple
 from copy import deepcopy
-import parser_rules as pr
 
 separator = "_$_"
 
@@ -79,8 +78,9 @@ class Resolver:
             d for d in tree.definitionList
             if isinstance(d, pr.StructDefinition)
             and len(d.typeParameterList) != 0]
+        """
 
-    def resolve_struct(self, name: str, template_arg_types: List[pr.Type]):
+    def resolve_struct(self, name: str, template_arg_types: List[Type]):
         if len(template_arg_types) == 0:
             for k, d in self.struct:
                 fits, _ = self._struct_fits(d, name,
@@ -122,17 +122,13 @@ class Resolver:
             pass
 
     def _struct_fits(self, d, name: str,
-                     template_arg_types: List[pr.Type]) -> Tuple[bool, dict]:
+                     template_arg_types: List[]) -> Tuple[bool, dict]:
         if len(template_arg_types) == 0:
             if d.name == name:
                 return [True, {}]
         else:
             every_fitting = []
             subs = {}
-            for type 
-
-
-
             return [False, {}]
 
     def _func_fits(self, d, name: str, arg_types: List[pr.Type],
@@ -147,6 +143,7 @@ class Resolver:
                         return [True, {}]
         else:
             return [False, {}]
+            """
 
 
 if __name__ == '__main__':
