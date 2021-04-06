@@ -18,7 +18,8 @@ class Lexer():
         'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD',
         'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
         'DOT', 'COMMA', 'SEMICOLON', 'ASSIGNMENT', 'AMPERSAND',
-        'LET', 'FN', 'ARROW', 'SPEC'
+        'LET', 'FN', 'ARROW', 'TYPE',
+        'LANGLE', 'RANGLE', 'DEREF', 'ADDRESS'
     )
 
     t_PLUS = r'\+'
@@ -39,12 +40,16 @@ class Lexer():
     t_ASSIGNMENT = r'='
     t_GEQ = r'>='
     t_LEQ = r'<='
-    t_GT = r'>'
-    t_LT = r'<'
+    t_LANGLE = r'<'
+    t_RANGLE = r'>'
+    t_GT = r'>!'
+    t_LT = r'<!'
     t_EQ = r'=='
     t_NE = r'!='
+    t_DEREF = r'!'
+    t_ADDRESS = r'@'
 
-    t_SPEC = r'spec'+' '*20
+    t_TYPE = r'type'+' '*20
     t_ARROW = r'->'+' '*20
     t_FN = r'fn'+' '*20
     t_LET = r'let'+' '*20

@@ -1,8 +1,8 @@
 def tree_print_r(name, obj, prefix):
     if name is None:
-        print(f"{prefix} ",end='')
+        print(f"{prefix} ", end='')
     else:
-        print(f"{prefix} {name} = ",end='')
+        print(f"{prefix} {name} = ", end='')
 
     if hasattr(obj, "__dict__"):
         print(f"{type(obj).__name__}(")
@@ -18,6 +18,5 @@ def tree_print_r(name, obj, prefix):
         print(f"{type(obj).__name__}({obj})")
 
 
-
 def tree_print(obj):
-    tree_print_r("compilationUnit",obj, "")
+    tree_print_r(None, obj, "")
