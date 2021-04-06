@@ -1,8 +1,13 @@
+import struct_meta_templates
 from lexer import Lexer
 from parser import Parser
 from helpers import tree_print
 from typing import List, Tuple
 from copy import deepcopy
+import parser_rules as pr
+from dataclasses import dataclass
+import re
+
 
 separator = "_$_"
 
@@ -52,98 +57,42 @@ class ScopeManager:
         res_var = f"struct{separator}{name}{separator}{self.struct_cnt}"
         return res_var
 
+# STRUCT META TEMPLATES
+
 
 class Resolver:
     def __init__(self, tree):
         self.sm = ScopeManager()
+        self.smt_check = struct_meta_templates.check_all
 
         # name -> def
         self.func = dict()
-        self.struct = dict()
+        self.types = dict()
 
-        self.funcNormal = [
+        self.functionTemplates = [
             d for d in tree.definitionList
             if isinstance(d, pr.FunctionDefinition)
-            and len(d.typeParameterList) == 0]
-        self.structNormal = [
+        ]
+        self.structTemplates = [
             d for d in tree.definitionList
             if isinstance(d, pr.StructDefinition)
-            and len(d.typeParameterList) == 0]
-
-        self.funcTemp = [
+        ]
+        mainl = [
             d for d in tree.definitionList
             if isinstance(d, pr.FunctionDefinition)
-            and len(d.typeParameterList) != 0]
-        self.structTemp = [
-            d for d in tree.definitionList
-            if isinstance(d, pr.StructDefinition)
-            and len(d.typeParameterList) != 0]
-        """
+            and d.name == 'main'
+            and len(d.parameterList) == 0
+            and len(d.typeParameterList) == 0
+            and d.returnType == "void"
+        ]
+        if len(mainl) > 1:
+            raise RuntimeError("multiple mains")
+        if len(mainl) == 0:
+            raise RuntimeError("no mains found")
+        self.main = mainl[0]
 
-    def resolve_struct(self, name: str, template_arg_types: List[Type]):
-        if len(template_arg_types) == 0:
-            for k, d in self.struct:
-                fits, _ = self._struct_fits(d, name,
-                                            template_arg_types)
-                if fits:
-                    return k
-            for d in self.structNormal:
-                fits, subs = self._struct_fits(d, name,
-                                               template_arg_types)
-                if fits:
-                    n = self.sm.new_struct_name(name)
-                    self.struct[n] = deepcopy(d)
-                    self.struct[n].name = n
-                    self.struct[n].type(self, subs)
-                    return n
-            return None
-        else:
-            pass
-
-    def resolve_func(self, name: str, arg_types: List[pr.Type],
-                     template_arg_types: List[pr.Type]):
-        if len(template_arg_types) == 0:
-            for k, d in self.func:
-                fits, _ = self._func_fits(d, name,
-                                          arg_types, template_arg_types)
-                if fits:
-                    return k
-            for d in self.funcNormal:
-                fits, subs = self._func_fits(d, name,
-                                             arg_types, template_arg_types)
-                if fits:
-                    n = self.sm.new_func_name(name)
-                    self.func[n] = deepcopy(d)
-                    self.func[n].name = n
-                    self.func[n].type(self, subs)
-                    return n
-            return None
-        else:
-            pass
-
-    def _struct_fits(self, d, name: str,
-                     template_arg_types: List[]) -> Tuple[bool, dict]:
-        if len(template_arg_types) == 0:
-            if d.name == name:
-                return [True, {}]
-        else:
-            every_fitting = []
-            subs = {}
-            return [False, {}]
-
-    def _func_fits(self, d, name: str, arg_types: List[pr.Type],
-                   template_arg_types: List[pr.Type]) -> Tuple[bool, dict]:
-        if len(template_arg_types) == 0:
-            if d.name == name:
-                if len(arg_types) == len(d.parameterList):
-                    if all([
-                        arg == param.type for arg, param in
-                        zip(d.parameterList, arg_types)
-                    ]):
-                        return [True, {}]
-        else:
-            return [False, {}]
-            """
+    def go(self):
+        self.main.resolve(self)
 
 
 if __name__ == '__main__':
@@ -152,4 +101,5 @@ if __name__ == '__main__':
     lexer.test(data)
     parser = Parser(lexer, debug=True)
     a = parser.parse(data)
+    tree_print(a)
     tree_print(a)

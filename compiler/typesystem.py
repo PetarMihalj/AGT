@@ -1,41 +1,77 @@
 from dataclasses import dataclass
-from typing import List, Tuple
-import unifier as u
+from typing import Tuple
+import re
+from dataclasses import dataclass
+import parser_rules as pr
 
 
 class Type:
     pass
 
 
+class FunctionCallType(Type):
+    name: str
+    typeParameters: Tuple[Type]
+    parameters: Tuple[Type]
+
+
+class StructCallType(Type):
+    name: str
+    typeParameters: Tuple[Type]
+
+
 @dataclass
-class IntType(Type):
-    width: int
+class IntType:
+    size: int
     signed: bool
 
 
 @dataclass
-class BoolType(Type):
-    pass
+class BoolType:
+    value: bool
+
+# AUTO GENERATED TYPES
 
 
-@dataclass
-class VoidType(Type):
-    pass
+def match_and_ret(s: str, p: str):
+    r = re.compile(p)
+    m = r.match(s)
+    if m is None:
+        return None
+    else:
+        return m.group()
 
 
-@dataclass
-class FunctionType(Type):
-    name: str
-    parameter_types: List[Type]
-    return_type: Type
+def smt_bool(t: pr.TypeExpression):
+    if not isinstance(t, pr.TypeExpressionGetStruct):
+        return None
+    t: pr.TypeExpressionGetStruct
+    if len(t.typeParameters) > 0:
+        return None
+
+    m = match_and_ret(t.name, r'bool|boolean')
+    if m is None:
+        return None
+    return BoolType()
 
 
-@dataclass
-class StructType(Type):
-    name: str
-    template_parameters: List[Tuple[str, Type]]
-    members: List[Tuple[str, Type]]
+def smt_int(t: pr.TypeExpression):
+    if not isinstance(t, pr.TypeExpressionGetStruct):
+        return None
+    t: pr.TypeExpressionGetStruct
+    if len(t.typeParameters) > 0:
+        return None
+
+    m = match_and_ret(t.name, r'i([0-9]+)')
+    if m is None:
+        return None
+    return IntType(m.group(1), True)
 
 
-def unify_struct(call: Type, struct: Type):
-    pass
+def check_all(t):
+    smt_collection = [smt_int, smt_bool]
+    for s in smt_collection:
+        res = s(t)
+        if res is not None:
+            return res
+    return None

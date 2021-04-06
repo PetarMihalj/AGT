@@ -7,7 +7,9 @@ struct kvadrat<T>{
     T b;
 }
 
-fn __init__<T>(kvadrat<T>* this, T a, T b) -> T{
+fn __init__<KVTP, T, A>(KVTP this, T a, T b) -> void{
+    type _is_kvtp = T_equals<KVTP, T_ptr<kvadrat<T>>>;
+    
     this.a = a;
     this.b = b;
 }
@@ -51,7 +53,9 @@ fn main(){
 // vector example
 //
 
-struct vector<V,A = allocator<V>>{
+
+// signature cant contain field indexing
+struct vector<V,A = some_allocator<V>>{
     V v;
 }
 
@@ -73,7 +77,7 @@ struct Wrapped<U, V>{
     V value;
 }
 
-fn __sub__<U,V>(Wrapped<U,V>* v1, Wrapped<U,V> v2) -> Wrapped<U,V>{
+fn __sub__<U,V>(Wrapped<U,V> v1, Wrapped<U,V> v2) -> Wrapped<U,V>{
     return Wrapped<U,V>{v1.value - v2.value};
 }
 
@@ -82,9 +86,8 @@ fn __init__<U,V>(Wrapped<U,V>* v1, V value){
 }
 
 fn main(){
-    let petar  = Wrapped<KG, i32>{85};
-    let suzana = Wrapped<KG, i32>{60};
+    let petar  = Wrapped<kg, i32>{85};
+    let suzana = Wrapped<kg, i32>{60};
     let diff = petar - suzana;
-    let a = <Wrapped<KG, i32*>*>{1};
 }
 

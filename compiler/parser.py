@@ -18,7 +18,7 @@ class Parser:
 
         self.lexer = lexer
         self.tokens = lexer.tokens
-        self.parser = yacc.yacc(module=self, **kwargs)
+        self.parser = yacc.yacc(module=self, write_tables=False, **kwargs)
 
     def parse(self, data, **kvargs):
         return self.parser.parse(data, lexer=self.lexer, **kvargs)
@@ -42,7 +42,7 @@ class Parser:
 
 
 if __name__ == '__main__':
-    data = open('prog1.st').read()
+    data = open('prog4.st').read()
     lexer = lexer.Lexer()
     lexer.test(data)
     parser = Parser(lexer, debug=True)

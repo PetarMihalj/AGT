@@ -1,44 +1,20 @@
 from dataclasses import dataclass
-from typing import List
+from typing import List, Dict, Set
 from resolver import ScopeManager
 import resolver as res
 import flatIR
-
-
-class TypeIdentifierStructured:
-    pass
-
-
-@dataclass
-class IdTypeIdentifier(TypeIdentifierStructured):
-    name: str
-
-
-@dataclass
-class IndexTypeIdentifier(TypeIdentifierStructured):
-    nameType: str
-    member: IdTypeIdentifier
-
-
-@dataclass
-class IdParametersTypeIdentifier(TypeIdentifierStructured):
-    name: IdTypeIdentifier
-    parameters: List[TypeIdentifierStructured]
-
-
-@dataclass
-class PointerTypeIdentifier(TypeIdentifierStructured):
-    pointedToType: TypeIdentifierStructured
-
-##
+import struct_meta_templates as smt
+from copy import deepcopy
+import parser_rules as pr
 
 
 class ParserRule:
     pass
 
-##
-# STRUCTURAL
-##
+
+# @ dataclass
+# class TypeExpressionName(TypeExpression, ParserRule):
+#    name: str
 
 
 class CompilationUnit(ParserRule):
@@ -72,13 +48,14 @@ class StructDefinition(ParserRule):
 
     def __init__(self, r):
         if len(r) == 5:
-            self.typeName = r[1]
-            self.structMemberList = r[3].list
+            self.name = r[1]
+            mems = r[3].list
             self.typeParameterList = []
         else:
-            self.typeName = r[1]
-            self.structMemberList = r[6].list
+            self.name = r[1]
+            self.members = r[6].list
             self.typeParameterList = r[3].list
+
 
     def fill_flat_ir(self, sm: res.ScopeManager, definitionList: List):
         new_struct = flatIR.StructDefinition(self.typeName)
@@ -88,8 +65,8 @@ class StructDefinition(ParserRule):
 
 
 class TypeParameterListR(ParserRule):
-    """TypeParameterListR : TypeParameter COMMA TypeParameterListR
-                          | TypeParameter
+    """TypeParameterListR : ID COMMA TypeParameterListR
+                          | ID
                           | empty
     """
 
@@ -102,18 +79,9 @@ class TypeParameterListR(ParserRule):
             self.list = [r[0]]+r[2].list
 
 
-class TypeParameter(ParserRule):
-    """TypeParameter : TypeIdentifier
-                     | ID ASSIGNMENT TypeIdentifier
-                     | SPEC ID ASSIGNMENT TypeIdentifier
-    """
-
-    def __init__(self, r):
-        self.r = r
-
-
 class StructMemberListR(ParserRule):
     """StructMemberListR : StructMember StructMemberListR
+                         | TypeStatement StructMemberListR
                          | empty
     """
 
@@ -127,7 +95,7 @@ class StructMemberListR(ParserRule):
 
 
 class StructMember(ParserRule):
-    """StructMember : TypeIdentifier ID SEMICOLON"""
+    """StructMember : TypeExpression ID SEMICOLON"""
 
     def __init__(self, r):
         self.typeIdentifier = r[0]
@@ -142,10 +110,10 @@ class FunctionDefinition(ParserRule):
                           | FN ID LT TypeParameterListR GT LPAREN\
                                   ParameterListR RPAREN Block
                           | FN ID LPAREN ParameterListR RPAREN\
-                                  ARROW TypeIdentifier Block
+                                  ARROW TypeExpression Block
                           | FN ID LT TypeParameterListR GT LPAREN\
                                   ParameterListR RPAREN \
-                                  ARROW TypeIdentifier Block
+                                  ARROW TypeExpression Block
     """
 
     def __init__(self, r):
@@ -154,25 +122,25 @@ class FunctionDefinition(ParserRule):
             self.parameterList = r[3].list
             self.typeParameterList = []
             self.block = r[5]
-            self.returnType = IdTypeIdentifier("void")
+            self.returnType = "void"
         elif len(r) == 9:
             self.name = r[1]
             self.parameterList = r[6].list
             self.typeParameterList = r[3].list
             self.block = r[8]
-            self.returnType = IdTypeIdentifier("void")
+            self.returnType = "void"
         if len(r) == 8:
             self.name = r[1]
             self.parameterList = r[3].list
             self.typeParameterList = []
             self.block = r[7]
-            self.returnType = r[6].type
+            self.returnType = r[6]
         elif len(r) == 11:
             self.name = r[1]
             self.parameterList = r[6].list
             self.typeParameterList = r[3].list
             self.block = r[10]
-            self.returnType = r[9].type
+            self.returnType = r[9]
 
     def type(self, resolver, subs):
         pass
@@ -215,28 +183,38 @@ class ParameterListR(ParserRule):
 
 
 class Parameter(ParserRule):
-    """Parameter : TypeIdentifier ID"""
+    """Parameter : ID ID"""
 
     def __init__(self, r):
         self.type = r[0]
         self.name = r[1]
 
 
-class TypeIdentifier(ParserRule):
-    """TypeIdentifier : ID
-                      | TypeIdentifier DOT ID
-                      | TypeIdentifier TIMES
-                      | TypeIdentifier LT TypeArgumentListR GT"""
+class TypeExpression(ParserRule):
+    """TypeExpression : ID
+                      | ID LT TypeExpressionListR GT
+    """
+
+    def __init__(self, r):
+        self.id = r[0]
+        if len(r) == 4:
+            self.hadltgt = True
+            self.list = r[3]
+        else:
+            self.hadltgt = False
+            self.list = []
+
+
+class TypeExpressionListR(ParserRule):
+    """TypeExpressionListR : TypeExpression
+                          | TypeExpression COMMA TypeExpressionListR
+    """
 
     def __init__(self, r):
         if len(r) == 1:
-            self.type = IdTypeIdentifier(r[0])
-        elif r[1] == '.':
-            self.type = IndexTypeIdentifier(r[0], IdTypeIdentifier(r[2]))
-        elif r[1] == '*':
-            self.type = PointerTypeIdentifier(r[0])
+            self.list = [r[0]]
         else:
-            self.type = IndexTypeIdentifier(r[0], IdTypeIdentifier(r[2]))
+            self.list = [r[0]] + r[2].list
 
 
 class Block(ParserRule):
@@ -273,6 +251,7 @@ class Statement(ParserRule):
                  | ReturnStatement
                  | BlockStatement
                  | BlankStatement
+                 | TypeStatement
     '''
 
     def __init__(self, r):
@@ -284,6 +263,14 @@ class Statement(ParserRule):
             self.statement.fill_flat_ir(sm, func, ptr=False)
         else:
             self.statement.fill_flat_ir(sm, func)
+
+
+class TypeStatement(ParserRule):
+    """TypeStatement : LET ID EQ TypeExpression SEMICOLON"""
+
+    def __init__(self, r):
+        self.typeIdentifier = r[1]
+        self.type = r[3]
 
 
 class StatementListR(ParserRule):
@@ -578,19 +565,11 @@ class UnaryExpression(ParserRule):
 
 
 class FunctionCall(ParserRule):
-    """FunctionCall : ID LPAREN ArgumentListR RPAREN
-                    | ID LT TypeArgumentListR GT LPAREN ArgumentListR RPAREN
-    """
+    """FunctionCall : TypeExpression LPAREN ArgumentListR RPAREN"""
 
     def __init__(self, r):
-        if len(r) == 4:
-            self.name = r[0]
-            self.argumentList = r[2].list
-            self.typeArgumentList = []
-        else:
-            self.name = r[0]
-            self.argumentList = r[5].list
-            self.typeArgumentList = r[2].list
+        self.argumentList = r[2].list
+        self.typeExpression = r[0]
 
     def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition, ptr):
@@ -604,23 +583,9 @@ class FunctionCall(ParserRule):
         return tmp
 
 
-class TypeArgumentListR(ParserRule):
-    """TypeArgumentListR : TypeIdentifier COMMA TypeArgumentListR
-                         | TypeIdentifier
-                         | empty
-    """
-
-    def __init__(self, r):
-        if r[0] is None:
-            self.list = []
-        elif len(r) == 1:
-            self.list = [r[0]]
-        else:
-            self.list = [r[0]] + r[2].list
-
 
 class DotExpression(ParserRule):
-    """DotExpression : ID
+    """DotExpression : TypeExpression
                      | Expression DOT ID
     """
 
@@ -655,20 +620,11 @@ class DotExpression(ParserRule):
 
 
 class InitCall(ParserRule):
-    """InitCall : ID LBRACE ArgumentListR RBRACE
-                | LT TypeIdentifier GT LBRACE ArgumentListR RBRACE
-                | ID LT TypeArgumentListR GT LBRACE ArgumentListR RBRACE"""
+    """InitCall : TypeExpression LBRACE ArgumentListR RBRACE"""
 
     def __init__(self, r):
-        if len(r) == 4:
-            self.typeIdentifier = IdTypeIdentifier(r[0])
-            self.argumentList = r[2].list
-        elif len(r) == 6:
-            self.typeIdentifier = r[1]
-            self.argumentList = r[4]
-        else:
-            self.typeIdentifier = IdParametersTypeIdentifier(r[0], r[2].list)
-            self.argumentList = r[5].list
+        self.typeExpr = r[0]
+        self.argumentList = r[2].list
 
     def fill_flat_ir(self, sm: res.ScopeManager,
                      func: flatIR.FunctionDefinition):

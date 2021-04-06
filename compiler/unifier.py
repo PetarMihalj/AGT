@@ -1,44 +1,28 @@
 # https://blog.witchoflight.com/2020/syntactic-unification/
 
 from dataclasses import dataclass
-
-@dataclass(frozen=True)
-class Var:
-    name: str
-
-    def __repr__(self):
-        return self.name
+import parser_rules as pr
+import typesystem as ts
 
 
-@dataclass(frozen=True)
-class Struct:
-    name: str
-
-    def __repr__(self):
-        return self.name
-
-
-def walk(env, term):
-    while term in env:
-        term = env[term]
-    return term
+def unify_struct(source, target, env):
+    if type(source) != type(target):
+        return False
+    if type(source) == pr.IdTypeIdentifier:
+        if pr.IdTypeIdentifier.name in env:
 
 
-def unify(a, b, env={}):
-    a = walk(env, a)
-    b = walk(env, b)
-    if a == b:
-        return env
-    if isinstance(a, Var):
-        return {**env, a: b}
-    if isinstance(b, Var):
-        return {**env, b: a}
-    if isinstance(a, tuple) and isinstance(b, tuple):
-        if len(a) != len(b):
-            return None
-        for (a, b) in zip(a, b):
-            env = unify(a, b, env)
-            if env is None:
-                return None
-        return env
-    return None
+
+if __name__ == '__main__':
+    source = pr.IdParametersTypeIdentifier(
+        pr.IdTypeIdentifier("vector"),
+        [pr.IdTypeIdentifier("i32")]
+    )
+    target = pr.IdParametersTypeIdentifier(
+        pr.IdTypeIdentifier("vector"),
+        [pr.IdTypeIdentifier("A")]
+    )
+
+    env = {
+        "i32": ts.IntType(32, True),
+    }
