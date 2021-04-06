@@ -3,49 +3,44 @@
 //
 
 struct kvadrat<T>{
-    T a;
-    T b;
+    let a = T;
 }
 
-fn __init__<KVTP, T, A>(KVTP this, T a, T b) -> void{
-    type _is_kvtp = T_equals<KVTP, T_ptr<kvadrat<T>>>;
+fn __init__<KVTP, T, A>(KVTP this, T a, T b){
+    type _is_kvtp = (KVTP!).T == kv;
     
     this.a = a;
     this.b = b;
 }
 
 fn sum<T>(T a, T b) -> T{
-    let a = T{}; 
-    if (b==T{}){
-        return a; 
-    }
-    return sum<T>(a+T{1},b-T{1});
+    return sum<T>(a+T(1),b-T(1));
 }
 
 fn main(){
-    let kv = kvadrat{52, 65}; //52 i 65 su i32 literali
+    let kv = kvadrat(52, 65); //52 i 65 su i32 literali
     let poluopseg = sum(kv.a, kv.b);
 }
-
 
 //
 // computation example
 //
 
-struct fib<spec T = i1>{
-    T t;
+struct fib<T>{
+    type _1 = assert<T, i1>;
+    let t = i1;
 }
-
-struct fib<spec T = i2>{
-    T t;
+struct fib<T>{
+    type _1 = assert<T, i2>;
+    let t = i1;
 }
 
 struct fib<T>{
-    add<sub<T, i1>.t, sub<T, i2>.t>.t t;
+    type t = add<sub<T, i1>.t, sub<T, i2>.t>.t;
 }
 
 fn main(){
-    let v = type_to_value<fib<i5>, i32>{};
+    let v = t_to_value<fib<i5>, i32>();
 }
 
 
@@ -55,39 +50,38 @@ fn main(){
 
 
 // signature cant contain field indexing
-struct vector<V,A = some_allocator<V>>{
-    V v;
+struct vector<V,A>{
+    let v = V;
 }
 
-fn __init__<V,A>(vector<V,A>* this, V value){
-    (*this).v = value;
+fn __init__<V,A>(A this, V value){
+    (this!).v = value;
 }
 
 fn main(){
-    let a = vector<i32, i128>{52};
+    let a = vector<i32, i128>(52);
 }
 
 //
 // units example
 //
 
-struct kg{}
+struct kg{;}
 
 struct Wrapped<U, V>{
-    V value;
+    let value = V;
 }
 
-fn __sub__<U,V>(Wrapped<U,V> v1, Wrapped<U,V> v2) -> Wrapped<U,V>{
-    return Wrapped<U,V>{v1.value - v2.value};
+fn __sub__<U,V>(WUV v1, WUV v2) -> WUV{
+    return WUV(v1.value - v2.value);
 }
 
-fn __init__<U,V>(Wrapped<U,V>* v1, V value){
-    (*v1).value = value;
+fn __init__<U,V>(WUV v1, V value){
+    (v1!).value = value;
 }
 
 fn main(){
-    let petar  = Wrapped<kg, i32>{85};
-    let suzana = Wrapped<kg, i32>{60};
+    let petar  = Wrapped<kg, i32>(85);
+    let suzana = Wrapped<kg, i32>(60);
     let diff = petar - suzana;
 }
-

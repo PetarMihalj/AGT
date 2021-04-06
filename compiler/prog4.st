@@ -28,7 +28,8 @@ fn main(){
 fn main(a a){
 ;
 }
-fn main<a>(a a){
+fn main<a>(A a){
+    type AP = @A;
     let a = all<a, b, c<d>>(132);
 }
 

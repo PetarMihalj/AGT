@@ -1,9 +1,5 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    AMPERSAND
-
 Grammar
 
 Rule 0     S' -> CompilationUnit
@@ -88,7 +84,6 @@ Rule 77    empty -> <empty>
 Terminals, with rules where they appear
 
 ADDRESS              : 1
-AMPERSAND            : 
 ARROW                : 39
 ASSIGNMENT           : 3 44 67
 BOOLL                : 18
@@ -2439,23 +2434,22 @@ state 52
     (27) DereferenceExpression -> Expression . DEREF
     (2) AngleCallExpression -> Expression . LANGLE ExpressionList RANGLE
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for MOD resolved as shift
-  ! shift/reduce conflict for LEQ resolved as shift
-  ! shift/reduce conflict for GEQ resolved as shift
-  ! shift/reduce conflict for LT resolved as shift
-  ! shift/reduce conflict for GT resolved as shift
-  ! shift/reduce conflict for EQ resolved as shift
-  ! shift/reduce conflict for NE resolved as shift
-  ! shift/reduce conflict for LPAREN resolved as shift
-  ! shift/reduce conflict for LBRACKET resolved as shift
-  ! shift/reduce conflict for DOT resolved as shift
-  ! shift/reduce conflict for DEREF resolved as shift
-  ! shift/reduce conflict for LANGLE resolved as shift
     ARROW           reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
+    PLUS            reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
+    MINUS           reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
+    TIMES           reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
+    DIVIDE          reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
+    MOD             reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
+    LEQ             reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
+    GEQ             reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
+    LT              reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
+    GT              reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
+    EQ              reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
+    NE              reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
+    LBRACKET        reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
+    DOT             reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
+    DEREF           reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
+    LANGLE          reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
     LBRACE          reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
     RPAREN          reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
     COMMA           reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
@@ -2467,39 +2461,24 @@ state 52
     ADDRESS         reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
     INTL            reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
     BOOLL           reduce using rule 1 (AddressExpression -> ADDRESS Expression .)
-    PLUS            shift and go to state 33
-    MINUS           shift and go to state 34
-    TIMES           shift and go to state 35
-    DIVIDE          shift and go to state 36
-    MOD             shift and go to state 37
-    LEQ             shift and go to state 38
-    GEQ             shift and go to state 39
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQ              shift and go to state 42
-    NE              shift and go to state 43
     LPAREN          shift and go to state 44
-    LBRACKET        shift and go to state 45
-    DOT             shift and go to state 46
-    DEREF           shift and go to state 47
-    LANGLE          shift and go to state 48
 
-  ! PLUS            [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
-  ! MINUS           [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
-  ! TIMES           [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
-  ! DIVIDE          [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
-  ! MOD             [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
-  ! LEQ             [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
-  ! GEQ             [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
-  ! LT              [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
-  ! GT              [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
-  ! EQ              [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
-  ! NE              [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
   ! LPAREN          [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
-  ! LBRACKET        [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
-  ! DOT             [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
-  ! DEREF           [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
-  ! LANGLE          [ reduce using rule 1 (AddressExpression -> ADDRESS Expression .) ]
+  ! PLUS            [ shift and go to state 33 ]
+  ! MINUS           [ shift and go to state 34 ]
+  ! TIMES           [ shift and go to state 35 ]
+  ! DIVIDE          [ shift and go to state 36 ]
+  ! MOD             [ shift and go to state 37 ]
+  ! LEQ             [ shift and go to state 38 ]
+  ! GEQ             [ shift and go to state 39 ]
+  ! LT              [ shift and go to state 40 ]
+  ! GT              [ shift and go to state 41 ]
+  ! EQ              [ shift and go to state 42 ]
+  ! NE              [ shift and go to state 43 ]
+  ! LBRACKET        [ shift and go to state 45 ]
+  ! DOT             [ shift and go to state 46 ]
+  ! DEREF           [ shift and go to state 47 ]
+  ! LANGLE          [ shift and go to state 48 ]
 
 
 state 53
@@ -2575,10 +2554,7 @@ state 55
     ARROW           reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .)
     PLUS            reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .)
     MINUS           reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .)
-    LPAREN          reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .)
     LBRACKET        reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .)
-    DOT             reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .)
-    DEREF           reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .)
     LANGLE          reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .)
     LBRACE          reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .)
     RPAREN          reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .)
@@ -2600,6 +2576,9 @@ state 55
     GT              shift and go to state 41
     EQ              shift and go to state 42
     NE              shift and go to state 43
+    LPAREN          shift and go to state 44
+    DOT             shift and go to state 46
+    DEREF           shift and go to state 47
 
   ! TIMES           [ reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .) ]
   ! DIVIDE          [ reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .) ]
@@ -2610,12 +2589,12 @@ state 55
   ! GT              [ reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .) ]
   ! EQ              [ reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .) ]
   ! NE              [ reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .) ]
+  ! LPAREN          [ reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .) ]
+  ! DOT             [ reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .) ]
+  ! DEREF           [ reduce using rule 4 (BinaryExpression -> Expression PLUS Expression .) ]
   ! PLUS            [ shift and go to state 33 ]
   ! MINUS           [ shift and go to state 34 ]
-  ! LPAREN          [ shift and go to state 44 ]
   ! LBRACKET        [ shift and go to state 45 ]
-  ! DOT             [ shift and go to state 46 ]
-  ! DEREF           [ shift and go to state 47 ]
   ! LANGLE          [ shift and go to state 48 ]
 
 
@@ -2642,10 +2621,7 @@ state 56
     ARROW           reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .)
     PLUS            reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .)
     MINUS           reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .)
-    LPAREN          reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .)
     LBRACKET        reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .)
-    DOT             reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .)
-    DEREF           reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .)
     LANGLE          reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .)
     LBRACE          reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .)
     RPAREN          reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .)
@@ -2667,6 +2643,9 @@ state 56
     GT              shift and go to state 41
     EQ              shift and go to state 42
     NE              shift and go to state 43
+    LPAREN          shift and go to state 44
+    DOT             shift and go to state 46
+    DEREF           shift and go to state 47
 
   ! TIMES           [ reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .) ]
   ! DIVIDE          [ reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .) ]
@@ -2677,12 +2656,12 @@ state 56
   ! GT              [ reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .) ]
   ! EQ              [ reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .) ]
   ! NE              [ reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .) ]
+  ! LPAREN          [ reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .) ]
+  ! DOT             [ reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .) ]
+  ! DEREF           [ reduce using rule 5 (BinaryExpression -> Expression MINUS Expression .) ]
   ! PLUS            [ shift and go to state 33 ]
   ! MINUS           [ shift and go to state 34 ]
-  ! LPAREN          [ shift and go to state 44 ]
   ! LBRACKET        [ shift and go to state 45 ]
-  ! DOT             [ shift and go to state 46 ]
-  ! DEREF           [ shift and go to state 47 ]
   ! LANGLE          [ shift and go to state 48 ]
 
 
@@ -2712,10 +2691,7 @@ state 57
     TIMES           reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .)
     DIVIDE          reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .)
     MOD             reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .)
-    LPAREN          reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .)
     LBRACKET        reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .)
-    DOT             reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .)
-    DEREF           reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .)
     LANGLE          reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .)
     LBRACE          reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .)
     RPAREN          reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .)
@@ -2734,6 +2710,9 @@ state 57
     GT              shift and go to state 41
     EQ              shift and go to state 42
     NE              shift and go to state 43
+    LPAREN          shift and go to state 44
+    DOT             shift and go to state 46
+    DEREF           shift and go to state 47
 
   ! LEQ             [ reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .) ]
   ! GEQ             [ reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .) ]
@@ -2741,15 +2720,15 @@ state 57
   ! GT              [ reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .) ]
   ! EQ              [ reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .) ]
   ! NE              [ reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .) ]
+  ! LPAREN          [ reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .) ]
+  ! DOT             [ reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .) ]
+  ! DEREF           [ reduce using rule 6 (BinaryExpression -> Expression TIMES Expression .) ]
   ! PLUS            [ shift and go to state 33 ]
   ! MINUS           [ shift and go to state 34 ]
   ! TIMES           [ shift and go to state 35 ]
   ! DIVIDE          [ shift and go to state 36 ]
   ! MOD             [ shift and go to state 37 ]
-  ! LPAREN          [ shift and go to state 44 ]
   ! LBRACKET        [ shift and go to state 45 ]
-  ! DOT             [ shift and go to state 46 ]
-  ! DEREF           [ shift and go to state 47 ]
   ! LANGLE          [ shift and go to state 48 ]
 
 
@@ -2779,10 +2758,7 @@ state 58
     TIMES           reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .)
     DIVIDE          reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .)
     MOD             reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .)
-    LPAREN          reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .)
     LBRACKET        reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .)
-    DOT             reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .)
-    DEREF           reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .)
     LANGLE          reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .)
     LBRACE          reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .)
     RPAREN          reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .)
@@ -2801,6 +2777,9 @@ state 58
     GT              shift and go to state 41
     EQ              shift and go to state 42
     NE              shift and go to state 43
+    LPAREN          shift and go to state 44
+    DOT             shift and go to state 46
+    DEREF           shift and go to state 47
 
   ! LEQ             [ reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .) ]
   ! GEQ             [ reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .) ]
@@ -2808,15 +2787,15 @@ state 58
   ! GT              [ reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .) ]
   ! EQ              [ reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .) ]
   ! NE              [ reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .) ]
+  ! LPAREN          [ reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .) ]
+  ! DOT             [ reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .) ]
+  ! DEREF           [ reduce using rule 7 (BinaryExpression -> Expression DIVIDE Expression .) ]
   ! PLUS            [ shift and go to state 33 ]
   ! MINUS           [ shift and go to state 34 ]
   ! TIMES           [ shift and go to state 35 ]
   ! DIVIDE          [ shift and go to state 36 ]
   ! MOD             [ shift and go to state 37 ]
-  ! LPAREN          [ shift and go to state 44 ]
   ! LBRACKET        [ shift and go to state 45 ]
-  ! DOT             [ shift and go to state 46 ]
-  ! DEREF           [ shift and go to state 47 ]
   ! LANGLE          [ shift and go to state 48 ]
 
 
@@ -2846,10 +2825,7 @@ state 59
     TIMES           reduce using rule 8 (BinaryExpression -> Expression MOD Expression .)
     DIVIDE          reduce using rule 8 (BinaryExpression -> Expression MOD Expression .)
     MOD             reduce using rule 8 (BinaryExpression -> Expression MOD Expression .)
-    LPAREN          reduce using rule 8 (BinaryExpression -> Expression MOD Expression .)
     LBRACKET        reduce using rule 8 (BinaryExpression -> Expression MOD Expression .)
-    DOT             reduce using rule 8 (BinaryExpression -> Expression MOD Expression .)
-    DEREF           reduce using rule 8 (BinaryExpression -> Expression MOD Expression .)
     LANGLE          reduce using rule 8 (BinaryExpression -> Expression MOD Expression .)
     LBRACE          reduce using rule 8 (BinaryExpression -> Expression MOD Expression .)
     RPAREN          reduce using rule 8 (BinaryExpression -> Expression MOD Expression .)
@@ -2868,6 +2844,9 @@ state 59
     GT              shift and go to state 41
     EQ              shift and go to state 42
     NE              shift and go to state 43
+    LPAREN          shift and go to state 44
+    DOT             shift and go to state 46
+    DEREF           shift and go to state 47
 
   ! LEQ             [ reduce using rule 8 (BinaryExpression -> Expression MOD Expression .) ]
   ! GEQ             [ reduce using rule 8 (BinaryExpression -> Expression MOD Expression .) ]
@@ -2875,15 +2854,15 @@ state 59
   ! GT              [ reduce using rule 8 (BinaryExpression -> Expression MOD Expression .) ]
   ! EQ              [ reduce using rule 8 (BinaryExpression -> Expression MOD Expression .) ]
   ! NE              [ reduce using rule 8 (BinaryExpression -> Expression MOD Expression .) ]
+  ! LPAREN          [ reduce using rule 8 (BinaryExpression -> Expression MOD Expression .) ]
+  ! DOT             [ reduce using rule 8 (BinaryExpression -> Expression MOD Expression .) ]
+  ! DEREF           [ reduce using rule 8 (BinaryExpression -> Expression MOD Expression .) ]
   ! PLUS            [ shift and go to state 33 ]
   ! MINUS           [ shift and go to state 34 ]
   ! TIMES           [ shift and go to state 35 ]
   ! DIVIDE          [ shift and go to state 36 ]
   ! MOD             [ shift and go to state 37 ]
-  ! LPAREN          [ shift and go to state 44 ]
   ! LBRACKET        [ shift and go to state 45 ]
-  ! DOT             [ shift and go to state 46 ]
-  ! DEREF           [ shift and go to state 47 ]
   ! LANGLE          [ shift and go to state 48 ]
 
 
@@ -2919,10 +2898,7 @@ state 60
     GT              reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .)
     EQ              reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .)
     NE              reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .)
-    LPAREN          reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .)
     LBRACKET        reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .)
-    DOT             reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .)
-    DEREF           reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .)
     LANGLE          reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .)
     LBRACE          reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .)
     RPAREN          reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .)
@@ -2935,7 +2911,13 @@ state 60
     ADDRESS         reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .)
     INTL            reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .)
     BOOLL           reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .)
+    LPAREN          shift and go to state 44
+    DOT             shift and go to state 46
+    DEREF           shift and go to state 47
 
+  ! LPAREN          [ reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .) ]
+  ! DOT             [ reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .) ]
+  ! DEREF           [ reduce using rule 9 (BinaryExpression -> Expression LEQ Expression .) ]
   ! PLUS            [ shift and go to state 33 ]
   ! MINUS           [ shift and go to state 34 ]
   ! TIMES           [ shift and go to state 35 ]
@@ -2947,10 +2929,7 @@ state 60
   ! GT              [ shift and go to state 41 ]
   ! EQ              [ shift and go to state 42 ]
   ! NE              [ shift and go to state 43 ]
-  ! LPAREN          [ shift and go to state 44 ]
   ! LBRACKET        [ shift and go to state 45 ]
-  ! DOT             [ shift and go to state 46 ]
-  ! DEREF           [ shift and go to state 47 ]
   ! LANGLE          [ shift and go to state 48 ]
 
 
@@ -2986,10 +2965,7 @@ state 61
     GT              reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .)
     EQ              reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .)
     NE              reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .)
-    LPAREN          reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .)
     LBRACKET        reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .)
-    DOT             reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .)
-    DEREF           reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .)
     LANGLE          reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .)
     LBRACE          reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .)
     RPAREN          reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .)
@@ -3002,7 +2978,13 @@ state 61
     ADDRESS         reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .)
     INTL            reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .)
     BOOLL           reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .)
+    LPAREN          shift and go to state 44
+    DOT             shift and go to state 46
+    DEREF           shift and go to state 47
 
+  ! LPAREN          [ reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .) ]
+  ! DOT             [ reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .) ]
+  ! DEREF           [ reduce using rule 10 (BinaryExpression -> Expression GEQ Expression .) ]
   ! PLUS            [ shift and go to state 33 ]
   ! MINUS           [ shift and go to state 34 ]
   ! TIMES           [ shift and go to state 35 ]
@@ -3014,10 +2996,7 @@ state 61
   ! GT              [ shift and go to state 41 ]
   ! EQ              [ shift and go to state 42 ]
   ! NE              [ shift and go to state 43 ]
-  ! LPAREN          [ shift and go to state 44 ]
   ! LBRACKET        [ shift and go to state 45 ]
-  ! DOT             [ shift and go to state 46 ]
-  ! DEREF           [ shift and go to state 47 ]
   ! LANGLE          [ shift and go to state 48 ]
 
 
@@ -3053,10 +3032,7 @@ state 62
     GT              reduce using rule 11 (BinaryExpression -> Expression LT Expression .)
     EQ              reduce using rule 11 (BinaryExpression -> Expression LT Expression .)
     NE              reduce using rule 11 (BinaryExpression -> Expression LT Expression .)
-    LPAREN          reduce using rule 11 (BinaryExpression -> Expression LT Expression .)
     LBRACKET        reduce using rule 11 (BinaryExpression -> Expression LT Expression .)
-    DOT             reduce using rule 11 (BinaryExpression -> Expression LT Expression .)
-    DEREF           reduce using rule 11 (BinaryExpression -> Expression LT Expression .)
     LANGLE          reduce using rule 11 (BinaryExpression -> Expression LT Expression .)
     LBRACE          reduce using rule 11 (BinaryExpression -> Expression LT Expression .)
     RPAREN          reduce using rule 11 (BinaryExpression -> Expression LT Expression .)
@@ -3069,7 +3045,13 @@ state 62
     ADDRESS         reduce using rule 11 (BinaryExpression -> Expression LT Expression .)
     INTL            reduce using rule 11 (BinaryExpression -> Expression LT Expression .)
     BOOLL           reduce using rule 11 (BinaryExpression -> Expression LT Expression .)
+    LPAREN          shift and go to state 44
+    DOT             shift and go to state 46
+    DEREF           shift and go to state 47
 
+  ! LPAREN          [ reduce using rule 11 (BinaryExpression -> Expression LT Expression .) ]
+  ! DOT             [ reduce using rule 11 (BinaryExpression -> Expression LT Expression .) ]
+  ! DEREF           [ reduce using rule 11 (BinaryExpression -> Expression LT Expression .) ]
   ! PLUS            [ shift and go to state 33 ]
   ! MINUS           [ shift and go to state 34 ]
   ! TIMES           [ shift and go to state 35 ]
@@ -3081,10 +3063,7 @@ state 62
   ! GT              [ shift and go to state 41 ]
   ! EQ              [ shift and go to state 42 ]
   ! NE              [ shift and go to state 43 ]
-  ! LPAREN          [ shift and go to state 44 ]
   ! LBRACKET        [ shift and go to state 45 ]
-  ! DOT             [ shift and go to state 46 ]
-  ! DEREF           [ shift and go to state 47 ]
   ! LANGLE          [ shift and go to state 48 ]
 
 
@@ -3120,10 +3099,7 @@ state 63
     GT              reduce using rule 12 (BinaryExpression -> Expression GT Expression .)
     EQ              reduce using rule 12 (BinaryExpression -> Expression GT Expression .)
     NE              reduce using rule 12 (BinaryExpression -> Expression GT Expression .)
-    LPAREN          reduce using rule 12 (BinaryExpression -> Expression GT Expression .)
     LBRACKET        reduce using rule 12 (BinaryExpression -> Expression GT Expression .)
-    DOT             reduce using rule 12 (BinaryExpression -> Expression GT Expression .)
-    DEREF           reduce using rule 12 (BinaryExpression -> Expression GT Expression .)
     LANGLE          reduce using rule 12 (BinaryExpression -> Expression GT Expression .)
     LBRACE          reduce using rule 12 (BinaryExpression -> Expression GT Expression .)
     RPAREN          reduce using rule 12 (BinaryExpression -> Expression GT Expression .)
@@ -3136,7 +3112,13 @@ state 63
     ADDRESS         reduce using rule 12 (BinaryExpression -> Expression GT Expression .)
     INTL            reduce using rule 12 (BinaryExpression -> Expression GT Expression .)
     BOOLL           reduce using rule 12 (BinaryExpression -> Expression GT Expression .)
+    LPAREN          shift and go to state 44
+    DOT             shift and go to state 46
+    DEREF           shift and go to state 47
 
+  ! LPAREN          [ reduce using rule 12 (BinaryExpression -> Expression GT Expression .) ]
+  ! DOT             [ reduce using rule 12 (BinaryExpression -> Expression GT Expression .) ]
+  ! DEREF           [ reduce using rule 12 (BinaryExpression -> Expression GT Expression .) ]
   ! PLUS            [ shift and go to state 33 ]
   ! MINUS           [ shift and go to state 34 ]
   ! TIMES           [ shift and go to state 35 ]
@@ -3148,10 +3130,7 @@ state 63
   ! GT              [ shift and go to state 41 ]
   ! EQ              [ shift and go to state 42 ]
   ! NE              [ shift and go to state 43 ]
-  ! LPAREN          [ shift and go to state 44 ]
   ! LBRACKET        [ shift and go to state 45 ]
-  ! DOT             [ shift and go to state 46 ]
-  ! DEREF           [ shift and go to state 47 ]
   ! LANGLE          [ shift and go to state 48 ]
 
 
@@ -3187,10 +3166,7 @@ state 64
     GT              reduce using rule 13 (BinaryExpression -> Expression EQ Expression .)
     EQ              reduce using rule 13 (BinaryExpression -> Expression EQ Expression .)
     NE              reduce using rule 13 (BinaryExpression -> Expression EQ Expression .)
-    LPAREN          reduce using rule 13 (BinaryExpression -> Expression EQ Expression .)
     LBRACKET        reduce using rule 13 (BinaryExpression -> Expression EQ Expression .)
-    DOT             reduce using rule 13 (BinaryExpression -> Expression EQ Expression .)
-    DEREF           reduce using rule 13 (BinaryExpression -> Expression EQ Expression .)
     LANGLE          reduce using rule 13 (BinaryExpression -> Expression EQ Expression .)
     LBRACE          reduce using rule 13 (BinaryExpression -> Expression EQ Expression .)
     RPAREN          reduce using rule 13 (BinaryExpression -> Expression EQ Expression .)
@@ -3203,7 +3179,13 @@ state 64
     ADDRESS         reduce using rule 13 (BinaryExpression -> Expression EQ Expression .)
     INTL            reduce using rule 13 (BinaryExpression -> Expression EQ Expression .)
     BOOLL           reduce using rule 13 (BinaryExpression -> Expression EQ Expression .)
+    LPAREN          shift and go to state 44
+    DOT             shift and go to state 46
+    DEREF           shift and go to state 47
 
+  ! LPAREN          [ reduce using rule 13 (BinaryExpression -> Expression EQ Expression .) ]
+  ! DOT             [ reduce using rule 13 (BinaryExpression -> Expression EQ Expression .) ]
+  ! DEREF           [ reduce using rule 13 (BinaryExpression -> Expression EQ Expression .) ]
   ! PLUS            [ shift and go to state 33 ]
   ! MINUS           [ shift and go to state 34 ]
   ! TIMES           [ shift and go to state 35 ]
@@ -3215,10 +3197,7 @@ state 64
   ! GT              [ shift and go to state 41 ]
   ! EQ              [ shift and go to state 42 ]
   ! NE              [ shift and go to state 43 ]
-  ! LPAREN          [ shift and go to state 44 ]
   ! LBRACKET        [ shift and go to state 45 ]
-  ! DOT             [ shift and go to state 46 ]
-  ! DEREF           [ shift and go to state 47 ]
   ! LANGLE          [ shift and go to state 48 ]
 
 
@@ -3254,10 +3233,7 @@ state 65
     GT              reduce using rule 14 (BinaryExpression -> Expression NE Expression .)
     EQ              reduce using rule 14 (BinaryExpression -> Expression NE Expression .)
     NE              reduce using rule 14 (BinaryExpression -> Expression NE Expression .)
-    LPAREN          reduce using rule 14 (BinaryExpression -> Expression NE Expression .)
     LBRACKET        reduce using rule 14 (BinaryExpression -> Expression NE Expression .)
-    DOT             reduce using rule 14 (BinaryExpression -> Expression NE Expression .)
-    DEREF           reduce using rule 14 (BinaryExpression -> Expression NE Expression .)
     LANGLE          reduce using rule 14 (BinaryExpression -> Expression NE Expression .)
     LBRACE          reduce using rule 14 (BinaryExpression -> Expression NE Expression .)
     RPAREN          reduce using rule 14 (BinaryExpression -> Expression NE Expression .)
@@ -3270,7 +3246,13 @@ state 65
     ADDRESS         reduce using rule 14 (BinaryExpression -> Expression NE Expression .)
     INTL            reduce using rule 14 (BinaryExpression -> Expression NE Expression .)
     BOOLL           reduce using rule 14 (BinaryExpression -> Expression NE Expression .)
+    LPAREN          shift and go to state 44
+    DOT             shift and go to state 46
+    DEREF           shift and go to state 47
 
+  ! LPAREN          [ reduce using rule 14 (BinaryExpression -> Expression NE Expression .) ]
+  ! DOT             [ reduce using rule 14 (BinaryExpression -> Expression NE Expression .) ]
+  ! DEREF           [ reduce using rule 14 (BinaryExpression -> Expression NE Expression .) ]
   ! PLUS            [ shift and go to state 33 ]
   ! MINUS           [ shift and go to state 34 ]
   ! TIMES           [ shift and go to state 35 ]
@@ -3282,10 +3264,7 @@ state 65
   ! GT              [ shift and go to state 41 ]
   ! EQ              [ shift and go to state 42 ]
   ! NE              [ shift and go to state 43 ]
-  ! LPAREN          [ shift and go to state 44 ]
   ! LBRACKET        [ shift and go to state 45 ]
-  ! DOT             [ shift and go to state 46 ]
-  ! DEREF           [ shift and go to state 47 ]
   ! LANGLE          [ shift and go to state 48 ]
 
 
@@ -3405,23 +3384,22 @@ state 70
     (27) DereferenceExpression -> Expression . DEREF
     (2) AngleCallExpression -> Expression . LANGLE ExpressionList RANGLE
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for MOD resolved as shift
-  ! shift/reduce conflict for LEQ resolved as shift
-  ! shift/reduce conflict for GEQ resolved as shift
-  ! shift/reduce conflict for LT resolved as shift
-  ! shift/reduce conflict for GT resolved as shift
-  ! shift/reduce conflict for EQ resolved as shift
-  ! shift/reduce conflict for NE resolved as shift
-  ! shift/reduce conflict for LPAREN resolved as shift
-  ! shift/reduce conflict for LBRACKET resolved as shift
-  ! shift/reduce conflict for DOT resolved as shift
-  ! shift/reduce conflict for DEREF resolved as shift
-  ! shift/reduce conflict for LANGLE resolved as shift
     ARROW           reduce using rule 28 (DotExpression -> Expression DOT Expression .)
+    PLUS            reduce using rule 28 (DotExpression -> Expression DOT Expression .)
+    MINUS           reduce using rule 28 (DotExpression -> Expression DOT Expression .)
+    TIMES           reduce using rule 28 (DotExpression -> Expression DOT Expression .)
+    DIVIDE          reduce using rule 28 (DotExpression -> Expression DOT Expression .)
+    MOD             reduce using rule 28 (DotExpression -> Expression DOT Expression .)
+    LEQ             reduce using rule 28 (DotExpression -> Expression DOT Expression .)
+    GEQ             reduce using rule 28 (DotExpression -> Expression DOT Expression .)
+    LT              reduce using rule 28 (DotExpression -> Expression DOT Expression .)
+    GT              reduce using rule 28 (DotExpression -> Expression DOT Expression .)
+    EQ              reduce using rule 28 (DotExpression -> Expression DOT Expression .)
+    NE              reduce using rule 28 (DotExpression -> Expression DOT Expression .)
+    LBRACKET        reduce using rule 28 (DotExpression -> Expression DOT Expression .)
+    DOT             reduce using rule 28 (DotExpression -> Expression DOT Expression .)
+    DEREF           reduce using rule 28 (DotExpression -> Expression DOT Expression .)
+    LANGLE          reduce using rule 28 (DotExpression -> Expression DOT Expression .)
     LBRACE          reduce using rule 28 (DotExpression -> Expression DOT Expression .)
     RPAREN          reduce using rule 28 (DotExpression -> Expression DOT Expression .)
     COMMA           reduce using rule 28 (DotExpression -> Expression DOT Expression .)
@@ -3433,39 +3411,24 @@ state 70
     ADDRESS         reduce using rule 28 (DotExpression -> Expression DOT Expression .)
     INTL            reduce using rule 28 (DotExpression -> Expression DOT Expression .)
     BOOLL           reduce using rule 28 (DotExpression -> Expression DOT Expression .)
-    PLUS            shift and go to state 33
-    MINUS           shift and go to state 34
-    TIMES           shift and go to state 35
-    DIVIDE          shift and go to state 36
-    MOD             shift and go to state 37
-    LEQ             shift and go to state 38
-    GEQ             shift and go to state 39
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQ              shift and go to state 42
-    NE              shift and go to state 43
     LPAREN          shift and go to state 44
-    LBRACKET        shift and go to state 45
-    DOT             shift and go to state 46
-    DEREF           shift and go to state 47
-    LANGLE          shift and go to state 48
 
-  ! PLUS            [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
-  ! MINUS           [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
-  ! TIMES           [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
-  ! DIVIDE          [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
-  ! MOD             [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
-  ! LEQ             [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
-  ! GEQ             [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
-  ! LT              [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
-  ! GT              [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
-  ! EQ              [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
-  ! NE              [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
   ! LPAREN          [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
-  ! LBRACKET        [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
-  ! DOT             [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
-  ! DEREF           [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
-  ! LANGLE          [ reduce using rule 28 (DotExpression -> Expression DOT Expression .) ]
+  ! PLUS            [ shift and go to state 33 ]
+  ! MINUS           [ shift and go to state 34 ]
+  ! TIMES           [ shift and go to state 35 ]
+  ! DIVIDE          [ shift and go to state 36 ]
+  ! MOD             [ shift and go to state 37 ]
+  ! LEQ             [ shift and go to state 38 ]
+  ! GEQ             [ shift and go to state 39 ]
+  ! LT              [ shift and go to state 40 ]
+  ! GT              [ shift and go to state 41 ]
+  ! EQ              [ shift and go to state 42 ]
+  ! NE              [ shift and go to state 43 ]
+  ! LBRACKET        [ shift and go to state 45 ]
+  ! DOT             [ shift and go to state 46 ]
+  ! DEREF           [ shift and go to state 47 ]
+  ! LANGLE          [ shift and go to state 48 ]
 
 
 state 71
@@ -5929,36 +5892,4 @@ WARNING:
 WARNING: Conflicts:
 WARNING: 
 WARNING: shift/reduce conflict for ID in state 23 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 52 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 52 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 52 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 52 resolved as shift
-WARNING: shift/reduce conflict for MOD in state 52 resolved as shift
-WARNING: shift/reduce conflict for LEQ in state 52 resolved as shift
-WARNING: shift/reduce conflict for GEQ in state 52 resolved as shift
-WARNING: shift/reduce conflict for LT in state 52 resolved as shift
-WARNING: shift/reduce conflict for GT in state 52 resolved as shift
-WARNING: shift/reduce conflict for EQ in state 52 resolved as shift
-WARNING: shift/reduce conflict for NE in state 52 resolved as shift
-WARNING: shift/reduce conflict for LPAREN in state 52 resolved as shift
-WARNING: shift/reduce conflict for LBRACKET in state 52 resolved as shift
-WARNING: shift/reduce conflict for DOT in state 52 resolved as shift
-WARNING: shift/reduce conflict for DEREF in state 52 resolved as shift
-WARNING: shift/reduce conflict for LANGLE in state 52 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 70 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 70 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 70 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 70 resolved as shift
-WARNING: shift/reduce conflict for MOD in state 70 resolved as shift
-WARNING: shift/reduce conflict for LEQ in state 70 resolved as shift
-WARNING: shift/reduce conflict for GEQ in state 70 resolved as shift
-WARNING: shift/reduce conflict for LT in state 70 resolved as shift
-WARNING: shift/reduce conflict for GT in state 70 resolved as shift
-WARNING: shift/reduce conflict for EQ in state 70 resolved as shift
-WARNING: shift/reduce conflict for NE in state 70 resolved as shift
-WARNING: shift/reduce conflict for LPAREN in state 70 resolved as shift
-WARNING: shift/reduce conflict for LBRACKET in state 70 resolved as shift
-WARNING: shift/reduce conflict for DOT in state 70 resolved as shift
-WARNING: shift/reduce conflict for DEREF in state 70 resolved as shift
-WARNING: shift/reduce conflict for LANGLE in state 70 resolved as shift
 WARNING: shift/reduce conflict for RPAREN in state 120 resolved as shift

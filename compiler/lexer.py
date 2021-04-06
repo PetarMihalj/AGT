@@ -17,7 +17,7 @@ class Lexer():
         'STRUCT',
         'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD',
         'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
-        'DOT', 'COMMA', 'SEMICOLON', 'ASSIGNMENT', 'AMPERSAND',
+        'DOT', 'COMMA', 'SEMICOLON', 'ASSIGNMENT',
         'LET', 'FN', 'ARROW', 'TYPE',
         'LANGLE', 'RANGLE', 'DEREF', 'ADDRESS'
     )
@@ -27,7 +27,6 @@ class Lexer():
     t_TIMES = r'\*'
     t_DIVIDE = r'/'
     t_MOD = r'%'
-    t_AMPERSAND = r'&'
     t_LPAREN = r'\('
     t_RPAREN = r'\)'
     t_LBRACE = r'{'

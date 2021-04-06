@@ -75,15 +75,21 @@ class FunctionDefinition(ParserRule):
         if len(r) == 3:
             self.expr = r[1]
             self.block = r[2]
-            self.exprRet = None
+            self.expr_ret = None
         elif len(r) == 5:
             self.expr = r[1]
-            self.block = r[3]
-            self.exprRet = r[4]
+            self.expr_ret = r[3]
+            self.block = r[4]
 
     def parse_semantics(self, se: SE):
         se.add(SS.FUNC)
         sl = self.block.parse_semantics(se)
+        se.pop()
+        se.add(SS.TYPE_EXPR)
+        if self.expr_ret is not None:
+            expr_ret = self.expr_ret.parse_semantics(se)
+        else:
+            expr_ret = "void"
         se.pop()
         pce = self.expr.expr.expr
         if hasattr(pce.expr.expr, "id"):
@@ -95,8 +101,9 @@ class FunctionDefinition(ParserRule):
             type_parameter_names = [
                 e.expr.id for e in pce.expr.expr.expr.expr_list]
             parameters = [[e.expr.id1, e.expr.id2] for e in pce.expr_list]
-        return la.FunctionDefinition(name, type_parameter_names,
-                                     parameters, la.Block(sl))
+        res = la.FunctionDefinition(name, type_parameter_names,
+                                     parameters, expr_ret, la.Block(sl))
+        return res
 
 
 class Block(ParserRule):
@@ -227,12 +234,17 @@ class InitStatement(ParserRule):
 
     def parse_semantics(self, se: SE):
         if se.top() != SS.FUNC:
-            raise RuntimeError("Cant declare new var out of func!")
-        name = self.name.expr.id
-        se.add(SS.RUNTIME_EXPR)
-        a = self.expr.parse_semantics(se)
-        se.pop()
-        return la.InitStatement(name, a)
+            name = self.name.expr.id
+            se.add(SS.TYPE_EXPR)
+            a = self.expr.parse_semantics(se)
+            se.pop()
+            return la.MemberDeclarationStatement(name, a)
+        else:
+            name = self.name.expr.id
+            se.add(SS.RUNTIME_EXPR)
+            a = self.expr.parse_semantics(se)
+            se.pop()
+            return la.InitStatement(name, a)
 
 
 class AssignmentStatement(ParserRule):
@@ -240,17 +252,17 @@ class AssignmentStatement(ParserRule):
     """
 
     def __init__(self, r):
-        self.name = r[0]
-        self.expr = r[2]
+        self.left = r[0]
+        self.right = r[2]
 
     def parse_semantics(self, se: SE):
         if se.top() != SS.FUNC:
             raise RuntimeError("Cant assign to a var out of func!")
-        name = self.name.expr.id
         se.add(SS.RUNTIME_EXPR)
-        a = self.expr.parse_semantics(se)
+        l = self.left.parse_semantics(se)
+        r = self.right.parse_semantics(se)
         se.pop()
-        return la.AssignmentStatement(a, name)
+        return la.AssignmentStatement(l, r)
 
 
 class IfElseStatement(ParserRule):
@@ -395,9 +407,13 @@ class ExpressionList(ParserRule):
 # Priorities are listed from:
 # https://en.cppreference.com/w/c/language/operator_precedence
 precedence = (
+    ('left', 'COMMA'),
     ('left', 'PLUS', 'MINUS'),
     ('left', 'TIMES', 'DIVIDE', 'MOD'),
     ('left', 'LEQ', 'GEQ', 'LT', 'GT', 'EQ', 'NE'),
+    ('left', 'DOT', 'DEREF'),
+    ('right', 'ADDRESS'),
+    ('left', 'LPAREN', 'LBRACE')
 )
 
 
@@ -462,7 +478,7 @@ class BinaryExpression(ParserRule):
                 self.op,
                 self.right.parse_semantics(se)
             )
-        if se.top() == SS.TYPE_EXPR:
+        if se.top() == SS.RUNTIME_EXPR:
             return la.BinaryExpression(
                 self.left.parse_semantics(se),
                 self.op,
@@ -516,7 +532,8 @@ class AngleCallExpression(ParserRule):
 
 
 class ParenthesesCallExpression(ParserRule):
-    """ParenthesesCallExpression : Expression LPAREN ExpressionList RPAREN"""
+    """ParenthesesCallExpression : Expression LPAREN\
+            ExpressionList RPAREN"""
 
     def __init__(self, r):
         self.expr = r[0]
@@ -567,7 +584,8 @@ class DotExpression(ParserRule):
 
 
 class BracketCallExpression(ParserRule):
-    """BracketCallExpression : Expression LBRACKET Expression RBRACKET"""
+    """BracketCallExpression : Expression LBRACKET Expression\
+            RBRACKET"""
 
     def __init__(self, r):
         self.expr1 = r[0]

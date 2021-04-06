@@ -70,7 +70,7 @@ def parse_semantics(tree):
 
 
 if __name__ == '__main__':
-    data = open('prog4.st').read()
+    data = open('prog1.st').read()
     lexer = lexer.Lexer()
     lexer.test(data)
 

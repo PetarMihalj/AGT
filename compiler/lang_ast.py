@@ -6,10 +6,26 @@ class TreeNode:
     pass
 
 
+class Statement:
+    pass
+
+
+class Expression:
+    pass
+
+
+class RuntimeExpression:
+    pass
+
+
+class TypeExpression:
+    pass
+
+
 @dataclass
 class Program(TreeNode):
-    function_definitions: List
-    struct_definitions: List
+    function_definitions: List['FunctionDefinition']
+    struct_definitions: List['StructDefinition']
 
 
 @dataclass
@@ -17,30 +33,31 @@ class FunctionDefinition(TreeNode):
     name: str
     type_parameters: List[str]
     parameters: List[List[str]]
-    block: Any
+    expr_ret: TypeExpression
+    block: 'Block'
 
 
 @dataclass
 class StructDefinition(TreeNode):
     name: str
     type_parameter_names: List[str]
-    block: Any
+    block: 'Block'
 
 
 @dataclass
 class Block(TreeNode):
-    statement_list: List[Any]
+    statement_list: List['Statement']
 
 
 @dataclass
 class ExpressionStatement(TreeNode):
-    expr: Any
+    expr: RuntimeExpression
 
 
 @dataclass
 class MemberDeclarationStatement(TreeNode):
-    type_expr: Any
-    name: Any
+    type_expr: TypeExpression
+    name: str
 
 
 @dataclass
@@ -50,51 +67,51 @@ class BlankStatement(TreeNode):
 
 @dataclass
 class TypeDeclarationStatement(TreeNode):
-    type_expr: Any
-    name: Any
+    type_expr: TypeExpression
+    name: str
 
 
 @dataclass
 class BlockStatement(TreeNode):
-    block: Any
+    block: Block
 
 
 @dataclass
 class AssignmentStatement(TreeNode):
-    name: Any
-    expr: Any
+    left: RuntimeExpression
+    right: RuntimeExpression
 
 
 @dataclass
 class InitStatement(TreeNode):
-    name: Any
-    expr: Any
+    name: str
+    expr: RuntimeExpression
 
 
 @dataclass
 class WhileStatement(TreeNode):
-    expr_check: Any
-    block: Any
+    expr_check: RuntimeExpression
+    block: Block
 
 
 @dataclass
 class ForStatement(TreeNode):
-    stat_init: Any
-    expr_check: Any
-    stat_change: Any
-    block: Any
+    stat_init: Statement
+    expr_check: RuntimeExpression
+    stat_change: Statement
+    block: Block
 
 
 @dataclass
 class IfElseStatement(TreeNode):
-    expr: Any
-    block_true: Any
-    block_false: Any
+    expr: RuntimeExpression
+    block_true: Block
+    block_false: Block
 
 
 @dataclass
 class ReturnStatement(TreeNode):
-    expr: Any
+    expr: RuntimeExpression
 
 
 @dataclass
@@ -107,31 +124,31 @@ class BreakStatement(TreeNode):
 
 @dataclass
 class BinaryExpression(TreeNode):
-    left: Any
+    left: RuntimeExpression
     op: str
-    right: Any
+    right: RuntimeExpression
 
 
 @dataclass
 class BracketCallExpression(TreeNode):
-    expr: Any
-    index: Any
+    expr: RuntimeExpression
+    index: RuntimeExpression
 
 
 @dataclass
 class MemberIndexExpression(TreeNode):
-    expr: Any
-    member: str
+    expr: RuntimeExpression
+    member: RuntimeExpression
 
 
 @dataclass
 class DerefExpression(TreeNode):
-    expr: Any
+    expr: RuntimeExpression
 
 
 @dataclass
 class AddressExpression(TreeNode):
-    expr: Any
+    expr: RuntimeExpression
 
 
 @dataclass
@@ -144,8 +161,8 @@ class IntLiteralExpression(TreeNode):
 @dataclass
 class FunctionCallExpression(TreeNode):
     name: int
-    type_expr_list: List[Any]
-    args: List[Any]
+    type_expr_list: List[TypeExpression]
+    args: List[RuntimeExpression]
 
 
 @dataclass
@@ -157,28 +174,28 @@ class BoolLiteralExpression(TreeNode):
 
 @dataclass
 class TypeBinaryExpression(TreeNode):
-    left: Any
+    left: TypeExpression
     op: str
-    right: Any
+    right: TypeExpression
 
 
 @dataclass
 class TypeAngleExpression(TreeNode):
-    expr: Any
-    expr_list: List[Any]
+    name: str
+    expr_list: List[TypeExpression]
 
 
 @dataclass
 class TypeDerefExpression(TreeNode):
-    expr: Any
+    expr: TypeExpression
 
 
 @dataclass
 class TypePtrExpression(TreeNode):
-    expr: Any
+    expr: TypeExpression
 
 
 @dataclass
 class TypeMemberIndexExpression(TreeNode):
-    expr: Any
+    expr: TypeExpression
     member: str
