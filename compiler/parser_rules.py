@@ -95,12 +95,12 @@ class FunctionDefinition(ParserRule):
         if hasattr(pce.expr.expr, "id"):
             name = pce.expr.expr.id
             type_parameter_names = []
-            parameters = [[e.expr.id1, e.expr.id2] for e in pce.expr_list]
+            parameters = [e.expr.id for e in pce.expr_list]
         else:
             name = pce.expr.expr.expr.expr.expr.id
             type_parameter_names = [
                 e.expr.id for e in pce.expr.expr.expr.expr_list]
-            parameters = [[e.expr.id1, e.expr.id2] for e in pce.expr_list]
+            parameters = [e.expr.id for e in pce.expr_list]
         res = la.FunctionDefinition(name, type_parameter_names,
                                     parameters, expr_ret, la.Block(sl))
         return res
@@ -421,7 +421,6 @@ class Expression(ParserRule):
     """Expression : BinaryExpression
                   | UnaryExpression
                   | IdExpression
-                  | IdPairExpression
     """
 
     def __init__(self, r):
@@ -439,17 +438,6 @@ class IdExpression(ParserRule):
 
     def parse_semantics(self, se: SE):
         return self.id
-
-
-class IdPairExpression(ParserRule):
-    """IdPairExpression : ID ID"""
-
-    def __init__(self, r):
-        self.id1 = r[0]
-        self.id2 = r[1]
-
-    def parse_semantics(self, se: SE):
-        raise RuntimeError("IdPair should not be parsed directly!")
 
 
 class BinaryExpression(ParserRule):
