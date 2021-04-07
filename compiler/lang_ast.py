@@ -154,7 +154,6 @@ class AddressExpression(TreeNode):
 @dataclass
 class IntLiteralExpression(TreeNode):
     value: int
-    signed: bool
     size: int
 
 

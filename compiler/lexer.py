@@ -68,7 +68,7 @@ class Lexer():
         return t
 
     def t_INTL(self, t):
-        r'(-{0,1}\d+)([UuIi]{0,1})(8|16|32|64|128){0,1}'
+        r'(\d+)([Ii]{0,1})(\d+){0,1}'
         return t
 
     def t_BOOLL(self, t):

@@ -1,6 +1,11 @@
+from helpers import tree_print
+import parser_rules
+from parser import SyntaxParser, parse_semantics
+from lexer import Lexer
+import sys
 from typing import Dict, List, Union
 import lang_ast as la
-from la import TypeExpression
+from lang_ast import TypeExpression
 
 
 # scope manager
@@ -160,6 +165,20 @@ class TypeEngine:
         pass
 
 
-if __name__ == "__main__":
-    te = TypeEngine()
+if __name__ == '__main__':
+    data = open(sys.argv[1]).read()
+    lexer = Lexer()
+    lexer.test(data)
+
+    parser = SyntaxParser(lexer, debug=False)
+    s = parser.parse_syntax(data)
+    tree_print(s)
+
+    print("\n"*3)
+
+    a = parse_semantics(s)
+    tree_print(a)
+
+    print("\n"*3)
+    te = TypeEngine(a.function_definitions+a.struct_definitions)
     te.run()

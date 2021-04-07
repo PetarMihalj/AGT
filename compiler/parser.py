@@ -75,11 +75,10 @@ if __name__ == '__main__':
     lexer = lexer.Lexer()
     lexer.test(data)
 
-    parser = SyntaxParser(lexer, debug=True)
+    parser = SyntaxParser(lexer, debug=False)
     s = parser.parse_syntax(data)
     tree_print(s)
 
     print("\n"*3)
 
     a = parse_semantics(s)
-    tree_print(a)

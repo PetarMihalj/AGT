@@ -102,7 +102,7 @@ class FunctionDefinition(ParserRule):
                 e.expr.id for e in pce.expr.expr.expr.expr_list]
             parameters = [[e.expr.id1, e.expr.id2] for e in pce.expr_list]
         res = la.FunctionDefinition(name, type_parameter_names,
-                                     parameters, expr_ret, la.Block(sl))
+                                    parameters, expr_ret, la.Block(sl))
         return res
 
 
@@ -647,24 +647,27 @@ class IntLiteral(ParserRule):
     '''IntLiteral : INTL'''
 
     def __init__(self, r):
-        self.signed = True
         self.size = 32
-        if 'u' in r[0]:
-            self.signed = False
-            sp = r[0].split('u')
-            self.value = int(sp[0])
-            if len(sp[1]) > 0:
-                self.size = int(sp[1])
-        elif 'i' in r[0]:
+        if 'i' in r[0]:
             sp = r[0].split('i')
             self.value = int(sp[0])
-            if len(sp[1]) > 0:
+            if len(sp) == 2:
                 self.size = int(sp[1])
+            else:
+                self.size = 32
+        elif 'I' in r[0]:
+            sp = r[0].split('I')
+            self.value = -1 * int(sp[0])
+            if len(sp) == 2:
+                self.size = int(sp[1])
+            else:
+                self.size = 32
         else:
             self.value = int(r[0])
+            self.size = 32
 
     def parse_semantics(self, se: SE):
-        return la.IntLiteralExpression(self.value, self.signed, self.size)
+        return la.IntLiteralExpression(self.value, self.size)
 
 
 class BoolLiteral(ParserRule):
