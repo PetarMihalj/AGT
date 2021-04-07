@@ -559,7 +559,7 @@ class ParenthesesCallExpression(ParserRule):
             args = [e.parse_semantics(se) for e in self.expr_list]
             se.pop()
 
-        return la.FunctionCallExpression(name, type_expr, args)
+        return la.CallExpression(name, type_expr, args)
 
 
 class DotExpression(ParserRule):

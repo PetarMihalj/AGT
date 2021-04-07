@@ -7,7 +7,7 @@ struct kvadrat<T>{
 }
 
 fn __init__<KVTP, T, A>(KVTP this, T a, T b){
-    type _is_kvtp = (KVTP!).T == kv;
+    type _is_kvtp = (KVTP!).T == kv; 
     
     this.a = a;
     this.b = b;
@@ -23,24 +23,42 @@ fn main(){
 }
 
 //
-// computation example
+// compile time computation example
 //
 
-struct fib<T>{
-    type _1 = assert<T, i1>;
-    let t = i1;
+struct assert_equal<A,B>{
+    type _1 = A == B;
+    type _2 = i1 / _1;
 }
-struct fib<T>{
-    type _1 = assert<T, i2>;
-    let t = i1;
+
+struct assert_not_equal<A,B>{
+    type _1 = A != B;
+    type _2 = i1 / _1;
 }
 
 struct fib<T>{
-    type t = add<sub<T, i1>.t, sub<T, i2>.t>.t;
+    type _1 = assert_equal<T, i1>;
+    type t = i1;
+}
+struct fib<T>{
+    type _1 = assert_equal<T, i2>;
+    type t = i1;
+}
+
+struct fib<T>{
+    type _1 = assert_not_equal<T, i1>;
+    type _2 = assert_not_equal<T, i2>;
+    type t = fib<T-i1>.t+fib<T-i2>.t;
+}
+
+func ct_fib<T>() -> i32{
+    type f = fib<T>;
+    let value = i32<f>(); 
+    return value;
 }
 
 fn main(){
-    let v = t_to_value<fib<i5>, i32>();
+    let v = ct_fib<i5>();
 }
 
 

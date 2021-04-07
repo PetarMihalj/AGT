@@ -5,30 +5,10 @@ from dataclasses import dataclass
 import parser_rules as pr
 
 
-class Type:
-    pass
 
 
-class FunctionCallType(Type):
-    name: str
-    typeParameters: Tuple[Type]
-    parameters: Tuple[Type]
 
 
-class StructCallType(Type):
-    name: str
-    typeParameters: Tuple[Type]
-
-
-@dataclass
-class IntType:
-    size: int
-    signed: bool
-
-
-@dataclass
-class BoolType:
-    value: bool
 
 # AUTO GENERATED TYPES
 

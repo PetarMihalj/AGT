@@ -47,19 +47,25 @@ class Lexer():
     t_NE = r'!='
     t_DEREF = r'!'
     t_ADDRESS = r'@'
+    t_ARROW = r'->'
 
-    t_TYPE = r'type'+' '*20
-    t_ARROW = r'->'+' '*20
-    t_FN = r'fn'+' '*20
-    t_LET = r'let'+' '*20
-    t_IF = r'if'+' '*200
-    t_ELSE = r'else'+' '*20
-    t_BREAK = r'break'+' '*20
-    t_FOR = r'for'+' '*20
-    t_WHILE = r'while'+' '*20
-    t_RETURN = r'return'+' '*20
-    t_STRUCT = r'struct'+' '*20
-    t_ID = r'[a-zA-Z_][a-zA-Z_0-9]*'
+    reserved = {
+        'type': 'TYPE',
+        'fn': 'FN',
+        'let': 'LET',
+        'if': 'IF',
+        'else': 'ELSE',
+        'break': 'BREAK',
+        'for': 'FOR',
+        'while': 'WHILE',
+        'return': 'RETURN',
+        'struct': 'STRUCT',
+    }
+
+    def t_ID(self, t):
+        r'[a-zA-Z_][a-zA-Z_0-9]*'
+        t.type = self.reserved.get(t.value, 'ID')
+        return t
 
     def t_INTL(self, t):
         r'(-{0,1}\d+)([UuIi]{0,1})(8|16|32|64|128){0,1}'

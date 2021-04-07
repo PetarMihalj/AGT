@@ -159,7 +159,7 @@ class IntLiteralExpression(TreeNode):
 
 
 @dataclass
-class FunctionCallExpression(TreeNode):
+class CallExpression(TreeNode):
     name: int
     type_expr_list: List[TypeExpression]
     args: List[RuntimeExpression]

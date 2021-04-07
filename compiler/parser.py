@@ -1,3 +1,4 @@
+import sys
 from enum import Enum
 import inspect
 import parser_rules
@@ -70,7 +71,7 @@ def parse_semantics(tree):
 
 
 if __name__ == '__main__':
-    data = open('prog1.st').read()
+    data = open(sys.argv[1]).read()
     lexer = lexer.Lexer()
     lexer.test(data)
 
