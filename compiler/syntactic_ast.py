@@ -1,9 +1,8 @@
 import sys
-from enum import Enum
 import inspect
 import parser_rules
 import ply.yacc as yacc
-import lexer
+from lexer import Lexer
 from types import MethodType
 from helpers import tree_print
 
@@ -15,7 +14,7 @@ class SyntaxParser:
                     and issubclass(obj, parser_rules.ParserRule)\
                     and obj is not parser_rules.ParserRule:
                 self.injectRule(obj)
-                print(f"Injected {obj}")
+                # print(f"Injected {obj}")
         self.precedence = parser_rules.precedence
 
         self.lexer = lexer
@@ -43,43 +42,15 @@ class SyntaxParser:
     start = 'CompilationUnit'
 
 
-class SemanticStatus(Enum):
-    UNKNOWN = 0
-    FUNC = 1
-    STRUCT = 2
-    TYPE_EXPR = 3
-    RUNTIME_EXPR = 4
-
-
-class SemanticEnvironment:
-    def __init__(self):
-        self.status_stack = [SemanticStatus.UNKNOWN]
-
-    def add(self, ss):
-        self.status_stack.append(ss)
-
-    def pop(self):
-        self.status_stack.pop()
-
-    def top(self):
-        return self.status_stack[-1]
-
-
-def parse_semantics(tree):
-    se = SemanticEnvironment()
-    return tree.parse_semantics(se)
+def compile_syntactic_ast(data):
+    lexer = Lexer()
+    parser = SyntaxParser(lexer, debug=False)
+    s = parser.parse_syntax(data)
+    return s
 
 
 if __name__ == '__main__':
     data = open(sys.argv[1]).read()
-    lexer = lexer.Lexer()
-    lexer.test(data)
+    syn_ast = compile_syntactic_ast(data)
+    tree_print(syn_ast)
 
-    parser = SyntaxParser(lexer, debug=False)
-    s = parser.parse_syntax(data)
-    tree_print(s)
-
-    print("\n"*3)
-
-    a = parse_semantics(s)
-    tree_print(a)

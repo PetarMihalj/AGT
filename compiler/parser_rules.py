@@ -1,8 +1,3 @@
-from parser import SemanticEnvironment as SE
-from parser import SemanticStatus as SS
-import lang_ast as la
-
-
 class ParserRule:
     pass
 
@@ -12,12 +7,6 @@ class CompilationUnit(ParserRule):
 
     def __init__(self, r):
         self.definitionList = r[0]
-
-    def parse_semantics(self, se: SE):
-        return la.Program(
-            [d.parse_semantics(se) for d in self.definitionList.flist],
-            [d.parse_semantics(se) for d in self.definitionList.slist]
-        )
 
 
 class DefinitionList(ParserRule):
@@ -47,24 +36,6 @@ class StructDefinition(ParserRule):
         self.expr = r[1]
         self.block = r[2]
 
-    def parse_semantics(self, se: SE):
-        se.add(SS.STRUCT)
-        sl = self.block.parse_semantics(se)
-        se.pop()
-        if hasattr(self.expr.expr, "id"):
-            return la.StructDefinition(
-                name=self.expr.expr.id,
-                type_parameter_names=[],
-                block=la.Block(sl)
-            )
-        else:
-            return la.StructDefinition(
-                name=self.expr.expr.expr.expr.expr.id,
-                type_parameter_names=[
-                    i.expr.id for i in self.expr.expr.expr.expr_list],
-                block=la.Block(sl)
-            )
-
 
 class FunctionDefinition(ParserRule):
     """FunctionDefinition : FN Expression Block
@@ -81,39 +52,12 @@ class FunctionDefinition(ParserRule):
             self.expr_ret = r[3]
             self.block = r[4]
 
-    def parse_semantics(self, se: SE):
-        se.add(SS.FUNC)
-        sl = self.block.parse_semantics(se)
-        se.pop()
-        se.add(SS.TYPE_EXPR)
-        if self.expr_ret is not None:
-            expr_ret = self.expr_ret.parse_semantics(se)
-        else:
-            expr_ret = "void"
-        se.pop()
-        pce = self.expr.expr.expr
-        if hasattr(pce.expr.expr, "id"):
-            name = pce.expr.expr.id
-            type_parameter_names = []
-            parameters = [e.expr.id for e in pce.expr_list]
-        else:
-            name = pce.expr.expr.expr.expr.expr.id
-            type_parameter_names = [
-                e.expr.id for e in pce.expr.expr.expr.expr_list]
-            parameters = [e.expr.id for e in pce.expr_list]
-        res = la.FunctionDefinition(name, type_parameter_names,
-                                    parameters, expr_ret, la.Block(sl))
-        return res
-
 
 class Block(ParserRule):
     "Block : LBRACE StatementList RBRACE"
 
     def __init__(self, r):
         self.statementList = r[1].list
-
-    def parse_semantics(self, se: SE):
-        return [s.parse_semantics(se) for s in self.statementList]
 
 
 ##
@@ -150,23 +94,12 @@ class Statement(ParserRule):
     def __init__(self, r):
         self.statement = r[0]
 
-    def parse_semantics(self, se: SE):
-        return self.statement.parse_semantics(se)
-
 
 class ExpressionStatement(ParserRule):
     """ExpressionStatement : Expression SEMICOLON"""
 
     def __init__(self, r):
         self.expr = r[0]
-
-    def parse_semantics(self, se: SE):
-        if se.top() != SS.FUNC:
-            raise RuntimeError("Cant parse expression out of func!")
-        se.add(SS.RUNTIME_EXPR)
-        a = self.expr.parse_semantics(se)
-        se.pop()
-        return a
 
 
 class DeclarationStatement(ParserRule):
@@ -176,15 +109,6 @@ class DeclarationStatement(ParserRule):
         self.expr1 = r[0]
         self.expr2 = r[1]
 
-    def parse_semantics(self, se: SE):
-        if se.top() != SS.STRUCT:
-            raise RuntimeError("Cant declare memeber out of struct!")
-        name = self.expr2.expr.id
-        se.add(SS.TYPE_EXPR)
-        a = self.expr1.parse_semantics(se)
-        se.pop()
-        return la.MemberDeclarationStatement(a, name)
-
 
 class TypeStatement(ParserRule):
     """TypeStatement : TYPE Expression ASSIGNMENT Expression SEMICOLON"""
@@ -193,13 +117,6 @@ class TypeStatement(ParserRule):
         self.left = r[1]
         self.right = r[3]
 
-    def parse_semantics(self, se: SE):
-        name = self.left.expr.id
-        se.add(SS.TYPE_EXPR)
-        a = self.right.parse_semantics(se)
-        se.pop()
-        return la.TypeDeclarationStatement(a, name)
-
 
 class BlankStatement(ParserRule):
     "BlankStatement : SEMICOLON"
@@ -207,21 +124,12 @@ class BlankStatement(ParserRule):
     def __init__(self, r):
         pass
 
-    def parse_semantics(self, se: SE):
-        return la.BlankStatement()
-
 
 class BlockStatement(ParserRule):
     "BlockStatement : Block"
 
     def __init__(self, r):
         self.block = r[0]
-
-    def parse_semantics(self, se: SE):
-        if se.top() != SS.FUNC:
-            raise RuntimeError("Cant declare new block out of func!")
-        a = self.block.parse_semantics(se)
-        return la.BlockStatement(a)
 
 
 class InitStatement(ParserRule):
@@ -232,20 +140,6 @@ class InitStatement(ParserRule):
         self.name = r[1]
         self.expr = r[3]
 
-    def parse_semantics(self, se: SE):
-        if se.top() != SS.FUNC:
-            name = self.name.expr.id
-            se.add(SS.TYPE_EXPR)
-            a = self.expr.parse_semantics(se)
-            se.pop()
-            return la.MemberDeclarationStatement(name, a)
-        else:
-            name = self.name.expr.id
-            se.add(SS.RUNTIME_EXPR)
-            a = self.expr.parse_semantics(se)
-            se.pop()
-            return la.InitStatement(name, a)
-
 
 class AssignmentStatement(ParserRule):
     """AssignmentStatement : Expression ASSIGNMENT Expression SEMICOLON
@@ -254,15 +148,6 @@ class AssignmentStatement(ParserRule):
     def __init__(self, r):
         self.left = r[0]
         self.right = r[2]
-
-    def parse_semantics(self, se: SE):
-        if se.top() != SS.FUNC:
-            raise RuntimeError("Cant assign to a var out of func!")
-        se.add(SS.RUNTIME_EXPR)
-        l = self.left.parse_semantics(se)
-        r = self.right.parse_semantics(se)
-        se.pop()
-        return la.AssignmentStatement(l, r)
 
 
 class IfElseStatement(ParserRule):
@@ -280,26 +165,6 @@ class IfElseStatement(ParserRule):
             self.blockIf = r[4]
             self.blockElse = None
 
-    def parse_semantics(self, se: SE):
-        if se.top() != SS.FUNC:
-            raise RuntimeError("Cant use if/else out of func!")
-        se.add(SS.RUNTIME_EXPR)
-        a = self.expr.parse_semantics(se)
-        if self.blockElse is None:
-            res = la.IfElseStatement(
-                a,
-                self.blockIf.parse_semantics(se),
-                la.Block([])
-            )
-        else:
-            res = la.IfElseStatement(
-                a,
-                self.blockIf.parse_semantics(se),
-                self.blockElse.parse_semantics(se),
-            )
-        se.pop()
-        return res
-
 
 class ForStatement(ParserRule):
     """ForStatement : FOR LPAREN Statement Expression\
@@ -312,19 +177,6 @@ class ForStatement(ParserRule):
         self.statementChange = r[5]
         self.block = r[7]
 
-    def parse_semantics(self, se: SE):
-        if se.top() != SS.FUNC:
-            raise RuntimeError("Cant use for out of func!")
-        se.add(SS.RUNTIME_EXPR)
-        res = la.ForStatement(
-            self.statementInit.parse_semantics(se),
-            self.exprCheck.parse_semantics(se),
-            self.statementChange.parse_semantics(se),
-            self.block.parse_semantics(se)
-        )
-        se.pop()
-        return res
-
 
 class WhileStatement(ParserRule):
     """WhileStatement : WHILE LPAREN Expression RPAREN Block
@@ -333,17 +185,6 @@ class WhileStatement(ParserRule):
     def __init__(self, r):
         self.exprCheck = r[2]
         self.block = r[4]
-
-    def parse_semantics(self, se: SE):
-        if se.top() != SS.FUNC:
-            raise RuntimeError("Cant use while out of func!")
-        se.add(SS.RUNTIME_EXPR)
-        res = la.WhileStatement(
-            self.exprCheck.parse_semantics(se),
-            self.block.parse_semantics(se)
-        )
-        se.pop()
-        return res
 
 
 class ReturnStatement(ParserRule):
@@ -357,17 +198,6 @@ class ReturnStatement(ParserRule):
         else:
             self.expr = None
 
-    def parse_semantics(self, se: SE):
-        if se.top() != SS.FUNC:
-            raise RuntimeError("Cant use return out of func!")
-        if self.expr is None:
-            return la.ReturnStatement(None)
-        else:
-            se.add(SS.RUNTIME_EXPR)
-            e = self.expr.parse_semantics(se)
-            se.pop()
-            return la.ReturnStatement(e)
-
 
 class BreakStatement(ParserRule):
     """BreakStatement : BREAK IntLiteral SEMICOLON
@@ -379,10 +209,6 @@ class BreakStatement(ParserRule):
             self.count = r[1].value
         else:
             self.count = 1
-
-    def parse_semantics(self, se: SE):
-        if se.top() != SS.FUNC:
-            raise RuntimeError("Cant use return out of func!")
 
 
 ##
@@ -408,8 +234,8 @@ class ExpressionList(ParserRule):
 # https://en.cppreference.com/w/c/language/operator_precedence
 precedence = (
     ('left', 'COMMA'),
-    ('left', 'PLUS', 'MINUS'),
-    ('left', 'TIMES', 'DIVIDE', 'MOD'),
+    ('left', 'ADD', 'SUB'),
+    ('left', 'MUL', 'DIV', 'MOD'),
     ('left', 'LE', 'GE', 'LT', 'GT', 'EQ', 'NE'),
     ('left', 'DOT', 'DEREF'),
     ('right', 'ADDRESS'),
@@ -426,18 +252,12 @@ class Expression(ParserRule):
     def __init__(self, r):
         self.expr = r[0]
 
-    def parse_semantics(self, se: SE):
-        return self.expr.parse_semantics(se)
-
 
 class IdExpression(ParserRule):
     """IdExpression : ID"""
 
     def __init__(self, r):
         self.id = r[0]
-
-    def parse_semantics(self, se: SE):
-        return self.id
 
 
 class BinaryExpression(ParserRule):
@@ -459,21 +279,6 @@ class BinaryExpression(ParserRule):
         self.op = r[1]
         self.right = r[2]
 
-    def parse_semantics(self, se: SE):
-        if se.top() == SS.TYPE_EXPR:
-            return la.TypeBinaryExpression(
-                self.left.parse_semantics(se),
-                self.op,
-                self.right.parse_semantics(se)
-            )
-        if se.top() == SS.RUNTIME_EXPR:
-            return la.BinaryExpression(
-                self.left.parse_semantics(se),
-                self.op,
-                self.right.parse_semantics(se)
-            )
-        raise RuntimeError("Shouldn't have gotten here!")
-
 
 class UnaryExpression(ParserRule):
     """UnaryExpression : LiteralExpression
@@ -489,18 +294,12 @@ class UnaryExpression(ParserRule):
     def __init__(self, r):
         self.expr = r[0]
 
-    def parse_semantics(self, se: SE):
-        return self.expr.parse_semantics(se)
-
 
 class ParenthesesExpression(ParserRule):
     """ParenthesesExpression : LPAREN Expression RPAREN"""
 
     def __init__(self, r):
         self.expr = r[1]
-
-    def parse_semantics(self, se: SE):
-        return self.expr.parse_semantics(se)
 
 
 class AngleCallExpression(ParserRule):
@@ -509,14 +308,6 @@ class AngleCallExpression(ParserRule):
     def __init__(self, r):
         self.expr = r[0]
         self.expr_list = r[2].list
-
-    def parse_semantics(self, se: SE):
-        if se.top() != SS.TYPE_EXPR:
-            raise RuntimeError("Angle call is a part of type expression!")
-        return la.TypeAngleExpression(
-            self.expr.parse_semantics(se),
-            [s.parse_semantics(se) for s in self.expr_list]
-        )
 
 
 class ParenthesesCallExpression(ParserRule):
@@ -527,28 +318,6 @@ class ParenthesesCallExpression(ParserRule):
         self.expr = r[0]
         self.expr_list = r[2].list
 
-    def parse_semantics(self, se: SE):
-        if se.top() != SS.RUNTIME_EXPR:
-            raise RuntimeError("Parentheses call is\
-                    a part of runtime expression!")
-        if hasattr(self.expr.expr, "id"):
-            name = self.expr.expr.id
-            type_expr = []
-            se.add(SS.RUNTIME_EXPR)
-            args = [e.parse_semantics(se) for e in self.expr_list]
-            se.pop()
-        else:
-            name = self.expr.expr.expr.expr.expr.id
-            se.add(SS.TYPE_EXPR)
-            type_expr = [e.parse_semantics(se) for
-                         e in self.expr.expr.expr.expr_list]
-            se.pop()
-            se.add(SS.RUNTIME_EXPR)
-            args = [e.parse_semantics(se) for e in self.expr_list]
-            se.pop()
-
-        return la.CallExpression(name, type_expr, args)
-
 
 class DotExpression(ParserRule):
     """DotExpression : Expression DOT Expression
@@ -557,18 +326,6 @@ class DotExpression(ParserRule):
     def __init__(self, r):
         self.left = r[0]
         self.right = r[2]
-
-    def parse_semantics(self, se: SE):
-        if se.top() == SS.RUNTIME_EXPR:
-            return la.MemberIndexExpression(
-                self.left.parse_semantics(se),
-                self.right.expr.id
-            )
-        if se.top() == SS.TYPE_EXPR:
-            return la.TypeMemberIndexExpression(
-                self.left.parse_semantics(se),
-                self.right.expr.id
-            )
 
 
 class BracketCallExpression(ParserRule):
@@ -579,13 +336,6 @@ class BracketCallExpression(ParserRule):
         self.expr1 = r[0]
         self.expr2 = r[2]
 
-    def parse_semantics(self, se: SE):
-        if se.top() != SS.RUNTIME_EXPR:
-            raise RuntimeError("Bracket call not available in typeexpr")
-        e1 = self.expr1.parse_semantics(se)
-        e2 = self.expr1.parse_semantics(se)
-        return la.BracketCallExpression(e1, e2)
-
 
 class DereferenceExpression(ParserRule):
     """DereferenceExpression : Expression DEREF"""
@@ -593,28 +343,12 @@ class DereferenceExpression(ParserRule):
     def __init__(self, r):
         self.expr = r[0]
 
-    def parse_semantics(self, se: SE):
-        if se.top() == SS.RUNTIME_EXPR:
-            e = self.expr.parse_semantics(se)
-            return la.DerefExpression(e)
-        if se.top() == SS.TYPE_EXPR:
-            e = self.expr.parse_semantics(se)
-            return la.TypeDerefExpression(e)
-
 
 class AddressExpression(ParserRule):
     """AddressExpression : ADDRESS Expression"""
 
     def __init__(self, r):
         self.expr = r[1]
-
-    def parse_semantics(self, se: SE):
-        if se.top() == SS.RUNTIME_EXPR:
-            e = self.expr.parse_semantics(se)
-            return la.AddressExpression(e)
-        if se.top() == SS.TYPE_EXPR:
-            e = self.expr.parse_semantics(se)
-            return la.TypePtrExpression(e)
 
 
 class LiteralExpression(ParserRule):
@@ -624,11 +358,6 @@ class LiteralExpression(ParserRule):
 
     def __init__(self, r):
         self.value = r[0]
-
-    def parse_semantics(self, se: SE):
-        if se.top() != SS.RUNTIME_EXPR:
-            raise RuntimeError("literals can only be runtime")
-        return self.value.parse_semantics(se)
 
 
 class IntLiteral(ParserRule):
@@ -654,15 +383,9 @@ class IntLiteral(ParserRule):
             self.value = int(r[0])
             self.size = 32
 
-    def parse_semantics(self, se: SE):
-        return la.IntLiteralExpression(self.value, self.size)
-
 
 class BoolLiteral(ParserRule):
     '''BoolLiteral : BOOLL'''
 
     def __init__(self, r):
         self.value = r[0] in ('True', 'true')
-
-    def parse_semantics(self, se: SE):
-        return la.BoolLiteralExpression(self.value)

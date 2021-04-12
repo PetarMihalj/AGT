@@ -13,19 +13,19 @@ class Lexer():
         'INTL', 'BOOLL',
         'ID',
         'IF', 'ELSE', 'BREAK', 'FOR', 'WHILE', 'RETURN',
-        'GEQ', 'LEQ', 'LT', 'GT', 'EQ', 'NE',
+        'GE', 'LE', 'LT', 'GT', 'EQ', 'NE',
         'STRUCT',
-        'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD',
+        'ADD', 'SUB', 'MUL', 'DIV', 'MOD',
         'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
         'DOT', 'COMMA', 'SEMICOLON', 'ASSIGNMENT',
         'LET', 'FN', 'ARROW', 'TYPE',
         'LANGLE', 'RANGLE', 'DEREF', 'ADDRESS'
     )
 
-    t_PLUS = r'\+'
-    t_MINUS = r'-'
-    t_TIMES = r'\*'
-    t_DIVIDE = r'/'
+    t_ADD = r'\+'
+    t_SUB = r'-'
+    t_MUL = r'\*'
+    t_DIV = r'/'
     t_MOD = r'%'
     t_LPAREN = r'\('
     t_RPAREN = r'\)'
@@ -37,8 +37,8 @@ class Lexer():
     t_COMMA = r','
     t_SEMICOLON = r';'
     t_ASSIGNMENT = r'='
-    t_GEQ = r'>='
-    t_LEQ = r'<='
+    t_GE = r'>='
+    t_LE = r'<='
     t_LANGLE = r'<'
     t_RANGLE = r'>'
     t_GT = r'>!'

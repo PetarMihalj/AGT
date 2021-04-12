@@ -5,7 +5,6 @@ from lexer import Lexer
 import sys
 from typing import Dict, List, Union
 import lang_ast as la
-from lang_ast import TypeExpression
 import type_system as ts
 
 

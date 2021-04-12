@@ -1,10 +1,9 @@
 from typing import Dict, List, Set
 import re
 import flat_ir as ir
-import parser_rules as pr
+import lang_ast as la
 
 
-# AUTO GENERATED TYPES
 class Type:
     pass
 
@@ -25,6 +24,9 @@ class IntType:
 class FunctionType:
     def __init__(self, name):
         self.name: str = name
+
+        # this is important for runtime purposes
+        self.parameter_names = List[str]
 
         self.type_parameters: Dict[str, Type] = {}
         self.parameters: Dict[str, Type] = {}
@@ -52,10 +54,10 @@ def match_and_ret(s: str, p: str):
         return m.group()
 
 
-def smt_bool(t: pr.TypeExpression):
-    if not isinstance(t, pr.TypeExpressionGetStruct):
+def smt_bool(t: la.TypeExpression):
+    if not isinstance(t, la.TypeExpressionGetStruct):
         return None
-    t: pr.TypeExpressionGetStruct
+    t: la.TypeExpressionGetStruct
     if len(t.typeParameters) > 0:
         return None
 
@@ -65,8 +67,8 @@ def smt_bool(t: pr.TypeExpression):
     return BoolType()
 
 
-def smt_int(t: pr.TypeExpression):
-    if not isinstance(t, pr.TypeExpressionGetStruct):
+def smt_int(t: la.TypeExpression):
+    if not isinstance(t, la.TypeExpressionGetStruct):
         return None
     t: pr.TypeExpressionGetStruct
     if len(t.typeParameters) > 0:

@@ -2,15 +2,13 @@ from helpers import tree_print
 from syntactic_ast import compile_syntactic_ast
 from dataclasses import dataclass
 from typing import List
-
-from type_engine import TypeEngine
-import type_system as ts
-import parser_rules as pr
 from enum import Enum
+
+import parser_rules as pr
 import sys
 
 
-class TreeNode:
+class Structural:
     pass
 
 
@@ -22,7 +20,7 @@ class Expression:
     pass
 
 
-class RuntimeExpression:
+class ValueExpression:
     pass
 
 
@@ -31,218 +29,180 @@ class TypeExpression:
 
 
 @dataclass
-class Program(TreeNode):
+class Program(Structural):
     function_definitions: List['FunctionDefinition']
     struct_definitions: List['StructDefinition']
 
-    def te_visit(self, te: TypeEngine):
-        raise RuntimeExpression("this is not parsed directly")
-
 
 @dataclass
-class FunctionDefinition(TreeNode):
+class FunctionDefinition(Structural):
     name: str
     type_parameter_names: List[str]
     parameter_names: List[str]
     expr_ret: TypeExpression
     block: 'Block'
 
-    def te_visit(self, te: TypeEngine,
-                 type_args: List[ts.Type],
-                 args: List[ts.Type],
-                 ):
-        if len(type_args) != len(self.type_parameter_names) or\
-                len(args) != len(self.parameter_names):
-            return None
-        f = ts.FunctionType()
-        f.parameter_names = self.parameter_names
-
-        f.type_parameters = dict([
-            a for a in zip(self.type_parameter_names, type_args)
-        ])
-        f.parameters = dict([
-            a for a in zip(self.parameter_names, args)
-        ])
-
-        self.block.te_visit(te, f)
-
 
 @ dataclass
-class StructDefinition(TreeNode):
+class StructDefinition(Structural):
     name: str
     type_parameter_names: List[str]
     block: 'Block'
 
 
 @ dataclass
-class Block(TreeNode):
+class Block(Structural):
     statement_list: List['Statement']
 
-    def te_visit(self, te: TypeEngine, fsd):
-        for stat in self.statement_list:
-            stat.te_visit(te, fsd)
-        if isinstance(fsd, FunctionDefinition):
-            f: FunctionDefinition = fsd
-        elif isinstance(fsd, StructDefinition):
-            s: StructDefinition = fsd
+
+@ dataclass
+class ExpressionStatement(Statement):
+    expr: ValueExpression
 
 
 @ dataclass
-class ExpressionStatement(TreeNode):
-    expr: RuntimeExpression
-
-    def te_visit(self, te: TypeEngine, f: FunctionDefinition):
-        rexpr = self.expr.te_visit(te, f)
-        return rexpr
-
-
-@ dataclass
-class MemberDeclarationStatement(TreeNode):
+class MemberDeclarationStatement(Statement):
     type_expr: TypeExpression
     name: str
 
-    def te_visit(self, te: TypeEngine, f: FunctionDefinition):
-        rexpr = self.expr.te_visit(te, f)
-        return rexpr
-
 
 @ dataclass
-class BlankStatement(TreeNode):
+class BlankStatement(Statement):
     def te_visit(self, te, fsd):
         pass
 
 
 @ dataclass
-class TypeDeclarationStatement(TreeNode):
+class TypeDeclarationStatement(Statement):
     type_expr: TypeExpression
     name: str
 
 
 @ dataclass
-class BlockStatement(TreeNode):
+class BlockStatement(Statement):
     block: Block
 
 
 @ dataclass
-class AssignmentStatement(TreeNode):
-    left: RuntimeExpression
-    right: RuntimeExpression
+class AssignmentStatement(Statement):
+    left: ValueExpression
+    right: ValueExpression
 
 
 @ dataclass
-class InitStatement(TreeNode):
+class InitStatement(Statement):
     name: str
-    expr: RuntimeExpression
+    expr: ValueExpression
 
 
 @ dataclass
-class WhileStatement(TreeNode):
-    expr_check: RuntimeExpression
+class WhileStatement(Statement):
+    expr_check: ValueExpression
     block: Block
 
 
 @ dataclass
-class ForStatement(TreeNode):
+class ForStatement(Statement):
     stat_init: Statement
-    expr_check: RuntimeExpression
+    expr_check: ValueExpression
     stat_change: Statement
     block: Block
 
 
 @ dataclass
-class IfElseStatement(TreeNode):
-    expr: RuntimeExpression
+class IfElseStatement(Statement):
+    expr: ValueExpression
     block_true: Block
     block_false: Block
 
 
 @ dataclass
-class ReturnStatement(TreeNode):
-    expr: RuntimeExpression
+class ReturnStatement(Statement):
+    expr: ValueExpression
 
 
 @ dataclass
-class BreakStatement(TreeNode):
+class BreakStatement(Statement):
     no: int
 
 
-# Runtime expressions
+# Value expressions
 
 
 @ dataclass
-class BinaryExpression(TreeNode):
-    left: RuntimeExpression
+class BinaryExpression(ValueExpression):
+    left: ValueExpression
     op: str
-    right: RuntimeExpression
+    right: ValueExpression
 
 
 @ dataclass
-class BracketCallExpression(TreeNode):
-    expr: RuntimeExpression
-    index: RuntimeExpression
+class BracketCallExpression(ValueExpression):
+    expr: ValueExpression
+    index: ValueExpression
 
 
 @ dataclass
-class MemberIndexExpression(TreeNode):
-    expr: RuntimeExpression
-    member: RuntimeExpression
+class MemberIndexExpression(ValueExpression):
+    expr: ValueExpression
+    member: ValueExpression
 
 
 @ dataclass
-class DerefExpression(TreeNode):
-    expr: RuntimeExpression
+class DerefExpression(ValueExpression):
+    expr: ValueExpression
 
 
 @ dataclass
-class AddressExpression(TreeNode):
-    expr: RuntimeExpression
+class AddressExpression(ValueExpression):
+    expr: ValueExpression
 
 
 @ dataclass
-class IntLiteralExpression(TreeNode):
+class IntLiteralExpression(ValueExpression):
     value: int
     size: int
 
 
 @ dataclass
-class CallExpression(TreeNode):
+class CallExpression(ValueExpression):
     name: int
     type_expr_list: List[TypeExpression]
-    args: List[RuntimeExpression]
+    args: List[ValueExpression]
 
 
 @ dataclass
-class BoolLiteralExpression(TreeNode):
+class BoolLiteralExpression(ValueExpression):
     value: bool
 
 # Type Expressions
 
 
 @ dataclass
-class TypeBinaryExpression(TreeNode):
+class TypeBinaryExpression(TypeExpression):
     left: TypeExpression
     op: str
     right: TypeExpression
 
 
 @ dataclass
-class TypeAngleExpression(TreeNode):
+class TypeAngleExpression(TypeExpression):
     name: str
     expr_list: List[TypeExpression]
 
 
 @ dataclass
-class TypeDerefExpression(TreeNode):
+class TypeDerefExpression(TypeExpression):
     expr: TypeExpression
 
 
 @ dataclass
-class TypePtrExpression(TreeNode):
+class TypePtrExpression(TypeExpression):
     expr: TypeExpression
 
 
 @ dataclass
-class TypeMemberIndexExpression(TreeNode):
+class TypeMemberIndexExpression(TypeExpression):
     expr: TypeExpression
     member: str
 
@@ -250,16 +210,15 @@ class TypeMemberIndexExpression(TreeNode):
 # misc
 
 class SemanticStatus(Enum):
-    UNKNOWN = 0
-    FUNC = 1
-    STRUCT = 2
-    TYPE_EXPR = 3
-    RUNTIME_EXPR = 4
+    TYPE_EXPR = 1
+    VALUE_EXPR = 2
 
 
 class SemanticEnvironment:
     def __init__(self):
-        self.status_stack = [SemanticStatus.UNKNOWN]
+        self.status_stack = []
+        self.in_func = False
+        self.in_struct = False
 
     def add(self, ss):
         self.status_stack.append(ss)
@@ -278,6 +237,7 @@ SE = SemanticEnvironment
 def add_method(cls, name):
     def go(func):
         setattr(cls, name, func)
+    return go
 
 
 # visitor methods
@@ -292,9 +252,9 @@ def _(self: pr.CompilationUnit, se: SemanticEnvironment):
 
 @add_method(pr.StructDefinition, "parse_semantics")
 def _(self: pr.StructDefinition, se: SE):
-    se.add(SS.STRUCT)
+    se.in_struct = True
     sl = self.block.parse_semantics(se)
-    se.pop()
+    se.in_struct = False
     if hasattr(self.expr.expr, "id"):
         return StructDefinition(
             name=self.expr.expr.id,
@@ -312,9 +272,10 @@ def _(self: pr.StructDefinition, se: SE):
 
 @add_method(pr.FunctionDefinition, "parse_semantics")
 def _(self: pr.FunctionDefinition, se: SE):
-    se.add(SS.FUNC)
+    se.in_func = True
     sl = self.block.parse_semantics(se)
-    se.pop()
+    se.in_func = False
+
     se.add(SS.TYPE_EXPR)
     if self.expr_ret is not None:
         expr_ret = self.expr_ret.parse_semantics(se)
@@ -348,9 +309,9 @@ def _(self: pr.Statement, se: SE):
 
 @add_method(pr.ExpressionStatement, "parse_semantics")
 def _(self, se: SE):
-    if se.top() != SS.FUNC:
+    if not se.in_func:
         raise RuntimeError("Cant parse expression out of func!")
-    se.add(SS.RUNTIME_EXPR)
+    se.add(SS.VALUE_EXPR)
     a = self.expr.parse_semantics(se)
     se.pop()
     return a
@@ -383,7 +344,7 @@ def _(self, se: SE):
 
 @add_method(pr.BlockStatement, "parse_semantics")
 def _(self, se: SE):
-    if se.top() != SS.FUNC:
+    if se.in_func:
         raise RuntimeError("Cant declare new block out of func!")
     a = self.block.parse_semantics(se)
     return la.BlockStatement(a)
@@ -391,7 +352,7 @@ def _(self, se: SE):
 
 @add_method(pr.InitStatement, "parse_semantics")
 def _(self, se: SE):
-    if se.top() != SS.FUNC:
+    if not se.in_func:
         name = self.name.expr.id
         se.add(SS.TYPE_EXPR)
         a = self.expr.parse_semantics(se)
@@ -399,28 +360,28 @@ def _(self, se: SE):
         return MemberDeclarationStatement(name, a)
     else:
         name = self.name.expr.id
-        se.add(SS.RUNTIME_EXPR)
+        se.add(SS.VALUE_EXPR)
         a = self.expr.parse_semantics(se)
         se.pop()
         return InitStatement(name, a)
 
 
-@add_method(pr.FunctionDefinition, "parse_semantics")
+@add_method(pr.AssignmentStatement, "parse_semantics")
 def _(self, se: SE):
-    if se.top() != SS.FUNC:
+    if not se.in_func:
         raise RuntimeError("Cant assign to a var out of func!")
-    se.add(SS.RUNTIME_EXPR)
+    se.add(SS.VALUE_EXPR)
     l = self.left.parse_semantics(se)
     r = self.right.parse_semantics(se)
     se.pop()
     return AssignmentStatement(l, r)
 
 
-@add_method(pr.FunctionDefinition, "parse_semantics")
+@add_method(pr.IfElseStatement, "parse_semantics")
 def _(self, se: SE):
-    if se.top() != SS.FUNC:
+    if not se.in_func:
         raise RuntimeError("Cant use if/else out of func!")
-    se.add(SS.RUNTIME_EXPR)
+    se.add(SS.VALUE_EXPR)
     a = self.expr.parse_semantics(se)
     if self.blockElse is None:
         res = IfElseStatement(
@@ -440,9 +401,9 @@ def _(self, se: SE):
 
 @add_method(pr.ForStatement, "parse_semantics")
 def _(self, se: SE):
-    if se.top() != SS.FUNC:
+    if not se.in_func:
         raise RuntimeError("Cant use for out of func!")
-    se.add(SS.RUNTIME_EXPR)
+    se.add(SS.VALUE_EXPR)
     res = ForStatement(
         self.statementInit.parse_semantics(se),
         self.exprCheck.parse_semantics(se),
@@ -455,9 +416,9 @@ def _(self, se: SE):
 
 @add_method(pr.WhileStatement, "parse_semantics")
 def _(self: pr.WhileStatement, se: SE):
-    if se.top() != SS.FUNC:
+    if not se.in_func:
         raise RuntimeError("Cant use while out of func!")
-    se.add(SS.RUNTIME_EXPR)
+    se.add(SS.VALUE_EXPR)
     res = WhileStatement(
         self.exprCheck.parse_semantics(se),
         self.block.parse_semantics(se)
@@ -468,12 +429,12 @@ def _(self: pr.WhileStatement, se: SE):
 
 @add_method(pr.ReturnStatement, "parse_semantics")
 def _(self: pr.ReturnStatement, se: SE):
-    if se.top() != SS.FUNC:
+    if not se.in_func:
         raise RuntimeError("Cant use return out of func!")
     if self.expr is None:
         return ReturnStatement(None)
     else:
-        se.add(SS.RUNTIME_EXPR)
+        se.add(SS.VALUE_EXPR)
         e = self.expr.parse_semantics(se)
         se.pop()
         return ReturnStatement(e)
@@ -481,7 +442,7 @@ def _(self: pr.ReturnStatement, se: SE):
 
 @add_method(pr.BreakStatement, "parse_semantics")
 def _(self: pr.BreakStatement, se: SE):
-    if se.top() != SS.FUNC:
+    if not se.in_func:
         raise RuntimeError("Cant use break out of func!")
 
 
@@ -503,7 +464,7 @@ def _(self: pr.BinaryExpression, se: SE):
             self.op,
             self.right.parse_semantics(se)
         )
-    if se.top() == SS.RUNTIME_EXPR:
+    if se.top() == SS.VALUE_EXPR:
         return BinaryExpression(
             self.left.parse_semantics(se),
             self.op,
@@ -534,13 +495,13 @@ def _(self: pr.AngleCallExpression, se: SE):
 
 @add_method(pr.ParenthesesCallExpression, "parse_semantics")
 def _(self: pr.ParenthesesCallExpression, se: SE):
-    if se.top() != SS.RUNTIME_EXPR:
+    if se.top() != SS.VALUE_EXPR:
         raise RuntimeError("Parentheses call is\
-                a part of runtime expression!")
+                a part of value expression!")
     if hasattr(self.expr.expr, "id"):
         name = self.expr.expr.id
         type_expr = []
-        se.add(SS.RUNTIME_EXPR)
+        se.add(SS.VALUE_EXPR)
         args = [e.parse_semantics(se) for e in self.expr_list]
         se.pop()
     else:
@@ -549,7 +510,7 @@ def _(self: pr.ParenthesesCallExpression, se: SE):
         type_expr = [e.parse_semantics(se) for
                      e in self.expr.expr.expr.expr_list]
         se.pop()
-        se.add(SS.RUNTIME_EXPR)
+        se.add(SS.VALUE_EXPR)
         args = [e.parse_semantics(se) for e in self.expr_list]
         se.pop()
 
@@ -558,7 +519,7 @@ def _(self: pr.ParenthesesCallExpression, se: SE):
 
 @add_method(pr.DotExpression, "parse_semantics")
 def _(self: pr.DotExpression, se: SE):
-    if se.top() == SS.RUNTIME_EXPR:
+    if se.top() == SS.VALUE_EXPR:
         return MemberIndexExpression(
             self.left.parse_semantics(se),
             self.right.expr.id
@@ -572,7 +533,7 @@ def _(self: pr.DotExpression, se: SE):
 
 @add_method(pr.BracketCallExpression, "parse_semantics")
 def _(self: pr.BracketCallExpression, se: SE):
-    if se.top() != SS.RUNTIME_EXPR:
+    if se.top() != SS.VALUE_EXPR:
         raise RuntimeError("Bracket call not available in typeexpr")
     e1 = self.expr1.parse_semantics(se)
     e2 = self.expr1.parse_semantics(se)
@@ -581,7 +542,7 @@ def _(self: pr.BracketCallExpression, se: SE):
 
 @add_method(pr.DereferenceExpression, "parse_semantics")
 def _(self: pr.DereferenceExpression, se: SE):
-    if se.top() == SS.RUNTIME_EXPR:
+    if se.top() == SS.VALUE_EXPR:
         e = self.expr.parse_semantics(se)
         return DerefExpression(e)
     if se.top() == SS.TYPE_EXPR:
@@ -591,7 +552,7 @@ def _(self: pr.DereferenceExpression, se: SE):
 
 @add_method(pr.AddressExpression, "parse_semantics")
 def _(self: pr.AddressExpression, se: SE):
-    if se.top() == SS.RUNTIME_EXPR:
+    if se.top() == SS.VALUE_EXPR:
         e = self.expr.parse_semantics(se)
         return AddressExpression(e)
     if se.top() == SS.TYPE_EXPR:
@@ -601,7 +562,7 @@ def _(self: pr.AddressExpression, se: SE):
 
 @add_method(pr.LiteralExpression, "parse_semantics")
 def _(self: pr.LiteralExpression, se: SE):
-    if se.top() != SS.RUNTIME_EXPR:
+    if se.top() != SS.VALUE_EXPR:
         raise RuntimeError("literals can only be runtime")
     return self.value.parse_semantics(se)
 
@@ -625,8 +586,8 @@ def compile_semantic_ast(syntactic_ast):
 if __name__ == '__main__':
     data = open(sys.argv[1]).read()
     syn_ast = compile_syntactic_ast(data)
-    tree_print(syn_ast)
-    print('\n'*3)
+    # tree_print(syn_ast)
+    # print('\n'*3)
 
     sem_ast = compile_semantic_ast(syn_ast)
     tree_print(sem_ast)
