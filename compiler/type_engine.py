@@ -1,14 +1,9 @@
+from syntactic_ast import compile_syntactic_ast
+from semantic_ast import compile_semantic_ast
 from helpers import tree_print
-import parser_rules
-from parser import SyntaxParser, parse_semantics
-from lexer import Lexer
 import sys
-from typing import Dict, List, Union
-import lang_ast as la
+from typing import Dict, List
 import type_system as ts
-
-
-# scope manager
 
 
 separator = "_$_"
@@ -60,42 +55,34 @@ class ScopeManager:
         return res_var
 
 
-class TypeExprEval:
-    def __init__(self, resolution_methods):
-        self.dict: Dict[TypeExpression, ts.Type] = {}
-        self.resolution_methods = resolution_methods
-
-    def __getitem__(self, te: TypeExpression):
-        for m in self.resolution_methods:
-            res = m(te)
-            if res is not None:
-                return res
-        if te in self.dict:
-            return self.dict[te]
-        return None
-
-
-class TypeEngine:
-    def __init__(self, defs):
+class TypingContext:
+    def __init__(self, func_defs, struct_defs):
         self.scope_man = ScopeManager()
-        self.func_eval = TypeExprEval(ts.func_resol_methods)
-        self.struct_eval = TypeExprEval(ts.struct_resol_methods)
+        self.type_container = dict()
+        self.resolved_main = False
+
+
+def resolve_function(tc: TypingContext, name: str,
+                     type_argument_types: List[ts.Type],
+                     argument_types: List[ts.Type]):
+    pass
+
+
+def resolve_struct(tc: TypingContext, name: str,
+                   type_argument_types: List[ts.Type]):
+    pass
+
+
+def compile_types(sem_ast: la.Program):
+    tc = TypingContext(sem_ast.function_definitions,
+                       sem_ast.struct_definitions)
+    resolve_function(tc, "main", [], [])
+    return tc
 
 
 if __name__ == '__main__':
     data = open(sys.argv[1]).read()
-    lexer = Lexer()
-    lexer.test(data)
-
-    parser = SyntaxParser(lexer, debug=False)
-    s = parser.parse_syntax(data)
-    tree_print(s)
-
-    print("\n"*3)
-
-    a = parse_semantics(s)
-    tree_print(a)
-
-    print("\n"*3)
-    te = TypeEngine(a.function_definitions+a.struct_definitions)
-    te.run()
+    syn_ast = compile_syntactic_ast(data)
+    sem_ast = compile_semantic_ast(syn_ast)
+    tc = compile_types(sem_ast)
+    print(tc)

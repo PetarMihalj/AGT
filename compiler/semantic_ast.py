@@ -1,3 +1,4 @@
+from helpers import add_method
 from helpers import tree_print
 from syntactic_ast import compile_syntactic_ast
 from dataclasses import dataclass
@@ -12,17 +13,14 @@ class Structural:
     pass
 
 
-class Statement:
+class FunctionStatement:
     pass
 
-
-class Expression:
+class StructStatement:
     pass
-
 
 class ValueExpression:
     pass
-
 
 class TypeExpression:
     pass
@@ -40,91 +38,88 @@ class FunctionDefinition(Structural):
     type_parameter_names: List[str]
     parameter_names: List[str]
     expr_ret: TypeExpression
-    block: 'Block'
+    statement_list: List[FunctionStatement]
 
 
 @ dataclass
 class StructDefinition(Structural):
     name: str
     type_parameter_names: List[str]
-    block: 'Block'
+    statement_list: List[StructStatement]
+
+# function statement
+
+@ dataclass
+class BlockStatement(FunctionStatement):
+    statement_list: List[FunctionStatement]
 
 
 @ dataclass
-class Block(Structural):
-    statement_list: List['Statement']
-
-
-@ dataclass
-class ExpressionStatement(Statement):
+class ExpressionStatement(FunctionStatement):
+    "valueexpr;"
     expr: ValueExpression
 
-
 @ dataclass
-class MemberDeclarationStatement(Statement):
+class TypeDeclarationStatementFunction(FunctionStatement):
+    "type a = typeexpr"
     type_expr: TypeExpression
     name: str
 
-
 @ dataclass
-class BlankStatement(Statement):
-    def te_visit(self, te, fsd):
-        pass
-
-
-@ dataclass
-class TypeDeclarationStatement(Statement):
-    type_expr: TypeExpression
-    name: str
-
-
-@ dataclass
-class BlockStatement(Statement):
-    block: Block
-
-
-@ dataclass
-class AssignmentStatement(Statement):
+class AssignmentStatement(FunctionStatement):
+    "valueexpr = valueexpr"
     left: ValueExpression
     right: ValueExpression
 
-
 @ dataclass
-class InitStatement(Statement):
+class InitStatement(FunctionStatement):
+    "let a = valueexpr"
     name: str
     expr: ValueExpression
 
-
 @ dataclass
-class WhileStatement(Statement):
+class WhileStatement(FunctionStatement):
     expr_check: ValueExpression
-    block: Block
+    statement_list: List[FunctionStatement]
 
 
 @ dataclass
-class ForStatement(Statement):
-    stat_init: Statement
+class ForStatement(FunctionStatement):
+    stat_init: FunctionStatement
     expr_check: ValueExpression
-    stat_change: Statement
-    block: Block
+    stat_change: FunctionStatement
+    statement_list: List[FunctionStatement]
 
 
 @ dataclass
-class IfElseStatement(Statement):
+class IfElseStatement(FunctionStatement):
     expr: ValueExpression
-    block_true: Block
-    block_false: Block
+    statement_list_true: List[FunctionStatement]
+    statement_list_false: List[FunctionStatement]
 
 
 @ dataclass
-class ReturnStatement(Statement):
+class ReturnStatement(FunctionStatement):
     expr: ValueExpression
 
 
 @ dataclass
-class BreakStatement(Statement):
+class BreakStatement(FunctionStatement):
     no: int
 
+# struct statements
+
+@ dataclass
+class MemberDeclarationStatement(StructStatement):
+    "let a = typeexpr"
+    type_expr: TypeExpression
+    name: str
+
+@ dataclass
+class TypeDeclarationStatementStruct(StructStatement):
+    "type a = typeexpr"
+    type_expr: TypeExpression
+    name: str
 
 # Value expressions
 
@@ -234,13 +229,8 @@ SS = SemanticStatus
 SE = SemanticEnvironment
 
 
-def add_method(cls, name):
-    def go(func):
-        setattr(cls, name, func)
-    return go
-
-
 # visitor methods
+
 
 @add_method(pr.CompilationUnit, "parse_semantics")
 def _(self: pr.CompilationUnit, se: SemanticEnvironment):
@@ -259,14 +249,14 @@ def _(self: pr.StructDefinition, se: SE):
         return StructDefinition(
             name=self.expr.expr.id,
             type_parameter_names=[],
-            block=Block(sl)
+            statement_list = sl
         )
     else:
         return StructDefinition(
             name=self.expr.expr.expr.expr.expr.id,
             type_parameter_names=[
                 i.expr.id for i in self.expr.expr.expr.expr_list],
-            block=Block(sl)
+            statement_list = sl
         )
 
 
@@ -293,13 +283,14 @@ def _(self: pr.FunctionDefinition, se: SE):
             e.expr.id for e in pce.expr.expr.expr.expr_list]
         parameters = [e.expr.id for e in pce.expr_list]
     res = FunctionDefinition(name, type_parameter_names,
-                             parameters, expr_ret, Block(sl))
+                             parameters, expr_ret, sl)
     return res
 
 
 @add_method(pr.Block, "parse_semantics")
 def _(self: pr.Block, se: SE):
-    return [s.parse_semantics(se) for s in self.statementList]
+    temp = [s.parse_semantics(se) for s in self.statementList]
+    return [t for t in temp if t is not None]
 
 
 @add_method(pr.Statement, "parse_semantics")
@@ -334,12 +325,16 @@ def _(self, se: SE):
     se.add(SS.TYPE_EXPR)
     a = self.right.parse_semantics(se)
     se.pop()
-    return TypeDeclarationStatement(a, name)
+    if se.in_func:
+        return TypeDeclarationStatementFunction(a, name)
+    else:
+        return TypeDeclarationStatementStruct(a, name)
+
 
 
 @add_method(pr.BlankStatement, "parse_semantics")
 def _(self, se: SE):
-    return BlankStatement()
+    return None
 
 
 @add_method(pr.BlockStatement, "parse_semantics")
@@ -347,7 +342,7 @@ def _(self, se: SE):
     if se.in_func:
         raise RuntimeError("Cant declare new block out of func!")
     a = self.block.parse_semantics(se)
-    return la.BlockStatement(a)
+    return BlockStatement(a)
 
 
 @add_method(pr.InitStatement, "parse_semantics")

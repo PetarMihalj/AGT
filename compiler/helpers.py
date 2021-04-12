@@ -20,3 +20,9 @@ def tree_print_r(name, obj, prefix):
 
 def tree_print(obj):
     tree_print_r(None, obj, "")
+
+
+def add_method(cls, name):
+    def go(func):
+        setattr(cls, name, func)
+    return go

@@ -1,32 +1,31 @@
 from typing import Dict, List, Set
-import re
 import flat_ir as ir
-import lang_ast as la
+import re
 
 
 class Type:
     pass
 
 
-class BoolType:
+class BoolType(Type):
     pass
 
 
-class VoidType:
+class VoidType(Type):
     pass
 
 
-class IntType:
+class IntType(Type):
     def __init__(self, size):
         self.size: int = size
 
 
-class FunctionType:
+class FunctionType(Type):
     def __init__(self, name):
         self.name: str = name
 
         # this is important for runtime purposes
-        self.parameter_names = List[str]
+        self.parameter_names_ordered = List[str]
 
         self.type_parameters: Dict[str, Type] = {}
         self.parameters: Dict[str, Type] = {}
@@ -35,7 +34,7 @@ class FunctionType:
         self.flat_statements: List[ir.FlatStatement] = []
 
 
-class StructType:
+class StructType(Type):
     def __init__(self, name):
         self.name: str = name
 
@@ -45,6 +44,7 @@ class StructType:
 # -----
 
 
+"""
 def match_and_ret(s: str, p: str):
     r = re.compile(p)
     m = r.match(s)
@@ -54,7 +54,7 @@ def match_and_ret(s: str, p: str):
         return m.group()
 
 
-def smt_bool(t: la.TypeExpression):
+def smt_bool(t: TypeExpression):
     if not isinstance(t, la.TypeExpressionGetStruct):
         return None
     t: la.TypeExpressionGetStruct
@@ -86,3 +86,4 @@ def check_all(t):
         res = s(t)
         if res is not None:
             return res
+            """
