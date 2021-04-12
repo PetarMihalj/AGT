@@ -1,0 +1,63 @@
+### Type Engine
+
+#### Apstract
+
+The Type Engine (TE) is the compilation model of the proposed language.
+What this means is that the process of compilation of the final executable program (EXE) can be reduced down to the inference of correct types, which is achieved by running the TE on a set of definitions.
+
+A type is defined as one of the following:
+- Primitive Type (ints of various lengths, including negative ones, in order to support expressive metaprogramming), bool type and void type
+- Structural Type (an aggregate type, a named namespace-like container for other types). Of source, the structural type also allows for runtime data aggregation, but here we are primarily discussing compile time concepts.
+- Function Type - a named collection of types, but unlike structural types, contains runtime instructions, rather than data organization facilities.
+
+The TE's primary job is to infer the type of a function
+- fn main() -> void
+which has no type or value arguments, and returns a void type.
+
+In a simplified way, this is achieved by going through the main function definition, and infering the other required types from one of the following sources.
+
+Expecting a struct: Struct definitions
+Expecting a function: Function definitions
+
+If we can infer more than a single type, this is considered a compile time error and should immediatelly crash the compilation process. 
+On the other hand, is we can't infer a type at all, than we rely on inbuilt resolution methods, which get the given type expression and the type engine (so they can inspect already inferred types), and can inject a synthetized method or struct in struct/function definitions.
+These can include special methods which begin with a name that can't be given to normal functions, this is used for for type injection and inbuilt function injection.
+
+
+this is considered a normal behaviour, resulting in the type of caller not being inferred. 
+Note that this can be used to select a calling function by crashing others in the process of type inference, enabling the use of polymorphism (see ex/demo1.st)
+
+#### A type expression
+
+A type expression is a language construct which consists of well inferred types joined by type operators, used in a context of a yet to be inferred type. Some examples include:
+
+- a call for a function named "area", with already inferred type argument i32, and value arguments of types i32 and i32.
+- a type expression which consists extracting the type from a struct, for example fib<5>.T - evaluation of this expression consists of evaluation fib<5> and then extracting the type of member T.
+
+Type expressions are pure by definition, which means that every evaluation of a fixed type expression will yield the same typa as a result, regardless of the environemnt it was invoked in. 
+This also implies that the evaluation of type expression can't require the evaluation of a same type expression - this would yield to an infinite recursion, and is caught as soon as it happens, producing a compile time error.
+
+The type expression evaluation if a naturally recursive process, which can be visualized as being executed on a stack. This process can be monitored by a compilation debugger (CDB).
+
+
+#### Type expression - implicit requests by the language
+
+Apart from being an expressive metaprogramming tool, the language is compiled according to certain semantics. 
+Some of the semantical elements include:
+
+1. Call expressions (typeexpr<maybe...>(maybe...))
+    - these can mean two things, either a function call, or an object construction, depending on whether the infered type of a typeexpr is a struct or a function. 
+    - in the case of a struct, we allocate the required stack space for a temporary variable, and implicitly request the object lifetime functions. 
+    - if we can infer a function type, we prefer that one. Otherwise we infer the struct type, and then its lifetime functions (see 3.)
+
+2. Operators (+, -, *, /, ., ...)
+    - these are just a syntactic sugar for their "dunder" methods, starting and ending in double underscores, for example __add__. 
+
+3. Object lifetime functions
+    - __init__ - called with arguments (pointer to type created, arguments given, empty type argument list) when an object is created. Note that type arguments can be passed through the struct definition to main, if neededed. Implicit definition available, __init__'s the members an object is made of.
+    - __dest__ - called when an object goes out of scope - disposes of the resource an object holds (implicit). Implicit definition available
+    - __copy__ - called when an object is assigned or passed to a function in a function call. Does not have to have a copy semantic (for smart pointers for example) 
+
+__copy__(dest_ptr, src_ptr) doesn't exist, then it is created when a struct is resolved and it doesnt already exist. 
+
+__dest__(obj_ptr) is created when a struct is resolved, and this doesn't already exist.

@@ -1,6 +1,9 @@
 from dataclasses import dataclass
 from typing import List, Any, Tuple
 
+from type_engine import TypeEngine
+import type_system as ts
+
 
 class TreeNode:
     pass
@@ -27,6 +30,9 @@ class Program(TreeNode):
     function_definitions: List['FunctionDefinition']
     struct_definitions: List['StructDefinition']
 
+    def te_visit(self, te: TypeEngine):
+        raise RuntimeExpression("this is not parsed directly")
+
 
 @dataclass
 class FunctionDefinition(TreeNode):
@@ -35,6 +41,10 @@ class FunctionDefinition(TreeNode):
     parameters: List[List[str]]
     expr_ret: TypeExpression
     block: 'Block'
+
+    def te_visit(self, te: TypeEngine):
+        f = ts.FunctionType()
+
 
 
 @dataclass

@@ -7,11 +7,15 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +2 type_engine.py
-badd +0 lang_ast.py
-badd +0 term://.//22754:/bin/bash
+badd +6 type_engine.py
+badd +1 lang_ast.py
+badd +1 term://.//5709:/bin/bash
+badd +2 notes_te
+badd +103 ex/demo1.st
+badd +0 ex/demo2.st
 argglobal
 silent! argdel *
+set stal=2
 edit type_engine.py
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -34,7 +38,7 @@ exe 'vert 1resize ' . ((&columns * 78 + 118) / 236)
 exe 'vert 2resize ' . ((&columns * 78 + 118) / 236)
 exe '3resize ' . ((&lines * 30 + 32) / 64)
 exe 'vert 3resize ' . ((&columns * 78 + 118) / 236)
-exe '4resize ' . ((&lines * 31 + 32) / 64)
+exe '4resize ' . ((&lines * 30 + 32) / 64)
 exe 'vert 4resize ' . ((&columns * 78 + 118) / 236)
 argglobal
 setlocal fdm=manual
@@ -46,11 +50,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 31) / 62)
+let s:l = 167 - ((47 * winheight(0) + 30) / 61)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+167
 normal! 0
 wincmd w
 argglobal
@@ -64,15 +68,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 33 - ((23 * winheight(0) + 31) / 62)
+let s:l = 1 - ((0 * winheight(0) + 30) / 61)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-33
-normal! 09|
+1
+normal! 0
 wincmd w
 argglobal
-if bufexists('type_engine.py') | buffer type_engine.py | else | edit type_engine.py | endif
+if bufexists('notes_te') | buffer notes_te | else | edit notes_te | endif
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -82,15 +86,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 15) / 30)
+let s:l = 28 - ((27 * winheight(0) + 15) / 30)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+28
 normal! 0
 wincmd w
 argglobal
-if bufexists('term://.//22754:/bin/bash') | buffer term://.//22754:/bin/bash | else | edit term://.//22754:/bin/bash | endif
+if bufexists('term://.//5709:/bin/bash') | buffer term://.//5709:/bin/bash | else | edit term://.//5709:/bin/bash | endif
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -99,7 +103,7 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 1 - ((0 * winheight(0) + 15) / 31)
+let s:l = 1 - ((0 * winheight(0) + 15) / 30)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -110,9 +114,83 @@ exe 'vert 1resize ' . ((&columns * 78 + 118) / 236)
 exe 'vert 2resize ' . ((&columns * 78 + 118) / 236)
 exe '3resize ' . ((&lines * 30 + 32) / 64)
 exe 'vert 3resize ' . ((&columns * 78 + 118) / 236)
-exe '4resize ' . ((&lines * 31 + 32) / 64)
+exe '4resize ' . ((&lines * 30 + 32) / 64)
 exe 'vert 4resize ' . ((&columns * 78 + 118) / 236)
-tabnext 1
+tabedit notes_te
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+wincmd _ | wincmd |
+vsplit
+2wincmd h
+wincmd w
+wincmd w
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 78 + 118) / 236)
+exe 'vert 2resize ' . ((&columns * 78 + 118) / 236)
+exe 'vert 3resize ' . ((&columns * 78 + 118) / 236)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 30) / 61)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 04|
+wincmd w
+argglobal
+if bufexists('ex/demo1.st') | buffer ex/demo1.st | else | edit ex/demo1.st | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 34 - ((33 * winheight(0) + 30) / 61)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+34
+normal! 09|
+wincmd w
+argglobal
+if bufexists('ex/demo2.st') | buffer ex/demo2.st | else | edit ex/demo2.st | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 3 - ((2 * winheight(0) + 30) / 61)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+3
+normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 78 + 118) / 236)
+exe 'vert 2resize ' . ((&columns * 78 + 118) / 236)
+exe 'vert 3resize ' . ((&columns * 78 + 118) / 236)
+tabnext 2
+set stal=1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
 endif

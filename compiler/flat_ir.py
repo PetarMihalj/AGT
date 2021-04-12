@@ -3,6 +3,10 @@ from typing import List, Tuple
 
 # Instructions
 
+class FlatStatement:
+    pass
+
+
 class StackAllocate:
     def __init__(self, dest, typename):
         self.dest = dest

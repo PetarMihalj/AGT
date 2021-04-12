@@ -410,7 +410,7 @@ precedence = (
     ('left', 'COMMA'),
     ('left', 'PLUS', 'MINUS'),
     ('left', 'TIMES', 'DIVIDE', 'MOD'),
-    ('left', 'LEQ', 'GEQ', 'LT', 'GT', 'EQ', 'NE'),
+    ('left', 'LE', 'GE', 'LT', 'GT', 'EQ', 'NE'),
     ('left', 'DOT', 'DEREF'),
     ('right', 'ADDRESS'),
     ('left', 'LPAREN', 'LBRACE')
@@ -441,13 +441,13 @@ class IdExpression(ParserRule):
 
 
 class BinaryExpression(ParserRule):
-    """BinaryExpression : Expression PLUS Expression
-                        | Expression MINUS Expression
-                        | Expression TIMES Expression
-                        | Expression DIVIDE Expression
+    """BinaryExpression : Expression ADD Expression
+                        | Expression SUB Expression
+                        | Expression MUL Expression
+                        | Expression DIV Expression
                         | Expression MOD Expression
-                        | Expression LEQ Expression
-                        | Expression GEQ Expression
+                        | Expression LE Expression
+                        | Expression GE Expression
                         | Expression LT Expression
                         | Expression GT Expression
                         | Expression EQ Expression
