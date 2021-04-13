@@ -25,24 +25,33 @@ class ScopeManager:
     def end_scope(self):
         self.scope_stack.pop()
 
+    # var names
+
+    def new_var_name(self, name, type_name=False):
+        self.var_cnt += 1
+        if type_name:
+            res_var = f"t_var{separator}{name}{separator}{self.var_cnt}"
+        else:
+            res_var = f"var{separator}{name}{separator}{self.var_cnt}"
+        self.scope_stack[-1][name] = res_var
+        return res_var
+
     def get_var_name(self, name: str):
         for s in reversed(self.scope_stack):
             if name in s:
                 return s[name]
 
+    # label names
+
     def new_label_name(self, description=""):
         self.label_cnt += 1
         return f"label{description}{separator}{self.label_cnt}"
 
+    # tmp var names
+
     def new_tmp_var_name(self, description=""):
         self.tmp_var_cnt += 1
         return f"tmp_var{description}{separator}{self.tmp_var_cnt}"
-
-    def new_var_name(self, name):
-        self.var_cnt += 1
-        res_var = f"var{separator}{name}{separator}{self.var_cnt}"
-        self.scope_stack[-1][name] = res_var
-        return res_var
 
     def new_func_name(self, name):
         self.func_cnt += 1
@@ -61,22 +70,20 @@ class TypingContext:
         self.type_container = dict()
         self.resolved_main = False
 
+    def resolve_function(self, name: str,
+                         type_argument_types: List[ts.Type],
+                         argument_types: List[ts.Type]):
+        pass
 
-def resolve_function(tc: TypingContext, name: str,
-                     type_argument_types: List[ts.Type],
-                     argument_types: List[ts.Type]):
-    pass
-
-
-def resolve_struct(tc: TypingContext, name: str,
-                   type_argument_types: List[ts.Type]):
-    pass
+    def resolve_struct(self, name: str,
+                       type_argument_types: List[ts.Type]):
+        pass
 
 
-def compile_types(sem_ast: la.Program):
+def compile_types(sem_ast):
     tc = TypingContext(sem_ast.function_definitions,
                        sem_ast.struct_definitions)
-    resolve_function(tc, "main", [], [])
+    tc.resolve_function(tc, "main", [], [])
     return tc
 
 

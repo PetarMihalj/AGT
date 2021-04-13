@@ -61,9 +61,9 @@ class JumpToLabelTrue:
 
 
 class JumpToLabelFalse:
-    def __init__(self, var, label_true):
+    def __init__(self, var, label_false):
         self.var: str = var
-        self.label_true: str = label_true
+        self.label_false: str = label_false
 
 
 class JumpToLabel:

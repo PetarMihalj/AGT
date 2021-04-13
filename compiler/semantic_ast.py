@@ -197,9 +197,9 @@ class TypePtrExpression(TypeExpression):
 
 
 @ dataclass
-class TypeMemberIndexExpression(TypeExpression):
+class TypeIndexExpression(TypeExpression):
     expr: TypeExpression
-    member: str
+    name: str
 
 
 # misc
@@ -520,7 +520,7 @@ def _(self: pr.DotExpression, se: SE):
             self.right.expr.id
         )
     if se.top() == SS.TYPE_EXPR:
-        return TypeMemberIndexExpression(
+        return TypeIndexExpression(
             self.left.parse_semantics(se),
             self.right.expr.id
         )

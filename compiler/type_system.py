@@ -24,13 +24,12 @@ class FunctionType(Type):
     def __init__(self, name):
         self.name: str = name
 
+        self.break_label_stack = []
+
         # this is important for runtime purposes
         self.parameter_names_ordered = List[str]
 
-        self.type_parameters: Dict[str, Type] = {}
-        self.parameters: Dict[str, Type] = {}
-        self.return_type: Type = None
-
+        self.types: Dict[str, Type] = {}
         self.flat_statements: List[ir.FlatStatement] = []
 
 
@@ -40,6 +39,10 @@ class StructType(Type):
 
         self.types: Dict[str, Type] = {}
         self.members: Set[str] = set()
+
+class PointerType(Type):
+    def __init__(self, pointed):
+        self.pointed: Type = pointed
 
 # -----
 
