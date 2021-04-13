@@ -4,6 +4,8 @@ from helpers import tree_print
 import sys
 from typing import Dict, List
 import type_system as ts
+import semantic_ast as sa
+from type_engine_rules import NoInferencePossibleError
 
 
 separator = "_$_"
@@ -66,18 +68,71 @@ class ScopeManager:
 
 class TypingContext:
     def __init__(self, func_defs, struct_defs):
+        self.func_defs = func_defs
+        self.struct_defs = struct_defs
+
         self.scope_man = ScopeManager()
-        self.type_container = dict()
-        self.resolved_main = False
+        self.function_type_container = dict()
+        self.struct_type_container = dict()
 
     def resolve_function(self, name: str,
                          type_argument_types: List[ts.Type],
                          argument_types: List[ts.Type]):
-        pass
+        desc = (
+            name, 
+            type_argument_types, 
+            argument_types
+        )
+        if desc in self.function_type_container:
+            return desc
+        candidates = []
+        for fd in self.func_defs:
+            fd: sa.FunctionDefinition
+            if all([
+                fd.name == name,
+                len(fd.type_parameter_names) == type_argument_types,
+                len(fd.parameter_names) == argument_types,
+            ]):
+                try:
+                    r = fd.te_visit(tc, type_argument_types, args)
+                    candidates.append(r)
+                except...:
+                    pass
+        if len(candidates)==1:
+            self.function_type_container[desc] = candidates[0]
+            return candidates[0]
+        elif len(candidates)==0:
+            raise NoInferencePossibleError("cant synth")
+        else:
+            raise NoInferencePossibleError("multiple synth")
 
     def resolve_struct(self, name: str,
                        type_argument_types: List[ts.Type]):
-        pass
+        desc = (
+            name, 
+            type_argument_types, 
+        )
+        if desc in self.struct_type_container:
+            return desc
+        candidates = []
+        for sd in self.struct_defs:
+            sd: sa.StructDefinition
+            if all([
+                sd.name == name,
+                len(sd.type_parameter_names) == type_argument_types,
+            ]):
+                try:
+                    r = sd.te_visit(tc, type_argument_types, args)
+                    candidates.append(r)
+                except...:
+                    pass
+        if len(candidates)==1:
+            self.struct_type_container[desc] = candidates[0]
+            return candidates[0]
+        elif len(candidates)==0:
+            raise NoInferencePossibleError("cant synth")
+        else:
+            raise NoInferencePossibleError("multiple synth")
 
 
 def compile_types(sem_ast):

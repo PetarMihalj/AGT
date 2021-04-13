@@ -140,7 +140,7 @@ class BracketCallExpression(ValueExpression):
 @ dataclass
 class MemberIndexExpression(ValueExpression):
     expr: ValueExpression
-    member: ValueExpression
+    member: str
 
 
 @ dataclass
@@ -158,17 +158,15 @@ class IntLiteralExpression(ValueExpression):
     value: int
     size: int
 
+@ dataclass
+class BoolLiteralExpression(ValueExpression):
+    value: bool
 
 @ dataclass
 class CallExpression(ValueExpression):
     name: int
     type_expr_list: List[TypeExpression]
     args: List[ValueExpression]
-
-
-@ dataclass
-class BoolLiteralExpression(ValueExpression):
-    value: bool
 
 # Type Expressions
 

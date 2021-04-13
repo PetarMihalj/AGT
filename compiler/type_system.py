@@ -23,6 +23,7 @@ class IntType(Type):
 class FunctionType(Type):
     def __init__(self, name):
         self.name: str = name
+        self.mangled_name: str = None
 
         self.break_label_stack = []
 
@@ -36,6 +37,7 @@ class FunctionType(Type):
 class StructType(Type):
     def __init__(self, name):
         self.name: str = name
+        self.mangled_name: str = None
 
         self.types: Dict[str, Type] = {}
         self.members: Set[str] = set()

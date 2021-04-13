@@ -32,11 +32,10 @@ class Assignment:
 
 
 class FunctionCall:
-    def __init__(self, dest, fn_name, arguments, typeArguments):
+    def __init__(self, dest, fn_mangled_name, arguments):
         self.dest: str = dest
-        self.fn_name = fn_name
+        self.fn_mangled_name = fn_mangled_name
         self.arguments: List[str] = arguments
-        self.typeArguments: List[str] = typeArguments
 
 
 class FunctionReturn:
@@ -85,14 +84,14 @@ class GetElementPtr:
         self.element_name = element_name
 
 
-class IntConstant:
-    def __init__(self, dest, value, size, signed):
+class IntConstantAssignment:
+    def __init__(self, dest, value, size):
         self.dest = dest
         self.value = value
         self.size = size
 
 
-class BoolConstant:
+class BoolConstantAssignment:
     def __init__(self, dest, value):
         self.dest = dest
         self.value = value

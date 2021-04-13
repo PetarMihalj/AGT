@@ -28,10 +28,16 @@ def _(self: sa.FunctionDefinition, tc: TC,
       type_args: List[ts.Type],
       args: List[ts.Type],
       ):
+    desc = (
+        self.name,
+        type_args,
+        args
+    )
     if len(type_args) != len(self.type_parameter_names) or\
             len(args) != len(self.parameter_names):
         return None
     f = ts.FunctionType(self.name)
+    f.mangled_name = tc.scope_man.new_func_name(self.name)
 
     f.parameter_names_ordered = self.parameter_names
     f.types = dict([
@@ -47,11 +53,19 @@ def _(self: sa.FunctionDefinition, tc: TC,
                 isinstance(s, sa.TypeDeclarationStatementFunction):
             f.types["return"] = self.expr_ret.te_visit(tc, f)
             ret_done = True
+            # for recursive calls, statements are not needed
+            tc.function_type_container[desc] = f
         s.te_visit(tc, f)
 
     if not ret_done:
         f.types["return"] = self.expr_ret.te_visit(tc, f)
         ret_done = True
+        # for recursive calls, statements are not needed
+        tc.function_type_container[desc] = f
+
+    # remove func, since it might contradict other alternatives
+    tc.function_type_container.pop(desc)
+    return f
 
 
 @ add_method(sa.StructDefinition, "te_visit")
@@ -67,6 +81,7 @@ def _(self: sa.StructDefinition, tc: TC,
     ])
 
     self.block.te_visit(tc, s)
+    s.mangled_name = tc.scope_man.new_struct_name(self.name)
 
     return s
 
@@ -98,8 +113,8 @@ def _(self: sa.TypeDeclarationStatementFunction, tc: TC,
 @ add_method(sa.AssignmentStatement, "te_visit")
 def _(self: sa.AssignmentStatement, tc: TC,
         f: ts.FunctionType):
-    le = self.left.te_visit(tc, f, ptr=True)
-    re = self.right.te_visit(tc, f, ptr=False)
+    le = self.left.te_visit(tc, f, lvalue=True)
+    re = self.right.te_visit(tc, f, lvalue=False)
     if f.types[le] != f.types[re]:
         raise NoInferencePossibleError("type missmatch")
     else:
@@ -110,7 +125,7 @@ def _(self: sa.AssignmentStatement, tc: TC,
 def _(self: sa.InitStatement, tc: TC,
         f: ts.FunctionType):
     mn = tc.scope_man.new_var_name(self.name)
-    e = self.expr.te_visit(tc, f, ptr=False)
+    e = self.expr.te_visit(tc, f, lvalue=False)
     f.flat_statements.append(ir.StackAllocate(mn, f.types[e]))
     f.flat_statements.append(ir.Assignment(mn, e))
 
@@ -123,7 +138,7 @@ def _(self: sa.WhileStatement, tc: TC,
     f.break_label_stack.append(lwe)
 
     tc.scope_man.begin_scope()
-    ec = self.expr_check.te_visit(tc, f, ptr=False)
+    ec = self.expr_check.te_visit(tc, f, lvalue=False)
     if f.types[ec] != ts.BoolType():
         raise NoInferencePossibleError("check expr must be bool")
     f.flat_statements.append(ir.Label(lwc))
@@ -147,7 +162,7 @@ def _(self: sa.ForStatement, tc: TC,
     tc.scope_man.begin_scope()
     self.stat_init.te_visit(tc, f)
     f.flat_statements.append(ir.Label(lfcheck))
-    ec = self.expr_check.te_visit(tc, f, ptr=False)
+    ec = self.expr_check.te_visit(tc, f, lvalue=False)
     if f.types[ec] != ts.BoolType():
         raise NoInferencePossibleError("check expr must be bool")
     f.flat_statements.append(ir.JumpToLabelFalse(ec, lfe))
@@ -169,7 +184,7 @@ def _(self: sa.IfElseStatement, tc: TC,
     ifend = tc.scope_man.new_label_name("if end")
 
     tc.scope_man.begin_scope()
-    ec = self.expr_check.te_visit(tc, f, ptr=False)
+    ec = self.expr_check.te_visit(tc, f, lvalue=False)
     if f.types[ec] != ts.BoolType():
         raise NoInferencePossibleError("check expr must be bool")
     f.flat_statements.append(ir.JumpToLabelFalse(ec, iffalse))
@@ -187,7 +202,7 @@ def _(self: sa.IfElseStatement, tc: TC,
 @ add_method(sa.ReturnStatement, "te_visit")
 def _(self: sa.ReturnStatement, tc: TC,
         f: ts.FunctionType):
-    ec = self.expr_check.te_visit(tc, f, ptr=False)
+    ec = self.expr_check.te_visit(tc, f, lvalue=False)
     if f.types[ec] != f.types["return"]:
         raise NoInferencePossibleError("wrong return type")
     f.flat_statements.append(ir.FunctionReturn(ec))
@@ -226,6 +241,143 @@ def _(self: sa.TypeDeclarationStatementStruct, tc: TC,
 
 
 # value expressions
+
+
+@ add_method(sa.BinaryExpression, "te_visit")
+def _(self: sa.BinaryExpression, tc: TC,
+        f: ts.FunctionType, lvalue):
+    if lvalue:
+        raise NoInferencePossibleError("cant ret a lvalue")
+    le = self.left.te_visit(tc, f)
+    lr = self.right.te_visit(tc, f)
+    tmp = tc.scope_man.new_tmp_var_name(f"{self.op}")
+
+    opf = tc.resolve_function(self.op, [], [f.types[le], f.types[lr]])
+
+    f.flat_statements.append(ir.FunctionCall(
+        tmp, opf.mangled_name))
+    f.types[tmp] = opf.types["return"]
+    return opf
+
+
+@ add_method(sa.BracketCallExpression, "te_visit")
+def _(self: sa.BracketCallExpression, tc: TC,
+        f: ts.FunctionType, lvalue):
+    e = self.expr.te_visit(tc, f, lvalue=True)
+    ind = self.index.te_visit(tc, f, lvalue=False)
+    if not isinstance(f.types[ind], ts.IntType):
+        raise NoInferencePossibleError("cant bracket with non-int index")
+
+    tmp = tc.scope_man.new_tmp_var_name("bracket call")
+    f.types[tmp] = f.types[e]
+
+    f.flat_statements.append(ir.GetPointerOffset(tmp, e, ind))
+    if lvalue:
+        return tmp
+    else:
+        tmp2 = tc.scope_man.new_tmp_var_name("bracket call deref")
+        f.types[tmp2] = f.types[e]
+        f.flat_statements.append(ir.LoadValueFromPointer(tmp2, tmp))
+        return tmp2
+
+
+@ add_method(sa.MemberIndexExpression, "te_visit")
+def _(self: sa.MemberIndexExpression, tc: TC,
+        f: ts.FunctionType, lvalue):
+    e = self.expr.te_visit(tc, f, lvalue=True)
+    if not isinstance(f.types[e], ts.StructType):
+        raise NoInferencePossibleError("cant \
+                refer to a member of a non struct type")
+    tmp = tc.scope_man.new_tmp_var_name("member index")
+    if self.member not in f.types[e].members:
+        raise NoInferencePossibleError("cant \
+                refer to a nonexistant member")
+
+    f.types[tmp] = f.types[e].types[self.member]
+    f.flat_statements.append(ir.GetElementPtr(tmp, e, self.member))
+    if lvalue:
+        return tmp
+    else:
+        tmp2 = tc.scope_man.new_tmp_var_name("member index deref")
+        f.types[tmp2] = f.types[e].types[self.member]
+        f.flat_statements.append(ir.LoadValueFromPointer(tmp2, tmp))
+        return tmp2
+
+
+@ add_method(sa.DerefExpression, "te_visit")
+def _(self: sa.DerefExpression, tc: TC,
+        f: ts.FunctionType, lvalue):
+    e = self.expr.te_visit(tc, f, lvalue=lvalue)
+    if not isinstance(f.types[e], ts.PointerType):
+        raise NoInferencePossibleError("cant \
+                deref non pointer type")
+    tmp = tc.scope_man.new_tmp_var_name("ptr deref")
+    f.types[tmp] = f.types[e].pointed
+    f.flat_statements.append(ir.LoadValueFromPointer(tmp, e))
+    return tmp
+
+
+@ add_method(sa.AddressExpression, "te_visit")
+def _(self: sa.BinaryExpression, tc: TC,
+        f: ts.FunctionType, lvalue):
+    if lvalue:
+        raise NoInferencePossibleError("cant \
+                return an address which is lvalue")
+    e = self.expr.te_visit(tc, f, lvalue=True)
+    tmp = tc.scope_man.new_tmp_var_name("addr of")
+    f.types[tmp] = ts.PointerType(f.types[e])
+    f.flat_statements.append(ir.Assignment(tmp, e))
+    return tmp
+
+
+@ add_method(sa.IntLiteralExpression, "te_visit")
+def _(self: sa.IntLiteralExpression, tc: TC,
+        f: ts.FunctionType):
+    tmp = tc.scope_man.new_tmp_var_name("int literal")
+    f.types[tmp] = ts.IntType(self.size)
+    f.flat_statements.append(ir.IntConstantAssignment(tmp,
+                                                      self.value,
+                                                      self.size))
+    return tmp
+
+
+@ add_method(sa.BoolLiteralExpression, "te_visit")
+def _(self: sa.BoolLiteralExpression, tc: TC,
+        f: ts.FunctionType):
+    tmp = tc.scope_man.new_tmp_var_name("bool literal")
+    f.types[tmp] = ts.BoolType()
+    f.flat_statements.append(ir.BoolConstantAssignment(tmp,
+                                                       self.value))
+    return tmp
+
+
+@ add_method(sa.CallExpression, "te_visit")
+def _(self: sa.CallExpression, tc: TC,
+        f: ts.FunctionType):
+    tmp = tc.scope_man.new_tmp_var_name("bool literal")
+    type_args_types = [t.te_visit(tc, f) for t in self.type_expr_list]
+    args = [v.te_visit(tc, f, lvalue=False) for v in self.args]
+    args_types = [f.types[a] for a in args]
+    try:
+        ft = tc.resolve_function(self.name, type_args_types, args_types)
+        f.flat_statements.append(ir.FunctionCall(tmp,
+                                                 ft.mangled_name,
+                                                 args))
+        f.types[tmp] = ft.types["return"]
+    except ...:
+        try:
+            st = tc.resolve_struct(self.name, type_args_types)
+            f.types[tmp] = st
+
+            ft = tc.resolve_function(
+                "__init__", [ts.PointerType(st)]+args_types)
+            vd = tc.scope_man.new_tmp_var_name("void dummy")
+            f.flat_statements.append(ir.FunctionCall(vd,
+                                                     ft.mangled_name,
+                                                     [tmp]+args))
+            f.types[vd] = ft.types["return"]
+        except ...:
+            raise NoInferencePossibleError("cant synth callexpr")
 
 
 # type expressions
@@ -285,9 +437,8 @@ def _(self: sa.TypePtrExpression, tc: TC,
 
 @ add_method(sa.TypeIndexExpression, "te_visit")
 def _(self: sa.TypeIndexExpression, tc: TC,
-        s: ts.StructType):
+        sf: Union[ts.StructType, ts.FunctionType]):
     e = self.expr.te_visit(tc, s)
     if not isinstance(e, ts.StructType):
         raise NoInferencePossibleError("Cant index non struct member type")
     return e.types[self.name]
-
