@@ -54,3 +54,15 @@ def gen_int(tc, name: str,
         tc.struct_type_container[(name, tuple(type_argument_types))] = ts.IntType(val)
     except:
         raise NoInferencePossibleError()
+
+@add_method_to_list(struct_methods)
+def gen_int_ops(tc, name: str,
+                 type_argument_types: List[Type],
+            ):
+    try:
+        i1 = type_argument_types[0].size
+        i2 = type_argument_types[1].size
+
+
+    except:
+        raise NoInferencePossibleError()

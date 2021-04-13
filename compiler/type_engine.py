@@ -102,9 +102,9 @@ class TypingContext:
                 len(fd.type_parameter_names) == len(type_argument_types),
                 len(fd.parameter_names) == len(argument_types),
             ]):
-                print("HERE")
                 try:
                     r = fd.te_visit(self, type_argument_types, argument_types)
+                    print("HERE")
                     candidates.append(r)
                 except NoInferencePossibleError:
                     pass
@@ -136,7 +136,7 @@ class TypingContext:
                 len(sd.type_parameter_names) == len(type_argument_types),
             ]):
                 try:
-                    r = sd.te_visit(tc, type_argument_types, args)
+                    r = sd.te_visit(self, type_argument_types)
                     candidates.append(r)
                 except NoInferencePossibleError:
                     pass

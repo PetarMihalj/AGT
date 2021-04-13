@@ -43,6 +43,10 @@ def _(self: sa.FunctionDefinition, tc: TC,
     ])
 
     tc.scope_man.begin_scope()
+    for name in self.type_parameter_names:
+        tc.scope_man.new_var_name(name)
+    for name in self.parameter_names:
+        tc.scope_man.new_var_name(name)
     ret_done = False
     for s in self.statement_list:
         if not ret_done and not\
@@ -70,6 +74,7 @@ def _(self: sa.FunctionDefinition, tc: TC,
 def _(self: sa.StructDefinition, tc: TC,
       type_args: List[ts.Type],
       ):
+    print(f"Resolving struct: {self.name}, {type_args}")
     if len(type_args) != len(self.type_parameter_names):
         return None
     s = ts.StructType(self.name)
@@ -78,7 +83,8 @@ def _(self: sa.StructDefinition, tc: TC,
         a for a in zip(self.type_parameter_names, type_args)
     ])
 
-    self.block.te_visit(tc, s)
+    for stat in self.statement_list:
+        stat.te_visit(tc, s)
     s.mangled_name = tc.scope_man.new_struct_name(self.name)
 
     return s
@@ -104,6 +110,7 @@ def _(self: sa.ExpressionStatement, tc: TC,
 def _(self: sa.TypeDeclarationStatementFunction, tc: TC,
         f: ts.FunctionType):
 
+    print("resolving type decl")
     mn = tc.scope_man.new_var_name(self.name, type_name=True)
     f.types[mn] = self.type_expr.te_visit(tc, f)
 
@@ -393,7 +400,7 @@ def _(self: sa.TypeBinaryExpression, tc: TC,
     le = self.left.te_visit(tc, sf)
     lr = self.right.te_visit(tc, sf)
     try:
-        rt = tc.resolve_struct(self.op, le, lr)
+        rt = tc.resolve_struct(self.op, [le, lr])
     except NoInferencePossibleError:
         raise NoInferencePossibleError(f"no operator {self.op}")
 
@@ -414,10 +421,29 @@ def _(self: sa.TypeAngleExpression, tc: TC,
                 return sf.types[self.name]
 
     texprs = [te.te_visit(tc, sf) for te in self.expr_list]
+    print(texprs)
     rt = tc.resolve_struct(self.name, texprs)
 
     return rt
 
+@ add_method(sa.TypeIdExpression, "te_visit")
+def _(self: sa.TypeIdExpression, tc: TC,
+        sf: Union[ts.StructType, ts.FunctionType]):
+
+    print(self.name)
+    print(sf.types)
+    if isinstance(sf, ts.StructType):
+        if self.name in sf.types:
+            return sf.types[self.name]
+    elif isinstance(sf, ts.FunctionType):
+        mn = tc.scope_man.get_var_name(self.name)
+        if mn is not None:
+            return sf.types[self.name]
+    print("NOT")
+
+    rt = tc.resolve_struct(self.name, [])
+
+    return rt
 
 @ add_method(sa.TypeDerefExpression, "te_visit")
 def _(self: sa.TypeDerefExpression, tc: TC,
@@ -439,7 +465,7 @@ def _(self: sa.TypePtrExpression, tc: TC,
 @ add_method(sa.TypeIndexExpression, "te_visit")
 def _(self: sa.TypeIndexExpression, tc: TC,
         sf: Union[ts.StructType, ts.FunctionType]):
-    if not isinstance(sf, ts.StructType):
-        raise NoInferencePossibleError("Cant index non struct member type")
     e = self.expr.te_visit(tc, sf)
+    if not isinstance(e, ts.StructType):
+        raise NoInferencePossibleError("Cant index non struct member type")
     return e.types[self.name]

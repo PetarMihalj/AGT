@@ -239,7 +239,8 @@ precedence = (
     ('left', 'LE', 'GE', 'LT', 'GT', 'EQ', 'NE'),
     ('left', 'DOT', 'DEREF'),
     ('right', 'ADDRESS'),
-    ('left', 'LPAREN', 'LBRACE')
+    ('left', 'LPAREN', 'LBRACE'),
+    ('left', 'LANGLE', 'RANGLE'),
 )
 
 

@@ -185,6 +185,9 @@ class TypeAngleExpression(TypeExpression):
     name: str
     expr_list: List[TypeExpression]
 
+@ dataclass
+class TypeIdExpression(TypeExpression):
+    name: str
 
 @ dataclass
 class TypeDerefExpression(TypeExpression):
@@ -449,7 +452,7 @@ def _(self: pr.Expression, se: SE):
 @add_method(pr.IdExpression, "parse_semantics")
 def _(self: pr.IdExpression, se: SE):
     if se.top() == SS.TYPE_EXPR:
-        return TypeAngleExpression(self.id, [])
+        return TypeIdExpression(self.id)
     else:
         return self.id
 
@@ -486,7 +489,7 @@ def _(self: pr.AngleCallExpression, se: SE):
     if se.top() != SS.TYPE_EXPR:
         raise RuntimeError("Angle call is a part of type expression!")
     return TypeAngleExpression(
-        self.expr.parse_semantics(se),
+        self.expr.parse_semantics(se).name,
         [s.parse_semantics(se) for s in self.expr_list]
     )
 

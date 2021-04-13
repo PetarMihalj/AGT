@@ -39,6 +39,5 @@ fn ct_fib<T>() -> i32{
 }
 
 fn main(){
-    main();
     let v = ct_fib<i5>();
 }
