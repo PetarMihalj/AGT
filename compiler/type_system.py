@@ -3,6 +3,15 @@ import flat_ir as ir
 import re
 
 
+class SyntError(BaseException):
+    pass
+
+
+class NoInferencePossibleError(BaseException):
+    pass
+
+#
+
 class Type:
     pass
 
@@ -18,6 +27,8 @@ class VoidType(Type):
 class IntType(Type):
     def __init__(self, size):
         self.size: int = size
+    def __repr__(self):
+        return f"IntType({self.size})"
 
 
 class FunctionType(Type):
@@ -49,7 +60,6 @@ class PointerType(Type):
 # -----
 
 
-"""
 def match_and_ret(s: str, p: str):
     r = re.compile(p)
     m = r.match(s)
@@ -59,6 +69,7 @@ def match_and_ret(s: str, p: str):
         return m.group()
 
 
+"""
 def smt_bool(t: TypeExpression):
     if not isinstance(t, la.TypeExpressionGetStruct):
         return None
@@ -83,12 +94,6 @@ def smt_int(t: la.TypeExpression):
     if m is None:
         return None
     return IntType(m.group(1), True)
+    """
+    
 
-
-def check_all(t):
-    smt_collection = [smt_int, smt_bool]
-    for s in smt_collection:
-        res = s(t)
-        if res is not None:
-            return res
-            """

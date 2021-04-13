@@ -7,12 +7,7 @@ from typing import List, Union
 import flat_ir as ir
 
 
-class SyntaxError(RuntimeError):
-    pass
-
-
-class NoInferencePossibleError(RuntimeError):
-    pass
+from type_engine import NoInferencePossibleError, SyntError
 
 
 # structural
@@ -20,7 +15,7 @@ class NoInferencePossibleError(RuntimeError):
 
 @ add_method(sa.Program, "te_visit")
 def _(self: sa.Program, tc: TC):
-    raise RuntimeError("this is not parsed directly")
+    raise SyntError("this is not parsed directly")
 
 
 @ add_method(sa.FunctionDefinition, "te_visit")
@@ -30,8 +25,8 @@ def _(self: sa.FunctionDefinition, tc: TC,
       ):
     desc = (
         self.name,
-        type_args,
-        args
+        tuple(type_args),
+        tuple(args)
     )
     if len(type_args) != len(self.type_parameter_names) or\
             len(args) != len(self.parameter_names):
@@ -47,6 +42,7 @@ def _(self: sa.FunctionDefinition, tc: TC,
         a for a in zip(self.parameter_names, args)
     ])
 
+    tc.scope_man.begin_scope()
     ret_done = False
     for s in self.statement_list:
         if not ret_done and not\
@@ -62,9 +58,11 @@ def _(self: sa.FunctionDefinition, tc: TC,
         ret_done = True
         # for recursive calls, statements are not needed
         tc.function_type_container[desc] = f
+    tc.scope_man.end_scope()
 
     # remove func, since it might contradict other alternatives
     tc.function_type_container.pop(desc)
+    del f.break_label_stack
     return f
 
 
@@ -99,7 +97,7 @@ def _(self: sa.BlockStatement, tc: TC,
 @ add_method(sa.ExpressionStatement, "te_visit")
 def _(self: sa.ExpressionStatement, tc: TC,
         f: ts.FunctionType):
-    self.expr.te_visit(tc, f)
+    self.expr.te_visit(tc, f, lvalue = False)
 
 
 @ add_method(sa.TypeDeclarationStatementFunction, "te_visit")
@@ -107,7 +105,7 @@ def _(self: sa.TypeDeclarationStatementFunction, tc: TC,
         f: ts.FunctionType):
 
     mn = tc.scope_man.new_var_name(self.name, type_name=True)
-    f.types[mn] = self.expr_ret.te_visit(tc, f)
+    f.types[mn] = self.type_expr.te_visit(tc, f)
 
 
 @ add_method(sa.AssignmentStatement, "te_visit")
@@ -332,7 +330,9 @@ def _(self: sa.BinaryExpression, tc: TC,
 
 @ add_method(sa.IntLiteralExpression, "te_visit")
 def _(self: sa.IntLiteralExpression, tc: TC,
-        f: ts.FunctionType):
+        f: ts.FunctionType, lvalue):
+    if lvalue:
+        raise NoInferencePossibleError("cant lvalue intliteral")
     tmp = tc.scope_man.new_tmp_var_name("int literal")
     f.types[tmp] = ts.IntType(self.size)
     f.flat_statements.append(ir.IntConstantAssignment(tmp,
@@ -343,7 +343,9 @@ def _(self: sa.IntLiteralExpression, tc: TC,
 
 @ add_method(sa.BoolLiteralExpression, "te_visit")
 def _(self: sa.BoolLiteralExpression, tc: TC,
-        f: ts.FunctionType):
+        f: ts.FunctionType, lvalue):
+    if lvalue:
+        raise NoInferencePossibleError("cant lvalue boolliteral")
     tmp = tc.scope_man.new_tmp_var_name("bool literal")
     f.types[tmp] = ts.BoolType()
     f.flat_statements.append(ir.BoolConstantAssignment(tmp,
@@ -353,7 +355,9 @@ def _(self: sa.BoolLiteralExpression, tc: TC,
 
 @ add_method(sa.CallExpression, "te_visit")
 def _(self: sa.CallExpression, tc: TC,
-        f: ts.FunctionType):
+        f: ts.FunctionType, lvalue):
+    if lvalue:
+        raise NoInferencePossibleError("cant lvalue call expr")
     tmp = tc.scope_man.new_tmp_var_name("bool literal")
     type_args_types = [t.te_visit(tc, f) for t in self.type_expr_list]
     args = [v.te_visit(tc, f, lvalue=False) for v in self.args]
@@ -364,7 +368,7 @@ def _(self: sa.CallExpression, tc: TC,
                                                  ft.mangled_name,
                                                  args))
         f.types[tmp] = ft.types["return"]
-    except ...:
+    except NoInferencePossibleError:
         try:
             st = tc.resolve_struct(self.name, type_args_types)
             f.types[tmp] = st
@@ -376,7 +380,7 @@ def _(self: sa.CallExpression, tc: TC,
                                                      ft.mangled_name,
                                                      [tmp]+args))
             f.types[vd] = ft.types["return"]
-        except ...:
+        except NoInferencePossibleError:
             raise NoInferencePossibleError("cant synth callexpr")
 
 
@@ -390,7 +394,7 @@ def _(self: sa.TypeBinaryExpression, tc: TC,
     lr = self.right.te_visit(tc, sf)
     try:
         rt = tc.resolve_struct(self.op, le, lr)
-    except ...:
+    except NoInferencePossibleError:
         raise NoInferencePossibleError(f"no operator {self.op}")
 
     return rt
@@ -410,10 +414,7 @@ def _(self: sa.TypeAngleExpression, tc: TC,
                 return sf.types[self.name]
 
     texprs = [te.te_visit(tc, sf) for te in self.expr_list]
-    try:
-        rt = tc.resolve_struct(self.name, texprs)
-    except ...:
-        raise NoInferencePossibleError(f"no operator {self.op}")
+    rt = tc.resolve_struct(self.name, texprs)
 
     return rt
 
@@ -438,7 +439,7 @@ def _(self: sa.TypePtrExpression, tc: TC,
 @ add_method(sa.TypeIndexExpression, "te_visit")
 def _(self: sa.TypeIndexExpression, tc: TC,
         sf: Union[ts.StructType, ts.FunctionType]):
-    e = self.expr.te_visit(tc, s)
-    if not isinstance(e, ts.StructType):
+    if not isinstance(sf, ts.StructType):
         raise NoInferencePossibleError("Cant index non struct member type")
+    e = self.expr.te_visit(tc, sf)
     return e.types[self.name]

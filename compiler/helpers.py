@@ -14,6 +14,11 @@ def tree_print_r(name, obj, prefix):
         for i in obj:
             tree_print_r(None, i, prefix+" - ")
         print(f"{prefix} ]")
+    elif type(obj) == dict:
+        print("{")
+        for k,v in obj.items():
+            tree_print_r(k, v, prefix+" - ")
+        print(prefix+" }")
     else:
         print(f"{type(obj).__name__}({obj})")
 
@@ -25,4 +30,9 @@ def tree_print(obj):
 def add_method(cls, name):
     def go(func):
         setattr(cls, name, func)
+    return go
+
+def add_method_to_list(target_list):
+    def go(func):
+        target_list.append(func)
     return go

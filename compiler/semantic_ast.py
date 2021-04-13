@@ -158,9 +158,11 @@ class IntLiteralExpression(ValueExpression):
     value: int
     size: int
 
+
 @ dataclass
 class BoolLiteralExpression(ValueExpression):
     value: bool
+
 
 @ dataclass
 class CallExpression(ValueExpression):
@@ -268,7 +270,7 @@ def _(self: pr.FunctionDefinition, se: SE):
     if self.expr_ret is not None:
         expr_ret = self.expr_ret.parse_semantics(se)
     else:
-        expr_ret = "void"
+        expr_ret = TypeAngleExpression("void", [])
     se.pop()
     pce = self.expr.expr.expr
     if hasattr(pce.expr.expr, "id"):
@@ -303,7 +305,7 @@ def _(self, se: SE):
     se.add(SS.VALUE_EXPR)
     a = self.expr.parse_semantics(se)
     se.pop()
-    return a
+    return ExpressionStatement(a)
 
 
 @add_method(pr.DeclarationStatement, "parse_semantics")
@@ -446,7 +448,10 @@ def _(self: pr.Expression, se: SE):
 
 @add_method(pr.IdExpression, "parse_semantics")
 def _(self: pr.IdExpression, se: SE):
-    return self.id
+    if se.top() == SS.TYPE_EXPR:
+        return TypeAngleExpression(self.id, [])
+    else:
+        return self.id
 
 
 @add_method(pr.BinaryExpression, "parse_semantics")
