@@ -426,6 +426,12 @@ def try_exp(env, node):
         print(e)
 
 
+def HMStruct(name, members):
+
+
+
+
+
 def main():
     """The main example program.
 
