@@ -1,3 +1,5 @@
+from functools import wraps
+
 def tree_print_r(name, obj, prefix, dbg):
     if name is None:
         print(f"{prefix} ", end='')
@@ -58,3 +60,17 @@ def add_method_to_list(target_list):
     def go(func):
         target_list.append(func)
     return go
+
+
+def once_for_args(func):
+    @wraps(func)
+    def other(*vargs, **kwargs):
+        if not hasattr(func, _CALLED):
+            func._CALLED = set()
+        if func._CALLED[(vargs, kwargs.items())]:
+            return
+        else:
+            res = func(*vargs, **kwargs)
+    return other
+
+

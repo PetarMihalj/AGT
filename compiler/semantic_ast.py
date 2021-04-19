@@ -123,6 +123,9 @@ class TypeDeclarationStatementStruct(StructStatement):
 
 # Value expressions
 
+@ dataclass
+class IdExpression(ValueExpression):
+    name: str
 
 @ dataclass
 class BinaryExpression(ValueExpression):
@@ -166,7 +169,7 @@ class BoolLiteralExpression(ValueExpression):
 
 @ dataclass
 class CallExpression(ValueExpression):
-    name: int
+    name: str
     type_expr_list: List[TypeExpression]
     args: List[ValueExpression]
 
@@ -469,7 +472,7 @@ def _(self: pr.IdExpression, se: SE):
     if se.top() == SS.TYPE_EXPR:
         return TypeIdExpression(self.id)
     else:
-        return self.id
+        return IdExpression(self.id)
 
 
 @add_method_parse_semantics(pr.BinaryExpression)
@@ -591,7 +594,22 @@ def _(self: pr.IntLiteral, se: SE):
 @add_method_parse_semantics(pr.BoolLiteral)
 def _(self: pr.BoolLiteral, se: SE):
     return BoolLiteralExpression(self.value)
-# misc
+
+# ARTIFICIAL STATEMENTS
+class MemoryCopyStatement(FunctionStatement):
+    dest: str
+    src: str
+
+class HeapAllocStatement(FunctionStatement):
+    dest: str
+    type_expr: TypeExpression
+
+class OutStatement(FunctionStatement):
+    src: str
+
+class InStatement(FunctionStatement):
+    dest: str
+#
 
 
 def compile_semantic_ast(syntactic_ast):
@@ -606,5 +624,5 @@ if __name__ == '__main__':
     # print('\n'*3)
 
     sem_ast = compile_semantic_ast(syn_ast)
-    tree_print(sem_ast, True)
+    tree_print(sem_ast)
     print('\n'*3)

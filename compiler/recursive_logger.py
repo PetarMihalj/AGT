@@ -17,7 +17,7 @@ class Level:
         for i in self.logs_and_levels:
             if isinstance(i, Log):
                 if i.logtype in allowed_types:
-                    print(f"{len(indent)} {indent} {i.log}")
+                    print(f"{indent} {i.log}")
             else:
                 i.print_logs(allowed_types, indent+indent_diff)
 

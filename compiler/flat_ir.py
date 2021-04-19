@@ -25,12 +25,6 @@ class LoadValueFromPointer:
         self.src = src
 
 
-class Assignment:
-    def __init__(self, dest, src):
-        self.dest = dest
-        self.src = src
-
-
 class FunctionCall:
     def __init__(self, dest, fn_mangled_name, arguments):
         self.dest: str = dest
@@ -95,3 +89,8 @@ class BoolConstantAssignment:
     def __init__(self, dest, value):
         self.dest = dest
         self.value = value
+
+class MemoryCopy:
+    def __init__(self, dest, src):
+        self.dest = dest
+        self.src = src

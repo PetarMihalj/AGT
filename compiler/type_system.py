@@ -64,7 +64,7 @@ class StructType(Type):
             return False
         return self.mangled_name == other.mangled_name
 
-    def __hash__(self, other):
+    def __hash__(self):
         return hash(self.mangled_name)
 
 
@@ -77,44 +77,4 @@ class PointerType(Type):
         return self.pointed == other.pointed
     def __hash__(self):
         return hash(self.pointed)+1
-
-# -----
-
-
-def match_and_ret(s: str, p: str):
-    r = re.compile(p)
-    m = r.match(s)
-    if m is None:
-        return None
-    else:
-        return m.group()
-
-
-"""
-def smt_bool(t: TypeExpression):
-    if not isinstance(t, la.TypeExpressionGetStruct):
-        return None
-    t: la.TypeExpressionGetStruct
-    if len(t.typeParameters) > 0:
-        return None
-
-    m = match_and_ret(t.name, r'bool|boolean')
-    if m is None:
-        return None
-    return BoolType()
-
-
-def smt_int(t: la.TypeExpression):
-    if not isinstance(t, la.TypeExpressionGetStruct):
-        return None
-    t: pr.TypeExpressionGetStruct
-    if len(t.typeParameters) > 0:
-        return None
-
-    m = match_and_ret(t.name, r'i([0-9]+)')
-    if m is None:
-        return None
-    return IntType(m.group(1), True)
-    """
-    
 

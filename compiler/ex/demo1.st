@@ -34,7 +34,7 @@ struct fib<T>{
 // that one creates an i32 with default value equal to parameter
 fn ct_fib<T>() -> i32{
     type f = fib<T>.t;
-    let value = i32<f>();
+    let value = type_to_value<f, i32>();
     return value;
 }
 

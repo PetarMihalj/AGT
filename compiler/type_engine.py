@@ -7,7 +7,6 @@ from typing import Dict, List
 import semantic_ast as sa
 import type_engine_rules
 from type_gens import gen_function, gen_struct
-from helpers import tree_print
 from recursive_logger import RecursiveLogger
 from enum import Enum
 
@@ -82,6 +81,7 @@ class TypingContext:
         self.struct_type_container: Dict[Tuple, ts.StructType] = dict()
 
         self.logger: RecursiveLogger = RecursiveLogger()
+        self.gen_set = set()
 
     def resolve_function(self, name: str,
                          type_argument_types: List[ts.Type],
@@ -184,6 +184,30 @@ class TypingResult:
         self.struct_types = struct_types
         self.logger = logger
 
+    def print_out(self, log_level):
+        log_types = []
+        if log_level>=1:
+            log_types += [
+                LogTypes.FUNCTION_RESOLUTION,
+                LogTypes.STRUCT_RESOLUTION,
+                LogTypes.FUNCTION_DEFINITION,
+                LogTypes.STRUCT_DEFINITION,
+                LogTypes.FUNCTION_OR_STRUCT_DEFINITION,
+            ]
+        if log_level>=2:
+            log_types += [
+                LogTypes.TYPE_MISSMATCH,
+                LogTypes.STATEMENT_ERROR,
+                LogTypes.RUNTIME_EXPR_ERROR,
+            ]
+        print("\n"*5)
+        self.logger.print_logs(log_types)
+        print("\n"*5)
+        tree_print(self.struct_types)
+        print("\n"*5)
+        tree_print(self.func_types)
+
+
 import traceback
 
 def compile_types(sem_ast, debug):
@@ -204,14 +228,5 @@ if __name__ == '__main__':
     syn_ast = compile_syntactic_ast(data)
     sem_ast = compile_semantic_ast(syn_ast)
     tr = compile_types(sem_ast, debug = True)
-    tr.logger.print_logs([
-        LogTypes.FUNCTION_RESOLUTION,
-        LogTypes.STRUCT_RESOLUTION,
-        LogTypes.FUNCTION_DEFINITION,
-        LogTypes.STRUCT_DEFINITION,
-        LogTypes.FUNCTION_OR_STRUCT_DEFINITION,
-        LogTypes.TYPE_MISSMATCH,
-        LogTypes.STATEMENT_ERROR,
-        LogTypes.RUNTIME_EXPR_ERROR,
-    ])
+    tr.print_out(log_level = 2)
 
