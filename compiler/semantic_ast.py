@@ -1,8 +1,8 @@
-from helpers import add_method
+from helpers import add_method_parse_semantics
 from helpers import tree_print
 from syntactic_ast import compile_syntactic_ast
 from dataclasses import dataclass
-from typing import List
+from typing import List, Tuple
 from enum import Enum
 
 import parser_rules as pr
@@ -235,7 +235,7 @@ SE = SemanticEnvironment
 # visitor methods
 
 
-@add_method(pr.CompilationUnit, "parse_semantics")
+@add_method_parse_semantics(pr.CompilationUnit)
 def _(self: pr.CompilationUnit, se: SemanticEnvironment):
     return Program(
         [d.parse_semantics(se) for d in self.definitionList.flist],
@@ -243,7 +243,7 @@ def _(self: pr.CompilationUnit, se: SemanticEnvironment):
     )
 
 
-@add_method(pr.StructDefinition, "parse_semantics")
+@add_method_parse_semantics(pr.StructDefinition)
 def _(self: pr.StructDefinition, se: SE):
     se.in_struct = True
     sl = self.block.parse_semantics(se)
@@ -263,7 +263,7 @@ def _(self: pr.StructDefinition, se: SE):
         )
 
 
-@add_method(pr.FunctionDefinition, "parse_semantics")
+@add_method_parse_semantics(pr.FunctionDefinition)
 def _(self: pr.FunctionDefinition, se: SE):
     se.in_func = True
     sl = self.block.parse_semantics(se)
@@ -290,18 +290,18 @@ def _(self: pr.FunctionDefinition, se: SE):
     return res
 
 
-@add_method(pr.Block, "parse_semantics")
+@add_method_parse_semantics(pr.Block)
 def _(self: pr.Block, se: SE):
     temp = [s.parse_semantics(se) for s in self.statementList]
     return [t for t in temp if t is not None]
 
 
-@add_method(pr.Statement, "parse_semantics")
+@add_method_parse_semantics(pr.Statement)
 def _(self: pr.Statement, se: SE):
     return self.statement.parse_semantics(se)
 
 
-@add_method(pr.ExpressionStatement, "parse_semantics")
+@add_method_parse_semantics(pr.ExpressionStatement)
 def _(self, se: SE):
     if not se.in_func:
         raise RuntimeError("Cant parse expression out of func!")
@@ -311,7 +311,7 @@ def _(self, se: SE):
     return ExpressionStatement(a)
 
 
-@add_method(pr.DeclarationStatement, "parse_semantics")
+@add_method_parse_semantics(pr.DeclarationStatement)
 def _(self, se: SE):
     if se.top() != SS.STRUCT:
         raise RuntimeError("Cant declare memeber out of struct!")
@@ -322,7 +322,7 @@ def _(self, se: SE):
     return MemberDeclarationStatement(a, name)
 
 
-@add_method(pr.TypeStatement, "parse_semantics")
+@add_method_parse_semantics(pr.TypeStatement)
 def _(self, se: SE):
     name = self.left.expr.id
     se.add(SS.TYPE_EXPR)
@@ -335,12 +335,12 @@ def _(self, se: SE):
 
 
 
-@add_method(pr.BlankStatement, "parse_semantics")
+@add_method_parse_semantics(pr.BlankStatement)
 def _(self, se: SE):
     return None
 
 
-@add_method(pr.BlockStatement, "parse_semantics")
+@add_method_parse_semantics(pr.BlockStatement)
 def _(self, se: SE):
     if se.in_func:
         raise RuntimeError("Cant declare new block out of func!")
@@ -348,7 +348,7 @@ def _(self, se: SE):
     return BlockStatement(a)
 
 
-@add_method(pr.InitStatement, "parse_semantics")
+@add_method_parse_semantics(pr.InitStatement)
 def _(self, se: SE):
     if not se.in_func:
         name = self.name.expr.id
@@ -364,7 +364,7 @@ def _(self, se: SE):
         return InitStatement(name, a)
 
 
-@add_method(pr.AssignmentStatement, "parse_semantics")
+@add_method_parse_semantics(pr.AssignmentStatement)
 def _(self, se: SE):
     if not se.in_func:
         raise RuntimeError("Cant assign to a var out of func!")
@@ -375,7 +375,7 @@ def _(self, se: SE):
     return AssignmentStatement(l, r)
 
 
-@add_method(pr.IfElseStatement, "parse_semantics")
+@add_method_parse_semantics(pr.IfElseStatement)
 def _(self, se: SE):
     if not se.in_func:
         raise RuntimeError("Cant use if/else out of func!")
@@ -397,7 +397,7 @@ def _(self, se: SE):
     return res
 
 
-@add_method(pr.ForStatement, "parse_semantics")
+@add_method_parse_semantics(pr.ForStatement)
 def _(self, se: SE):
     if not se.in_func:
         raise RuntimeError("Cant use for out of func!")
@@ -412,7 +412,7 @@ def _(self, se: SE):
     return res
 
 
-@add_method(pr.WhileStatement, "parse_semantics")
+@add_method_parse_semantics(pr.WhileStatement)
 def _(self: pr.WhileStatement, se: SE):
     if not se.in_func:
         raise RuntimeError("Cant use while out of func!")
@@ -425,7 +425,7 @@ def _(self: pr.WhileStatement, se: SE):
     return res
 
 
-@add_method(pr.ReturnStatement, "parse_semantics")
+@add_method_parse_semantics(pr.ReturnStatement)
 def _(self: pr.ReturnStatement, se: SE):
     if not se.in_func:
         raise RuntimeError("Cant use return out of func!")
@@ -438,18 +438,18 @@ def _(self: pr.ReturnStatement, se: SE):
         return ReturnStatement(e)
 
 
-@add_method(pr.BreakStatement, "parse_semantics")
+@add_method_parse_semantics(pr.BreakStatement)
 def _(self: pr.BreakStatement, se: SE):
     if not se.in_func:
         raise RuntimeError("Cant use break out of func!")
 
 
-@add_method(pr.Expression, "parse_semantics")
+@add_method_parse_semantics(pr.Expression)
 def _(self: pr.Expression, se: SE):
     return self.expr.parse_semantics(se)
 
 
-@add_method(pr.IdExpression, "parse_semantics")
+@add_method_parse_semantics(pr.IdExpression)
 def _(self: pr.IdExpression, se: SE):
     if se.top() == SS.TYPE_EXPR:
         return TypeIdExpression(self.id)
@@ -457,7 +457,7 @@ def _(self: pr.IdExpression, se: SE):
         return self.id
 
 
-@add_method(pr.BinaryExpression, "parse_semantics")
+@add_method_parse_semantics(pr.BinaryExpression)
 def _(self: pr.BinaryExpression, se: SE):
     if se.top() == SS.TYPE_EXPR:
         return TypeBinaryExpression(
@@ -474,17 +474,17 @@ def _(self: pr.BinaryExpression, se: SE):
     raise RuntimeError("Shouldn't have gotten here!")
 
 
-@add_method(pr.UnaryExpression, "parse_semantics")
+@add_method_parse_semantics(pr.UnaryExpression)
 def _(self: pr.UnaryExpression, se: SE):
     return self.expr.parse_semantics(se)
 
 
-@add_method(pr.ParenthesesExpression, "parse_semantics")
+@add_method_parse_semantics(pr.ParenthesesExpression)
 def _(self: pr.ParenthesesExpression, se: SE):
     return self.expr.parse_semantics(se)
 
 
-@add_method(pr.AngleCallExpression, "parse_semantics")
+@add_method_parse_semantics(pr.AngleCallExpression)
 def _(self: pr.AngleCallExpression, se: SE):
     if se.top() != SS.TYPE_EXPR:
         raise RuntimeError("Angle call is a part of type expression!")
@@ -494,7 +494,7 @@ def _(self: pr.AngleCallExpression, se: SE):
     )
 
 
-@add_method(pr.ParenthesesCallExpression, "parse_semantics")
+@add_method_parse_semantics(pr.ParenthesesCallExpression)
 def _(self: pr.ParenthesesCallExpression, se: SE):
     if se.top() != SS.VALUE_EXPR:
         raise RuntimeError("Parentheses call is\
@@ -518,7 +518,7 @@ def _(self: pr.ParenthesesCallExpression, se: SE):
     return CallExpression(name, type_expr, args)
 
 
-@add_method(pr.DotExpression, "parse_semantics")
+@add_method_parse_semantics(pr.DotExpression)
 def _(self: pr.DotExpression, se: SE):
     if se.top() == SS.VALUE_EXPR:
         return MemberIndexExpression(
@@ -532,7 +532,7 @@ def _(self: pr.DotExpression, se: SE):
         )
 
 
-@add_method(pr.BracketCallExpression, "parse_semantics")
+@add_method_parse_semantics(pr.BracketCallExpression)
 def _(self: pr.BracketCallExpression, se: SE):
     if se.top() != SS.VALUE_EXPR:
         raise RuntimeError("Bracket call not available in typeexpr")
@@ -541,7 +541,7 @@ def _(self: pr.BracketCallExpression, se: SE):
     return BracketCallExpression(e1, e2)
 
 
-@add_method(pr.DereferenceExpression, "parse_semantics")
+@add_method_parse_semantics(pr.DereferenceExpression)
 def _(self: pr.DereferenceExpression, se: SE):
     if se.top() == SS.VALUE_EXPR:
         e = self.expr.parse_semantics(se)
@@ -551,7 +551,7 @@ def _(self: pr.DereferenceExpression, se: SE):
         return TypeDerefExpression(e)
 
 
-@add_method(pr.AddressExpression, "parse_semantics")
+@add_method_parse_semantics(pr.AddressExpression)
 def _(self: pr.AddressExpression, se: SE):
     if se.top() == SS.VALUE_EXPR:
         e = self.expr.parse_semantics(se)
@@ -561,19 +561,19 @@ def _(self: pr.AddressExpression, se: SE):
         return TypePtrExpression(e)
 
 
-@add_method(pr.LiteralExpression, "parse_semantics")
+@add_method_parse_semantics(pr.LiteralExpression)
 def _(self: pr.LiteralExpression, se: SE):
     if se.top() != SS.VALUE_EXPR:
         raise RuntimeError("literals can only be runtime")
     return self.value.parse_semantics(se)
 
 
-@add_method(pr.IntLiteral, "parse_semantics")
+@add_method_parse_semantics(pr.IntLiteral)
 def _(self: pr.IntLiteral, se: SE):
     return IntLiteralExpression(self.value, self.size)
 
 
-@add_method(pr.BoolLiteral, "parse_semantics")
+@add_method_parse_semantics(pr.BoolLiteral)
 def _(self: pr.BoolLiteral, se: SE):
     return BoolLiteralExpression(self.value)
 # misc
@@ -591,5 +591,5 @@ if __name__ == '__main__':
     # print('\n'*3)
 
     sem_ast = compile_semantic_ast(syn_ast)
-    tree_print(sem_ast)
+    tree_print(sem_ast, True)
     print('\n'*3)

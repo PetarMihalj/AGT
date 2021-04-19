@@ -9,6 +9,18 @@ import semantic_ast as sa
 import type_engine_rules
 from type_gens import gen_function, gen_struct
 from helpers import tree_print
+from recursive_logger import RecursiveLogger
+from enum import Enum
+
+class LogTypes(Enum):
+    FUNCTION_RESOLUTION = 1
+    STRUCT_RESOLUTION = 2
+
+    FUNCTION_DEFINITION = 3
+    STRUCT_DEFINITION = 4
+
+    FUNCTION_OR_STRUCT_DEFINITION = 5
+
 
 
 
@@ -69,15 +81,15 @@ class ScopeManager:
 
 
 class TypingContext:
-    def __init__(self, func_defs, struct_defs, debug):
-        self.debug = debug
+    def __init__(self, func_defs, struct_defs):
         self.func_defs = func_defs
         self.struct_defs = struct_defs
 
         self.scope_man = ScopeManager()
         self.function_type_container: Dict[Tuple, ts.FunctionType] = dict()
         self.struct_type_container: Dict[Tuple, ts.StructType] = dict()
-        self.idlvl = ""
+
+        self.logger: RecursiveLogger = RecursiveLogger()
 
     def resolve_function(self, name: str,
                          type_argument_types: List[ts.Type],
@@ -88,8 +100,10 @@ class TypingContext:
             tuple(type_argument_types), 
             tuple(argument_types)
         )
-        if self.debug:
-            print(f"resolving func: {desc}")
+        self.logger.go_in()
+        self.logger.log(f"Resolving function {desc}", 
+                LogTypes.FUNCTION_RESOLUTION)
+
         gen_function(self, name, type_argument_types, argument_types)
         if desc in self.function_type_container:
             return self.function_type_container[desc]
@@ -103,8 +117,8 @@ class TypingContext:
                 len(fd.parameter_names) == len(argument_types),
             ]):
                 try:
-                    r = fd.te_visit(self, type_argument_types, argument_types)
-                    print("HERE")
+                    r = fd.te_visit(self, 
+                            type_argument_types, argument_types)
                     candidates.append(r)
                 except NoInferencePossibleError:
                     pass
@@ -116,6 +130,8 @@ class TypingContext:
         else:
             raise NoInferencePossibleError("multiple synth")
 
+        self.logger.go_out()
+
     def resolve_struct(self, name: str,
                        type_argument_types: List[ts.Type])\
                 -> ts.StructType:
@@ -123,9 +139,11 @@ class TypingContext:
             name, 
             tuple(type_argument_types), 
         )
+        self.logger.go_in()
+        self.logger.log(f"Resolving struct {desc}", 
+                LogTypes.STRUCT_RESOLUTION)
+
         gen_struct(self, name, type_argument_types)
-        if self.debug:
-            print(f"resolving struct: {desc}")
         if desc in self.struct_type_container:
             return self.struct_type_container[desc]
         candidates = []
@@ -148,24 +166,34 @@ class TypingContext:
         else:
             raise NoInferencePossibleError("multiple synth")
 
+        self.logger.go_out()
+
 class TypingResult:
-    def __init__(self, func_types, struct_types):
+    def __init__(self, func_types, struct_types, logger):
         self.func_types = func_types
         self.struct_types = struct_types
+        self.logger = logger
 
 def compile_types(sem_ast, debug):
     tc = TypingContext(sem_ast.function_definitions,
                        sem_ast.struct_definitions,
-                       debug = True)
-    tc.resolve_function("main", [], [])
+                       )
+    try:
+        tc.resolve_function("main", [], [])
+    except:
+        pass
+
     return TypingResult(tc.function_type_container, 
-            tc.struct_type_container)
+            tc.struct_type_container, tc.logger)
 
 
 if __name__ == '__main__':
     data = open(sys.argv[1]).read()
     syn_ast = compile_syntactic_ast(data)
     sem_ast = compile_semantic_ast(syn_ast)
-    tc = compile_types(sem_ast, debug = True)
-    print()
-    tree_print(tc)
+    tr = compile_types(sem_ast, debug = True)
+    tr.logger.print_logs([
+        LogTypes.FUNCTION_RESOLUTION,
+        LogTypes.STRUCT_RESOLUTION
+    ])
+

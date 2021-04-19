@@ -22,12 +22,15 @@ class SyntaxParser:
         self.parser = yacc.yacc(module=self, write_tables=False, **kwargs)
 
     def parse_syntax(self, data, **kvargs):
-        return self.parser.parse(data, lexer=self.lexer, **kvargs)
+        return self.parser.parse(data, lexer=self.lexer,
+                tracking = True, **kvargs)
 
     def injectRule(self, rule_class):
         def method(self, p):
             obj = rule_class(p[1:])
             p[0] = obj
+            obj.lexspan = p.lexspan(0)
+            obj.linespan = p.linespan(0)
         bound = MethodType(method, self)
         bound.__func__.__doc__ = rule_class.__doc__
         self.__setattr__(f"p_{rule_class}", bound)

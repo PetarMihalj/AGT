@@ -1,8 +1,9 @@
 import semantic_ast as sa
 import type_system as ts
 from type_engine import TypingContext as TC
+from type_engine import LogTypes 
 
-from helpers import add_method
+from helpers import add_method_te_visit
 from typing import List, Union
 import flat_ir as ir
 
@@ -13,12 +14,12 @@ from type_engine import NoInferencePossibleError, SyntError
 # structural
 
 
-@ add_method(sa.Program, "te_visit")
+@add_method_te_visit(sa.Program)
 def _(self: sa.Program, tc: TC):
     raise SyntError("this is not parsed directly")
 
 
-@ add_method(sa.FunctionDefinition, "te_visit")
+@add_method_te_visit(sa.FunctionDefinition)
 def _(self: sa.FunctionDefinition, tc: TC,
       type_args: List[ts.Type],
       args: List[ts.Type],
@@ -28,9 +29,11 @@ def _(self: sa.FunctionDefinition, tc: TC,
         tuple(type_args),
         tuple(args)
     )
-    if len(type_args) != len(self.type_parameter_names) or\
-            len(args) != len(self.parameter_names):
-        return None
+    tc.logger.go_in()
+    tc.logger.log(f"Function definition at {self.linespan[0]}", 
+            LogTypes.FUNCTION_DEFINITION)
+
+
     f = ts.FunctionType(self.name)
     f.mangled_name = tc.scope_man.new_func_name(self.name)
 
@@ -67,16 +70,18 @@ def _(self: sa.FunctionDefinition, tc: TC,
     # remove func, since it might contradict other alternatives
     tc.function_type_container.pop(desc)
     del f.break_label_stack
+
+    tc.logger.go_out()
     return f
 
 
-@ add_method(sa.StructDefinition, "te_visit")
+@add_method_te_visit(sa.StructDefinition)
 def _(self: sa.StructDefinition, tc: TC,
       type_args: List[ts.Type],
       ):
-    print(f"Resolving struct: {self.name}, {type_args}")
-    if len(type_args) != len(self.type_parameter_names):
-        return None
+    tc.logger.go_in()
+    tc.logger.log(f"Function definition at {self.linespan[0]}", 
+            LogTypes.FUNCTION_DEFINITION)
     s = ts.StructType(self.name)
 
     s.types = dict([
@@ -87,12 +92,14 @@ def _(self: sa.StructDefinition, tc: TC,
         stat.te_visit(tc, s)
     s.mangled_name = tc.scope_man.new_struct_name(self.name)
 
+    tc.logger.go_out()
+
     return s
 
 
 # function statements
 
-@ add_method(sa.BlockStatement, "te_visit")
+@add_method_te_visit(sa.BlockStatement)
 def _(self: sa.BlockStatement, tc: TC,
         f: ts.FunctionType):
     tc.scope_man.begin_scope()
@@ -100,13 +107,13 @@ def _(self: sa.BlockStatement, tc: TC,
     tc.scope_man.end_scope()
 
 
-@ add_method(sa.ExpressionStatement, "te_visit")
+@add_method_te_visit(sa.ExpressionStatement)
 def _(self: sa.ExpressionStatement, tc: TC,
         f: ts.FunctionType):
     self.expr.te_visit(tc, f, lvalue = False)
 
 
-@ add_method(sa.TypeDeclarationStatementFunction, "te_visit")
+@add_method_te_visit(sa.TypeDeclarationStatementFunction)
 def _(self: sa.TypeDeclarationStatementFunction, tc: TC,
         f: ts.FunctionType):
 
@@ -115,7 +122,7 @@ def _(self: sa.TypeDeclarationStatementFunction, tc: TC,
     f.types[mn] = self.type_expr.te_visit(tc, f)
 
 
-@ add_method(sa.AssignmentStatement, "te_visit")
+@add_method_te_visit(sa.AssignmentStatement)
 def _(self: sa.AssignmentStatement, tc: TC,
         f: ts.FunctionType):
     le = self.left.te_visit(tc, f, lvalue=True)
@@ -126,7 +133,7 @@ def _(self: sa.AssignmentStatement, tc: TC,
         f.flat_statements.append(ir.Assignment(le, re))
 
 
-@ add_method(sa.InitStatement, "te_visit")
+@add_method_te_visit(sa.InitStatement)
 def _(self: sa.InitStatement, tc: TC,
         f: ts.FunctionType):
     mn = tc.scope_man.new_var_name(self.name)
@@ -135,7 +142,7 @@ def _(self: sa.InitStatement, tc: TC,
     f.flat_statements.append(ir.Assignment(mn, e))
 
 
-@ add_method(sa.WhileStatement, "te_visit")
+@add_method_te_visit(sa.WhileStatement)
 def _(self: sa.WhileStatement, tc: TC,
         f: ts.FunctionType):
     lwc = tc.scope_man.new_label_name("while check")
@@ -156,7 +163,7 @@ def _(self: sa.WhileStatement, tc: TC,
     f.break_label_stack.pop()
 
 
-@ add_method(sa.ForStatement, "te_visit")
+@add_method_te_visit(sa.ForStatement)
 def _(self: sa.ForStatement, tc: TC,
         f: ts.FunctionType):
     lfcheck = tc.scope_man.new_label_name("for check")
@@ -181,7 +188,7 @@ def _(self: sa.ForStatement, tc: TC,
     f.break_label_stack.pop()
 
 
-@ add_method(sa.IfElseStatement, "te_visit")
+@add_method_te_visit(sa.IfElseStatement)
 def _(self: sa.IfElseStatement, tc: TC,
         f: ts.FunctionType):
     iftrue = tc.scope_man.new_label_name("if true")
@@ -194,8 +201,7 @@ def _(self: sa.IfElseStatement, tc: TC,
         raise NoInferencePossibleError("check expr must be bool")
     f.flat_statements.append(ir.JumpToLabelFalse(ec, iffalse))
     f.flat_statements.append(ir.Label(iftrue))
-    for s in self.statment_list_true:
-        s.te_visit(tc, f)
+    s.te_visit(tc, f)
     f.flat_statements.append(ir.JumpToLabel(ec, ifend))
     f.flat_statements.append(ir.Label(iffalse))
     for s in self.statment_list_false:
@@ -204,7 +210,7 @@ def _(self: sa.IfElseStatement, tc: TC,
     tc.scope_man.end_scope()
 
 
-@ add_method(sa.ReturnStatement, "te_visit")
+@add_method_te_visit(sa.ReturnStatement)
 def _(self: sa.ReturnStatement, tc: TC,
         f: ts.FunctionType):
     ec = self.expr_check.te_visit(tc, f, lvalue=False)
@@ -213,7 +219,7 @@ def _(self: sa.ReturnStatement, tc: TC,
     f.flat_statements.append(ir.FunctionReturn(ec))
 
 
-@ add_method(sa.BreakStatement, "te_visit")
+@add_method_te_visit(sa.BreakStatement)
 def _(self: sa.BreakStatement, tc: TC,
         f: ts.FunctionType):
     if self.no <= 0:
@@ -230,7 +236,7 @@ def _(self: sa.BreakStatement, tc: TC,
 # struct statements
 
 
-@ add_method(sa.MemberDeclarationStatement, "te_visit")
+@add_method_te_visit(sa.MemberDeclarationStatement)
 def _(self: sa.MemberDeclarationStatement, tc: TC,
         s: ts.StructType):
     t = self.type_expr.te_visit(tc, s)
@@ -238,7 +244,7 @@ def _(self: sa.MemberDeclarationStatement, tc: TC,
     s.members.append(self.name)
 
 
-@ add_method(sa.TypeDeclarationStatementStruct, "te_visit")
+@add_method_te_visit(sa.TypeDeclarationStatementStruct)
 def _(self: sa.TypeDeclarationStatementStruct, tc: TC,
         s: ts.StructType):
     t = self.type_expr.te_visit(tc, s)
@@ -248,7 +254,7 @@ def _(self: sa.TypeDeclarationStatementStruct, tc: TC,
 # value expressions
 
 
-@ add_method(sa.BinaryExpression, "te_visit")
+@add_method_te_visit(sa.BinaryExpression)
 def _(self: sa.BinaryExpression, tc: TC,
         f: ts.FunctionType, lvalue):
     if lvalue:
@@ -265,7 +271,7 @@ def _(self: sa.BinaryExpression, tc: TC,
     return opf
 
 
-@ add_method(sa.BracketCallExpression, "te_visit")
+@add_method_te_visit(sa.BracketCallExpression)
 def _(self: sa.BracketCallExpression, tc: TC,
         f: ts.FunctionType, lvalue):
     e = self.expr.te_visit(tc, f, lvalue=True)
@@ -286,7 +292,7 @@ def _(self: sa.BracketCallExpression, tc: TC,
         return tmp2
 
 
-@ add_method(sa.MemberIndexExpression, "te_visit")
+@add_method_te_visit(sa.MemberIndexExpression)
 def _(self: sa.MemberIndexExpression, tc: TC,
         f: ts.FunctionType, lvalue):
     e = self.expr.te_visit(tc, f, lvalue=True)
@@ -309,7 +315,7 @@ def _(self: sa.MemberIndexExpression, tc: TC,
         return tmp2
 
 
-@ add_method(sa.DerefExpression, "te_visit")
+@add_method_te_visit(sa.DerefExpression)
 def _(self: sa.DerefExpression, tc: TC,
         f: ts.FunctionType, lvalue):
     e = self.expr.te_visit(tc, f, lvalue=lvalue)
@@ -322,7 +328,7 @@ def _(self: sa.DerefExpression, tc: TC,
     return tmp
 
 
-@ add_method(sa.AddressExpression, "te_visit")
+@add_method_te_visit(sa.AddressExpression)
 def _(self: sa.BinaryExpression, tc: TC,
         f: ts.FunctionType, lvalue):
     if lvalue:
@@ -335,7 +341,7 @@ def _(self: sa.BinaryExpression, tc: TC,
     return tmp
 
 
-@ add_method(sa.IntLiteralExpression, "te_visit")
+@add_method_te_visit(sa.IntLiteralExpression)
 def _(self: sa.IntLiteralExpression, tc: TC,
         f: ts.FunctionType, lvalue):
     if lvalue:
@@ -348,7 +354,7 @@ def _(self: sa.IntLiteralExpression, tc: TC,
     return tmp
 
 
-@ add_method(sa.BoolLiteralExpression, "te_visit")
+@add_method_te_visit(sa.BoolLiteralExpression)
 def _(self: sa.BoolLiteralExpression, tc: TC,
         f: ts.FunctionType, lvalue):
     if lvalue:
@@ -360,7 +366,7 @@ def _(self: sa.BoolLiteralExpression, tc: TC,
     return tmp
 
 
-@ add_method(sa.CallExpression, "te_visit")
+@add_method_te_visit(sa.CallExpression)
 def _(self: sa.CallExpression, tc: TC,
         f: ts.FunctionType, lvalue):
     if lvalue:
@@ -393,7 +399,7 @@ def _(self: sa.CallExpression, tc: TC,
 
 # type expressions
 
-@ add_method(sa.TypeBinaryExpression, "te_visit")
+@add_method_te_visit(sa.TypeBinaryExpression)
 def _(self: sa.TypeBinaryExpression, tc: TC,
         sf: Union[ts.StructType, ts.FunctionType]):
 
@@ -407,7 +413,7 @@ def _(self: sa.TypeBinaryExpression, tc: TC,
     return rt
 
 
-@ add_method(sa.TypeAngleExpression, "te_visit")
+@add_method_te_visit(sa.TypeAngleExpression)
 def _(self: sa.TypeAngleExpression, tc: TC,
         sf: Union[ts.StructType, ts.FunctionType]):
 
@@ -426,7 +432,7 @@ def _(self: sa.TypeAngleExpression, tc: TC,
 
     return rt
 
-@ add_method(sa.TypeIdExpression, "te_visit")
+@add_method_te_visit(sa.TypeIdExpression)
 def _(self: sa.TypeIdExpression, tc: TC,
         sf: Union[ts.StructType, ts.FunctionType]):
 
@@ -445,27 +451,40 @@ def _(self: sa.TypeIdExpression, tc: TC,
 
     return rt
 
-@ add_method(sa.TypeDerefExpression, "te_visit")
+@add_method_te_visit(sa.TypeDerefExpression)
 def _(self: sa.TypeDerefExpression, tc: TC,
         sf: Union[ts.StructType, ts.FunctionType]):
+
     e = self.expr.te_visit(tc, sf)
+    if e is None: return None
+
     if isinstance(e, ts.PointerType):
         return e.pointed
     else:
-        raise NoInferencePossibleError("Cant deref non pointer")
+        self.logger.log(f"[ERR] Can't deref non pointer!",
+                LogTypes.FUNCTION_OR_STRUCT_DEFINITION)
+        return None
 
 
-@ add_method(sa.TypePtrExpression, "te_visit")
+@add_method_te_visit(sa.TypePtrExpression)
 def _(self: sa.TypePtrExpression, tc: TC,
         sf: Union[ts.StructType, ts.FunctionType]):
+
     e = self.expr.te_visit(tc, sf)
+    if e is None: return None
+
     return ts.PointerType(e)
 
 
-@ add_method(sa.TypeIndexExpression, "te_visit")
+@add_method_te_visit(sa.TypeIndexExpression)
 def _(self: sa.TypeIndexExpression, tc: TC,
         sf: Union[ts.StructType, ts.FunctionType]):
+
     e = self.expr.te_visit(tc, sf)
+    if e is None: return None
+
     if not isinstance(e, ts.StructType):
-        raise NoInferencePossibleError("Cant index non struct member type")
+        self.logger.log(f"[ERR] TypeIndexExpression must be on struct!",
+                LogTypes.FUNCTION_OR_STRUCT_DEFINITION)
+        return None
     return e.types[self.name]

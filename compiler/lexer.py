@@ -138,7 +138,10 @@ class Lexer():
         """
         Get the next token, from data (generator).
         """
-        return self.lexer.token()
+        res = self.lexer.token()
+        self.lexpos = self.lexer.lexpos
+        self.lineno = self.lexer.lineno
+        return res
 
     def test(self, data):
         """
@@ -147,6 +150,7 @@ class Lexer():
         self.lexer.input(data)
         for tok in self.lexer:
             print(tok)
+
 
 
 if __name__ == '__main__':
