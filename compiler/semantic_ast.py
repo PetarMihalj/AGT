@@ -172,6 +172,21 @@ class CallExpression(ValueExpression):
 
 # Type Expressions
 
+ops_mapping = {
+        '==': '__eq__',
+        '!=': '__ne__',
+        '>': '__gt__',
+        '<': '__lt__',
+        '<=': '__le__',
+        '>=': '__ge__',
+
+        '+': '__add__',
+        '-': '__sub__',
+        '/': '__div__',
+        '*': '__mul__',
+        '%' : ' __mod__',
+}
+
 
 @ dataclass
 class TypeBinaryExpression(TypeExpression):
@@ -462,13 +477,13 @@ def _(self: pr.BinaryExpression, se: SE):
     if se.top() == SS.TYPE_EXPR:
         return TypeBinaryExpression(
             self.left.parse_semantics(se),
-            self.op,
+            ops_mapping[self.op],
             self.right.parse_semantics(se)
         )
     if se.top() == SS.VALUE_EXPR:
         return BinaryExpression(
             self.left.parse_semantics(se),
-            self.op,
+            ops_mapping[self.op],
             self.right.parse_semantics(se)
         )
     raise RuntimeError("Shouldn't have gotten here!")

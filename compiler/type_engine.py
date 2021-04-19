@@ -1,5 +1,4 @@
 import type_system as ts
-from type_system import SyntError, NoInferencePossibleError
 from syntactic_ast import compile_syntactic_ast
 from semantic_ast import compile_semantic_ast
 from helpers import tree_print
@@ -12,14 +11,7 @@ from helpers import tree_print
 from recursive_logger import RecursiveLogger
 from enum import Enum
 
-class LogTypes(Enum):
-    FUNCTION_RESOLUTION = 1
-    STRUCT_RESOLUTION = 2
-
-    FUNCTION_DEFINITION = 3
-    STRUCT_DEFINITION = 4
-
-    FUNCTION_OR_STRUCT_DEFINITION = 5
+from type_system import LogTypes
 
 
 
@@ -106,6 +98,9 @@ class TypingContext:
 
         gen_function(self, name, type_argument_types, argument_types)
         if desc in self.function_type_container:
+            self.logger.log(f"[SUCC] Resolving function {desc}", 
+                    LogTypes.FUNCTION_RESOLUTION)
+            self.logger.go_out()
             return self.function_type_container[desc]
 
         candidates = []
@@ -116,21 +111,27 @@ class TypingContext:
                 len(fd.type_parameter_names) == len(type_argument_types),
                 len(fd.parameter_names) == len(argument_types),
             ]):
-                try:
-                    r = fd.te_visit(self, 
-                            type_argument_types, argument_types)
+                r = fd.te_visit(self, 
+                        type_argument_types, argument_types)
+                if r is not None:
                     candidates.append(r)
-                except NoInferencePossibleError:
-                    pass
         if len(candidates)==1:
             self.function_type_container[desc] = candidates[0]
+            self.logger.log(f"[SUCC] Resolving function {desc}", 
+                    LogTypes.FUNCTION_RESOLUTION)
+            self.logger.go_out()
             return candidates[0]
         elif len(candidates)==0:
-            raise NoInferencePossibleError("cant synth")
+            self.logger.log(f"[FAIL] Resolving function {desc}", 
+                    LogTypes.FUNCTION_RESOLUTION)
+            self.logger.go_out()
+            return None
         else:
-            raise NoInferencePossibleError("multiple synth")
+            self.logger.log(f"[FAIL] Resolving function {desc}", 
+                    LogTypes.FUNCTION_RESOLUTION)
+            self.logger.go_out()
+            return None
 
-        self.logger.go_out()
 
     def resolve_struct(self, name: str,
                        type_argument_types: List[ts.Type])\
@@ -145,6 +146,9 @@ class TypingContext:
 
         gen_struct(self, name, type_argument_types)
         if desc in self.struct_type_container:
+            self.logger.log(f"[SUCC] Resolving struct {desc}", 
+                    LogTypes.STRUCT_RESOLUTION)
+            self.logger.go_out()
             return self.struct_type_container[desc]
         candidates = []
         for sd in self.struct_defs:
@@ -153,20 +157,26 @@ class TypingContext:
                 sd.name == name,
                 len(sd.type_parameter_names) == len(type_argument_types),
             ]):
-                try:
-                    r = sd.te_visit(self, type_argument_types)
+                r = sd.te_visit(self, type_argument_types)
+                if r is not None:
                     candidates.append(r)
-                except NoInferencePossibleError:
-                    pass
         if len(candidates)==1:
             self.struct_type_container[desc] = candidates[0]
+            self.logger.log(f"[SUCC] Resolving struct {desc}", 
+                    LogTypes.STRUCT_RESOLUTION)
+            self.logger.go_out()
             return candidates[0]
         elif len(candidates)==0:
-            raise NoInferencePossibleError("cant synth")
+            self.logger.log(f"[FAIL] Resolving struct {desc}", 
+                    LogTypes.STRUCT_RESOLUTION)
+            self.logger.go_out()
+            return None
         else:
-            raise NoInferencePossibleError("multiple synth")
+            self.logger.log(f"[FAIL] Resolving struct {desc}", 
+                    LogTypes.STRUCT_RESOLUTION)
+            self.logger.go_out()
+            return None
 
-        self.logger.go_out()
 
 class TypingResult:
     def __init__(self, func_types, struct_types, logger):
@@ -174,14 +184,16 @@ class TypingResult:
         self.struct_types = struct_types
         self.logger = logger
 
+import traceback
+
 def compile_types(sem_ast, debug):
     tc = TypingContext(sem_ast.function_definitions,
                        sem_ast.struct_definitions,
                        )
     try:
         tc.resolve_function("main", [], [])
-    except:
-        pass
+    except Exception as e:
+        print(traceback.format_exc())
 
     return TypingResult(tc.function_type_container, 
             tc.struct_type_container, tc.logger)
@@ -194,6 +206,12 @@ if __name__ == '__main__':
     tr = compile_types(sem_ast, debug = True)
     tr.logger.print_logs([
         LogTypes.FUNCTION_RESOLUTION,
-        LogTypes.STRUCT_RESOLUTION
+        LogTypes.STRUCT_RESOLUTION,
+        LogTypes.FUNCTION_DEFINITION,
+        LogTypes.STRUCT_DEFINITION,
+        LogTypes.FUNCTION_OR_STRUCT_DEFINITION,
+        LogTypes.TYPE_MISSMATCH,
+        LogTypes.STATEMENT_ERROR,
+        LogTypes.RUNTIME_EXPR_ERROR,
     ])
 

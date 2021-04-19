@@ -1,1115 +1,832 @@
-LexToken(STRUCT,'struct',17,639)
-LexToken(ID,'assert_equal',17,646)
-LexToken(LANGLE,'<',17,658)
-LexToken(ID,'A',17,659)
-LexToken(COMMA,',',17,660)
-LexToken(ID,'B',17,661)
-LexToken(RANGLE,'>',17,662)
-LexToken(LBRACE,'{',17,663)
-LexToken(TYPE,'type',18,669)
-LexToken(ID,'_1',18,674)
-LexToken(ASSIGNMENT,'=',18,677)
-LexToken(ID,'A',18,679)
-LexToken(EQ,'==',18,681)
-LexToken(ID,'B',18,684)
-LexToken(SEMICOLON,';',18,685)
-LexToken(TYPE,'type',19,691)
-LexToken(ID,'_2',19,696)
-LexToken(ASSIGNMENT,'=',19,699)
-LexToken(ID,'i1',19,701)
-LexToken(DIVIDE,'/',19,704)
-LexToken(ID,'_1',19,706)
-LexToken(SEMICOLON,';',19,708)
-LexToken(RBRACE,'}',20,710)
-LexToken(STRUCT,'struct',22,713)
-LexToken(ID,'assert_not_equal',22,720)
-LexToken(LANGLE,'<',22,736)
-LexToken(ID,'A',22,737)
-LexToken(COMMA,',',22,738)
-LexToken(ID,'B',22,739)
-LexToken(RANGLE,'>',22,740)
-LexToken(LBRACE,'{',22,741)
-LexToken(TYPE,'type',23,747)
-LexToken(ID,'_1',23,752)
-LexToken(ASSIGNMENT,'=',23,755)
-LexToken(ID,'A',23,757)
-LexToken(NE,'!=',23,759)
-LexToken(ID,'B',23,762)
-LexToken(SEMICOLON,';',23,763)
-LexToken(TYPE,'type',24,769)
-LexToken(ID,'_2',24,774)
-LexToken(ASSIGNMENT,'=',24,777)
-LexToken(ID,'i1',24,779)
-LexToken(DIVIDE,'/',24,782)
-LexToken(ID,'_1',24,784)
-LexToken(SEMICOLON,';',24,786)
-LexToken(RBRACE,'}',25,788)
-LexToken(STRUCT,'struct',27,791)
-LexToken(ID,'fib',27,798)
-LexToken(LANGLE,'<',27,801)
-LexToken(ID,'T',27,802)
-LexToken(RANGLE,'>',27,803)
-LexToken(LBRACE,'{',27,804)
-LexToken(TYPE,'type',28,810)
-LexToken(ID,'_1',28,815)
-LexToken(ASSIGNMENT,'=',28,818)
-LexToken(ID,'assert_equal',28,820)
-LexToken(LANGLE,'<',28,832)
-LexToken(ID,'T',28,833)
-LexToken(COMMA,',',28,834)
-LexToken(ID,'i1',28,836)
-LexToken(RANGLE,'>',28,838)
-LexToken(SEMICOLON,';',28,839)
-LexToken(TYPE,'type',29,845)
-LexToken(ID,'t',29,850)
-LexToken(ASSIGNMENT,'=',29,852)
-LexToken(ID,'i1',29,854)
-LexToken(SEMICOLON,';',29,856)
-LexToken(RBRACE,'}',30,858)
-LexToken(STRUCT,'struct',31,860)
-LexToken(ID,'fib',31,867)
-LexToken(LANGLE,'<',31,870)
-LexToken(ID,'T',31,871)
-LexToken(RANGLE,'>',31,872)
-LexToken(LBRACE,'{',31,873)
-LexToken(TYPE,'type',32,879)
-LexToken(ID,'_1',32,884)
-LexToken(ASSIGNMENT,'=',32,887)
-LexToken(ID,'assert_equal',32,889)
-LexToken(LANGLE,'<',32,901)
-LexToken(ID,'T',32,902)
-LexToken(COMMA,',',32,903)
-LexToken(ID,'i2',32,905)
-LexToken(RANGLE,'>',32,907)
-LexToken(SEMICOLON,';',32,908)
-LexToken(TYPE,'type',33,914)
-LexToken(ID,'t',33,919)
-LexToken(ASSIGNMENT,'=',33,921)
-LexToken(ID,'i1',33,923)
-LexToken(SEMICOLON,';',33,925)
-LexToken(RBRACE,'}',34,927)
-LexToken(STRUCT,'struct',36,930)
-LexToken(ID,'fib',36,937)
-LexToken(LANGLE,'<',36,940)
-LexToken(ID,'T',36,941)
-LexToken(RANGLE,'>',36,942)
-LexToken(LBRACE,'{',36,943)
-LexToken(TYPE,'type',37,949)
-LexToken(ID,'_1',37,954)
-LexToken(ASSIGNMENT,'=',37,957)
-LexToken(ID,'assert_not_equal',37,959)
-LexToken(LANGLE,'<',37,975)
-LexToken(ID,'T',37,976)
-LexToken(COMMA,',',37,977)
-LexToken(ID,'i1',37,979)
-LexToken(RANGLE,'>',37,981)
-LexToken(SEMICOLON,';',37,982)
-LexToken(TYPE,'type',38,988)
-LexToken(ID,'_2',38,993)
-LexToken(ASSIGNMENT,'=',38,996)
-LexToken(ID,'assert_not_equal',38,998)
-LexToken(LANGLE,'<',38,1014)
-LexToken(ID,'T',38,1015)
-LexToken(COMMA,',',38,1016)
-LexToken(ID,'i2',38,1018)
-LexToken(RANGLE,'>',38,1020)
-LexToken(SEMICOLON,';',38,1021)
-LexToken(TYPE,'type',39,1027)
-LexToken(ID,'t',39,1032)
-LexToken(ASSIGNMENT,'=',39,1034)
-LexToken(ID,'fib',39,1036)
-LexToken(LANGLE,'<',39,1039)
-LexToken(ID,'T',39,1040)
-LexToken(MINUS,'-',39,1041)
-LexToken(ID,'i1',39,1042)
-LexToken(RANGLE,'>',39,1044)
-LexToken(DOT,'.',39,1045)
-LexToken(ID,'t',39,1046)
-LexToken(PLUS,'+',39,1047)
-LexToken(ID,'fib',39,1048)
-LexToken(LANGLE,'<',39,1051)
-LexToken(ID,'T',39,1052)
-LexToken(MINUS,'-',39,1053)
-LexToken(ID,'i2',39,1054)
-LexToken(RANGLE,'>',39,1056)
-LexToken(DOT,'.',39,1057)
-LexToken(ID,'t',39,1058)
-LexToken(SEMICOLON,';',39,1059)
-LexToken(RBRACE,'}',40,1061)
-LexToken(FN,'fn',44,1172)
-LexToken(ID,'ct_fib',44,1175)
-LexToken(LANGLE,'<',44,1181)
-LexToken(ID,'T',44,1182)
-LexToken(RANGLE,'>',44,1183)
-LexToken(LPAREN,'(',44,1184)
-LexToken(RPAREN,')',44,1185)
-LexToken(ARROW,'->',44,1187)
-LexToken(ID,'i32',44,1190)
-LexToken(LBRACE,'{',44,1193)
-LexToken(TYPE,'type',45,1199)
-LexToken(ID,'f',45,1204)
-LexToken(ASSIGNMENT,'=',45,1206)
-LexToken(ID,'fib',45,1208)
-LexToken(LANGLE,'<',45,1211)
-LexToken(ID,'T',45,1212)
-LexToken(RANGLE,'>',45,1213)
-LexToken(DOT,'.',45,1214)
-LexToken(ID,'t',45,1215)
-LexToken(SEMICOLON,';',45,1216)
-LexToken(LET,'let',46,1222)
-LexToken(ID,'value',46,1226)
-LexToken(ASSIGNMENT,'=',46,1232)
-LexToken(ID,'i32',46,1234)
-LexToken(LANGLE,'<',46,1237)
-LexToken(ID,'f',46,1238)
-LexToken(RANGLE,'>',46,1239)
-LexToken(LPAREN,'(',46,1240)
-LexToken(RPAREN,')',46,1241)
-LexToken(SEMICOLON,';',46,1242)
-LexToken(RETURN,'return',47,1248)
-LexToken(ID,'value',47,1255)
-LexToken(SEMICOLON,';',47,1260)
-LexToken(RBRACE,'}',48,1262)
-LexToken(FN,'fn',50,1265)
-LexToken(ID,'main',50,1268)
-LexToken(LPAREN,'(',50,1272)
-LexToken(RPAREN,')',50,1273)
-LexToken(LBRACE,'{',50,1274)
-LexToken(LET,'let',51,1280)
-LexToken(ID,'v',51,1284)
-LexToken(ASSIGNMENT,'=',51,1286)
-LexToken(ID,'ct_fib',51,1288)
-LexToken(LANGLE,'<',51,1294)
-LexToken(ID,'i5',51,1295)
-LexToken(RANGLE,'>',51,1297)
-LexToken(LPAREN,'(',51,1298)
-LexToken(RPAREN,')',51,1299)
-LexToken(SEMICOLON,';',51,1300)
-LexToken(RBRACE,'}',52,1302)
-Injected <class 'parser_rules.AddressExpression'>
-Injected <class 'parser_rules.AngleCallExpression'>
-Injected <class 'parser_rules.AssignmentStatement'>
-Injected <class 'parser_rules.BinaryExpression'>
-Injected <class 'parser_rules.BlankStatement'>
-Injected <class 'parser_rules.Block'>
-Injected <class 'parser_rules.BlockStatement'>
-Injected <class 'parser_rules.BoolLiteral'>
-Injected <class 'parser_rules.BracketCallExpression'>
-Injected <class 'parser_rules.BreakStatement'>
-Injected <class 'parser_rules.CompilationUnit'>
-Injected <class 'parser_rules.DeclarationStatement'>
-Injected <class 'parser_rules.DefinitionList'>
-Injected <class 'parser_rules.DereferenceExpression'>
-Injected <class 'parser_rules.DotExpression'>
-Injected <class 'parser_rules.Expression'>
-Injected <class 'parser_rules.ExpressionList'>
-Injected <class 'parser_rules.ExpressionStatement'>
-Injected <class 'parser_rules.ForStatement'>
-Injected <class 'parser_rules.FunctionDefinition'>
-Injected <class 'parser_rules.IdExpression'>
-Injected <class 'parser_rules.IdPairExpression'>
-Injected <class 'parser_rules.IfElseStatement'>
-Injected <class 'parser_rules.InitStatement'>
-Injected <class 'parser_rules.IntLiteral'>
-Injected <class 'parser_rules.LiteralExpression'>
-Injected <class 'parser_rules.ParenthesesCallExpression'>
-Injected <class 'parser_rules.ParenthesesExpression'>
-Injected <class 'parser_rules.ReturnStatement'>
-Injected <class 'parser_rules.Statement'>
-Injected <class 'parser_rules.StatementList'>
-Injected <class 'parser_rules.StructDefinition'>
-Injected <class 'parser_rules.TypeStatement'>
-Injected <class 'parser_rules.UnaryExpression'>
-Injected <class 'parser_rules.WhileStatement'>
- CompilationUnit(
- -  definitionList = DefinitionList(
- -  -  flist = [
- -  -  -  FunctionDefinition(
- -  -  -  -  expr = Expression(
- -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  expr = ParenthesesCallExpression(
- -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  -  -  -  expr = AngleCallExpression(
- -  -  -  -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  id = str(ct_fib)
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(T)
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  )
- -  -  -  -  -  )
- -  -  -  -  )
- -  -  -  -  expr_ret = Expression(
- -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  id = str(i32)
- -  -  -  -  -  )
- -  -  -  -  )
- -  -  -  -  block = Block(
- -  -  -  -  -  statementList = [
- -  -  -  -  -  -  Statement(
- -  -  -  -  -  -  -  statement = TypeStatement(
- -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(f)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  -  -  -  -  expr = DotExpression(
- -  -  -  -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  expr = AngleCallExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(fib)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(T)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(t)
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  )
- -  -  -  -  -  -  Statement(
- -  -  -  -  -  -  -  statement = InitStatement(
- -  -  -  -  -  -  -  -  name = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(value)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  -  -  -  -  expr = ParenthesesCallExpression(
- -  -  -  -  -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  expr = AngleCallExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(i32)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(f)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  )
- -  -  -  -  -  -  Statement(
- -  -  -  -  -  -  -  statement = ReturnStatement(
- -  -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(value)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  )
- -  -  -  -  -  ]
- -  -  -  -  )
- -  -  -  )
- -  -  -  FunctionDefinition(
- -  -  -  -  expr = Expression(
- -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  expr = ParenthesesCallExpression(
- -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  id = str(main)
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  )
- -  -  -  -  -  )
- -  -  -  -  )
- -  -  -  -  block = Block(
- -  -  -  -  -  statementList = [
- -  -  -  -  -  -  Statement(
- -  -  -  -  -  -  -  statement = InitStatement(
- -  -  -  -  -  -  -  -  name = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(v)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  -  -  -  -  expr = ParenthesesCallExpression(
- -  -  -  -  -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  expr = AngleCallExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(ct_fib)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(i5)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  )
- -  -  -  -  -  ]
- -  -  -  -  )
- -  -  -  -  expr_ret = NoneType(None)
- -  -  -  )
- -  -  ]
- -  -  slist = [
- -  -  -  StructDefinition(
- -  -  -  -  expr = Expression(
- -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  expr = AngleCallExpression(
- -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  id = str(assert_equal)
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(A)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(B)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  )
- -  -  -  -  -  )
- -  -  -  -  )
- -  -  -  -  block = Block(
- -  -  -  -  -  statementList = [
- -  -  -  -  -  -  Statement(
- -  -  -  -  -  -  -  statement = TypeStatement(
- -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(_1)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  expr = BinaryExpression(
- -  -  -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  id = str(A)
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  op = str(==)
- -  -  -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  id = str(B)
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  )
- -  -  -  -  -  -  Statement(
- -  -  -  -  -  -  -  statement = TypeStatement(
- -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(_2)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  expr = BinaryExpression(
- -  -  -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  id = str(i1)
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  op = str(/)
- -  -  -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  id = str(_1)
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  )
- -  -  -  -  -  ]
- -  -  -  -  )
- -  -  -  )
- -  -  -  StructDefinition(
- -  -  -  -  expr = Expression(
- -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  expr = AngleCallExpression(
- -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  id = str(assert_not_equal)
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(A)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(B)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  )
- -  -  -  -  -  )
- -  -  -  -  )
- -  -  -  -  block = Block(
- -  -  -  -  -  statementList = [
- -  -  -  -  -  -  Statement(
- -  -  -  -  -  -  -  statement = TypeStatement(
- -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(_1)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  expr = BinaryExpression(
- -  -  -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  id = str(A)
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  op = str(!=)
- -  -  -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  id = str(B)
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  )
- -  -  -  -  -  -  Statement(
- -  -  -  -  -  -  -  statement = TypeStatement(
- -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(_2)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  expr = BinaryExpression(
- -  -  -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  id = str(i1)
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  op = str(/)
- -  -  -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  id = str(_1)
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  )
- -  -  -  -  -  ]
- -  -  -  -  )
- -  -  -  )
- -  -  -  StructDefinition(
- -  -  -  -  expr = Expression(
- -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  expr = AngleCallExpression(
- -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  id = str(fib)
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(T)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  )
- -  -  -  -  -  )
- -  -  -  -  )
- -  -  -  -  block = Block(
- -  -  -  -  -  statementList = [
- -  -  -  -  -  -  Statement(
- -  -  -  -  -  -  -  statement = TypeStatement(
- -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(_1)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  -  -  -  -  expr = AngleCallExpression(
- -  -  -  -  -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(assert_equal)
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(T)
- -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(i1)
- -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  )
- -  -  -  -  -  -  Statement(
- -  -  -  -  -  -  -  statement = TypeStatement(
- -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(t)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(i1)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  )
- -  -  -  -  -  ]
- -  -  -  -  )
- -  -  -  )
- -  -  -  StructDefinition(
- -  -  -  -  expr = Expression(
- -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  expr = AngleCallExpression(
- -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  id = str(fib)
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(T)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  )
- -  -  -  -  -  )
- -  -  -  -  )
- -  -  -  -  block = Block(
- -  -  -  -  -  statementList = [
- -  -  -  -  -  -  Statement(
- -  -  -  -  -  -  -  statement = TypeStatement(
- -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(_1)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  -  -  -  -  expr = AngleCallExpression(
- -  -  -  -  -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(assert_equal)
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(T)
- -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(i2)
- -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  )
- -  -  -  -  -  -  Statement(
- -  -  -  -  -  -  -  statement = TypeStatement(
- -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(t)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(i1)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  )
- -  -  -  -  -  ]
- -  -  -  -  )
- -  -  -  )
- -  -  -  StructDefinition(
- -  -  -  -  expr = Expression(
- -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  expr = AngleCallExpression(
- -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  id = str(fib)
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(T)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  )
- -  -  -  -  -  )
- -  -  -  -  )
- -  -  -  -  block = Block(
- -  -  -  -  -  statementList = [
- -  -  -  -  -  -  Statement(
- -  -  -  -  -  -  -  statement = TypeStatement(
- -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(_1)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  -  -  -  -  expr = AngleCallExpression(
- -  -  -  -  -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(assert_not_equal)
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(T)
- -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(i1)
- -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  )
- -  -  -  -  -  -  Statement(
- -  -  -  -  -  -  -  statement = TypeStatement(
- -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(_2)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  -  -  -  -  expr = AngleCallExpression(
- -  -  -  -  -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(assert_not_equal)
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(T)
- -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(i2)
- -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  )
- -  -  -  -  -  -  Statement(
- -  -  -  -  -  -  -  statement = TypeStatement(
- -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  id = str(t)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  -  -  -  -  expr = DotExpression(
- -  -  -  -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  expr = AngleCallExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = BinaryExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = DotExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = UnaryExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = AngleCallExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(fib)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = BinaryExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(T)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  op = str(-)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(i1)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(t)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  op = str(+)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(fib)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = BinaryExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  left = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(T)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  op = str(-)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(i2)
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  right = Expression(
- -  -  -  -  -  -  -  -  -  -  -  -  expr = IdExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  id = str(t)
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  )
- -  -  -  -  -  ]
- -  -  -  -  )
- -  -  -  )
- -  -  ]
- -  )
- )
+['struct', <parser_rules.Expression object at 0x7f1adc8e6a60>, <parser_rules.Block object at 0x7f1adc856e50>]
+['struct', <parser_rules.Expression object at 0x7f1adc865310>, <parser_rules.Block object at 0x7f1adc8657c0>]
+['struct', <parser_rules.Expression object at 0x7f1adc865d30>, <parser_rules.Block object at 0x7f1adc77e340>]
+['struct', <parser_rules.Expression object at 0x7f1adc77e820>, <parser_rules.Block object at 0x7f1adc77edf0>]
+['struct', <parser_rules.Expression object at 0x7f1adc77a310>, <parser_rules.Block object at 0x7f1adc77a8e0>]
+Visiting FunctionDefinition at span: (41, 43)
+AAAA
+Visiting TypeAngleExpression
+Visiting InitStatement at span: (42, 42)
+Visiting CallExpression at span: (42, 42)
+Visiting TypeIdExpression at span: (42, 42)
+Visiting FunctionDefinition at span: (35, 39)
+AAAA
+Visiting TypeDeclarationStatementFunction at span: (36, 36)
+Visiting TypeIndexExpression at span: (36, 36)
+Visiting TypeAngleExpression at span: (36, 36)
+Visiting TypeIdExpression at span: (36, 36)
+Visiting StructDefinition at span: (18, 21)
+Visiting TypeDeclarationStatementStruct at span: (19, 19)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (19, 19)
+Visiting TypeIdExpression at span: (19, 19)
+Visiting TypeIdExpression at span: (19, 19)
+Visiting StructDefinition at span: (8, 11)
+Visiting TypeDeclarationStatementStruct at span: (9, 9)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeDeclarationStatementStruct at span: (10, 10)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting StructDefinition at span: (22, 25)
+Visiting TypeDeclarationStatementStruct at span: (23, 23)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (23, 23)
+Visiting TypeIdExpression at span: (23, 23)
+Visiting TypeIdExpression at span: (23, 23)
+Visiting StructDefinition at span: (8, 11)
+Visiting TypeDeclarationStatementStruct at span: (9, 9)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeDeclarationStatementStruct at span: (10, 10)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting StructDefinition at span: (27, 31)
+Visiting TypeDeclarationStatementStruct at span: (28, 28)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (28, 28)
+Visiting TypeIdExpression at span: (28, 28)
+Visiting TypeIdExpression at span: (28, 28)
+Visiting StructDefinition at span: (13, 16)
+Visiting TypeDeclarationStatementStruct at span: (14, 14)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeDeclarationStatementStruct at span: (15, 15)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeDeclarationStatementStruct at span: (29, 29)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (29, 29)
+Visiting TypeIdExpression at span: (29, 29)
+Visiting TypeIdExpression at span: (29, 29)
+Visiting StructDefinition at span: (13, 16)
+Visiting TypeDeclarationStatementStruct at span: (14, 14)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeDeclarationStatementStruct at span: (15, 15)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeDeclarationStatementStruct at span: (30, 30)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (30, 30)
+Visiting TypeIndexExpression at span: (30, 30)
+Visiting TypeAngleExpression at span: (30, 30)
+Visiting TypeBinaryExpression at span: (30, 30)
+Visiting TypeIdExpression at span: (30, 30)
+Visiting TypeIdExpression at span: (30, 30)
+Visiting StructDefinition at span: (18, 21)
+Visiting TypeDeclarationStatementStruct at span: (19, 19)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (19, 19)
+Visiting TypeIdExpression at span: (19, 19)
+Visiting TypeIdExpression at span: (19, 19)
+Visiting StructDefinition at span: (8, 11)
+Visiting TypeDeclarationStatementStruct at span: (9, 9)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeDeclarationStatementStruct at span: (10, 10)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting StructDefinition at span: (22, 25)
+Visiting TypeDeclarationStatementStruct at span: (23, 23)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (23, 23)
+Visiting TypeIdExpression at span: (23, 23)
+Visiting TypeIdExpression at span: (23, 23)
+Visiting StructDefinition at span: (8, 11)
+Visiting TypeDeclarationStatementStruct at span: (9, 9)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeDeclarationStatementStruct at span: (10, 10)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting StructDefinition at span: (27, 31)
+Visiting TypeDeclarationStatementStruct at span: (28, 28)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (28, 28)
+Visiting TypeIdExpression at span: (28, 28)
+Visiting TypeIdExpression at span: (28, 28)
+Visiting StructDefinition at span: (13, 16)
+Visiting TypeDeclarationStatementStruct at span: (14, 14)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeDeclarationStatementStruct at span: (15, 15)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeDeclarationStatementStruct at span: (29, 29)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (29, 29)
+Visiting TypeIdExpression at span: (29, 29)
+Visiting TypeIdExpression at span: (29, 29)
+Visiting StructDefinition at span: (13, 16)
+Visiting TypeDeclarationStatementStruct at span: (14, 14)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeDeclarationStatementStruct at span: (15, 15)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeDeclarationStatementStruct at span: (30, 30)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (30, 30)
+Visiting TypeIndexExpression at span: (30, 30)
+Visiting TypeAngleExpression at span: (30, 30)
+Visiting TypeBinaryExpression at span: (30, 30)
+Visiting TypeIdExpression at span: (30, 30)
+Visiting TypeIdExpression at span: (30, 30)
+Visiting StructDefinition at span: (18, 21)
+Visiting TypeDeclarationStatementStruct at span: (19, 19)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (19, 19)
+Visiting TypeIdExpression at span: (19, 19)
+Visiting TypeIdExpression at span: (19, 19)
+Visiting StructDefinition at span: (8, 11)
+Visiting TypeDeclarationStatementStruct at span: (9, 9)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeDeclarationStatementStruct at span: (10, 10)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting StructDefinition at span: (22, 25)
+Visiting TypeDeclarationStatementStruct at span: (23, 23)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (23, 23)
+Visiting TypeIdExpression at span: (23, 23)
+Visiting TypeIdExpression at span: (23, 23)
+Visiting StructDefinition at span: (8, 11)
+Visiting TypeDeclarationStatementStruct at span: (9, 9)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeDeclarationStatementStruct at span: (10, 10)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting StructDefinition at span: (27, 31)
+Visiting TypeDeclarationStatementStruct at span: (28, 28)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (28, 28)
+Visiting TypeIdExpression at span: (28, 28)
+Visiting TypeIdExpression at span: (28, 28)
+Visiting StructDefinition at span: (13, 16)
+Visiting TypeDeclarationStatementStruct at span: (14, 14)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeDeclarationStatementStruct at span: (15, 15)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeDeclarationStatementStruct at span: (29, 29)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (29, 29)
+Visiting TypeIdExpression at span: (29, 29)
+Visiting TypeIdExpression at span: (29, 29)
+Visiting StructDefinition at span: (13, 16)
+Visiting TypeDeclarationStatementStruct at span: (14, 14)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeDeclarationStatementStruct at span: (15, 15)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeDeclarationStatementStruct at span: (30, 30)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (30, 30)
+Visiting TypeIndexExpression at span: (30, 30)
+Visiting TypeAngleExpression at span: (30, 30)
+Visiting TypeBinaryExpression at span: (30, 30)
+Visiting TypeIdExpression at span: (30, 30)
+Visiting TypeIdExpression at span: (30, 30)
+Visiting StructDefinition at span: (18, 21)
+Visiting TypeDeclarationStatementStruct at span: (19, 19)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (19, 19)
+Visiting TypeIdExpression at span: (19, 19)
+Visiting TypeIdExpression at span: (19, 19)
+Visiting StructDefinition at span: (8, 11)
+Visiting TypeDeclarationStatementStruct at span: (9, 9)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeDeclarationStatementStruct at span: (10, 10)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting StructDefinition at span: (22, 25)
+Visiting TypeDeclarationStatementStruct at span: (23, 23)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (23, 23)
+Visiting TypeIdExpression at span: (23, 23)
+Visiting TypeIdExpression at span: (23, 23)
+Visiting StructDefinition at span: (8, 11)
+Visiting TypeDeclarationStatementStruct at span: (9, 9)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeDeclarationStatementStruct at span: (10, 10)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting TypeDeclarationStatementStruct at span: (24, 24)
+hERE<class 'semantic_ast.TypeIdExpression'>
+Visiting TypeIdExpression at span: (24, 24)
+Visiting StructDefinition at span: (27, 31)
+Visiting TypeDeclarationStatementStruct at span: (28, 28)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (28, 28)
+Visiting TypeIdExpression at span: (28, 28)
+Visiting TypeIdExpression at span: (28, 28)
+Visiting StructDefinition at span: (13, 16)
+Visiting TypeDeclarationStatementStruct at span: (14, 14)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeDeclarationStatementStruct at span: (15, 15)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeDeclarationStatementStruct at span: (29, 29)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (29, 29)
+Visiting TypeIdExpression at span: (29, 29)
+Visiting TypeIdExpression at span: (29, 29)
+Visiting StructDefinition at span: (13, 16)
+Visiting TypeDeclarationStatementStruct at span: (14, 14)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeDeclarationStatementStruct at span: (15, 15)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeIndexExpression at span: (30, 30)
+Visiting TypeAngleExpression at span: (30, 30)
+Visiting TypeBinaryExpression at span: (30, 30)
+Visiting TypeIdExpression at span: (30, 30)
+Visiting TypeIdExpression at span: (30, 30)
+Visiting StructDefinition at span: (18, 21)
+Visiting TypeDeclarationStatementStruct at span: (19, 19)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (19, 19)
+Visiting TypeIdExpression at span: (19, 19)
+Visiting TypeIdExpression at span: (19, 19)
+Visiting StructDefinition at span: (8, 11)
+Visiting TypeDeclarationStatementStruct at span: (9, 9)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeDeclarationStatementStruct at span: (10, 10)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting TypeDeclarationStatementStruct at span: (20, 20)
+hERE<class 'semantic_ast.TypeIdExpression'>
+Visiting TypeIdExpression at span: (20, 20)
+Visiting StructDefinition at span: (22, 25)
+Visiting TypeDeclarationStatementStruct at span: (23, 23)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (23, 23)
+Visiting TypeIdExpression at span: (23, 23)
+Visiting TypeIdExpression at span: (23, 23)
+Visiting StructDefinition at span: (8, 11)
+Visiting TypeDeclarationStatementStruct at span: (9, 9)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeIdExpression at span: (9, 9)
+Visiting TypeDeclarationStatementStruct at span: (10, 10)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting TypeIdExpression at span: (10, 10)
+Visiting StructDefinition at span: (27, 31)
+Visiting TypeDeclarationStatementStruct at span: (28, 28)
+hERE<class 'semantic_ast.TypeAngleExpression'>
+Visiting TypeAngleExpression at span: (28, 28)
+Visiting TypeIdExpression at span: (28, 28)
+Visiting TypeIdExpression at span: (28, 28)
+Visiting StructDefinition at span: (13, 16)
+Visiting TypeDeclarationStatementStruct at span: (14, 14)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeIdExpression at span: (14, 14)
+Visiting TypeDeclarationStatementStruct at span: (15, 15)
+hERE<class 'semantic_ast.TypeBinaryExpression'>
+Visiting TypeBinaryExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeIdExpression at span: (15, 15)
+Visiting TypeIndexExpression at span: (30, 30)
+Visiting TypeAngleExpression at span: (30, 30)
+Visiting TypeBinaryExpression at span: (30, 30)
+Visiting TypeIdExpression at span: (30, 30)
+Visiting TypeIdExpression at span: (30, 30)
+Visiting TypeIndexExpression at span: (30, 30)
+Visiting TypeAngleExpression at span: (30, 30)
+Visiting TypeBinaryExpression at span: (30, 30)
+Visiting TypeIdExpression at span: (30, 30)
+Visiting TypeIdExpression at span: (30, 30)
+Visiting TypeIdExpression at span: (35, 35)
+Visiting InitStatement at span: (37, 37)
+Visiting CallExpression at span: (37, 37)
+Visiting TypeIdExpression at span: (37, 37)
+Traceback (most recent call last):
+  File "/home/pmihalj/thesis/compiler/type_engine.py", line 194, in compile_types
+    tc.resolve_function("main", [], [])
+  File "/home/pmihalj/thesis/compiler/type_engine.py", line 114, in resolve_function
+    r = fd.te_visit(self,
+  File "/home/pmihalj/thesis/compiler/helpers.py", line 49, in wrapper
+    a = func(self, *vargs, **kwargs)
+  File "/home/pmihalj/thesis/compiler/type_engine_rules.py", line 75, in _
+    if s.te_visit(tc, f) is False:
+  File "/home/pmihalj/thesis/compiler/helpers.py", line 49, in wrapper
+    a = func(self, *vargs, **kwargs)
+  File "/home/pmihalj/thesis/compiler/type_engine_rules.py", line 180, in _
+    e = self.expr.te_visit(tc, f, lvalue=False)
+  File "/home/pmihalj/thesis/compiler/helpers.py", line 49, in wrapper
+    a = func(self, *vargs, **kwargs)
+  File "/home/pmihalj/thesis/compiler/type_engine_rules.py", line 513, in _
+    ft = tc.resolve_function(self.name, type_args_types, args_types)
+  File "/home/pmihalj/thesis/compiler/type_engine.py", line 114, in resolve_function
+    r = fd.te_visit(self,
+  File "/home/pmihalj/thesis/compiler/helpers.py", line 49, in wrapper
+    a = func(self, *vargs, **kwargs)
+  File "/home/pmihalj/thesis/compiler/type_engine_rules.py", line 75, in _
+    if s.te_visit(tc, f) is False:
+  File "/home/pmihalj/thesis/compiler/helpers.py", line 49, in wrapper
+    a = func(self, *vargs, **kwargs)
+  File "/home/pmihalj/thesis/compiler/type_engine_rules.py", line 180, in _
+    e = self.expr.te_visit(tc, f, lvalue=False)
+  File "/home/pmihalj/thesis/compiler/helpers.py", line 49, in wrapper
+    a = func(self, *vargs, **kwargs)
+  File "/home/pmihalj/thesis/compiler/type_engine_rules.py", line 505, in _
+    type_args_types = [t.te_visit(tc, f) for t in self.type_expr_list]
+  File "/home/pmihalj/thesis/compiler/type_engine_rules.py", line 505, in <listcomp>
+    type_args_types = [t.te_visit(tc, f) for t in self.type_expr_list]
+  File "/home/pmihalj/thesis/compiler/helpers.py", line 49, in wrapper
+    a = func(self, *vargs, **kwargs)
+  File "/home/pmihalj/thesis/compiler/type_engine_rules.py", line 593, in _
+    return sf.types[self.name]
+KeyError: 'f'
 
-
-
-
- Program(
- -  function_definitions = [
- -  -  FunctionDefinition(
- -  -  -  name = str(ct_fib)
- -  -  -  type_parameters = [
- -  -  -  -  str(T)
- -  -  -  ]
- -  -  -  parameters = [
- -  -  -  ]
- -  -  -  expr_ret = str(i32)
- -  -  -  block = Block(
- -  -  -  -  statement_list = [
- -  -  -  -  -  TypeDeclarationStatement(
- -  -  -  -  -  -  type_expr = TypeMemberIndexExpression(
- -  -  -  -  -  -  -  expr = TypeAngleExpression(
- -  -  -  -  -  -  -  -  name = str(fib)
- -  -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  -  str(T)
- -  -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  member = str(t)
- -  -  -  -  -  -  )
- -  -  -  -  -  -  name = str(f)
- -  -  -  -  -  )
- -  -  -  -  -  InitStatement(
- -  -  -  -  -  -  name = str(value)
- -  -  -  -  -  -  expr = CallExpression(
- -  -  -  -  -  -  -  name = str(i32)
- -  -  -  -  -  -  -  type_expr_list = [
- -  -  -  -  -  -  -  -  str(f)
- -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  args = [
- -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  )
- -  -  -  -  -  )
- -  -  -  -  -  ReturnStatement(
- -  -  -  -  -  -  expr = str(value)
- -  -  -  -  -  )
- -  -  -  -  ]
- -  -  -  )
- -  -  )
- -  -  FunctionDefinition(
- -  -  -  name = str(main)
- -  -  -  type_parameters = [
- -  -  -  ]
- -  -  -  parameters = [
- -  -  -  ]
- -  -  -  expr_ret = str(void)
- -  -  -  block = Block(
- -  -  -  -  statement_list = [
- -  -  -  -  -  InitStatement(
- -  -  -  -  -  -  name = str(v)
- -  -  -  -  -  -  expr = CallExpression(
- -  -  -  -  -  -  -  name = str(ct_fib)
- -  -  -  -  -  -  -  type_expr_list = [
- -  -  -  -  -  -  -  -  str(i5)
- -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  args = [
- -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  )
- -  -  -  -  -  )
- -  -  -  -  ]
- -  -  -  )
- -  -  )
- -  ]
- -  struct_definitions = [
- -  -  StructDefinition(
- -  -  -  name = str(assert_equal)
- -  -  -  type_parameter_names = [
- -  -  -  -  str(A)
- -  -  -  -  str(B)
- -  -  -  ]
- -  -  -  block = Block(
- -  -  -  -  statement_list = [
- -  -  -  -  -  TypeDeclarationStatement(
- -  -  -  -  -  -  type_expr = TypeBinaryExpression(
- -  -  -  -  -  -  -  left = str(A)
- -  -  -  -  -  -  -  op = str(==)
- -  -  -  -  -  -  -  right = str(B)
- -  -  -  -  -  -  )
- -  -  -  -  -  -  name = str(_1)
- -  -  -  -  -  )
- -  -  -  -  -  TypeDeclarationStatement(
- -  -  -  -  -  -  type_expr = TypeBinaryExpression(
- -  -  -  -  -  -  -  left = str(i1)
- -  -  -  -  -  -  -  op = str(/)
- -  -  -  -  -  -  -  right = str(_1)
- -  -  -  -  -  -  )
- -  -  -  -  -  -  name = str(_2)
- -  -  -  -  -  )
- -  -  -  -  ]
- -  -  -  )
- -  -  )
- -  -  StructDefinition(
- -  -  -  name = str(assert_not_equal)
- -  -  -  type_parameter_names = [
- -  -  -  -  str(A)
- -  -  -  -  str(B)
- -  -  -  ]
- -  -  -  block = Block(
- -  -  -  -  statement_list = [
- -  -  -  -  -  TypeDeclarationStatement(
- -  -  -  -  -  -  type_expr = TypeBinaryExpression(
- -  -  -  -  -  -  -  left = str(A)
- -  -  -  -  -  -  -  op = str(!=)
- -  -  -  -  -  -  -  right = str(B)
- -  -  -  -  -  -  )
- -  -  -  -  -  -  name = str(_1)
- -  -  -  -  -  )
- -  -  -  -  -  TypeDeclarationStatement(
- -  -  -  -  -  -  type_expr = TypeBinaryExpression(
- -  -  -  -  -  -  -  left = str(i1)
- -  -  -  -  -  -  -  op = str(/)
- -  -  -  -  -  -  -  right = str(_1)
- -  -  -  -  -  -  )
- -  -  -  -  -  -  name = str(_2)
- -  -  -  -  -  )
- -  -  -  -  ]
- -  -  -  )
- -  -  )
- -  -  StructDefinition(
- -  -  -  name = str(fib)
- -  -  -  type_parameter_names = [
- -  -  -  -  str(T)
- -  -  -  ]
- -  -  -  block = Block(
- -  -  -  -  statement_list = [
- -  -  -  -  -  TypeDeclarationStatement(
- -  -  -  -  -  -  type_expr = TypeAngleExpression(
- -  -  -  -  -  -  -  name = str(assert_equal)
- -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  str(T)
- -  -  -  -  -  -  -  -  str(i1)
- -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  )
- -  -  -  -  -  -  name = str(_1)
- -  -  -  -  -  )
- -  -  -  -  -  TypeDeclarationStatement(
- -  -  -  -  -  -  type_expr = str(i1)
- -  -  -  -  -  -  name = str(t)
- -  -  -  -  -  )
- -  -  -  -  ]
- -  -  -  )
- -  -  )
- -  -  StructDefinition(
- -  -  -  name = str(fib)
- -  -  -  type_parameter_names = [
- -  -  -  -  str(T)
- -  -  -  ]
- -  -  -  block = Block(
- -  -  -  -  statement_list = [
- -  -  -  -  -  TypeDeclarationStatement(
- -  -  -  -  -  -  type_expr = TypeAngleExpression(
- -  -  -  -  -  -  -  name = str(assert_equal)
- -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  str(T)
- -  -  -  -  -  -  -  -  str(i2)
- -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  )
- -  -  -  -  -  -  name = str(_1)
- -  -  -  -  -  )
- -  -  -  -  -  TypeDeclarationStatement(
- -  -  -  -  -  -  type_expr = str(i1)
- -  -  -  -  -  -  name = str(t)
- -  -  -  -  -  )
- -  -  -  -  ]
- -  -  -  )
- -  -  )
- -  -  StructDefinition(
- -  -  -  name = str(fib)
- -  -  -  type_parameter_names = [
- -  -  -  -  str(T)
- -  -  -  ]
- -  -  -  block = Block(
- -  -  -  -  statement_list = [
- -  -  -  -  -  TypeDeclarationStatement(
- -  -  -  -  -  -  type_expr = TypeAngleExpression(
- -  -  -  -  -  -  -  name = str(assert_not_equal)
- -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  str(T)
- -  -  -  -  -  -  -  -  str(i1)
- -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  )
- -  -  -  -  -  -  name = str(_1)
- -  -  -  -  -  )
- -  -  -  -  -  TypeDeclarationStatement(
- -  -  -  -  -  -  type_expr = TypeAngleExpression(
- -  -  -  -  -  -  -  name = str(assert_not_equal)
- -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  str(T)
- -  -  -  -  -  -  -  -  str(i2)
- -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  )
- -  -  -  -  -  -  name = str(_2)
- -  -  -  -  -  )
- -  -  -  -  -  TypeDeclarationStatement(
- -  -  -  -  -  -  type_expr = TypeMemberIndexExpression(
- -  -  -  -  -  -  -  expr = TypeAngleExpression(
- -  -  -  -  -  -  -  -  name = TypeBinaryExpression(
- -  -  -  -  -  -  -  -  -  left = TypeMemberIndexExpression(
- -  -  -  -  -  -  -  -  -  -  expr = TypeAngleExpression(
- -  -  -  -  -  -  -  -  -  -  -  name = str(fib)
- -  -  -  -  -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  -  -  -  -  TypeBinaryExpression(
- -  -  -  -  -  -  -  -  -  -  -  -  -  left = str(T)
- -  -  -  -  -  -  -  -  -  -  -  -  -  op = str(-)
- -  -  -  -  -  -  -  -  -  -  -  -  -  right = str(i1)
- -  -  -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  -  member = str(t)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  -  op = str(+)
- -  -  -  -  -  -  -  -  -  right = str(fib)
- -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  expr_list = [
- -  -  -  -  -  -  -  -  -  TypeBinaryExpression(
- -  -  -  -  -  -  -  -  -  -  left = str(T)
- -  -  -  -  -  -  -  -  -  -  op = str(-)
- -  -  -  -  -  -  -  -  -  -  right = str(i2)
- -  -  -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  -  ]
- -  -  -  -  -  -  -  )
- -  -  -  -  -  -  -  member = str(t)
- -  -  -  -  -  -  )
- -  -  -  -  -  -  name = str(t)
- -  -  -  -  -  )
- -  -  -  -  ]
- -  -  -  )
- -  -  )
- -  ]
- )
+2  - Resolving function ('main', (), ())
+4  - - Function definition at 41
+6  - - - Resolving struct ('void', ())
+6  - - - Struct def autogenerated
+6  - - - [SUCC] Resolving struct ('void', ())
+6  - - - Resolving struct ('i5', ())
+6  - - - Struct def autogenerated
+6  - - - [SUCC] Resolving struct ('i5', ())
+6  - - - Resolving function ('ct_fib', (IntType(size=5),), ())
+8  - - - - Function definition at 35
+10  - - - - - Resolving struct ('fib', (IntType(size=5),))
+12  - - - - - - Struct definition at 18
+14  - - - - - - - Resolving struct ('i1', ())
+14  - - - - - - - Struct def autogenerated
+14  - - - - - - - [SUCC] Resolving struct ('i1', ())
+14  - - - - - - - Resolving struct ('assert_equal', (IntType(size=5), IntType(size=1)))
+16  - - - - - - - - Struct definition at 8
+18  - - - - - - - - - Resolving struct ('__eq__', (IntType(size=5), IntType(size=1)))
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('__eq__', (IntType(size=5), IntType(size=1)))
+18  - - - - - - - - - Resolving struct ('i1', ())
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+18  - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+18  - - - - - - - - - [FAIL] Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+16  - - - - - - - - [ERR] Can't infer for op __div__!
+16  - - - - - - - - Cant infer statement                            at line 10!
+14  - - - - - - - [FAIL] Resolving struct ('assert_equal', (IntType(size=5), IntType(size=1)))
+12  - - - - - - [ERR] Can't infer type assert_equal!
+12  - - - - - - Cant infer statement                            at line 19!
+12  - - - - - - Struct definition at 22
+14  - - - - - - - Resolving struct ('i2', ())
+14  - - - - - - - Struct def autogenerated
+14  - - - - - - - [SUCC] Resolving struct ('i2', ())
+14  - - - - - - - Resolving struct ('assert_equal', (IntType(size=5), IntType(size=2)))
+16  - - - - - - - - Struct definition at 8
+18  - - - - - - - - - Resolving struct ('__eq__', (IntType(size=5), IntType(size=2)))
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('__eq__', (IntType(size=5), IntType(size=2)))
+18  - - - - - - - - - Resolving struct ('i1', ())
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+18  - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+18  - - - - - - - - - [FAIL] Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+16  - - - - - - - - [ERR] Can't infer for op __div__!
+16  - - - - - - - - Cant infer statement                            at line 10!
+14  - - - - - - - [FAIL] Resolving struct ('assert_equal', (IntType(size=5), IntType(size=2)))
+12  - - - - - - [ERR] Can't infer type assert_equal!
+12  - - - - - - Cant infer statement                            at line 23!
+12  - - - - - - Struct definition at 27
+14  - - - - - - - Resolving struct ('i1', ())
+14  - - - - - - - Struct def autogenerated
+14  - - - - - - - [SUCC] Resolving struct ('i1', ())
+14  - - - - - - - Resolving struct ('assert_not_equal', (IntType(size=5), IntType(size=1)))
+16  - - - - - - - - Struct definition at 13
+18  - - - - - - - - - Resolving struct ('__ne__', (IntType(size=5), IntType(size=1)))
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('__ne__', (IntType(size=5), IntType(size=1)))
+18  - - - - - - - - - Resolving struct ('i1', ())
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+18  - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+14  - - - - - - - [SUCC] Resolving struct ('assert_not_equal', (IntType(size=5), IntType(size=1)))
+14  - - - - - - - Resolving struct ('i2', ())
+14  - - - - - - - Struct def autogenerated
+14  - - - - - - - [SUCC] Resolving struct ('i2', ())
+14  - - - - - - - Resolving struct ('assert_not_equal', (IntType(size=5), IntType(size=2)))
+16  - - - - - - - - Struct definition at 13
+18  - - - - - - - - - Resolving struct ('__ne__', (IntType(size=5), IntType(size=2)))
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('__ne__', (IntType(size=5), IntType(size=2)))
+18  - - - - - - - - - Resolving struct ('i1', ())
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+18  - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+14  - - - - - - - [SUCC] Resolving struct ('assert_not_equal', (IntType(size=5), IntType(size=2)))
+14  - - - - - - - Resolving struct ('i1', ())
+14  - - - - - - - Struct def autogenerated
+14  - - - - - - - [SUCC] Resolving struct ('i1', ())
+14  - - - - - - - Resolving struct ('__sub__', (IntType(size=5), IntType(size=1)))
+14  - - - - - - - Struct def autogenerated
+14  - - - - - - - [SUCC] Resolving struct ('__sub__', (IntType(size=5), IntType(size=1)))
+14  - - - - - - - Resolving struct ('fib', (IntType(size=4),))
+16  - - - - - - - - Struct definition at 18
+18  - - - - - - - - - Resolving struct ('i1', ())
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+18  - - - - - - - - - Resolving struct ('assert_equal', (IntType(size=4), IntType(size=1)))
+20  - - - - - - - - - - Struct definition at 8
+22  - - - - - - - - - - - Resolving struct ('__eq__', (IntType(size=4), IntType(size=1)))
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('__eq__', (IntType(size=4), IntType(size=1)))
+22  - - - - - - - - - - - Resolving struct ('i1', ())
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+22  - - - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+22  - - - - - - - - - - - [FAIL] Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+20  - - - - - - - - - - [ERR] Can't infer for op __div__!
+20  - - - - - - - - - - Cant infer statement                            at line 10!
+18  - - - - - - - - - [FAIL] Resolving struct ('assert_equal', (IntType(size=4), IntType(size=1)))
+16  - - - - - - - - [ERR] Can't infer type assert_equal!
+16  - - - - - - - - Cant infer statement                            at line 19!
+16  - - - - - - - - Struct definition at 22
+18  - - - - - - - - - Resolving struct ('i2', ())
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('i2', ())
+18  - - - - - - - - - Resolving struct ('assert_equal', (IntType(size=4), IntType(size=2)))
+20  - - - - - - - - - - Struct definition at 8
+22  - - - - - - - - - - - Resolving struct ('__eq__', (IntType(size=4), IntType(size=2)))
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('__eq__', (IntType(size=4), IntType(size=2)))
+22  - - - - - - - - - - - Resolving struct ('i1', ())
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+22  - - - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+22  - - - - - - - - - - - [FAIL] Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+20  - - - - - - - - - - [ERR] Can't infer for op __div__!
+20  - - - - - - - - - - Cant infer statement                            at line 10!
+18  - - - - - - - - - [FAIL] Resolving struct ('assert_equal', (IntType(size=4), IntType(size=2)))
+16  - - - - - - - - [ERR] Can't infer type assert_equal!
+16  - - - - - - - - Cant infer statement                            at line 23!
+16  - - - - - - - - Struct definition at 27
+18  - - - - - - - - - Resolving struct ('i1', ())
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+18  - - - - - - - - - Resolving struct ('assert_not_equal', (IntType(size=4), IntType(size=1)))
+20  - - - - - - - - - - Struct definition at 13
+22  - - - - - - - - - - - Resolving struct ('__ne__', (IntType(size=4), IntType(size=1)))
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('__ne__', (IntType(size=4), IntType(size=1)))
+22  - - - - - - - - - - - Resolving struct ('i1', ())
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+22  - - - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+18  - - - - - - - - - [SUCC] Resolving struct ('assert_not_equal', (IntType(size=4), IntType(size=1)))
+18  - - - - - - - - - Resolving struct ('i2', ())
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('i2', ())
+18  - - - - - - - - - Resolving struct ('assert_not_equal', (IntType(size=4), IntType(size=2)))
+20  - - - - - - - - - - Struct definition at 13
+22  - - - - - - - - - - - Resolving struct ('__ne__', (IntType(size=4), IntType(size=2)))
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('__ne__', (IntType(size=4), IntType(size=2)))
+22  - - - - - - - - - - - Resolving struct ('i1', ())
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+22  - - - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+18  - - - - - - - - - [SUCC] Resolving struct ('assert_not_equal', (IntType(size=4), IntType(size=2)))
+18  - - - - - - - - - Resolving struct ('i1', ())
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+18  - - - - - - - - - Resolving struct ('__sub__', (IntType(size=4), IntType(size=1)))
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('__sub__', (IntType(size=4), IntType(size=1)))
+18  - - - - - - - - - Resolving struct ('fib', (IntType(size=3),))
+20  - - - - - - - - - - Struct definition at 18
+22  - - - - - - - - - - - Resolving struct ('i1', ())
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+22  - - - - - - - - - - - Resolving struct ('assert_equal', (IntType(size=3), IntType(size=1)))
+24  - - - - - - - - - - - - Struct definition at 8
+26  - - - - - - - - - - - - - Resolving struct ('__eq__', (IntType(size=3), IntType(size=1)))
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('__eq__', (IntType(size=3), IntType(size=1)))
+26  - - - - - - - - - - - - - Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+26  - - - - - - - - - - - - - [FAIL] Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+24  - - - - - - - - - - - - [ERR] Can't infer for op __div__!
+24  - - - - - - - - - - - - Cant infer statement                            at line 10!
+22  - - - - - - - - - - - [FAIL] Resolving struct ('assert_equal', (IntType(size=3), IntType(size=1)))
+20  - - - - - - - - - - [ERR] Can't infer type assert_equal!
+20  - - - - - - - - - - Cant infer statement                            at line 19!
+20  - - - - - - - - - - Struct definition at 22
+22  - - - - - - - - - - - Resolving struct ('i2', ())
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('i2', ())
+22  - - - - - - - - - - - Resolving struct ('assert_equal', (IntType(size=3), IntType(size=2)))
+24  - - - - - - - - - - - - Struct definition at 8
+26  - - - - - - - - - - - - - Resolving struct ('__eq__', (IntType(size=3), IntType(size=2)))
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('__eq__', (IntType(size=3), IntType(size=2)))
+26  - - - - - - - - - - - - - Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+26  - - - - - - - - - - - - - [FAIL] Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+24  - - - - - - - - - - - - [ERR] Can't infer for op __div__!
+24  - - - - - - - - - - - - Cant infer statement                            at line 10!
+22  - - - - - - - - - - - [FAIL] Resolving struct ('assert_equal', (IntType(size=3), IntType(size=2)))
+20  - - - - - - - - - - [ERR] Can't infer type assert_equal!
+20  - - - - - - - - - - Cant infer statement                            at line 23!
+20  - - - - - - - - - - Struct definition at 27
+22  - - - - - - - - - - - Resolving struct ('i1', ())
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+22  - - - - - - - - - - - Resolving struct ('assert_not_equal', (IntType(size=3), IntType(size=1)))
+24  - - - - - - - - - - - - Struct definition at 13
+26  - - - - - - - - - - - - - Resolving struct ('__ne__', (IntType(size=3), IntType(size=1)))
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('__ne__', (IntType(size=3), IntType(size=1)))
+26  - - - - - - - - - - - - - Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+22  - - - - - - - - - - - [SUCC] Resolving struct ('assert_not_equal', (IntType(size=3), IntType(size=1)))
+22  - - - - - - - - - - - Resolving struct ('i2', ())
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('i2', ())
+22  - - - - - - - - - - - Resolving struct ('assert_not_equal', (IntType(size=3), IntType(size=2)))
+24  - - - - - - - - - - - - Struct definition at 13
+26  - - - - - - - - - - - - - Resolving struct ('__ne__', (IntType(size=3), IntType(size=2)))
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('__ne__', (IntType(size=3), IntType(size=2)))
+26  - - - - - - - - - - - - - Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+22  - - - - - - - - - - - [SUCC] Resolving struct ('assert_not_equal', (IntType(size=3), IntType(size=2)))
+22  - - - - - - - - - - - Resolving struct ('i1', ())
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+22  - - - - - - - - - - - Resolving struct ('__sub__', (IntType(size=3), IntType(size=1)))
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('__sub__', (IntType(size=3), IntType(size=1)))
+22  - - - - - - - - - - - Resolving struct ('fib', (IntType(size=2),))
+24  - - - - - - - - - - - - Struct definition at 18
+26  - - - - - - - - - - - - - Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Resolving struct ('assert_equal', (IntType(size=2), IntType(size=1)))
+28  - - - - - - - - - - - - - - Struct definition at 8
+30  - - - - - - - - - - - - - - - Resolving struct ('__eq__', (IntType(size=2), IntType(size=1)))
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('__eq__', (IntType(size=2), IntType(size=1)))
+30  - - - - - - - - - - - - - - - Resolving struct ('i1', ())
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+30  - - - - - - - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+30  - - - - - - - - - - - - - - - [FAIL] Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+28  - - - - - - - - - - - - - - [ERR] Can't infer for op __div__!
+28  - - - - - - - - - - - - - - Cant infer statement                            at line 10!
+26  - - - - - - - - - - - - - [FAIL] Resolving struct ('assert_equal', (IntType(size=2), IntType(size=1)))
+24  - - - - - - - - - - - - [ERR] Can't infer type assert_equal!
+24  - - - - - - - - - - - - Cant infer statement                            at line 19!
+24  - - - - - - - - - - - - Struct definition at 22
+26  - - - - - - - - - - - - - Resolving struct ('i2', ())
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('i2', ())
+26  - - - - - - - - - - - - - Resolving struct ('assert_equal', (IntType(size=2), IntType(size=2)))
+28  - - - - - - - - - - - - - - Struct definition at 8
+30  - - - - - - - - - - - - - - - Resolving struct ('__eq__', (IntType(size=2), IntType(size=2)))
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('__eq__', (IntType(size=2), IntType(size=2)))
+30  - - - - - - - - - - - - - - - Resolving struct ('i1', ())
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+30  - - - - - - - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('assert_equal', (IntType(size=2), IntType(size=2)))
+26  - - - - - - - - - - - - - Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+24  - - - - - - - - - - - - Struct definition at 27
+26  - - - - - - - - - - - - - Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Resolving struct ('assert_not_equal', (IntType(size=2), IntType(size=1)))
+28  - - - - - - - - - - - - - - Struct definition at 13
+30  - - - - - - - - - - - - - - - Resolving struct ('__ne__', (IntType(size=2), IntType(size=1)))
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('__ne__', (IntType(size=2), IntType(size=1)))
+30  - - - - - - - - - - - - - - - Resolving struct ('i1', ())
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+30  - - - - - - - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('assert_not_equal', (IntType(size=2), IntType(size=1)))
+26  - - - - - - - - - - - - - Resolving struct ('i2', ())
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('i2', ())
+26  - - - - - - - - - - - - - Resolving struct ('assert_not_equal', (IntType(size=2), IntType(size=2)))
+28  - - - - - - - - - - - - - - Struct definition at 13
+30  - - - - - - - - - - - - - - - Resolving struct ('__ne__', (IntType(size=2), IntType(size=2)))
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('__ne__', (IntType(size=2), IntType(size=2)))
+30  - - - - - - - - - - - - - - - Resolving struct ('i1', ())
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+30  - - - - - - - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+30  - - - - - - - - - - - - - - - [FAIL] Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+28  - - - - - - - - - - - - - - [ERR] Can't infer for op __div__!
+28  - - - - - - - - - - - - - - Cant infer statement                            at line 15!
+26  - - - - - - - - - - - - - [FAIL] Resolving struct ('assert_not_equal', (IntType(size=2), IntType(size=2)))
+24  - - - - - - - - - - - - [ERR] Can't infer type assert_not_equal!
+24  - - - - - - - - - - - - Cant infer statement                            at line 29!
+22  - - - - - - - - - - - [SUCC] Resolving struct ('fib', (IntType(size=2),))
+22  - - - - - - - - - - - Resolving struct ('i2', ())
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('i2', ())
+22  - - - - - - - - - - - Resolving struct ('__sub__', (IntType(size=3), IntType(size=2)))
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('__sub__', (IntType(size=3), IntType(size=2)))
+22  - - - - - - - - - - - Resolving struct ('fib', (IntType(size=1),))
+24  - - - - - - - - - - - - Struct definition at 18
+26  - - - - - - - - - - - - - Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Resolving struct ('assert_equal', (IntType(size=1), IntType(size=1)))
+28  - - - - - - - - - - - - - - Struct definition at 8
+30  - - - - - - - - - - - - - - - Resolving struct ('__eq__', (IntType(size=1), IntType(size=1)))
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('__eq__', (IntType(size=1), IntType(size=1)))
+30  - - - - - - - - - - - - - - - Resolving struct ('i1', ())
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+30  - - - - - - - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('__div__', (IntType(size=1), IntType(size=1)))
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('assert_equal', (IntType(size=1), IntType(size=1)))
+26  - - - - - - - - - - - - - Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+24  - - - - - - - - - - - - Struct definition at 22
+26  - - - - - - - - - - - - - Resolving struct ('i2', ())
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('i2', ())
+26  - - - - - - - - - - - - - Resolving struct ('assert_equal', (IntType(size=1), IntType(size=2)))
+28  - - - - - - - - - - - - - - Struct definition at 8
+30  - - - - - - - - - - - - - - - Resolving struct ('__eq__', (IntType(size=1), IntType(size=2)))
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('__eq__', (IntType(size=1), IntType(size=2)))
+30  - - - - - - - - - - - - - - - Resolving struct ('i1', ())
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+30  - - - - - - - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+30  - - - - - - - - - - - - - - - [FAIL] Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+28  - - - - - - - - - - - - - - [ERR] Can't infer for op __div__!
+28  - - - - - - - - - - - - - - Cant infer statement                            at line 10!
+26  - - - - - - - - - - - - - [FAIL] Resolving struct ('assert_equal', (IntType(size=1), IntType(size=2)))
+24  - - - - - - - - - - - - [ERR] Can't infer type assert_equal!
+24  - - - - - - - - - - - - Cant infer statement                            at line 23!
+24  - - - - - - - - - - - - Struct definition at 27
+26  - - - - - - - - - - - - - Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Struct def autogenerated
+26  - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+26  - - - - - - - - - - - - - Resolving struct ('assert_not_equal', (IntType(size=1), IntType(size=1)))
+28  - - - - - - - - - - - - - - Struct definition at 13
+30  - - - - - - - - - - - - - - - Resolving struct ('__ne__', (IntType(size=1), IntType(size=1)))
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('__ne__', (IntType(size=1), IntType(size=1)))
+30  - - - - - - - - - - - - - - - Resolving struct ('i1', ())
+30  - - - - - - - - - - - - - - - Struct def autogenerated
+30  - - - - - - - - - - - - - - - [SUCC] Resolving struct ('i1', ())
+30  - - - - - - - - - - - - - - - Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+30  - - - - - - - - - - - - - - - [FAIL] Resolving struct ('__div__', (IntType(size=1), IntType(size=0)))
+28  - - - - - - - - - - - - - - [ERR] Can't infer for op __div__!
+28  - - - - - - - - - - - - - - Cant infer statement                            at line 15!
+26  - - - - - - - - - - - - - [FAIL] Resolving struct ('assert_not_equal', (IntType(size=1), IntType(size=1)))
+24  - - - - - - - - - - - - [ERR] Can't infer type assert_not_equal!
+24  - - - - - - - - - - - - Cant infer statement                            at line 28!
+22  - - - - - - - - - - - [SUCC] Resolving struct ('fib', (IntType(size=1),))
+22  - - - - - - - - - - - Resolving struct ('__add__', (IntType(size=1), IntType(size=1)))
+22  - - - - - - - - - - - Struct def autogenerated
+22  - - - - - - - - - - - [SUCC] Resolving struct ('__add__', (IntType(size=1), IntType(size=1)))
+18  - - - - - - - - - [SUCC] Resolving struct ('fib', (IntType(size=3),))
+18  - - - - - - - - - Resolving struct ('i2', ())
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('i2', ())
+18  - - - - - - - - - Resolving struct ('__sub__', (IntType(size=4), IntType(size=2)))
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('__sub__', (IntType(size=4), IntType(size=2)))
+18  - - - - - - - - - Resolving struct ('fib', (IntType(size=2),))
+18  - - - - - - - - - [SUCC] Resolving struct ('fib', (IntType(size=2),))
+18  - - - - - - - - - Resolving struct ('__add__', (IntType(size=2), IntType(size=1)))
+18  - - - - - - - - - Struct def autogenerated
+18  - - - - - - - - - [SUCC] Resolving struct ('__add__', (IntType(size=2), IntType(size=1)))
+14  - - - - - - - [SUCC] Resolving struct ('fib', (IntType(size=4),))
+14  - - - - - - - Resolving struct ('i2', ())
+14  - - - - - - - Struct def autogenerated
+14  - - - - - - - [SUCC] Resolving struct ('i2', ())
+14  - - - - - - - Resolving struct ('__sub__', (IntType(size=5), IntType(size=2)))
+14  - - - - - - - Struct def autogenerated
+14  - - - - - - - [SUCC] Resolving struct ('__sub__', (IntType(size=5), IntType(size=2)))
+14  - - - - - - - Resolving struct ('fib', (IntType(size=3),))
+14  - - - - - - - [SUCC] Resolving struct ('fib', (IntType(size=3),))
+14  - - - - - - - Resolving struct ('__add__', (IntType(size=3), IntType(size=2)))
+14  - - - - - - - Struct def autogenerated
+14  - - - - - - - [SUCC] Resolving struct ('__add__', (IntType(size=3), IntType(size=2)))
+10  - - - - - [SUCC] Resolving struct ('fib', (IntType(size=5),))
+10  - - - - - Resolving struct ('i32', ())
+10  - - - - - Struct def autogenerated
+10  - - - - - [SUCC] Resolving struct ('i32', ())

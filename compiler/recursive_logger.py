@@ -6,7 +6,7 @@ indent_diff = " -"
 class Log:
     def __init__(self, log, type):
         self.log: str = log
-        self.type: Any = type
+        self.logtype: Any = type
 
 
 class Level:
@@ -16,8 +16,8 @@ class Level:
     def print_logs(self, allowed_types, indent):
         for i in self.logs_and_levels:
             if isinstance(i, Log):
-                if i.type in allowed_types:
-                    print(f"{indent} {i.log}")
+                if i.logtype in allowed_types:
+                    print(f"{len(indent)} {indent} {i.log}")
             else:
                 i.print_logs(allowed_types, indent+indent_diff)
 
@@ -36,8 +36,8 @@ class RecursiveLogger:
     def go_out(self):
         self.level_stack.pop()
 
-    def log(self, log, type):
-        self.level_stack[-1].logs_and_levels.append(Log(log,type))
+    def log(self, log, logtype):
+        self.level_stack[-1].logs_and_levels.append(Log(log,logtype))
 
     def print_logs(self, allowed_types):
         self.level_stack[0].print_logs(allowed_types, indent_init)
