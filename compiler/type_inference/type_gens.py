@@ -1,9 +1,11 @@
-from type_system import Type
-from helpers import add_method_to_list
 from typing import List
-import type_system as ts
-from type_system import LogTypes
-import semantic_ast as sa
+
+from .type_system import Type
+from ..helpers import add_method_to_list
+from . import type_system as ts
+from .recursive_logger import LogTypes
+
+from ..semantics_parsing import semantic_ast as sa
 # MAIN METHODS
 
 func_methods = []

@@ -90,7 +90,4 @@ class BoolConstantAssignment:
         self.dest = dest
         self.value = value
 
-class MemoryCopy:
-    def __init__(self, dest, src):
-        self.dest = dest
-        self.src = src
+

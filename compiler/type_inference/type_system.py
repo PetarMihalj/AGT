@@ -1,39 +1,57 @@
 from typing import Dict, List, Set
-import flat_ir as ir
 import re
 from dataclasses import dataclass
 from enum import Enum
 
-#
-class LogTypes(Enum):
-    FUNCTION_RESOLUTION = 1
-    STRUCT_RESOLUTION = 2
-
-    FUNCTION_DEFINITION = 3
-    STRUCT_DEFINITION = 4
-
-    FUNCTION_OR_STRUCT_DEFINITION = 5
-
-    TYPE_MISSMATCH = 6
-    STATEMENT_ERROR = 7
-    RUNTIME_EXPR_ERROR = 8
-
-#
 class Type:
     pass
 
-
-@dataclass(unsafe_hash=True)
 class BoolType(Type):
-    pass 
+    def __init__(self):
+        self.mangled_name = "bool"
 
-@dataclass(unsafe_hash=True)
+    def __eq__(self, other):
+        if not isinstance(other, BoolType):
+            return False
+        return True
+
+    def __hash__(self):
+        return hash(self.mangled_name)
+    def __repr__(self):
+        return type(self).__name__
+
+
+
 class VoidType(Type):
-    pass
+    def __init__(self):
+        self.mangled_name = "void"
 
-@dataclass(unsafe_hash=True)
+    def __eq__(self, other):
+        if not isinstance(other, VoidType):
+            return False
+        return True
+
+    def __hash__(self):
+        return hash(self.mangled_name)
+    def __repr__(self):
+        return type(self).__name__
+
+
 class IntType(Type):
-    size: int
+    def __init__(self, size):
+        self.size = size
+        self.mangled_name = f"i{size}"
+
+    def __eq__(self, other):
+        if not isinstance(other, IntType):
+            return False
+        return self.size == other.size
+
+    def __hash__(self):
+        return hash(self.mangled_name)
+
+    def __repr__(self):
+        return type(self).__name__
 
 
 class FunctionType(Type):
@@ -43,12 +61,10 @@ class FunctionType(Type):
 
         self.break_label_stack = []
 
-        # this is important for runtime purposes
         self.parameter_names_ordered = List[str]
 
         self.types: Dict[str, Type] = {}
-        self.flat_statements: List[ir.FlatStatement] = []
-
+        self.flat_statements: List = []
 
 
 class StructType(Type):

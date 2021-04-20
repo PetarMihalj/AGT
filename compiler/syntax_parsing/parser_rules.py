@@ -33,7 +33,6 @@ class StructDefinition(ParserRule):
     """
 
     def __init__(self, r):
-        print(r)
         self.expr = r[1]
         self.block = r[2]
 

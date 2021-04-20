@@ -1,14 +1,13 @@
-import semantic_ast as sa
-import type_system as ts
-from type_engine import TypingContext as TC
-from type_engine import LogTypes 
+from typing import List, Union, Any
 
-from helpers import add_method_te_visit
-from typing import List, Union
-import flat_ir as ir
-from typing import Any
+from . import flat_ir as ir
+from ..helpers import add_method_te_visit
+from ..semantics_parsing import semantic_ast as sa
 
+from .type_engine import TypingContext as TC
+from .type_engine import LogTypes 
 
+from . import type_system as ts
 
 
 # structural

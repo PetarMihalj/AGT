@@ -1,9 +1,8 @@
-import ply.lex as lex
-
-
 class Lexer():
+
     def __init__(self, **kwargs):
-        self.lexer = lex.lex(module=self, **kwargs)
+        import ply.lex as lex
+        self.lexer = lex.lex(object=self, **kwargs)
 
     states = (
         ('mlc', 'exclusive'),
@@ -128,11 +127,6 @@ class Lexer():
               {t.lexer.lineno}: '{t.value}'")
         self.lexer.skip(1)
 
-    def input(self, data):
-        """
-        Feed the lexer with data.
-        """
-        self.lexer.input(data)
 
     def token(self):
         """
@@ -143,17 +137,5 @@ class Lexer():
         self.lineno = self.lexer.lineno
         return res
 
-    def test(self, data):
-        """
-        Prints out all the tokens
-        """
+    def input(self, data):
         self.lexer.input(data)
-        for tok in self.lexer:
-            print(tok)
-
-
-
-if __name__ == '__main__':
-    data = open('prog1.st').read()
-    lexer = Lexer(debug=1)
-    lexer.test(data)

@@ -1,10 +1,9 @@
 import sys
 import inspect
-import parser_rules
+from . import parser_rules
 import ply.yacc as yacc
-from lexer import Lexer
 from types import MethodType
-from helpers import tree_print
+from ..helpers import tree_print
 
 
 class SyntaxParser:
@@ -45,15 +44,6 @@ class SyntaxParser:
     start = 'CompilationUnit'
 
 
-def compile_syntactic_ast(data):
-    lexer = Lexer()
-    parser = SyntaxParser(lexer, debug=False)
-    s = parser.parse_syntax(data)
-    return s
 
 
-if __name__ == '__main__':
-    data = open(sys.argv[1]).read()
-    syn_ast = compile_syntactic_ast(data)
-    tree_print(syn_ast)
 

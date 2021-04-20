@@ -1,12 +1,11 @@
-from helpers import add_method_parse_semantics
-from helpers import tree_print
-from syntactic_ast import compile_syntactic_ast
 from dataclasses import dataclass
 from typing import List, Tuple
 from enum import Enum
-
-import parser_rules as pr
 import sys
+
+from ..helpers import add_method_parse_semantics
+from ..helpers import tree_print
+from ..syntax_parsing import parser_rules as pr
 
 
 class Structural:
@@ -612,17 +611,5 @@ class InStatement(FunctionStatement):
 #
 
 
-def compile_semantic_ast(syntactic_ast):
-    se = SemanticEnvironment()
-    return syntactic_ast.parse_semantics(se)
 
 
-if __name__ == '__main__':
-    data = open(sys.argv[1]).read()
-    syn_ast = compile_syntactic_ast(data)
-    # tree_print(syn_ast)
-    # print('\n'*3)
-
-    sem_ast = compile_semantic_ast(syn_ast)
-    tree_print(sem_ast)
-    print('\n'*3)
