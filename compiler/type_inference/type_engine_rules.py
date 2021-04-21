@@ -137,7 +137,7 @@ def _(self: sa.BlockStatement, tc: TC,
 @add_method_te_visit(sa.ExpressionStatement)
 def _(self: sa.ExpressionStatement, tc: TC,
         f: ts.FunctionType):
-    if self.expr.te_visit(tc, f, lvalue = False) is None:
+    if self.expr.te_visit(tc, f) is None:
         return False
     return True
 
@@ -155,9 +155,13 @@ def _(self: sa.TypeDeclarationStatementFunction, tc: TC,
 @add_method_te_visit(sa.AssignmentStatement)
 def _(self: sa.AssignmentStatement, tc: TC,
         f: ts.FunctionType):
-    le = self.left.te_visit(tc, f, lvalue=True)
+
+    le = self.left.te_visit(tc, f)
+    if not self.left.lvalue:
+        raise RuntimeError("Require lvalue at {self.linespan[0]}!")
     if le is None: return False
-    re = self.right.te_visit(tc, f, lvalue=False)
+
+    re = self.right.te_visit(tc, f)
     if re is None: return False
 
     if f.types[le] != f.types[re]:
@@ -185,14 +189,14 @@ def _(self: sa.InitStatement, tc: TC,
         f: ts.FunctionType):
     mn = tc.scope_man.new_var_name(self.name)
 
-    e = self.expr.te_visit(tc, f, lvalue=False)
+    e = self.expr.te_visit(tc, f)
     if e is None: return False
 
     if f.types[e] is ts.VoidType():
         return True
 
     f.types[mn] = f.types[e]
-    f.flat_statements.append(ir.StoreValueToPointer(mn, e))
+    f.flat_statements.append(ir.MemoryCopy(mn, e))
     return True
 
 
@@ -205,7 +209,7 @@ def _(self: sa.WhileStatement, tc: TC,
 
     tc.scope_man.begin_scope()
 
-    ec = self.expr_check.te_visit(tc, f, lvalue=False)
+    ec = self.expr_check.te_visit(tc, f)
     if ec is None or not isinstance(f.types[ec],ts.BoolType):
         tc.logger.log(f"check expr must be bool\
                 at {self.expr_check.lineno[0]}", 
@@ -243,7 +247,7 @@ def _(self: sa.ForStatement, tc: TC,
 
     f.flat_statements.append(ir.Label(lfcheck))
 
-    ec = self.expr_check.te_visit(tc, f, lvalue=False)
+    ec = self.expr_check.te_visit(tc, f)
     if ec is None: return False
 
     if not isinstance(f.types[ec], ts.BoolType):
@@ -282,7 +286,7 @@ def _(self: sa.IfElseStatement, tc: TC,
     ifend = tc.scope_man.new_label_name("if end")
 
     tc.scope_man.begin_scope()
-    ec = self.expr_check.te_visit(tc, f, lvalue=False)
+    ec = self.expr_check.te_visit(tc, f)
     if ec is None: return False
 
     if not isinstance(f.types[ec], ts.BoolType):
@@ -320,7 +324,7 @@ def _(self: sa.ReturnStatement, tc: TC,
         f.flat_statements.append(ir.FunctionReturn(None))
         return True
     else:
-        e = self.expr.te_visit(tc, f, lvalue=False)
+        e = self.expr.te_visit(tc, f)
         if e is None: return None
 
         if f.types[e] != f.types["return"]:
@@ -356,7 +360,7 @@ def _(self: sa.MemberDeclarationStatement, tc: TC,
     t = self.type_expr.te_visit(tc, s)
     if t is None:
         return False
-    if self.name in types:
+    if self.name in s.types:
         raise RuntimeError(f"redefinition of name {self.name}")
 
     s.types[self.name] = t
@@ -370,7 +374,7 @@ def _(self: sa.TypeDeclarationStatementStruct, tc: TC,
     t = self.type_expr.te_visit(tc, s)
     if t is None:
         return False
-    if self.name in types:
+    if self.name in s.types:
         raise RuntimeError(f"redefinition of name {self.name}")
     s.types[self.name] = t
     return True
@@ -380,21 +384,23 @@ def _(self: sa.TypeDeclarationStatementStruct, tc: TC,
 
 @add_method_te_visit(sa.IdExpression)
 def _(self: sa.IdExpression, tc: TC,
-        f: ts.FunctionType, lvalue):
-    tmp = tc.scope_man.get_var_name(self.name)
+        f: ts.FunctionType):
     self.lvalue = True
+    tmp = tc.scope_man.get_var_name(self.name)
     return tmp
 
 
 @add_method_te_visit(sa.BinaryExpression)
 def _(self: sa.BinaryExpression, tc: TC,
-        f: ts.FunctionType, lvalue):
-    if lvalue:
-        raise RuntimeError("cant ret a lvalue")
+        f: ts.FunctionType):
+    self.lvalue = False
 
-    le = self.left.te_visit(tc, f, lvalue=False)
+    le = self.left.te_visit(tc, f)
+    if not self.left.lvalue:
+        raise RuntimeError("Require lvalue at {self.linespan[0]}!")
     if le is None: return None
-    lr = self.right.te_visit(tc, f, lvalue=False)
+
+    lr = self.right.te_visit(tc, f)
     if lr is None: return None
 
     tmp = tc.scope_man.new_tmp_var_name(f"{self.op}")
@@ -414,11 +420,15 @@ def _(self: sa.BinaryExpression, tc: TC,
 
 @add_method_te_visit(sa.BracketCallExpression)
 def _(self: sa.BracketCallExpression, tc: TC,
-        f: ts.FunctionType, lvalue):
+        f: ts.FunctionType):
+    self.lvalue = True
 
-    e = self.expr.te_visit(tc, f, lvalue=True)
+    e = self.expr.te_visit(tc, f)
+    if not e.lvalue:
+        raise RuntimeError("Require lvalue at {self.linespan[0]}!")
     if e is None: return None
-    ind = self.index.te_visit(tc, f, lvalue=False)
+
+    ind = self.index.te_visit(tc, f)
     if ind is None: return None
 
     if not isinstance(f.types[ind], ts.IntType):
@@ -430,20 +440,17 @@ def _(self: sa.BracketCallExpression, tc: TC,
     f.types[tmp] = f.types[e]
 
     f.flat_statements.append(ir.GetPointerOffset(tmp, e, ind))
-    if lvalue:
-        return tmp
-    else:
-        tmp2 = tc.scope_man.new_tmp_var_name("bracket call deref")
-        f.types[tmp2] = f.types[e]
-        f.flat_statements.append(ir.LoadValueFromPointer(tmp2, tmp))
-        return tmp2
+    return tmp
 
 
 @add_method_te_visit(sa.MemberIndexExpression)
 def _(self: sa.MemberIndexExpression, tc: TC,
-        f: ts.FunctionType, lvalue):
+        f: ts.FunctionType):
+    self.lvalue = True
 
-    e = self.expr.te_visit(tc, f, lvalue=True)
+    e = self.expr.te_visit(tc, f)
+    if not self.expr.lvalue:
+        raise RuntimeError("Require lvalue at {self.linespan[0]}!")
     if e is None: return None
 
     if not isinstance(f.types[e], ts.StructType):
@@ -461,20 +468,15 @@ def _(self: sa.MemberIndexExpression, tc: TC,
 
     f.types[tmp] = f.types[e].types[self.member]
     f.flat_statements.append(ir.GetElementPtr(tmp, e, self.member))
-    if lvalue:
-        return tmp
-    else:
-        tmp2 = tc.scope_man.new_tmp_var_name("member index deref")
-        f.types[tmp2] = f.types[e].types[self.member]
-        f.flat_statements.append(ir.LoadValueFromPointer(tmp2, tmp))
-        return tmp2
+    return tmp
 
 
 @add_method_te_visit(sa.DerefExpression)
 def _(self: sa.DerefExpression, tc: TC,
-        f: ts.FunctionType, lvalue):
-    e = self.expr.te_visit(tc, f, lvalue=lvalue)
+        f: ts.FunctionType):
+    e = self.expr.te_visit(tc, f)
     if e is None: return None
+    self.lvalue = self.expr.lvalue
 
     if not isinstance(f.types[e], ts.PointerType):
         tc.logger.log(f"cant deref non pointer type at"+
@@ -484,31 +486,30 @@ def _(self: sa.DerefExpression, tc: TC,
 
     tmp = tc.scope_man.new_tmp_var_name("ptr deref")
     f.types[tmp] = f.types[e].pointed
-    f.flat_statements.append(ir.LoadValueFromPointer(tmp, e))
+    f.flat_statements.append(ir.Dereference(tmp, e))
     return tmp
 
 
 @add_method_te_visit(sa.AddressExpression)
 def _(self: sa.BinaryExpression, tc: TC,
-        f: ts.FunctionType, lvalue):
-    if lvalue:
-        raise RuntimeError("cant return an address\
-                which is lvalue")
+        f: ts.FunctionType):
+    self.lvalue = False
 
-    e = self.expr.te_visit(tc, f, lvalue=True)
+    e = self.expr.te_visit(tc, f)
+    if not self.expr.lvalue:
+        raise RuntimeError("Require lvalue at {self.linespan[0]}!")
     if e is None: return None
 
     tmp = tc.scope_man.new_tmp_var_name("addr of")
     f.types[tmp] = ts.PointerType(f.types[e])
-    f.flat_statements.append(ir.StoreValueToPointer(tmp, e))
+    f.flat_statements.append(ir.AddressOf(tmp, e))
     return tmp
 
 
 @add_method_te_visit(sa.IntLiteralExpression)
 def _(self: sa.IntLiteralExpression, tc: TC,
-        f: ts.FunctionType, lvalue):
-    if lvalue:
-        raise NoInferencePossibleError("cant lvalue intliteral")
+        f: ts.FunctionType):
+    self.lvalue = False
 
     tmp = tc.scope_man.new_tmp_var_name("int literal")
     f.types[tmp] = ts.IntType(self.size)
@@ -520,9 +521,9 @@ def _(self: sa.IntLiteralExpression, tc: TC,
 
 @add_method_te_visit(sa.BoolLiteralExpression)
 def _(self: sa.BoolLiteralExpression, tc: TC,
-        f: ts.FunctionType, lvalue):
-    if lvalue:
-        raise NoInferencePossibleError("cant lvalue boolliteral")
+        f: ts.FunctionType):
+    self.lvalue = False
+
     tmp = tc.scope_man.new_tmp_var_name("bool literal")
     f.types[tmp] = ts.BoolType()
     f.flat_statements.append(ir.BoolConstantAssignment(tmp,
@@ -532,13 +533,15 @@ def _(self: sa.BoolLiteralExpression, tc: TC,
 
 @add_method_te_visit(sa.CallExpression)
 def _(self: sa.CallExpression, tc: TC,
-        f: ts.FunctionType, lvalue):
+        f: ts.FunctionType):
+    self.lvalue = False
+
     tmp = tc.scope_man.new_tmp_var_name("bool literal")
 
     type_args_types = [t.te_visit(tc, f) for t in self.type_expr_list]
     if None in type_args_types: return None
 
-    args = [v.te_visit(tc, f, lvalue=False) for v in self.args]
+    args = [v.te_visit(tc, f) for v in self.args]
     if None in type_args_types: return None
 
     args_types = [f.types[a] for a in args]
@@ -566,13 +569,7 @@ def _(self: sa.CallExpression, tc: TC,
                                                  [tmp]+args))
         f.types[vd] = ft.types["return"]
         st.needs_gen = True
-    if lvalue:
-        return tmp
-    else:
-        tmp2 = tc.scope_man.new_tmp_var_name(f"rval {tmp}")
-        f.types[tmp2] = f.types[tmp]
-        f.flat_statements.append(ir.LoadValueFromPointer(tmp2, tmp))
-        return tmp2
+    return tmp
 
 
 
@@ -691,9 +688,7 @@ def _(self: sa.MemoryCopyStatement, tc: TC,
         f: ts.FunctionType):
     d = self.dest
     s = self.src
-    tmp = tc.scope_man.new_tmp_var_name("for copy")
-    f.flat_statements.append(ir.LoadValueFromPointer(tmp, s))
-    f.flat_statements.append(ir.StoreValueToPointer(d,tmp))
+    f.flat_statements.append(ir.MemoryCopy(d, s))
     return True
 
 @add_method_te_visit(sa.HeapAllocStatement)

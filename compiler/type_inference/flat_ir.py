@@ -12,18 +12,22 @@ class StackAllocate:
         self.dest = dest
         self.typename = typename
 
+# these operatore on pointers
 
-class StoreValueToPointer:
+class Dereference:
     def __init__(self, dest, src):
         self.dest = dest
         self.src = src
 
-
-class LoadValueFromPointer:
+class AddressOf:
     def __init__(self, dest, src):
         self.dest = dest
         self.src = src
 
+class MemoryCopy:
+    def __init__(self, dest, src):
+        self.dest = dest
+        self.src = src
 
 class FunctionCall:
     def __init__(self, dest, fn_mangled_name, arguments):
@@ -31,27 +35,22 @@ class FunctionCall:
         self.fn_mangled_name = fn_mangled_name
         self.arguments: List[str] = arguments
 
-
 class FunctionReturn:
     def __init__(self, src):
         self.src = src
-
 
 class Label:
     def __init__(self, name):
         self.name = name
 
-
 class Description:
     def __init__(self, name):
         self.name = name
-
 
 class JumpToLabelTrue:
     def __init__(self, var, label_true):
         self.var: str = var
         self.label_true: str = label_true
-
 
 class JumpToLabelFalse:
     def __init__(self, var, label_false):
