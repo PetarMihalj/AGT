@@ -348,17 +348,6 @@ def _(self, se: SE):
     return ExpressionStatement(a)
 
 
-@add_method_parse_semantics(pr.DeclarationStatement)
-def _(self, se: SE):
-    if se.top() != SS.STRUCT:
-        raise RuntimeError("Cant declare memeber out of struct!")
-    name = self.expr2.expr.id
-    se.add(SS.TYPE_EXPR)
-    a = self.expr1.parse_semantics(se)
-    se.pop()
-    return MemberDeclarationStatement(name, a)
-
-
 @add_method_parse_semantics(pr.TypeStatement)
 def _(self, se: SE):
     name = self.left.expr.id

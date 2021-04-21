@@ -88,7 +88,6 @@ class Statement(ParserRule):
                  | BlockStatement
                  | BlankStatement
                  | TypeStatement
-                 | DeclarationStatement
     '''
 
     def __init__(self, r):
@@ -100,14 +99,6 @@ class ExpressionStatement(ParserRule):
 
     def __init__(self, r):
         self.expr = r[0]
-
-
-class DeclarationStatement(ParserRule):
-    """DeclarationStatement : Expression Expression SEMICOLON"""
-
-    def __init__(self, r):
-        self.expr1 = r[0]
-        self.expr2 = r[1]
 
 
 class TypeStatement(ParserRule):

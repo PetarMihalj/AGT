@@ -26,9 +26,9 @@ class CastPrimitive(Primitive):
     type_source_mangled_name: str
 
 @dataclass
-class InPrimitive(Primitive):
+class InInt32Primitive(Primitive):
     pass
 
 @dataclass
-class OutPrimitive(Primitive):
+class OutInt32Primitive(Primitive):
     pass
