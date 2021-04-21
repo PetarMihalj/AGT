@@ -51,7 +51,7 @@ class IntType(Type):
         return hash(self.mangled_name)
 
     def __repr__(self):
-        return type(self).__name__
+        return f"{type(self).__name__}({self.size})"
 
 
 class FunctionType(Type):
@@ -65,6 +65,8 @@ class FunctionType(Type):
 
         self.types: Dict[str, Type] = {}
         self.flat_statements: List = []
+    def __repr__(self):
+        return f"FuncType({self.mangled_name})"
 
 
 class StructType(Type):
@@ -73,7 +75,9 @@ class StructType(Type):
         self.mangled_name: str = None
 
         self.types: Dict[str, Type] = {}
-        self.members: Set[str] = set()
+        self.members: List[str] = []
+
+        self.needs_gen: bool = False
 
     def __eq__(self, other):
         if not isinstance(other, StructType):
@@ -82,6 +86,8 @@ class StructType(Type):
 
     def __hash__(self):
         return hash(self.mangled_name)
+    def __repr__(self):
+        return f"StructType({self.mangled_name})"
 
 
 class PointerType(Type):
@@ -93,4 +99,6 @@ class PointerType(Type):
         return self.pointed == other.pointed
     def __hash__(self):
         return hash(self.pointed)+1
+    def __repr__(self):
+        return f"PointerType({self.pointed})"
 

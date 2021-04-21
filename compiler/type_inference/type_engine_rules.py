@@ -34,7 +34,8 @@ def _(self: sa.FunctionDefinition, tc: TC,
 
     def cleanup():
         tc.scope_man.end_scope()
-        tc.function_type_container.pop(desc)
+        if desc in tc.function_type_container:
+            tc.function_type_container.pop(desc)
         del f.break_label_stack
         tc.logger.go_out()
 
@@ -144,7 +145,6 @@ def _(self: sa.ExpressionStatement, tc: TC,
 @add_method_te_visit(sa.TypeDeclarationStatementFunction)
 def _(self: sa.TypeDeclarationStatementFunction, tc: TC,
         f: ts.FunctionType):
-
     mn = tc.scope_man.new_var_name(self.name, type_name=True)
     f.types[mn] = self.type_expr.te_visit(tc, f)
     if f.types[mn] is None:
@@ -166,8 +166,13 @@ def _(self: sa.AssignmentStatement, tc: TC,
         return False
     else:
         copy = tc.resolve_function("__copy__",[],
-            [ts.PointerType(le), ts.PointerType(re)]
+            [ts.PointerType(f.types[le]), ts.PointerType(f.types[re])]
         )
+        if copy is None:
+            tc.logger.log("dont have copy for assignment at {self.linespan[0]}",
+                    LogTypes.TYPE_MISSMATCH)
+            return False
+            
         d = tc.scope_man.new_tmp_var_name("copy dummy")
 
         f.flat_statements.append(ir.FunctionCall(d, 
@@ -307,16 +312,24 @@ def _(self: sa.IfElseStatement, tc: TC,
 @add_method_te_visit(sa.ReturnStatement)
 def _(self: sa.ReturnStatement, tc: TC,
         f: ts.FunctionType):
-    e = self.expr.te_visit(tc, f, lvalue=False)
-    if e is None: return None
+    if self.expr is None:
+        if f.types["return"]!=ts.VoidType():
+            tc.logger.log("type missmatch with return {self.linespan[0]}",
+                    LogTypes.TYPE_MISSMATCH)
+            return False
+        f.flat_statements.append(ir.FunctionReturn(None))
+        return True
+    else:
+        e = self.expr.te_visit(tc, f, lvalue=False)
+        if e is None: return None
 
-    if f.types[e] != f.types["return"]:
-        tc.logger.log("type missmatch with return {self.linespan[0]}",
-                LogTypes.TYPE_MISSMATCH)
-        return False
+        if f.types[e] != f.types["return"]:
+            tc.logger.log("type missmatch with return {self.linespan[0]}",
+                    LogTypes.TYPE_MISSMATCH)
+            return False
 
-    f.flat_statements.append(ir.FunctionReturn(e))
-    return True
+        f.flat_statements.append(ir.FunctionReturn(e))
+        return True
 
 
 @add_method_te_visit(sa.BreakStatement)
@@ -343,6 +356,9 @@ def _(self: sa.MemberDeclarationStatement, tc: TC,
     t = self.type_expr.te_visit(tc, s)
     if t is None:
         return False
+    if self.name in types:
+        raise RuntimeError(f"redefinition of name {self.name}")
+
     s.types[self.name] = t
     s.members.append(self.name)
     return True
@@ -354,6 +370,8 @@ def _(self: sa.TypeDeclarationStatementStruct, tc: TC,
     t = self.type_expr.te_visit(tc, s)
     if t is None:
         return False
+    if self.name in types:
+        raise RuntimeError(f"redefinition of name {self.name}")
     s.types[self.name] = t
     return True
 
@@ -364,14 +382,8 @@ def _(self: sa.TypeDeclarationStatementStruct, tc: TC,
 def _(self: sa.IdExpression, tc: TC,
         f: ts.FunctionType, lvalue):
     tmp = tc.scope_man.get_var_name(self.name)
-
-    if lvalue:
-        return tmp
-    else:
-        tmp2 = tc.scope_man.new_tmp_var_name(f"rval {tmp}")
-        f.types[tmp2] = f.types[tmp]
-        f.flat_statements.append(ir.LoadValueFromPointer(tmp2, tmp))
-        return tmp2
+    self.lvalue = True
+    return tmp
 
 
 @add_method_te_visit(sa.BinaryExpression)
@@ -380,14 +392,19 @@ def _(self: sa.BinaryExpression, tc: TC,
     if lvalue:
         raise RuntimeError("cant ret a lvalue")
 
-    le = self.left.te_visit(tc, f)
+    le = self.left.te_visit(tc, f, lvalue=False)
     if le is None: return None
-    lr = self.right.te_visit(tc, f)
+    lr = self.right.te_visit(tc, f, lvalue=False)
     if lr is None: return None
 
     tmp = tc.scope_man.new_tmp_var_name(f"{self.op}")
 
     opf = tc.resolve_function(self.op, [], [f.types[le], f.types[lr]])
+    if opf is None:
+        tc.logger.log("cant resolve op at {self.linespan[0]}",
+                LogTypes.FUNCTION_RESOLUTION)
+        return None
+
 
     f.flat_statements.append(ir.FunctionCall(
         tmp, opf.mangled_name))
@@ -483,7 +500,7 @@ def _(self: sa.BinaryExpression, tc: TC,
 
     tmp = tc.scope_man.new_tmp_var_name("addr of")
     f.types[tmp] = ts.PointerType(f.types[e])
-    f.flat_statements.append(ir.Assignment(tmp, e))
+    f.flat_statements.append(ir.StoreValueToPointer(tmp, e))
     return tmp
 
 
@@ -548,7 +565,7 @@ def _(self: sa.CallExpression, tc: TC,
                                                  ft.mangled_name,
                                                  [tmp]+args))
         f.types[vd] = ft.types["return"]
-
+        st.needs_gen = True
     if lvalue:
         return tmp
     else:
@@ -623,6 +640,11 @@ def _(self: sa.TypeIdExpression, tc: TC,
 
     return rt
 
+@add_method_te_visit(sa.TypeTypeExpression)
+def _(self: sa.TypeTypeExpression, tc: TC,
+        sf: Union[ts.StructType, ts.FunctionType]):
+    return self.type_obj
+
 @add_method_te_visit(sa.TypeDerefExpression)
 def _(self: sa.TypeDerefExpression, tc: TC,
         sf: Union[ts.StructType, ts.FunctionType]):
@@ -660,3 +682,44 @@ def _(self: sa.TypeIndexExpression, tc: TC,
                 LogTypes.FUNCTION_OR_STRUCT_DEFINITION)
         return None
     return e.types[self.name]
+
+
+#### SPECIALS
+
+@add_method_te_visit(sa.MemoryCopyStatement)
+def _(self: sa.MemoryCopyStatement, tc: TC,
+        f: ts.FunctionType):
+    d = self.dest
+    s = self.src
+    tmp = tc.scope_man.new_tmp_var_name("for copy")
+    f.flat_statements.append(ir.LoadValueFromPointer(tmp, s))
+    f.flat_statements.append(ir.StoreValueToPointer(d,tmp))
+    return True
+
+@add_method_te_visit(sa.HeapAllocStatement)
+def _(self: sa.HeapAllocStatement, tc: TC,
+        f: ts.FunctionType):
+    d = self.dest
+    t = self.type_expr.te_visit(tc, f)
+    if t is None:
+        tc.logger.log(f"[ERR] Cant infer type for heap_alloc!",
+                LogTypes.FUNCTION_OR_STRUCT_DEFINITION)
+        return False
+
+    n = self.no
+    f.flat_statements.append(ir.HeapAllocStatemtent(d, t, n))
+    return True
+
+@add_method_te_visit(sa.OutStatement)
+def _(self: sa.HeapAllocStatement, tc: TC,
+        f: ts.FunctionType):
+    d = self.dest
+    t = self.type_expr.te_visit(tc, f)
+    if t is None:
+        tc.logger.log(f"[ERR] Cant infer type for heap_alloc!",
+                LogTypes.FUNCTION_OR_STRUCT_DEFINITION)
+        return False
+
+    n = self.no
+    f.flat_statements.append(ir.HeapAllocStatemtent(d, t, n))
+    return True

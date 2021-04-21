@@ -34,6 +34,8 @@ class ScopeManager:
             res_var = f"t_var{separator}{name}{separator}{self.var_cnt}"
         else:
             res_var = f"var{separator}{name}{separator}{self.var_cnt}"
+        if name in self.scope_stack[-1]:
+            raise RuntimeError(f"Cant override var name {name}, quitting")
         self.scope_stack[-1][name] = res_var
         return res_var
 
@@ -79,7 +81,8 @@ class TypingContext:
 
     def resolve_function(self, name: str,
                          type_argument_types: List[ts.Type],
-                         argument_types: List[ts.Type])\
+                         argument_types: List[ts.Type],
+                         use_gens = True)\
                 -> ts.FunctionType:
         desc = (
             name, 
@@ -90,7 +93,8 @@ class TypingContext:
         self.logger.log(f"Resolving function {desc}", 
                 LogTypes.FUNCTION_RESOLUTION)
 
-        gen_function(self, name, type_argument_types, argument_types)
+        if use_gens:
+            gen_function(self, name, type_argument_types, argument_types)
         if desc in self.function_type_container:
             self.logger.log(f"[SUCC] Resolving function {desc}", 
                     LogTypes.FUNCTION_RESOLUTION)
@@ -128,7 +132,8 @@ class TypingContext:
 
 
     def resolve_struct(self, name: str,
-                       type_argument_types: List[ts.Type])\
+                       type_argument_types: List[ts.Type],
+                       use_gens = True)\
                 -> ts.StructType:
         desc = (
             name, 
@@ -138,7 +143,8 @@ class TypingContext:
         self.logger.log(f"Resolving struct {desc}", 
                 LogTypes.STRUCT_RESOLUTION)
 
-        gen_struct(self, name, type_argument_types)
+        if use_gens:
+            gen_struct(self, name, type_argument_types)
         if desc in self.struct_type_container:
             self.logger.log(f"[SUCC] Resolving struct {desc}", 
                     LogTypes.STRUCT_RESOLUTION)

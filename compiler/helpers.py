@@ -59,6 +59,7 @@ def add_method_te_visit(cls):
         setattr(cls, "te_visit", wrapper)
     return go
 
+
 def add_method_to_list(target_list):
     def go(func):
         target_list.append(func)

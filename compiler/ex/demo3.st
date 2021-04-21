@@ -8,38 +8,30 @@ struct assert_equal<A,B>{
     type _2 = i1 / _1;
 }
 
-fn __init__(RTP this, T a, T b){
-    //limit __init__ only to rectangle<T>
-    type _is_rt = assert_equal<RTP, @rectangle<T>>;      
+fn __init__(kvp, a, b){
+    type _1 = assert_equal<kvp, @rectangle<a>>;      
+    type _1 = assert_equal<kvp, @rectangle<b>>;      
 
-    this!.a = a;
-    this!.b = b;
+    kvp!.a = a;
+    kvp!.b = b;
 }
 
-fn povrsina(KV k) -> T{
-    type T = KV.T;
-    type _is_kv = assert_equal<kvadrat<T>, KV>;
+fn __copy__(p1, p2){
+    type _1 = assert_equal<p1,@rectangle<i32>>;
+    type _2 = assert_equal<p2,@rectangle<i32>>;
 
-    return k.a * k.b;
+    p1!.a = p2!.a;
+    p1!.b = p2!.b;
 }
 
-// UNIQUE_PTR
+fn area(kv) -> _inner{
+    type _inner = kv.a;
+    type _is_kv = assert_equal<kv, rectangle<_inner>>;
 
-struct unique_ptr<T>{
-    let p = @T;
+    return kv.a * kv.b;
 }
-
-fn __init__(UPP this, T item){
-    type _is_right_container = assert_equal<UPP!.p, T>;
-
-    
-    
-
-}
-
-
 
 fn main(){
-    let kv = kvadrat<i32>(52, 65i32); //52 i 65i32 su i32 literali
-    let up = unique_ptr<kvadrat>(kv); 
+    let rec = rectangle<i32>(52, 65i32); //52 and 65i32 are i32 literals
+    let ar = area(rec);
 }

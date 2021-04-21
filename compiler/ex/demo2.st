@@ -12,19 +12,19 @@ fn __init__(kvp, a, b){
     type _1 = assert_equal<kvp, @rectangle<a>>;      
     type _1 = assert_equal<kvp, @rectangle<b>>;      
 
-    this!.a = a;
-    this!.b = b;
+    kvp!.a = a;
+    kvp!.b = b;
 }
 
 fn __copy__(p1, p2){
     type _1 = assert_equal<p1,@rectangle<i32>>;
     type _2 = assert_equal<p2,@rectangle<i32>>;
 
-    __copy__(@(p1!.a), @(p1!.a));
-    __copy__(@(p1!.b), @(p1!.b));
+    p1!.a = p2!.a;
+    p1!.b = p2!.b;
 }
 
-fn povrsina(kv) -> _inner{
+fn area(kv) -> _inner{
     type _inner = kv.a;
     type _is_kv = assert_equal<kv, rectangle<_inner>>;
 
@@ -32,6 +32,6 @@ fn povrsina(kv) -> _inner{
 }
 
 fn main(){
-    let kv = kvadrat<i32>(52, 65i32); //52 i 65i32 su i32 literali
-    let pov = povrsina(kv);
+    let rec = rectangle<i32>(52, 65i32); //52 and 65i32 are i32 literals
+    let ar = area(rec);
 }

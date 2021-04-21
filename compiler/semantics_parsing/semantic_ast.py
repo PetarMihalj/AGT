@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import List, Tuple, Union, Any
 from enum import Enum
 import sys
 
@@ -7,22 +7,31 @@ from ..helpers import add_method_parse_semantics
 from ..helpers import tree_print
 from ..syntax_parsing import parser_rules as pr
 
+NoneType = type(None)
 
 class Structural:
     pass
 
 
 class FunctionStatement:
-    pass
+    def __init__(self):
+        self.linespan = (-1,-1)
+        self.lexspan = (-1,-1)
 
 class StructStatement:
-    pass
+    def __init__(self):
+        self.linespan = (-1,-1)
+        self.lexspan = (-1,-1)
 
 class ValueExpression:
-    pass
+    def __init__(self):
+        self.linespan = (-1,-1)
+        self.lexspan = (-1,-1)
 
 class TypeExpression:
-    pass
+    def __init__(self):
+        self.linespan = (-1,-1)
+        self.lexspan = (-1,-1)
 
 
 @dataclass
@@ -57,12 +66,17 @@ class BlockStatement(FunctionStatement):
 class ExpressionStatement(FunctionStatement):
     "valueexpr;"
     expr: ValueExpression
+    def __post_init__(self):
+        super().__init__()
 
 @ dataclass
 class TypeDeclarationStatementFunction(FunctionStatement):
     "type a = typeexpr"
-    type_expr: TypeExpression
     name: str
+    type_expr: TypeExpression
+
+    def __post_init__(self):
+        super().__init__()
 
 @ dataclass
 class AssignmentStatement(FunctionStatement):
@@ -99,7 +113,7 @@ class IfElseStatement(FunctionStatement):
 
 @ dataclass
 class ReturnStatement(FunctionStatement):
-    expr: ValueExpression
+    expr: Union[ValueExpression, NoneType]
 
 
 @ dataclass
@@ -111,14 +125,14 @@ class BreakStatement(FunctionStatement):
 @ dataclass
 class MemberDeclarationStatement(StructStatement):
     "let a = typeexpr"
-    type_expr: TypeExpression
     name: str
+    type_expr: TypeExpression
 
 @ dataclass
 class TypeDeclarationStatementStruct(StructStatement):
     "type a = typeexpr"
-    type_expr: TypeExpression
     name: str
+    type_expr: TypeExpression
 
 # Value expressions
 
@@ -205,6 +219,10 @@ class TypeAngleExpression(TypeExpression):
 @ dataclass
 class TypeIdExpression(TypeExpression):
     name: str
+
+@ dataclass
+class TypeTypeExpression(TypeExpression):
+    type_obj: Any 
 
 @ dataclass
 class TypeDerefExpression(TypeExpression):
@@ -336,7 +354,7 @@ def _(self, se: SE):
     se.add(SS.TYPE_EXPR)
     a = self.expr1.parse_semantics(se)
     se.pop()
-    return MemberDeclarationStatement(a, name)
+    return MemberDeclarationStatement(name, a)
 
 
 @add_method_parse_semantics(pr.TypeStatement)
@@ -346,14 +364,15 @@ def _(self, se: SE):
     a = self.right.parse_semantics(se)
     se.pop()
     if se.in_func:
-        return TypeDeclarationStatementFunction(a, name)
+        return TypeDeclarationStatementFunction(name, a)
     else:
-        return TypeDeclarationStatementStruct(a, name)
+        return TypeDeclarationStatementStruct(name, a)
 
 
 
 @add_method_parse_semantics(pr.BlankStatement)
 def _(self, se: SE):
+    print(self.name)
     return None
 
 
@@ -595,21 +614,29 @@ def _(self: pr.BoolLiteral, se: SE):
     return BoolLiteralExpression(self.value)
 
 # ARTIFICIAL STATEMENTS
+@dataclass
 class MemoryCopyStatement(FunctionStatement):
     dest: str
     src: str
 
+@dataclass
 class HeapAllocStatement(FunctionStatement):
     dest: str
     type_expr: TypeExpression
+    value_expr: ValueExpression
 
+@dataclass
 class OutStatement(FunctionStatement):
     src: str
+    type_expr: TypeExpression
 
+@dataclass
 class InStatement(FunctionStatement):
     dest: str
-#
+    type_expr: TypeExpression
 
+
+#
 
 
 
