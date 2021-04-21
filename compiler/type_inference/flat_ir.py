@@ -89,10 +89,3 @@ class BoolConstantAssignment:
         self.dest = dest
         self.value = value
 
-
-class HeapAllocStatemtent:
-    def __init__(self, dest, struct, no):
-        self.dest = dest
-        self.struct = struct
-        self.no = no
-

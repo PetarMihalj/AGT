@@ -44,6 +44,7 @@ def _(self: sa.FunctionDefinition, tc: TC,
     f.mangled_name = tc.scope_man.new_func_name(self.name)
     f.types = {}
     f.parameter_names_ordered = []
+    print(f"RES: {self.name}")
 
     tc.scope_man.begin_scope()
     for name, t in zip(self.type_parameter_names, type_args):
@@ -55,6 +56,7 @@ def _(self: sa.FunctionDefinition, tc: TC,
         f.types[n] = t
         f.parameter_names_ordered.append(n)
 
+    print(f"RES: {self.name}")
     ret_done = False
     for s in self.statement_list:
         if not ret_done and not\
@@ -88,6 +90,7 @@ def _(self: sa.FunctionDefinition, tc: TC,
         # for recursive calls, statements are not needed
         tc.function_type_container[desc] = f
 
+    print(f"RES: {self.name}")
     cleanup()
     return f
 
@@ -691,30 +694,15 @@ def _(self: sa.MemoryCopyStatement, tc: TC,
     f.flat_statements.append(ir.MemoryCopy(d, s))
     return True
 
-@add_method_te_visit(sa.HeapAllocStatement)
-def _(self: sa.HeapAllocStatement, tc: TC,
+@add_method_te_visit(sa.PrimitiveCallExpression)
+def _(self: sa.PrimitiveCallExpression, tc: TC,
         f: ts.FunctionType):
-    d = self.dest
-    t = self.type_expr.te_visit(tc, f)
-    if t is None:
-        tc.logger.log(f"[ERR] Cant infer type for heap_alloc!",
-                LogTypes.FUNCTION_OR_STRUCT_DEFINITION)
-        return False
+    self.lvalue = False
 
-    n = self.no
-    f.flat_statements.append(ir.HeapAllocStatemtent(d, t, n))
-    return True
+    args = [v.te_visit(tc, f) for v in self.args]
+    if None in args: return None
 
-@add_method_te_visit(sa.OutStatement)
-def _(self: sa.HeapAllocStatement, tc: TC,
-        f: ts.FunctionType):
-    d = self.dest
-    t = self.type_expr.te_visit(tc, f)
-    if t is None:
-        tc.logger.log(f"[ERR] Cant infer type for heap_alloc!",
-                LogTypes.FUNCTION_OR_STRUCT_DEFINITION)
-        return False
-
-    n = self.no
-    f.flat_statements.append(ir.HeapAllocStatemtent(d, t, n))
-    return True
+    tmp = tc.scope_man.new_tmp_var_name("primitive call")
+    f.flat_statements.append(ir.FunctionCall(tmp, self.mangled_name, args))
+    f.types[tmp] = self.return_type 
+    return tmp

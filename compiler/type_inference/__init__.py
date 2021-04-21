@@ -4,9 +4,10 @@ from . import type_engine_rules
 from . import type_gens
 
 class TypingResult:
-    def __init__(self, func_types, struct_types, logger):
+    def __init__(self, func_types, struct_types, primitives, logger):
         self.func_types = func_types
         self.struct_types = struct_types
+        self.primitives = primitives
         self.logger = logger
 
 
@@ -15,9 +16,11 @@ def get_typed_program(semantics_ast):
     tc = TypingContext(semantics_ast.function_definitions,
                        semantics_ast.struct_definitions,
                        )
-
-    tc.resolve_function("main", [], [])
-    return TypingResult(tc.function_type_container, tc.struct_type_container, tc.logger)
+    tc.run()
+    return TypingResult(tc.function_type_container, 
+            tc.struct_type_container, 
+            tc.primitives,
+            tc.logger)
 
 
 

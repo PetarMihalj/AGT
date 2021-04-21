@@ -1,5 +1,6 @@
 from typing import List
 
+from . import primitives as prim
 from .type_system import Type
 from ..helpers import add_method_to_list
 from . import type_system as ts
@@ -61,6 +62,7 @@ def gen_int_type(tc, name: str,
         tc.struct_type_container[(name, tuple(type_argument_types))] = ts.IntType(val)
         return True
     except:
+        print("HEHERE")
         return False
 
 
@@ -75,6 +77,7 @@ def gen_int_type_ops(tc, name: str,
         tc.struct_type_container[(name, tuple(type_argument_types))] = ts.IntType(res)
         return True
     except:
+        print("HEHER2E")
         return False
 
 @add_method_to_list(struct_methods)
@@ -168,6 +171,7 @@ def gen_int_init_default(tc, name: str,
     f.linespan = (-1,-1)
     f.lexspan = (-1,-1)
     tc.func_defs.append(f)
+
     return True
 
 @add_method_to_list(func_methods)
@@ -323,41 +327,101 @@ def gen_heap_alloc(tc, name: str,
 
     if not isinstance(argument_types[0], ts.IntType): return False
 
-    type_alloc = type_argument_types[0].size
-    type_size = argument_types[0].size
-
+    type_alloc = type_argument_types[0]
+    type_size = argument_types[0]
+    alloc_dummy_name = tc.scope_man.new_func_name("heap alloc dummy")
 
     f = sa.FunctionDefinition(
-        "heao_alloc",
+        "heap_alloc",
         ['type_alloc'],
-        ['size'],
-        sa.TypePtrExpression(TypeIdExpression(f"{type_alloc}")),
+        ['type_size'],
+        sa.TypePtrExpression(sa.TypeIdExpression("type_alloc")),
         [
             sa.TypeDeclarationStatementFunction("_1", sa.TypeAngleExpression("enable_if", 
                 [sa.TypeBinaryExpression(
                     sa.TypeIdExpression("type_alloc"), 
                     "__eq__",
-                    sa.TypeIdExpression(f"{type_alloc}")
+                    sa.TypeTypeExpression(type_alloc)
                 )]
             )),
             sa.TypeDeclarationStatementFunction("_2", sa.TypeAngleExpression("enable_if", 
                 [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("size"), 
+                    sa.TypeIdExpression("type_size"), 
                     "__eq__",
-                    sa.TypeIdExpression(f"{size}")
+                    sa.TypeTypeExpression(type_size)
                 )]
             )),
-
-            sa.HeapAllocStatement("mem", 
-                sa.TypeIdExpression(f"{type_alloc}"), 
-                sa.IdExpression("size")
-            ),
-            sa.ReturnStatement(sa.IdExpression("mem")),
+            sa.ReturnStatement(sa.PrimitiveCallExpression(
+                alloc_dummy_name, 
+                [sa.IdExpression("type_size")],
+                ts.PointerType(type_alloc)
+            )),
         ]
     )
     f.linespan = (-1,-1)
     f.lexspan = (-1,-1)
     tc.func_defs.append(f)
+
+    tc.primitives[alloc_dummy_name] = prim.HeapAllocPrimitive(
+        type_argument_types[0].mangled_name,
+        argument_types[0].mangled_name
+    )
+    print("HEERREE")
+    return True
+
+@add_method_to_list(func_methods)
+def gen_cast(tc, name: str,
+                 type_argument_types: List[Type],
+                 argument_types: List[Type],
+            ):
+    if name != "cast": return False
+    if len(argument_types)!=1: return False
+    if len(type_argument_types) != 1: return False
+
+    type_target = type_argument_types[0]
+    type_source = argument_types[0]
+
+    allowed = [ts.IntType(size) for size in [8,16,32,64]]+[ts.BoolType()]
+    if type_target not in allowed or type_source not in allowed:
+        return False
+
+    cast_dummy_name = tc.scope_man.new_func_name("cast alloc dummy")
+
+    f = sa.FunctionDefinition(
+        "cast",
+        ['target'],
+        ['source'],
+        sa.TypeIdExpression("target"),
+        [
+            sa.TypeDeclarationStatementFunction("_1", sa.TypeAngleExpression("enable_if", 
+                [sa.TypeBinaryExpression(
+                    sa.TypeIdExpression("target"), 
+                    "__eq__",
+                    sa.TypeTypeExpression(type_target)
+                )]
+            )),
+            sa.TypeDeclarationStatementFunction("_2", sa.TypeAngleExpression("enable_if", 
+                [sa.TypeBinaryExpression(
+                    sa.TypeIdExpression("source"), 
+                    "__eq__",
+                    sa.TypeTypeExpression(type_source)
+                )]
+            )),
+            sa.ReturnStatement(sa.PrimitiveCallExpression(
+                cast_dummy_name, 
+                [sa.IdExpression("source")],
+                type_target
+            )),
+        ]
+    )
+    f.linespan = (-1,-1)
+    f.lexspan = (-1,-1)
+    tc.func_defs.append(f)
+
+    tc.primitives[cast_dummy_name] = prim.CastPrimitive(
+        type_target.mangled_name,
+        type_source.mangled_name
+    )
     return True
 
 # struct init, copy, dest

@@ -114,6 +114,8 @@ class IfElseStatement(FunctionStatement):
 @ dataclass
 class ReturnStatement(FunctionStatement):
     expr: Union[ValueExpression, NoneType]
+    def __post_init__(self):
+        super().__init__()
 
 
 @ dataclass
@@ -613,30 +615,14 @@ def _(self: pr.IntLiteral, se: SE):
 def _(self: pr.BoolLiteral, se: SE):
     return BoolLiteralExpression(self.value)
 
-# ARTIFICIAL STATEMENTS
+# additional thing
 @dataclass
 class MemoryCopyStatement(FunctionStatement):
     dest: str
     src: str
 
 @dataclass
-class HeapAllocStatement(FunctionStatement):
-    dest: str
-    type_expr: TypeExpression
-    value_expr: ValueExpression
-
-@dataclass
-class OutStatement(FunctionStatement):
-    src: str
-    type_expr: TypeExpression
-
-@dataclass
-class InStatement(FunctionStatement):
-    dest: str
-    type_expr: TypeExpression
-
-
-#
-
-
-
+class PrimitiveCallExpression(FunctionStatement):
+    mangled_name: str
+    args: List[ValueExpression]
+    return_type: Any
