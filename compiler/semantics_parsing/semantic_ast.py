@@ -83,6 +83,8 @@ class AssignmentStatement(FunctionStatement):
     "valueexpr = valueexpr"
     left: ValueExpression
     right: ValueExpression
+    def __post_init__(self):
+        super().__init__()
 
 @ dataclass
 class InitStatement(FunctionStatement):

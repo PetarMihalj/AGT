@@ -124,16 +124,12 @@ class TypingContext:
 
         candidates = []
         for fd in self.func_defs:
-            print("ABC"+fd.name)
             fd: sa.FunctionDefinition
-            print(len(fd.type_parameter_names))
-            print(len(fd.parameter_names))
             if all([
                 fd.name == name,
                 len(fd.type_parameter_names) == len(type_argument_types),
                 len(fd.parameter_names) == len(argument_types),
             ]):
-                print("IN")
                 r = fd.te_visit(self, 
                         type_argument_types, argument_types)
                 if r is not None:

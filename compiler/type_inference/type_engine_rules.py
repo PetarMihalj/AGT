@@ -44,7 +44,6 @@ def _(self: sa.FunctionDefinition, tc: TC,
     f.mangled_name = tc.scope_man.new_func_name(self.name)
     f.types = {}
     f.parameter_names_ordered = []
-    print(f"RES: {self.name}")
 
     tc.scope_man.begin_scope()
     for name, t in zip(self.type_parameter_names, type_args):
@@ -56,7 +55,6 @@ def _(self: sa.FunctionDefinition, tc: TC,
         f.types[n] = t
         f.parameter_names_ordered.append(n)
 
-    print(f"RES: {self.name}")
     ret_done = False
     for s in self.statement_list:
         if not ret_done and not\
@@ -90,7 +88,6 @@ def _(self: sa.FunctionDefinition, tc: TC,
         # for recursive calls, statements are not needed
         tc.function_type_container[desc] = f
 
-    print(f"RES: {self.name}")
     cleanup()
     return f
 

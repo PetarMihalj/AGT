@@ -21,6 +21,11 @@ class HeapAllocPrimitive(Primitive):
     size_type_mangled_name: str
 
 @dataclass
+class HeapFreePrimitive(Primitive):
+    type_mangled_name: str
+    size_type_mangled_name: str
+
+@dataclass
 class CastPrimitive(Primitive):
     type_target_mangled_name: str
     type_source_mangled_name: str
