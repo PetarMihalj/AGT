@@ -166,6 +166,8 @@ class MemberIndexExpression(ValueExpression):
 @ dataclass
 class DerefExpression(ValueExpression):
     expr: ValueExpression
+    def __post_init__(self):
+        super().__init__()
 
 
 @ dataclass
@@ -414,7 +416,7 @@ def _(self, se: SE):
         res = IfElseStatement(
             a,
             self.blockIf.parse_semantics(se),
-            Block([])
+            []
         )
     else:
         res = IfElseStatement(

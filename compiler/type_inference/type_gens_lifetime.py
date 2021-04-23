@@ -70,7 +70,7 @@ def gen_builtin_copy(tc, name: str,
                          type_argument_types: List[Type],
                          argument_types: List[Type],
             ):
-    if name != "__copy___": return False
+    if name != "__copy__": return False
     if len(type_argument_types)>0: return False
 
     if len(argument_types) != 2: return False
@@ -85,8 +85,6 @@ def gen_builtin_copy(tc, name: str,
 
     allowed = [ts.IntType(i) for i in [8,16,32,64]] + [ts.BoolType()]
     if (ptr_dest.pointed not in allowed and not isinstance(ptr_dest.pointed, ts.PointerType)):
-        return False
-    if (ptr_src.pointed not in allowed and not isinstance(ptr_src.pointed, ts.PointerType)):
         return False
 
     f = sa.FunctionDefinition(
@@ -174,11 +172,6 @@ def gen_init_struct(tc, name: str,
 
     if len(argument_types)-1 != len(pointed.members): return False
 
-    if tc.resolve_function(
-            name, type_argument_types, 
-            argument_types, use_gens = False) is not None:
-        return False
-
     checks_mems = [
         sa.TypeDeclarationStatementFunction(f"_{i}", sa.TypeAngleExpression("enable_if", 
             [sa.TypeBinaryExpression(
@@ -217,6 +210,7 @@ def gen_init_struct(tc, name: str,
             sa.ReturnStatement(None),
         ]
     )
+    f.default_ignore_when_other_available = True
     f.linespan = (-1,-1)
     f.lexspan = (-1,-1)
     tc.func_defs.append(f)
@@ -227,7 +221,7 @@ def gen_copy_struct(tc, name: str,
                          type_argument_types: List[Type],
                          argument_types: List[Type],
             ):
-    if name != "__init__": return False
+    if name != "__copy__": return False
     if len(type_argument_types)>0: return False
 
     if len(argument_types) != 2: return False
@@ -245,11 +239,6 @@ def gen_copy_struct(tc, name: str,
     if pointed1 != pointed2:
         return False
 
-    if tc.resolve_function(
-            name, type_argument_types, 
-            argument_types, use_gens = False) is not None:
-        return False
-
     copy_mems = [
             sa.ExpressionStatement(sa.CallExpression("__copy__", [], [
                 sa.AddressExpression(sa.MemberIndexExpression(
@@ -261,7 +250,7 @@ def gen_copy_struct(tc, name: str,
                     name
                 )),
             ]
-            )) for i,name in enumerate(pointed.members) 
+            )) for i,name in enumerate(pointed1.members) 
     ]
 
     f = sa.FunctionDefinition(
@@ -288,6 +277,7 @@ def gen_copy_struct(tc, name: str,
             sa.ReturnStatement(None),
         ]
     )
+    f.default_ignore_when_other_available = True
     f.linespan = (-1,-1)
     f.lexspan = (-1,-1)
     tc.func_defs.append(f)
@@ -298,7 +288,7 @@ def gen_dest_struct(tc, name: str,
                          type_argument_types: List[Type],
                          argument_types: List[Type],
             ):
-    if name != "__init__": return False
+    if name != "__dest__": return False
     if len(type_argument_types)>0: return False
 
     if len(argument_types) != 1: return False
@@ -306,12 +296,6 @@ def gen_dest_struct(tc, name: str,
     pointed = argument_types[0].pointed
     if not isinstance(pointed, ts.StructType): return False
     pointed: ts.StructType
-
-    if tc.resolve_function(
-            name, type_argument_types, 
-            argument_types, use_gens = False) is not None:
-        return False
-
 
     dest_mems = [
             sa.ExpressionStatement(sa.CallExpression("__dest__", [], [
@@ -340,6 +324,7 @@ def gen_dest_struct(tc, name: str,
             sa.ReturnStatement(None),
         ]
     )
+    f.default_ignore_when_other_available = True
     f.linespan = (-1,-1)
     f.lexspan = (-1,-1)
     tc.func_defs.append(f)

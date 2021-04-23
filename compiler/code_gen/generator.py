@@ -19,6 +19,29 @@ class CodeGenerator:
                 self.code.append(f"\t{s.types[member].mangled_name}\t\t\t#{member}")
             self.code.append(f"}}")
 
+    def add_prims(self):
+        for pr in self.tr.primitives:
+            self.code.extend(
+                pr.get_code(self.tr)
+            )
+
+
+    def add_header(self):
+        pass
+
     def run(self):
+        self.code.append("")
+        self.code.append("# Header")
+        self.code.append("")
+        self.add_header()
+
+        self.code.append("")
+        self.code.append("# Primitives")
+        self.code.append("")
+        self.add_prims()
+
+        self.code.append("")
+        self.code.append("# Structs")
+        self.code.append("")
         self.add_structs()
 

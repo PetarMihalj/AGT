@@ -54,12 +54,14 @@ def gen_type_to_value(tc, name: str,
     tc.func_defs.append(f)
     return True
 
+
 @add_method_to_list(struct_methods)
 def gen_void_type(tc, name: str,
                  type_argument_types: List[Type],
             ):
     if name == "void" and len(type_argument_types)==0:
         tc.struct_type_container[(name, tuple(type_argument_types))] = ts.VoidType()
+        tc.primitives.append(prim.VoidTypePrimitive(ts.VoidType().mangled_name))
         return True
     else:
         return False
@@ -69,18 +71,23 @@ def gen_void_type(tc, name: str,
 def gen_int_type(tc, name: str,
                  type_argument_types: List[Type],
             ):
+    if len(name)==0:
+        return False
+    if len(type_argument_types)!=0:
+        return False
+    if name[0] != 'i':
+        return False
+    
     try:
-        if name[0] == 'i':
-            sign = 1
-        elif name[0] == 'I':
-            sign = -1
-        else:
-            return False
-        val = int(name[1:])*sign
-
-        tc.struct_type_container[(name, tuple(type_argument_types))] = ts.IntType(val)
-        return True
+        val = int(name[1:])
     except:
+        return False
+
+    if val in [8,16,32,64]:
+        tc.struct_type_container[(name, tuple(type_argument_types))] = ts.IntType(val)
+        tc.primitives.append(prim.IntTypePrimitive(ts.IntType(val).mangled_name, val))
+        return True
+    else:
         return False
 
 
@@ -88,14 +95,24 @@ def gen_int_type(tc, name: str,
 def gen_int_type_ops(tc, name: str,
                  type_argument_types: List[Type],
             ):
+    if name not in sa.ops_mapping.values():
+        return False
+    if len(type_argument_types) != 2:
+        return False
+    if not isinstance(type_argument_types[0], ts.IntType):
+        return False
+    if not isinstance(type_argument_types[1], ts.IntType):
+        return False
+
+    i1 = type_argument_types[0].size
+    i2 = type_argument_types[1].size
     try:
-        i1 = type_argument_types[0].size
-        i2 = type_argument_types[1].size
         res = int(getattr(i1, name if name!="__div__" else "__floordiv__")(i2))
-        tc.struct_type_container[(name, tuple(type_argument_types))] = ts.IntType(res)
-        return True
     except:
         return False
+
+    tc.struct_type_container[(name, tuple(type_argument_types))] = ts.IntType(res)
+    return True
 
 @add_method_to_list(struct_methods)
 def gen_enable_if_type(tc, name: str,
@@ -123,7 +140,10 @@ def gen_type_ops(tc, name: str,
     t1 = type_argument_types[0]
     t2 = type_argument_types[1]
 
-    if tc.resolve_struct(name, type_argument_types, use_gens = False) is not None:
+    # because there is a specialization for this already in gens
+    if isinstance(type_argument_types[0], ts.IntType):
+        return False
+    if isinstance(type_argument_types[1], ts.IntType):
         return False
 
     if name=="__eq__":

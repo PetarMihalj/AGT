@@ -4,7 +4,7 @@ struct shared_ptr<T>{
 }
 
 fn __init__(sptr_ptr, item_ptr){
-    type T = sptr_ptr!.item!;
+    type T = sptr_ptr!.item_ptr!;
     type _1 = enable_if<sptr_ptr == @shared_ptr<T>>;
     type _2 = enable_if<@T == item_ptr>;
 
@@ -13,7 +13,7 @@ fn __init__(sptr_ptr, item_ptr){
 }
 
 fn __dest__(sptr_ptr){
-    type T = sptr_ptr!.item!;
+    type T = sptr_ptr!.item_ptr!;
     type _1 = enable_if<sptr_ptr == @shared_ptr<T>>;
 
     sptr_ptr!.count! = sptr_ptr!.count! - 1;
@@ -24,7 +24,7 @@ fn __dest__(sptr_ptr){
 }
 
 fn __copy__(sptr_ptr_dest, sptr_ptr_src){
-    type T = sptr_ptr_dest!.item!;
+    type T = sptr_ptr_dest!.item_ptr!;
     type _1 = enable_if<sptr_ptr_dest == @shared_ptr<T>>;
     type _2 = enable_if<sptr_ptr_src == @shared_ptr<T>>;
 

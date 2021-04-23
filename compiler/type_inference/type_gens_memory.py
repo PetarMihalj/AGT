@@ -56,10 +56,11 @@ def gen_heap_alloc_array(tc, name: str,
     f.lexspan = (-1,-1)
     tc.func_defs.append(f)
 
-    tc.primitives[alloc_dummy_name] = prim.HeapAllocPrimitive(
+    tc.primitives.append(prim.HeapAllocPrimitive(
+        alloc_dummy_name, 
         type_argument_types[0].mangled_name,
         ts.IntType(32).mangled_name
-    )
+    ))
     return True
 
 @add_method_to_list(func_methods)
@@ -115,10 +116,11 @@ def gen_heap_alloc(tc, name: str,
     f.lexspan = (-1,-1)
     tc.func_defs.append(f)
 
-    tc.primitives[alloc_dummy_name] = prim.HeapAllocPrimitive(
+    tc.primitives.append(prim.HeapAllocPrimitive(
+        alloc_dummy_name,
         type_argument_types[0].mangled_name,
         ts.IntType(32).mangled_name
-    )
+    ))
     return True
 
 @add_method_to_list(func_methods)
@@ -159,8 +161,9 @@ def gen_heap_free(tc, name: str,
     f.lexspan = (-1,-1)
     tc.func_defs.append(f)
 
-    tc.primitives[alloc_dummy_name] = prim.HeapFreePrimitive(
+    tc.primitives.append(prim.HeapFreePrimitive(
+        free_dummy_name,
         type_free.mangled_name,
-    )
+    ))
     return True
 

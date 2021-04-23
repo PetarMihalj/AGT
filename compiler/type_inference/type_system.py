@@ -65,6 +65,8 @@ class FunctionType(Type):
 
         self.types: Dict[str, Type] = {}
         self.flat_statements: List = []
+
+        self.default_ignore_when_other_available = False
     def __repr__(self):
         return f"FuncType({self.mangled_name})"
 

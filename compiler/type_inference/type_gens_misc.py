@@ -59,8 +59,9 @@ def gen_cast(tc, name: str,
     f.lexspan = (-1,-1)
     tc.func_defs.append(f)
 
-    tc.primitives[cast_dummy_name] = prim.CastPrimitive(
+    tc.primitives.append(prim.CastPrimitive(
+        cast_dummy_name,
         type_target.mangled_name,
         type_source.mangled_name
-    )
+    ))
     return True

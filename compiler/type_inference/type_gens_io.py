@@ -49,7 +49,7 @@ def gen_in_int32(tc, name: str,
     f.lexspan = (-1,-1)
     tc.func_defs.append(f)
 
-    tc.primitives[dummy_name] = prim.InInt32Primitive()
+    tc.primitives.append(prim.InInt32Primitive(dummy_name))
     return True
 
 @add_method_to_list(func_methods)
@@ -91,6 +91,6 @@ def gen_out_i32(tc, name: str,
     f.lexspan = (-1,-1)
     tc.func_defs.append(f)
 
-    tc.primitives[dummy_name] = prim.OutInt32Primitive()
+    tc.primitives.append(prim.OutInt32Primitive(dummy_name))
     return True
 

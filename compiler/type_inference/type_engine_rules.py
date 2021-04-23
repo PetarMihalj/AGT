@@ -542,7 +542,7 @@ def _(self: sa.CallExpression, tc: TC,
     if None in type_args_types: return None
 
     args = [v.te_visit(tc, f) for v in self.args]
-    if None in type_args_types: return None
+    if None in args: return None
 
     args_types = [f.types[a] for a in args]
 

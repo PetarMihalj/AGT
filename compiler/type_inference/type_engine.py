@@ -80,30 +80,17 @@ class TypingContext:
         self.logger: RecursiveLogger = RecursiveLogger()
         self.gen_set = set()
 
-        self.primitives: Dict[str, Primitive] = dict()
+        self.primitives: List[Primitive] = []
 
     def run(self):
-        self.add_prim_types()
         self.resolve_function("main", [], [])
         self.struct_type_container = dict([(k,s) for k,s in self.struct_type_container.items()\
             if isinstance(s,ts.StructType) and s.needs_gen])
 
-    def add_prim_types(self):
-        for size in [8,16,32,64]:
-            t = ts.IntType(size)
-            self.primitives[t.mangled_name] = prim.IntTypePrimitive(size)
-
-        t = ts.BoolType()
-        self.primitives[t.mangled_name] = prim.IntTypePrimitive(1)
-
-        t = ts.VoidType()
-        self.primitives[t.mangled_name] = prim.VoidTypePrimitive()
-
 
     def resolve_function(self, name: str,
                          type_argument_types: List[ts.Type],
-                         argument_types: List[ts.Type],
-                         use_gens = True)\
+                         argument_types: List[ts.Type])\
                 -> ts.FunctionType:
         desc = (
             name, 
@@ -114,8 +101,7 @@ class TypingContext:
         self.logger.log(f"Resolving function {desc}", 
                 LogTypes.FUNCTION_RESOLUTION)
 
-        if use_gens:
-            gen_function(self, name, type_argument_types, argument_types)
+        gen_function(self, name, type_argument_types, argument_types)
         if desc in self.function_type_container:
             self.logger.log(f"[SUCC] Resolving function {desc}", 
                     LogTypes.FUNCTION_RESOLUTION)
@@ -164,8 +150,7 @@ class TypingContext:
         self.logger.log(f"Resolving struct {desc}", 
                 LogTypes.STRUCT_RESOLUTION)
 
-        if use_gens:
-            gen_struct(self, name, type_argument_types)
+        gen_struct(self, name, type_argument_types)
         if desc in self.struct_type_container:
             self.logger.log(f"[SUCC] Resolving struct {desc}", 
                     LogTypes.STRUCT_RESOLUTION)

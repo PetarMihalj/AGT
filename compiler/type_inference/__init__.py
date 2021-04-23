@@ -1,8 +1,3 @@
-from . import type_engine
-from . import type_system
-from . import type_engine_rules
-from . import type_gens
-
 class TypingResult:
     def __init__(self, func_types, struct_types, primitives, logger):
         self.func_types = func_types
@@ -10,6 +5,10 @@ class TypingResult:
         self.primitives = primitives
         self.logger = logger
 
+from . import type_engine
+from . import type_system
+from . import type_engine_rules
+from . import type_gens
 
 def get_typed_program(semantics_ast):
     from .type_engine import TypingContext
