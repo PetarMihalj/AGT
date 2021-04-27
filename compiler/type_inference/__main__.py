@@ -19,3 +19,6 @@ if __name__ == '__main__':
     tree_print(tr.struct_types)
     print("\n"*3+"PRIMS")
     tree_print(tr.primitives)
+    print("\n"*3)
+    r = ("main",(),()) in tr.func_types
+    print(f"SUCC = {r}")

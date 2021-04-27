@@ -399,8 +399,6 @@ def _(self: sa.BinaryExpression, tc: TC,
     self.lvalue = False
 
     le = self.left.te_visit(tc, f)
-    if not self.left.lvalue:
-        raise RuntimeError("Require lvalue at {self.linespan[0]}!")
     if le is None: return None
 
     re = self.right.te_visit(tc, f)
