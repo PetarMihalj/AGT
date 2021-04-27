@@ -60,6 +60,10 @@ class Lexer():
         'struct': 'STRUCT',
     }
 
+    def t_BOOLL(self, t):
+        r'true|false|True|False'
+        return t
+
     def t_ID(self, t):
         r'[a-zA-Z_][a-zA-Z_0-9]*'
         t.type = self.reserved.get(t.value, 'ID')
@@ -69,9 +73,6 @@ class Lexer():
         r'(\d+)([Ii]{0,1})(\d+){0,1}'
         return t
 
-    def t_BOOLL(self, t):
-        r'true|false|True|False'
-        return t
 
     # MAIN STATE
 
