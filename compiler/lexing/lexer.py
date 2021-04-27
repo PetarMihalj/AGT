@@ -1,5 +1,4 @@
 class Lexer():
-
     def __init__(self, **kwargs):
         import ply.lex as lex
         self.lexer = lex.lex(object=self, **kwargs)

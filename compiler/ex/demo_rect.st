@@ -8,7 +8,7 @@ fn area(kv) -> _inner{
     type _inner = kv.a;
     type _is_kv = enable_if<kv== rectangle<_inner>>;
 
-    return kv.a;
+    return kv.a * kv.b;
 }
 
 fn main(){

@@ -325,8 +325,11 @@ def _(self: sa.ReturnStatement, tc: TC,
         return True
     else:
         e = self.expr.te_visit(tc, f)
-        if e is None: return None
+        if e is None: return False
 
+        print(f.name)
+        print(e)
+        print(f.types)
         if f.types[e] != f.types["return"]:
             tc.logger.log("type missmatch with return {self.linespan[0]}",
                     LogTypes.TYPE_MISSMATCH)
@@ -400,22 +403,21 @@ def _(self: sa.BinaryExpression, tc: TC,
         raise RuntimeError("Require lvalue at {self.linespan[0]}!")
     if le is None: return None
 
-    lr = self.right.te_visit(tc, f)
-    if lr is None: return None
+    re = self.right.te_visit(tc, f)
+    if re is None: return None
 
     tmp = tc.scope_man.new_tmp_var_name(f"{self.op}")
 
-    opf = tc.resolve_function(self.op, [], [f.types[le], f.types[lr]])
+    opf = tc.resolve_function(self.op, [], [f.types[le], f.types[re]])
     if opf is None:
         tc.logger.log("cant resolve op at {self.linespan[0]}",
                 LogTypes.FUNCTION_RESOLUTION)
         return None
 
-
     f.flat_statements.append(ir.FunctionCall(
-        tmp, opf.mangled_name))
+        tmp, opf.mangled_name, [le, re]))
     f.types[tmp] = opf.types["return"]
-    return opf
+    return tmp
 
 
 @add_method_te_visit(sa.BracketCallExpression)
@@ -701,5 +703,6 @@ def _(self: sa.PrimitiveCallExpression, tc: TC,
 
     tmp = tc.scope_man.new_tmp_var_name("primitive call")
     f.flat_statements.append(ir.FunctionCall(tmp, self.mangled_name, args))
+    print("A: "+tmp)
     f.types[tmp] = self.return_type 
     return tmp

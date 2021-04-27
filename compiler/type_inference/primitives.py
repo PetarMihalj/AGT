@@ -58,3 +58,12 @@ class OutInt32Primitive(Primitive):
     mangled_name: str
     def get_code(self, tr: TypingResult):
         return []
+
+@dataclass
+class IntTypeOp(Primitive):
+    mangled_name: str
+    op: str
+    size: int
+
+    def get_code(self, tr: TypingResult):
+        return []
