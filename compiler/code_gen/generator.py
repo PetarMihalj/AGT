@@ -29,6 +29,9 @@ class CodeGenerator:
     def add_header(self):
         pass
 
+    def add_funcs(self):
+        pass
+
     def run(self):
         self.code.append("")
         self.code.append("# Header")
@@ -36,12 +39,16 @@ class CodeGenerator:
         self.add_header()
 
         self.code.append("")
+        self.code.append("# Structs")
+        self.code.append("")
+        self.add_structs()
+
+        self.code.append("")
         self.code.append("# Primitives")
         self.code.append("")
         self.add_prims()
 
         self.code.append("")
-        self.code.append("# Structs")
+        self.code.append("# Funcs")
         self.code.append("")
-        self.add_structs()
-
+        self.add_funcs()

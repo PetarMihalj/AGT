@@ -367,7 +367,6 @@ def _(self, se: SE):
 
 @add_method_parse_semantics(pr.BlankStatement)
 def _(self, se: SE):
-    print(self.name)
     return None
 
 
@@ -496,13 +495,14 @@ def _(self: pr.BinaryExpression, se: SE):
             ops_mapping[self.op],
             self.right.parse_semantics(se)
         )
-    if se.top() == SS.VALUE_EXPR:
-        return BinaryExpression(
-            self.left.parse_semantics(se),
+    elif se.top() == SS.VALUE_EXPR:
+        return CallExpression(
             ops_mapping[self.op],
-            self.right.parse_semantics(se)
+            [],
+            [self.left.parse_semantics(se), self.right.parse_semantics(se)]
         )
-    raise RuntimeError("Shouldn't have gotten here!")
+    else:
+        raise RuntimeError("Shouldn't have gotten here!")
 
 
 @add_method_parse_semantics(pr.UnaryExpression)

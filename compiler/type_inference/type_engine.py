@@ -15,24 +15,35 @@ separator = "_$_"
 class ScopeManager:
     def __init__(self):
         self.scope_stack: List[dict[str]] = []
-        self.label_cnt = 0
-        self.tmp_var_cnt = 0
+        self.dest_stack: List[List[str]] = []
+
         self.var_cnt = 0
+        self.tmp_var_cnt = 0
+
+        self.label_cnt = 0
         self.func_cnt = 0
         self.struct_cnt = 0
 
     def begin_scope(self):
         self.scope_stack.append(dict())
+        self.dest_stack.append(list())
 
     def end_scope(self):
         self.scope_stack.pop()
+        self.dest_stack.pop()
+
+    def get_dest_list(self):
+        return list(self.dest_stack[-1])
+
+    def add_to_dest(self, name):
+        self.dest_stack[-1].append(name)
 
     # var names
 
     def new_var_name(self, name, type_name=False):
         self.var_cnt += 1
         if type_name:
-            res_var = f"t_var{separator}{name}{separator}{self.var_cnt}"
+            res_var = f"type_var{separator}{name}{separator}{self.var_cnt}"
         else:
             res_var = f"var{separator}{name}{separator}{self.var_cnt}"
         if name in self.scope_stack[-1]:
@@ -45,17 +56,20 @@ class ScopeManager:
             if name in s:
                 return s[name]
 
+    def new_tmp_var_name(self, description="", type_name=False):
+        self.tmp_var_cnt += 1
+        if type_name:
+            res_var = f"tmp_type_var{description}{separator}{self.tmp_var_cnt}"
+        else:
+            res_var = f"tmp_var{description}{separator}{self.tmp_var_cnt}"
+
+        return res_var
+
     # label names
 
     def new_label_name(self, description=""):
         self.label_cnt += 1
         return f"label{description}{separator}{self.label_cnt}"
-
-    # tmp var names
-
-    def new_tmp_var_name(self, description=""):
-        self.tmp_var_cnt += 1
-        return f"tmp_var{description}{separator}{self.tmp_var_cnt}"
 
     def new_func_name(self, name):
         self.func_cnt += 1

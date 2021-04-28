@@ -66,9 +66,13 @@ class FunctionType(Type):
         self.types: Dict[str, Type] = {}
         self.flat_statements: List = []
 
+        self.dest_stack: List[List[str]] = []
+
         self.default_ignore_when_other_available = False
     def __repr__(self):
         return f"FuncType({self.mangled_name})"
+    def __hash__(self):
+        return hash(self.mangled_name)
 
 
 class StructType(Type):
@@ -95,6 +99,7 @@ class StructType(Type):
 class PointerType(Type):
     def __init__(self, pointed):
         self.pointed: Type = pointed
+        self.mangled_name = f"ptr_{pointed.mangled_name}"
     def __eq__(self, other):
         if not isinstance(other, PointerType):
             return False

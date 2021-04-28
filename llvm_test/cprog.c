@@ -16,10 +16,13 @@ struct rect* alloc_i32(int size){
 }
 
 
+int* m_func(char sz){
+    return (int*) malloc(sizeof(int)*sz);
+}
+
+
 int main(){
     int ps = sizeof(char*);
-    int* a = (int*) malloc(sizeof(int) * 3);
-    free(a);
     int b=5;
     int c=10;
     int d =copy(&b, &c);

@@ -13,9 +13,7 @@ fn area(kv) -> _inner{
 
 fn main(){
     let a = in<i32>();
-    out(a);
-    out(a);
-    false*false;
+    a=5;
     let rec = rectangle<i32>(52, 65i32); //52 and 65i32 are i32 literals
     let ar = area(rec);
     let t = heap_alloc<rectangle<i32>>(1, 5);

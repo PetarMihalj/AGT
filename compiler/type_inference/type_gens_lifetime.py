@@ -148,6 +148,7 @@ def gen_builtin_dest(tc, name: str,
             )),
         ]
     )
+    f.do_not_dest_params = True
     f.linespan = (-1,-1)
     f.lexspan = (-1,-1)
     tc.func_defs.append(f)
@@ -254,7 +255,7 @@ def gen_copy_struct(tc, name: str,
     ]
 
     f = sa.FunctionDefinition(
-        "__init__",
+        "__copy__",
         [],
         ["ptr_dest", "ptr_src"],
         sa.TypeIdExpression("void"),
@@ -308,7 +309,7 @@ def gen_dest_struct(tc, name: str,
     ]
 
     f = sa.FunctionDefinition(
-        "__init__",
+        "__dest__",
         [],
         ["ptr"],
         sa.TypeIdExpression("void"),
