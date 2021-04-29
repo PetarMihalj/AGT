@@ -99,7 +99,7 @@ class StructType(Type):
 class PointerType(Type):
     def __init__(self, pointed):
         self.pointed: Type = pointed
-        self.mangled_name = f"ptr_{pointed.mangled_name}"
+        self.mangled_name = f"{pointed.mangled_name}*"
     def __eq__(self, other):
         if not isinstance(other, PointerType):
             return False

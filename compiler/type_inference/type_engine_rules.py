@@ -91,7 +91,7 @@ def _(self: sa.FunctionDefinition, tc: TC,
 
         f.types[rn] = f.types[n]
         f.flat_statements.append(ir.StackAllocate(rn, f.types[rn].mangled_name))
-        f.flat_statements.append(ir.MemoryCopySrcValue(rn, n))
+        f.flat_statements.append(ir.MemoryCopySrcValue(rn, n, f.types[n].mangled_name))
 
     ret_done = False
     for s in self.statement_list:
@@ -223,7 +223,7 @@ def _(self: sa.AssignmentStatement, tc: TC,
         if self.right.lvalue:
             if not add_copy(self, f, tc, le, re): return False
         else:
-            f.flat_statements.append(ir.MemoryCopy(le, re))
+            f.flat_statements.append(ir.MemoryCopy(le, re, f.types[le].mangled_name))
 
         return True
 
@@ -246,7 +246,7 @@ def _(self: sa.InitStatement, tc: TC,
     if self.expr.lvalue:
         if not add_copy(self, f, tc, mn, e): return False
     else:
-        f.flat_statements.append(ir.MemoryCopy(mn, e))
+        f.flat_statements.append(ir.MemoryCopy(mn, e, f.types[mn].mangled_name))
 
     return True
 
@@ -386,7 +386,7 @@ def _(self: sa.ReturnStatement, tc: TC,
             tc.logger.log("type missmatch with return {self.linespan[0]}",
                     LogTypes.TYPE_MISSMATCH)
             return False
-        f.flat_statements.append(ir.FunctionReturn(None))
+        f.flat_statements.append(ir.FunctionReturn(None, None, None))
         return True
     else:
         e = self.expr.te_visit(tc, f)
@@ -397,7 +397,11 @@ def _(self: sa.ReturnStatement, tc: TC,
                     LogTypes.TYPE_MISSMATCH)
             return False
 
-        f.flat_statements.append(ir.FunctionReturn(e))
+        f.flat_statements.append(ir.FunctionReturn(
+            e, 
+            tc.scope_man.new_impl_var_name(),
+            f.types[e].mangled_name,
+        ))
         return True
 
 
@@ -610,7 +614,7 @@ def _(self: sa.CallExpression, tc: TC,
         for v, a, ac in zip(self.args, arg_names, arg_copy_names):
             f.types[ac] = f.types[a]
             if not v.lvalue:
-                f.flat_statements.append(ir.MemoryCopy(ac, a))
+                f.flat_statements.append(ir.MemoryCopy(ac, a, f.types[ac].mangled_name))
             else:
                 if not add_copy(self, f, tc, ac, a): return None
 
@@ -639,7 +643,7 @@ def _(self: sa.CallExpression, tc: TC,
         for v, a, ac in zip(self.args, arg_names, arg_copy_names):
             f.types[ac] = f.types[a]
             if not v.lvalue:
-                f.flat_statements.append(ir.MemoryCopy(ac, a))
+                f.flat_statements.append(ir.MemoryCopy(ac, a, f.types[ac].mangled_name))
             else:
                 if not add_copy(self, f, tc, ac, a): return None
 
@@ -775,7 +779,7 @@ def _(self: sa.MemoryCopyStatement, tc: TC,
         f: ts.FunctionType):
     d = self.dest
     s = self.src
-    f.flat_statements.append(ir.MemoryCopy(d, s))
+    f.flat_statements.append(ir.MemoryCopy(d, s, f.types[d].mangled_name))
     return True
 
 @add_method_te_visit(sa.PrimitiveCallExpression)

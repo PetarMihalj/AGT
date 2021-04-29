@@ -11,7 +11,7 @@ class IntTypePrimitive(Primitive):
 
     def get_code(self, tr: TypingResult):
         return [
-            f"%{self.mangled_name} = i{self.size}",
+            f"%{self.mangled_name} = type i{self.size}",
         ]
 
 @dataclass
@@ -20,7 +20,7 @@ class VoidTypePrimitive(Primitive):
 
     def get_code(self, tr: TypingResult):
         return [
-            f"%{self.mangled_name} = void",
+            f"%{self.mangled_name} = type void",
         ]
 
 @dataclass

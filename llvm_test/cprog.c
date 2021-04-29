@@ -20,14 +20,11 @@ int* m_func(char sz){
     return (int*) malloc(sizeof(int)*sz);
 }
 
+int fn_main(){
+    int a = 3;
+    return a;
+}
 
 int main(){
-    int ps = sizeof(char*);
-    int b=5;
-    int c=10;
-    int d =copy(&b, &c);
-
-    struct rect r;
-    
-
+    return fn_main();
 }

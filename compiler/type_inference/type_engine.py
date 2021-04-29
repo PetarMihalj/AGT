@@ -19,6 +19,7 @@ class ScopeManager:
 
         self.var_cnt = 0
         self.tmp_var_cnt = 0
+        self.impl_var_cnt = 0
 
         self.label_cnt = 0
         self.func_cnt = 0
@@ -64,6 +65,11 @@ class ScopeManager:
             res_var = f"tmp_var{description}{separator}{self.tmp_var_cnt}"
 
         return res_var
+
+    def new_impl_var_name(self):
+        self.impl_var_cnt += 1
+        return f"impl_var{separator}{self.impl_var_cnt}"
+
 
     # label names
 
