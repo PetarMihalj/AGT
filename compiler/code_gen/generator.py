@@ -47,11 +47,13 @@ class CodeGenerator:
             self.add_func(f)
 
     def add_func(self, f: ts.FunctionType):
-        p_names = ", ".join(f.parameter_names_ordered)
-        self.code.append(f'define dso_local %{f.types["return"].mangled_name} @{f.mangled_name} ({p_names}) {{')
+        p_names = ", ".join([" %"+f.types[n].mangled_name+" %"+n for n in f.parameter_names_ordered])
+        ret_str = f'%{f.types["return"].mangled_name}' if f.types["return"]!=ts.VoidType() else "void"
+
+        self.code.append(f'define dso_local {ret_str} @{f.mangled_name} ({p_names}) {{')
 
         for fs in f.flat_statements:
-            self.code+=fs.get_code()
+            self.code+=fs.get_code(f)
 
         self.code.append('}')
 

@@ -1,6 +1,6 @@
 from typing import List, Tuple
 from dataclasses import dataclass
-
+from .type_system import FunctionType
 
 class FlatStatement:
     pass
@@ -8,37 +8,47 @@ class FlatStatement:
 @dataclass
 class StackAllocate:
     dest: str 
-    type_mangled_name: str
 
-    def get_code(self):
+    def get_code(self, f: FunctionType):
         return [
-            f"\t%{self.dest} = alloca {self.type_mangled_name}",
+            f"\t%{self.dest} = alloca %{f.types[self.dest].mangled_name}",
         ]
 
 @dataclass
 class MemoryCopy:
     dest: str
     src: str
-    type_mangled_name: str
 
-    def get_code(self):
+    def get_code(self, f: FunctionType):
         #TODO
+        tmp = f.new_tmp()
         return [
-            f"%{self.dest} = alloca {self.typename}",
+            f"\t%{tmp} = load %{f.types[self.dest].mangled_name}, %{f.types[self.src].mangled_name}* %{self.src}",
+            f"\tstore %{f.types[self.dest].mangled_name} %{tmp}, %{f.types[self.dest].mangled_name}* %{self.dest}",
+
         ]
 
 @dataclass
 class MemoryCopySrcValue:
     dest: str
     src: str
-    type_mangled_name: str
 
-    def get_code(self):
+    def get_code(self, f: FunctionType):
         return [
-            f"\tstore %{self.type_mangled_name} %{self.src}, %{self.type_mangled_name}* %{self.dst}",
+            f"\tstore %{f.types[self.src].mangled_name} %{self.src}, %{f.types[self.src].mangled_name}* %{self.dest}",
         ]
 
 # functional
+
+@dataclass 
+class Comment:
+    comm: str
+    def get_code(self, f: FunctionType):
+        return [
+            f"\t; {self.comm}",
+
+        ]
+
 
 @dataclass
 class Dereference:
@@ -49,13 +59,19 @@ class Dereference:
 class AddressOf:
     dest: str
     src: str
+    
+    def get_code(self, f: FunctionType):
+        return [
+            f"\tstore %{f.types[self.src].mangled_name}* %{self.src}, %{f.types[self.dest].mangled_name}* %{self.dest}"
+
+        ]
 
 @dataclass
 class IntConstantAssignment:
     dest: str
     value: int
     size: int
-    def get_code(self):
+    def get_code(self, f: FunctionType):
         return [
             f"\tstore %i{self.size} {self.value}, %i{self.size}* %{self.dest}"
         ]
@@ -68,22 +84,42 @@ class BoolConstantAssignment:
 @dataclass
 class FunctionCall:
     dest: str
-    fn_mangled_name: str
-    arguments: List[str]
+    fn_to_call: FunctionType
+    arguments_names: List[str]
+
+    def get_code(self, f: FunctionType):
+        tmps = [f.new_tmp() for n in self.fn_to_call.parameter_names_ordered]
+        derefs = [f"\t%{tmps[i]} = load %{f.types[n].mangled_name}, %{f.types[n].mangled_name}* %{n}" 
+                for i,n in enumerate(self.arguments_names)]
+
+        args_str = ", ".join(["%"+
+            self.fn_to_call.types[self.fn_to_call.parameter_names_ordered[i]].mangled_name
+            +" %"+tmps[i] for i,n in enumerate(self.arguments_names)])
+
+        dest_tmp = f.new_tmp()
+
+        if self.dest is None:
+            return[ "\t; function call"] + derefs+[
+                f"\tcall void @{self.fn_to_call.mangled_name}({args_str})",
+            ] + ["\t; end call" ]
+        else:
+            return ["\t; function call"] + derefs+[
+                f'\t%{dest_tmp} = call %{self.fn_to_call.types["return"].mangled_name} @{self.fn_to_call.mangled_name}({args_str})',
+                f'\tstore %{self.fn_to_call.types["return"].mangled_name} %{dest_tmp}, %{self.fn_to_call.types["return"].mangled_name}* %{self.dest}'
+            ] +[ "\t; end call" ]
+
 
 @dataclass
 class FunctionReturn:
-    src: str
-    tmp: str
-    type_mangled_name: str
-    def get_code(self):
-        if self.src is None:
+    def get_code(self, f: FunctionType):
+        from .type_system import VoidType
+        if f.types["return"] == VoidType():
             return ["\tret void"]
-
         else:
+            tmp = f.new_tmp()
             return [
-                f"\t%{self.tmp} = load %{self.type_mangled_name}, %{self.type_mangled_name}* %{self.src}",
-                f"\tret %{self.type_mangled_name} %{self.tmp}",
+                f'\t%{tmp} = load %{f.types["return"].mangled_name}, %{f.types["return"].mangled_name}* %{"return"}',
+                f'\tret %{f.types["return"].mangled_name} %{tmp}',
             ]
 
 # flow control
@@ -91,37 +127,42 @@ class FunctionReturn:
 @dataclass
 class Label:
     name: str
+    def get_code(self, f: FunctionType):
+        return [
+            f"\t{self.name}:",
+        ]
 
 @dataclass
-class JumpToLabelTrue:
+class JumpToLabelConditional:
     var_name: str
-    label: str
+    label_true: str
+    label_false: str
+    def get_code(self, f: FunctionType):
+        tmp = f.new_tmp()
 
-@dataclass
-class JumpToLabelFalse:
-    var_name: str
-    label: str
+        return [
+            f"\t%{tmp} = load i1, i1* %{self.var_name}",
+            f"\tbr i1 %{tmp}, label %{self.label_true}, label %{self.label_false}",
+        ]
 
 @dataclass
 class JumpToLabel:
     label: str
+    def get_code(self, f: FunctionType):
+        return [
+            f"\tbr label %{self.label}",
+        ]
 
 # pointer control
 
 @dataclass
 class GetPointerOffset:
-    def __init__(self, dest, src, offset: int):
-        self.dest = dest
-        self.src = src
-        self.offset = offset
-
+    dest: str
+    src: str
+    offset_src: str
 
 @dataclass
 class GetElementPtr:
-    def __init__(self, dest, src, element_name):
-        self.dest = dest
-        self.src = src
-        self.element_name = element_name
-
-
-
+    dest: str
+    src: str
+    element_name: str

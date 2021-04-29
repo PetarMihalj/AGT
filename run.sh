@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python -m compiler.code_gen $1 | tee tmp
+python -m compiler.code_gen $1 | tee tmp | nl -ba -
 lli tmp
 es=$?
 

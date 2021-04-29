@@ -19,12 +19,16 @@ struct rect* alloc_i32(int size){
 int* m_func(char sz){
     return (int*) malloc(sizeof(int)*sz);
 }
+void test(){
 
-int fn_main(){
+}
+
+int* fn_main(){
     int a = 3;
-    return a;
+    test();
+    return &a;
 }
 
 int main(){
-    return fn_main();
+    int* a = fn_main();
 }

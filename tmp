@@ -12,11 +12,60 @@ target triple = "x86_64-pc-linux-gnu"
 
 ; Funcs
 
+define dso_local void @func_$___dest___$_3 ( %i32* %tmp_varplaceholder_ptr_$_5) {
+	%var_$_ptr_$_3 = alloca %i32*
+	store %i32* %tmp_varplaceholder_ptr_$_5, %i32** %var_$_ptr_$_3
+	; func setup
+	br label %func_end
+	func_end:
+	ret void
+}
+define dso_local %i32 @func_$_fib_$_2 ( %i32 %tmp_varplaceholder_n_$_3) {
+	%var_$_n_$_1 = alloca %i32
+	store %i32 %tmp_varplaceholder_n_$_3, %i32* %var_$_n_$_1
+	; func setup
+	%return = alloca %i32
+	%tmp_varint_literal_$_4 = alloca %i32
+	store %i32 7, %i32* %tmp_varint_literal_$_4
+	%t_1 = load %i32, %i32* %tmp_varint_literal_$_4
+	store %i32 %t_1, %i32* %return
+	br label %func_end
+	func_end:
+	%tmp_varptr_dest_$_6 = alloca %i32*
+	store %i32* %var_$_n_$_1, %i32** %tmp_varptr_dest_$_6
+	; function call
+	%t_2 = load %i32*, %i32** %tmp_varptr_dest_$_6
+	call void @func_$___dest___$_3(%i32* %t_2)
+	; end call
+	%t_4 = load %i32, %i32* %return
+	ret %i32 %t_4
+}
 define dso_local %i32 @func_$_main_$_1 () {
-	%tmp_varint_literal_$_1 = alloca i32
-	store %i32 123, %i32* %tmp_varint_literal_$_1
-	%impl_var_$_1 = load %i32, %i32* %tmp_varint_literal_$_1
-	ret %i32 %impl_var_$_1
+	; func setup
+	%return = alloca %i32
+	%tmp_varint_literal_$_2 = alloca %i32
+	store %i32 5, %i32* %tmp_varint_literal_$_2
+	%tmp_varcopy_tmp_varint_literal_$_2_$_7 = alloca %i32
+	%t_1 = load %i32, %i32* %tmp_varint_literal_$_2
+	store %i32 %t_1, %i32* %tmp_varcopy_tmp_varint_literal_$_2_$_7
+	%tmp_varnew_obj_$_1 = alloca %i32
+	; function call
+	%t_2 = load %i32, %i32* %tmp_varcopy_tmp_varint_literal_$_2_$_7
+	%t_3 = call %i32 @func_$_fib_$_2(%i32 %t_2)
+	store %i32 %t_3, %i32* %tmp_varnew_obj_$_1
+	; end call
+	%tmp_varptr_dest_$_8 = alloca %i32*
+	store %i32* %tmp_varcopy_tmp_varint_literal_$_2_$_7, %i32** %tmp_varptr_dest_$_8
+	; function call
+	%t_4 = load %i32*, %i32** %tmp_varptr_dest_$_8
+	call void @func_$___dest___$_3(%i32* %t_4)
+	; end call
+	%t_6 = load %i32, %i32* %tmp_varnew_obj_$_1
+	store %i32 %t_6, %i32* %return
+	br label %func_end
+	func_end:
+	%t_7 = load %i32, %i32* %return
+	ret %i32 %t_7
 }
 
 ; Footer

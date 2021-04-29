@@ -56,6 +56,7 @@ def gen_builtin_init(tc, name: str,
             )),
             sa.InitStatement("val_addr", sa.AddressExpression(sa.IdExpression("val"))),
             sa.MemoryCopyStatement("ptr", "val_addr"),
+            sa.ReturnStatement(None),
         ]
     )
     f.linespan = (-1,-1)
@@ -108,6 +109,7 @@ def gen_builtin_copy(tc, name: str,
                 )]
             )),
             sa.MemoryCopyStatement("ptr_dest", "ptr_src"),
+            sa.ReturnStatement(None),
         ]
     )
     f.linespan = (-1,-1)
@@ -146,6 +148,7 @@ def gen_builtin_dest(tc, name: str,
                     sa.TypeTypeExpression(ptr)
                 )]
             )),
+            sa.ReturnStatement(None),
         ]
     )
     f.do_not_dest_params = True

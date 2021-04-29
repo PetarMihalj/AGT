@@ -21,9 +21,12 @@ def add_dest(self, f: ts.FunctionType, tc: TC, name: str):
         return False
 
     ptr = tc.scope_man.new_tmp_var_name("ptr_dest")
+    f.types[ptr] = ts.PointerType(f.types[name])
+
+    f.flat_statements.append(ir.StackAllocate(ptr))
     f.flat_statements.append(ir.AddressOf(ptr, name))
     f.flat_statements.append(ir.FunctionCall(None, 
-        dest.mangled_name, [ptr]))
+        dest, [ptr]))
     return True
 
 def add_copy(self, f: ts.FunctionType, tc: TC, dest: str, src: str):
@@ -36,10 +39,12 @@ def add_copy(self, f: ts.FunctionType, tc: TC, dest: str, src: str):
         return False
     ptr1 = tc.scope_man.new_tmp_var_name("ptr_copy_1")
     ptr2 = tc.scope_man.new_tmp_var_name("ptr_copy_2")
+    f.types[ptr1] = ts.PointerType(f.types[dest])
+    f.types[ptr2] = ts.PointerType(f.types[src])
     f.flat_statements.append(ir.AddressOf(ptr1, dest))
     f.flat_statements.append(ir.AddressOf(ptr2, src))
     f.flat_statements.append(ir.FunctionCall(None, 
-        copy.mangled_name, [ptr1, ptr2]))
+        copy, [ptr1, ptr2]))
     return True
 
 # structural
@@ -70,11 +75,23 @@ def _(self: sa.FunctionDefinition, tc: TC,
         del f.break_label_stack
         tc.logger.go_out()
 
+    def infer_ret():
+        f.types["return"] = self.expr_ret.te_visit(tc, f)
+        if f.types["return"] is None:
+            tc.logger.log("Cant infer return type!", 
+                    LogTypes.FUNCTION_RESOLUTION)
+            return False
+        tc.function_type_container[desc] = f
+        if f.types["return"] != ts.VoidType():
+            f.flat_statements.append(ir.StackAllocate("return"))
+        return True
+
 
     f = ts.FunctionType(self.name)
     f.mangled_name = tc.scope_man.new_func_name(self.name)
     f.types = {}
     f.parameter_names_ordered = []
+
 
     tc.scope_man.begin_scope()
     for name, t in zip(self.type_parameter_names, type_args):
@@ -90,23 +107,16 @@ def _(self: sa.FunctionDefinition, tc: TC,
         tc.scope_man.add_to_dest(rn)
 
         f.types[rn] = f.types[n]
-        f.flat_statements.append(ir.StackAllocate(rn, f.types[rn].mangled_name))
-        f.flat_statements.append(ir.MemoryCopySrcValue(rn, n, f.types[n].mangled_name))
+        f.flat_statements.append(ir.StackAllocate(rn))
+        f.flat_statements.append(ir.MemoryCopySrcValue(rn, n))
 
-    ret_done = False
+    f.flat_statements.append(ir.Comment("func setup"))
+
     for s in self.statement_list:
-        if not ret_done and not\
-                isinstance(s, sa.TypeDeclarationStatementFunction):
-            f.types["return"] = self.expr_ret.te_visit(tc, f)
-            if f.types["return"] is None:
-                tc.logger.log("Cant infer return type!", 
-                        LogTypes.FUNCTION_RESOLUTION)
+        if not "return" in f.types and not isinstance(s, sa.TypeDeclarationStatementFunction):
+            if not infer_ret():
                 cleanup()
                 return None
-
-            ret_done = True
-            # for recursive calls, statements are not needed
-            tc.function_type_container[desc] = f
 
         if s.te_visit(tc, f) is False:
             tc.logger.log(f"Cant infer statement"+
@@ -115,21 +125,19 @@ def _(self: sa.FunctionDefinition, tc: TC,
             cleanup()
             return None
 
-    if not ret_done:
-        f.types["return"] = self.expr_ret.te_visit(tc, f)
-        if f.types["return"] is None:
-            tc.logger.log("Cant infer return type!", 
-                    LogTypes.FUNCTION_RESOLUTION)
+    if not "return" in f.types:
+        if not infer_ret():
             cleanup()
             return None
-        ret_done = True
-        # for recursive calls, statements are not needed
-        tc.function_type_container[desc] = f
 
+    # destruct and return
+    f.flat_statements.append(ir.Label("func_end"))
     if not hasattr(self, "do_not_dest_params"):
         for td in tc.scope_man.get_dest_list():
             if not add_dest(self,f,tc,td): return None
-
+    f.flat_statements.append(ir.FunctionReturn())
+    
+    # ----
     cleanup()
     return f
 
@@ -223,7 +231,7 @@ def _(self: sa.AssignmentStatement, tc: TC,
         if self.right.lvalue:
             if not add_copy(self, f, tc, le, re): return False
         else:
-            f.flat_statements.append(ir.MemoryCopy(le, re, f.types[le].mangled_name))
+            f.flat_statements.append(ir.MemoryCopy(le, re))
 
         return True
 
@@ -241,12 +249,12 @@ def _(self: sa.InitStatement, tc: TC,
     # what was this? TODO
     #if f.types[e] is ts.VoidType():
     #    return True
-    f.flat_statements.append(ir.StackAllocate(mn, f.types[e].mangled_name))
+    f.flat_statements.append(ir.StackAllocate(mn))
 
     if self.expr.lvalue:
         if not add_copy(self, f, tc, mn, e): return False
     else:
-        f.flat_statements.append(ir.MemoryCopy(mn, e, f.types[mn].mangled_name))
+        f.flat_statements.append(ir.MemoryCopy(mn, e))
 
     return True
 
@@ -255,6 +263,7 @@ def _(self: sa.InitStatement, tc: TC,
 def _(self: sa.WhileStatement, tc: TC,
         f: ts.FunctionType):
     lwc = tc.scope_man.new_label_name("while check")
+    lws = tc.scope_man.new_label_name("while succ")
     lwe = tc.scope_man.new_label_name("while end")
     f.break_label_stack.append(lwe)
 
@@ -270,7 +279,8 @@ def _(self: sa.WhileStatement, tc: TC,
         return False
 
     f.flat_statements.append(ir.Label(lwc))
-    f.flat_statements.append(ir.JumpToLabelFalse(ec, lwe))
+    f.flat_statements.append(ir.JumpToLabelConditional(ec, lws, lwe))
+    f.flat_statements.append(ir.Label(lws))
     for s in self.statement_list:
         if s.te_visit(tc, f) is False:
             tc.scope_man.end_scope()
@@ -292,9 +302,10 @@ def _(self: sa.WhileStatement, tc: TC,
 @add_method_te_visit(sa.ForStatement)
 def _(self: sa.ForStatement, tc: TC,
         f: ts.FunctionType):
-    lfcheck = tc.scope_man.new_label_name("for check")
-    lfchange = tc.scope_man.new_label_name("for change")
-    lfe = tc.scope_man.new_label_name("for end")
+    lfcheck = tc.scope_man.new_label_name("for_check")
+    lfsucc = tc.scope_man.new_label_name("for_succ")
+    lfchange = tc.scope_man.new_label_name("for_change")
+    lfe = tc.scope_man.new_label_name("for_end")
     f.break_label_stack.append(lfe)
 
     tc.scope_man.begin_scope()
@@ -314,7 +325,8 @@ def _(self: sa.ForStatement, tc: TC,
         f.break_label_stack.pop()
         return False
 
-    f.flat_statements.append(ir.JumpToLabelFalse(ec, lfe))
+    f.flat_statements.append(ir.JumpToLabelConditional(ec, lfsucc, lfe))
+    f.flat_statements.append(ir.Label(lfsucc))
     for s in self.statement_list:
         if s.te_visit(tc, f) is False:
             tc.scope_man.end_scope()
@@ -356,13 +368,13 @@ def _(self: sa.IfElseStatement, tc: TC,
         tc.scope_man.end_scope()
         return False
 
-    f.flat_statements.append(ir.JumpToLabelFalse(ec, iffalse))
+    f.flat_statements.append(ir.JumpToLabelConditional(ec, iffalse))
     f.flat_statements.append(ir.Label(iftrue))
     for s in self.statement_list_false:
         if s.te_visit(tc, f) is False:
             return False
-
     f.flat_statements.append(ir.JumpToLabel(ec, ifend))
+
     f.flat_statements.append(ir.Label(iffalse))
     for s in self.statment_list_false:
         if s.te_visit(tc, f) is False:
@@ -386,7 +398,7 @@ def _(self: sa.ReturnStatement, tc: TC,
             tc.logger.log("type missmatch with return {self.linespan[0]}",
                     LogTypes.TYPE_MISSMATCH)
             return False
-        f.flat_statements.append(ir.FunctionReturn(None, None, None))
+        f.flat_statements.append(ir.JumpToLabel("func_end"))
         return True
     else:
         e = self.expr.te_visit(tc, f)
@@ -397,11 +409,8 @@ def _(self: sa.ReturnStatement, tc: TC,
                     LogTypes.TYPE_MISSMATCH)
             return False
 
-        f.flat_statements.append(ir.FunctionReturn(
-            e, 
-            tc.scope_man.new_impl_var_name(),
-            f.types[e].mangled_name,
-        ))
+        f.flat_statements.append(ir.MemoryCopy("return", e))
+        f.flat_statements.append(ir.JumpToLabel("func_end"))
         return True
 
 
@@ -482,7 +491,7 @@ def _(self: sa.BracketCallExpression, tc: TC,
     tmp = tc.scope_man.new_tmp_var_name("bracket call")
     f.types[tmp] = f.types[e]
 
-    f.flat_statements.append(ir.StackAllocate(tmp, f.types[tmp].mangled_name))
+    f.flat_statements.append(ir.StackAllocate(tmp))
     f.flat_statements.append(ir.GetPointerOffset(tmp, e, ind))
 
     if not self.ind.lvalue:
@@ -515,7 +524,7 @@ def _(self: sa.MemberIndexExpression, tc: TC,
 
     f.types[tmp] = f.types[e].types[self.member]
 
-    f.flat_statements.append(ir.StackAllocate(tmp, f.types[tmp].mangled_name))
+    f.flat_statements.append(ir.StackAllocate(tmp))
     f.flat_statements.append(ir.GetElementPtr(tmp, e, self.member))
     return tmp
 
@@ -536,7 +545,7 @@ def _(self: sa.DerefExpression, tc: TC,
     tmp = tc.scope_man.new_tmp_var_name("ptr_deref")
     f.types[tmp] = f.types[e].pointed
 
-    f.flat_statements.append(ir.StackAllocate(tmp, f.types[tmp].mangled_name))
+    f.flat_statements.append(ir.StackAllocate(tmp))
     f.flat_statements.append(ir.Dereference(tmp, e))
 
     if not self.expr.lvalue:
@@ -558,7 +567,7 @@ def _(self: sa.BinaryExpression, tc: TC,
     tmp = tc.scope_man.new_tmp_var_name("addr_of")
     f.types[tmp] = ts.PointerType(f.types[e])
 
-    f.flat_statements.append(ir.StackAllocate(tmp, f.types[tmp].mangled_name))
+    f.flat_statements.append(ir.StackAllocate(tmp))
     f.flat_statements.append(ir.AddressOf(tmp, e))
     return tmp
 
@@ -571,7 +580,7 @@ def _(self: sa.IntLiteralExpression, tc: TC,
     tmp = tc.scope_man.new_tmp_var_name("int_literal")
     f.types[tmp] = ts.IntType(self.size)
 
-    f.flat_statements.append(ir.StackAllocate(tmp, f.types[tmp].mangled_name))
+    f.flat_statements.append(ir.StackAllocate(tmp))
     f.flat_statements.append(ir.IntConstantAssignment(tmp,
                                                       self.value,
                                                       self.size))
@@ -586,7 +595,7 @@ def _(self: sa.BoolLiteralExpression, tc: TC,
     tmp = tc.scope_man.new_tmp_var_name("bool_literal")
     f.types[tmp] = ts.BoolType()
 
-    f.flat_statements.append(ir.StackAllocate(tmp, f.types[tmp].mangled_name))
+    f.flat_statements.append(ir.StackAllocate(tmp))
     f.flat_statements.append(ir.BoolConstantAssignment(tmp,
                                                        self.value))
     return tmp
@@ -612,15 +621,16 @@ def _(self: sa.CallExpression, tc: TC,
         arg_copy_names = [tc.scope_man.new_tmp_var_name(f"copy_{a}") for a in arg_names]
 
         for v, a, ac in zip(self.args, arg_names, arg_copy_names):
+            f.flat_statements.append(ir.StackAllocate(ac))
             f.types[ac] = f.types[a]
             if not v.lvalue:
-                f.flat_statements.append(ir.MemoryCopy(ac, a, f.types[ac].mangled_name))
+                f.flat_statements.append(ir.MemoryCopy(ac, a))
             else:
                 if not add_copy(self, f, tc, ac, a): return None
 
-        f.flat_statements.append(ir.StackAllocate(tmp, ft.types['return'].mangled_name))
+        f.flat_statements.append(ir.StackAllocate(tmp))
         f.flat_statements.append(ir.FunctionCall(tmp,
-                                                 ft.mangled_name,
+                                                 ft,
                                                  arg_copy_names))
 
         for ac in arg_copy_names:
@@ -643,17 +653,18 @@ def _(self: sa.CallExpression, tc: TC,
         for v, a, ac in zip(self.args, arg_names, arg_copy_names):
             f.types[ac] = f.types[a]
             if not v.lvalue:
-                f.flat_statements.append(ir.MemoryCopy(ac, a, f.types[ac].mangled_name))
+                f.flat_statements.append(ir.MemoryCopy(ac, a))
             else:
                 if not add_copy(self, f, tc, ac, a): return None
 
-        f.flat_statements.append(ir.StackAllocate(tmp, st.mangled_name))
+        f.flat_statements.append(ir.StackAllocate(tmp))
 
         tmp_ptr = tc.scope_man.new_tmp_var_name("ptr_init")
+        f.types[tmp_ptr] = ts.PointerType(f.types[tmp])
         f.flat_statements.append(ir.AddressOf(tmp_ptr, tmp))
 
         f.flat_statements.append(ir.FunctionCall(None,
-                                                 ft.mangled_name,
+                                                 ft,
                                                  [tmp_ptr]+arg_copy_names))
 
         for ac in arg_copy_names:
@@ -779,7 +790,7 @@ def _(self: sa.MemoryCopyStatement, tc: TC,
         f: ts.FunctionType):
     d = self.dest
     s = self.src
-    f.flat_statements.append(ir.MemoryCopy(d, s, f.types[d].mangled_name))
+    f.flat_statements.append(ir.MemoryCopy(d, s))
     return True
 
 @add_method_te_visit(sa.PrimitiveCallExpression)
@@ -791,6 +802,6 @@ def _(self: sa.PrimitiveCallExpression, tc: TC,
     if None in args: return None
 
     tmp = tc.scope_man.new_tmp_var_name("primitive call")
-    f.flat_statements.append(ir.FunctionCall(tmp, self.mangled_name, args))
+    f.flat_statements.append(ir.FunctionCall(tmp, self, args))
     f.types[tmp] = self.return_type 
     return tmp

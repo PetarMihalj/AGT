@@ -69,10 +69,17 @@ class FunctionType(Type):
         self.dest_stack: List[List[str]] = []
 
         self.default_ignore_when_other_available = False
+        self.tmp_cnt = 0
+
     def __repr__(self):
         return f"FuncType({self.mangled_name})"
+
     def __hash__(self):
         return hash(self.mangled_name)
+
+    def new_tmp(self):
+        self.tmp_cnt+=1
+        return f"t_{self.tmp_cnt}"
 
 
 class StructType(Type):
