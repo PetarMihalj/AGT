@@ -10,7 +10,7 @@ from .type_gens import gen_function, gen_struct
 from ..semantics_parsing import semantic_ast as sa
 from .recursive_logger import RecursiveLogger, LogTypes
 
-separator = "_$_"
+separator = "$"
 
 class ScopeManager:
     def __init__(self):
@@ -97,6 +97,11 @@ class TypingContext:
         self.primitives: List[Primitive] = []
 
     def run(self):
+        for s in [8,16,32,64]:
+            self.primitives.append(prim.IntTypePrimitive(ts.IntType(s).mangled_name, s))
+        self.primitives.append(prim.BoolTypePrimitive(ts.BoolType().mangled_name))
+
+
         self.resolve_function("main", [], [])
         self.struct_type_container = dict([(k,s) for k,s in self.struct_type_container.items()\
             if isinstance(s,ts.StructType) and s.needs_gen])

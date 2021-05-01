@@ -34,34 +34,14 @@ def gen_builtin_init(tc, name: str,
     if val not in allowed and not isinstance(val, ts.PointerType):
         return False
 
-    f = sa.FunctionDefinition(
-        "__init__",
-        [],
-        ["ptr", "val"],
-        sa.TypeIdExpression("void"),
-        [
-            sa.TypeDeclarationStatementFunction("_1", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("ptr"), 
-                    "__eq__",
-                    sa.TypeTypeExpression(argument_types[0])
-                )]
-            )),
-            sa.TypeDeclarationStatementFunction("_2", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("val"), 
-                    "__eq__",
-                    sa.TypeTypeExpression(val)
-                )]
-            )),
-            sa.InitStatement("val_addr", sa.AddressExpression(sa.IdExpression("val"))),
-            sa.MemoryCopyStatement("ptr", "val_addr"),
-            sa.ReturnStatement(None),
-        ]
-    )
-    f.linespan = (-1,-1)
-    f.lexspan = (-1,-1)
-    tc.func_defs.append(f)
+    dname = tc.scope_man.new_func_name(f"builtin_init")
+    tc.primitives.append(prim.MemoryInitPrimitive(
+        dname,
+        pointed.mangled_name
+    ))
+
+    ft = ts.FunctionTypePrimitive(dname, ts.VoidType())
+    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
 
     return True
 
@@ -88,33 +68,14 @@ def gen_builtin_copy(tc, name: str,
     if (ptr_dest.pointed not in allowed and not isinstance(ptr_dest.pointed, ts.PointerType)):
         return False
 
-    f = sa.FunctionDefinition(
-        "__copy__",
-        [],
-        ["ptr_dest", "ptr_src"],
-        sa.TypeIdExpression("void"),
-        [
-            sa.TypeDeclarationStatementFunction("_1", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("ptr_dest"), 
-                    "__eq__",
-                    sa.TypeTypeExpression(ptr_dest)
-                )]
-            )),
-            sa.TypeDeclarationStatementFunction("_2", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("ptr_src"),
-                    "__eq__",
-                    sa.TypeTypeExpression(ptr_src)
-                )]
-            )),
-            sa.MemoryCopyStatement("ptr_dest", "ptr_src"),
-            sa.ReturnStatement(None),
-        ]
-    )
-    f.linespan = (-1,-1)
-    f.lexspan = (-1,-1)
-    tc.func_defs.append(f)
+    dname = tc.scope_man.new_func_name(f"builtin_copy")
+    tc.primitives.append(prim.MemoryCopyPrimitive(
+        dname,
+        pointed.mangled_name
+    ))
+
+    ft = ts.FunctionTypePrimitive(dname, ts.VoidType())
+    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
     return True
 
 @add_method_to_list(func_methods)
@@ -135,26 +96,8 @@ def gen_builtin_dest(tc, name: str,
     if (ptr.pointed not in allowed and not isinstance(ptr.pointed, ts.PointerType)):
         return False
 
-    f = sa.FunctionDefinition(
-        "__dest__",
-        [],
-        ["ptr"],
-        sa.TypeIdExpression("void"),
-        [
-            sa.TypeDeclarationStatementFunction("_1", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("ptr"), 
-                    "__eq__",
-                    sa.TypeTypeExpression(ptr)
-                )]
-            )),
-            sa.ReturnStatement(None),
-        ]
-    )
-    f.do_not_dest_params = True
-    f.linespan = (-1,-1)
-    f.lexspan = (-1,-1)
-    tc.func_defs.append(f)
+    ft = ts.FunctionTypeDoNothing()
+    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
     return True
 
 

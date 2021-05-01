@@ -15,11 +15,39 @@ class IntTypePrimitive(Primitive):
         ]
 
 @dataclass
-class VoidTypePrimitive(Primitive):
+class BoolTypePrimitive(Primitive):
     mangled_name: str
 
     def get_code(self, tr: TypingResult):
         return [
+            f"%{self.mangled_name} = type i1",
+        ]
+
+@dataclass
+class MemoryCopyPrimitive(Primitive):
+    fn_mn: str
+    type_mn: str
+
+    def get_code(self, tr: TypingResult):
+        return [
+            f"define dso_local void @{self.fn_mn}(%{self.type_mn}* %0, %{self.type_mn}* %1){{",
+            f"%val = load {self.type_mn}, {self.type_mn}* %1",
+            f"store {self.type_mn} %val, {self.type_mn}* %0",
+            f"ret void",
+            f"}}",
+        ]
+
+@dataclass
+class MemoryInitPrimitive(Primitive):
+    fn_mn: str
+    type_mn: str
+
+    def get_code(self, tr: TypingResult):
+        return [
+            f"define dso_local void @{self.fn_mn}(%{self.type_mn}* %0, %{self.type_mn} %1){{",
+            f"store {self.type_mn} %1, {self.type_mn}* %0",
+            f"ret void",
+            f"}}",
         ]
 
 @dataclass
@@ -83,4 +111,48 @@ class IntTypeOp(Primitive):
     size: int
 
     def get_code(self, tr: TypingResult):
-        return []
+        def arithmetic(opname):
+            return [
+                f"define dso_local i{self.size} @{self.mangled_name}(i{self.size} %0, i{self.size} %1) {{",
+                f"  %3 = {opname} nsw i{self.size} %1, %0",
+                f"  ret i{self.size} %3",
+                f"}}",
+            ]
+        def comp(opname):
+            return [
+                f"define dso_local i1 @{self.mangled_name}(i{self.size} %0, i{self.size} %1) {{",
+                f"\t%3 = icmp {opname} i{self.size} %0, %1",
+                f"\tret i1 %3",
+                f"}}",
+            ]
+
+        mapping = {
+                "__eq__": (comp, "eq"),
+                "__ne__": (comp, "ne"),
+                '__gt__': (comp, "sgt"),
+                '__lt__': (comp, "slt"),
+                '__le__': (comp, "sle"),
+                '__ge__': (comp, "sge"),
+
+                '__add__': (arithmetic, "add"),
+                '__sub__': (arithmetic, "sub"),
+                '__mul__': (arithmetic, "mul"),
+                '__div__': (arithmetic, "sdiv"),
+                '__mod__': (arithmetic, "srem"),
+        }
+
+        f,opname = mapping[self.op]
+        return f(opname)
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -16,7 +16,8 @@ def get_typed_program(semantics_ast):
                        semantics_ast.struct_definitions,
                        )
     tc.run()
-    return TypingResult(tc.function_type_container, 
+    return TypingResult(
+            dict([(k,v) for k,v in tc.function_type_container.items() if isinstance(v, type_system.FunctionTypeNormal)]), 
             tc.struct_type_container, 
             tc.primitives,
             tc.logger)

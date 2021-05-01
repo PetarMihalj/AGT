@@ -61,7 +61,6 @@ def gen_void_type(tc, name: str,
             ):
     if name == "void" and len(type_argument_types)==0:
         tc.struct_type_container[(name, tuple(type_argument_types))] = ts.VoidType()
-        tc.primitives.append(prim.VoidTypePrimitive(ts.VoidType().mangled_name))
         return True
     else:
         return False
@@ -85,11 +84,21 @@ def gen_int_type(tc, name: str,
 
     if val in [8,16,32,64]:
         tc.struct_type_container[(name, tuple(type_argument_types))] = ts.IntType(val)
-        tc.primitives.append(prim.IntTypePrimitive(ts.IntType(val).mangled_name, val))
         return True
     else:
         return False
 
+@add_method_to_list(struct_methods)
+def gen_bool_type(tc, name: str,
+                 type_argument_types: List[Type],
+            ):
+    if name!='bool':
+        return False
+    if len(type_argument_types)!=0:
+        return False
+    
+    tc.struct_type_container[(name, tuple(type_argument_types))] = ts.BoolType()
+    return True
 
 @add_method_to_list(struct_methods)
 def gen_int_type_ops(tc, name: str,

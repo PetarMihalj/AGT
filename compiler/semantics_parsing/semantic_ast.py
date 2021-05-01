@@ -108,7 +108,7 @@ class ForStatement(FunctionStatement):
 
 @ dataclass
 class IfElseStatement(FunctionStatement):
-    expr: ValueExpression
+    expr_check: ValueExpression
     statement_list_true: List[FunctionStatement]
     statement_list_false: List[FunctionStatement]
 
@@ -197,16 +197,16 @@ class CallExpression(ValueExpression):
 ops_mapping = {
         '==': '__eq__',
         '!=': '__ne__',
-        '>': '__gt__',
-        '<': '__lt__',
+        '>' : '__gt__',
+        '<' : '__lt__',
         '<=': '__le__',
         '>=': '__ge__',
 
         '+': '__add__',
         '-': '__sub__',
-        '/': '__div__',
         '*': '__mul__',
-        '%' : ' __mod__',
+        '/': '__div__',
+        '%': '__mod__',
 }
 
 
