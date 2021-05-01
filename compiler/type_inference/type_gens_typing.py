@@ -36,14 +36,14 @@ def gen_type_to_value(tc, name: str,
                 [sa.TypeBinaryExpression(
                     sa.TypeIdExpression("val"), 
                     "__eq__",
-                    sa.TypeIdExpression(f"{val}")
+                    sa.TypeIdExpression(f"i{val}")
                 )]
             )),
             sa.TypeDeclarationStatementFunction("_2", sa.TypeAngleExpression("enable_if", 
                 [sa.TypeBinaryExpression(
                     sa.TypeIdExpression("size"), 
                     "__eq__",
-                    sa.TypeIdExpression(f"{size}")
+                    sa.TypeIdExpression(f"i{size}")
                 )]
             )),
             sa.ReturnStatement(sa.IntLiteralExpression(val, size))
@@ -82,11 +82,7 @@ def gen_int_type(tc, name: str,
     except:
         return False
 
-    if val in [8,16,32,64]:
-        tc.struct_type_container[(name, tuple(type_argument_types))] = ts.IntType(val)
-        return True
-    else:
-        return False
+    tc.struct_type_container[(name, tuple(type_argument_types))] = ts.IntType(val)
 
 @add_method_to_list(struct_methods)
 def gen_bool_type(tc, name: str,

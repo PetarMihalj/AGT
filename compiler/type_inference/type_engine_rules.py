@@ -12,12 +12,12 @@ from . import inference_errors as ierr
 
 # utils for type_engine_rules
 
-def new_tmp_stack_symbolic_register_unallocated(sa_node, f: ts.FunctionTypeNormal, tc: TC, ty: ts.Type, desc: str = ""):
+def new_tmp_stack_symbolic_register_unallocated(f: ts.FunctionTypeNormal, tc: TC, ty: ts.Type, desc: str):
     mn = tc.scope_man.new_tmp_var_name(desc, type_name = False)
     f.types[mn] = ty
     return mn
 
-def new_tmp_stack_symbolic_register(sa_node, f: ts.FunctionTypeNormal, tc: TC, ty: ts.Type, desc: str = ""):
+def new_tmp_stack_symbolic_register(f: ts.FunctionTypeNormal, tc: TC, ty: ts.Type, desc: str):
     mn = tc.scope_man.new_tmp_var_name(desc, type_name = False)
     f.types[mn] = ty
     f.flat_statements.append(ir.StackAllocate(mn))
@@ -59,7 +59,7 @@ def add_func_call(sa_node, f: ts.FunctionTypeNormal, tc: TC,
             tmp = new_tmp_stack_symbolic_register(f, tc, types[i], args_names[i]+"_copy")
             fn_copy = tc.resolve_function("__copy__", [], [ts.PointerType(types[i])]*2)
             add_func_call(
-                    sa_node
+                    sa_node,
                     f, 
                     tc, 
                     fn_copy, 
@@ -73,9 +73,10 @@ def add_func_call(sa_node, f: ts.FunctionTypeNormal, tc: TC,
             
     return ret_reg
 
-def add_dest(f: ts.FunctionTypeNormal, tc, name: str):
+def add_dest(sa_node, f: ts.FunctionTypeNormal, tc, name: str):
     fn_dest = tc.resolve_function("__dest__", [], [ts.PointerType(f.types[name])])
     add_func_call(
+            sa_node,
             f, 
             tc, 
             fn_dest, 
@@ -88,7 +89,7 @@ def add_dest(f: ts.FunctionTypeNormal, tc, name: str):
 
 @add_method_te_visit(sa.Program)
 def _(self: sa.Program, tc: TC):
-    raise RuntimeError("this is not parsed directly")
+    raise RuntimeError(f"this is not parsed directly")
 
 
 @add_method_te_visit(sa.FunctionDefinition)
@@ -108,7 +109,7 @@ def _(self: sa.FunctionDefinition, tc: TC,
         def infer_ret_type():
             try:
                 retty = self.expr_ret.te_visit(tc, f)
-            except ... as e:
+            except ierr.InferenceError as e:
                 raise ierr.TypeExpressionError(f"Can not infer return type at {self.linespan[0]}") from e
 
             tc.function_type_container[desc] = f
@@ -153,17 +154,17 @@ def _(self: sa.FunctionDefinition, tc: TC,
         f.flat_statements.append(ir.Label("func_end"))
 
         for td in tc.scope_man.get_dest_list():
-            add_dest(f, tc, td)
+            add_dest(self, f, tc, td)
         f.flat_statements.append(ir.FunctionReturn())
 
         tc.scope_man.end_scope()
         return f
 
-    except ... as e:
+    except ierr.InferenceError as e:
         tc.scope_man.clear(sms)
         if desc in tc.function_type_container:
             tc.function_type_container.pop(desc)
-        raise ierr.InferenceError("Can not synthetize function at {self.linespan[0]}") from e
+        raise ierr.InferenceError(f"Can not synthetize function at {self.linespan[0]}") from e
 
 
 @add_method_te_visit(sa.StructDefinition)
@@ -193,7 +194,7 @@ def _(self: sa.BlockStatement, tc: TC,
         self.expr.te_visit(tc, f)
 
     for td in tc.scope_man.get_dest_list():
-        add_dest(f,tc,td)
+        add_dest(self, f,tc,td)
     tc.scope_man.end_scope()
 
 
@@ -202,7 +203,7 @@ def _(self: sa.ExpressionStatement, tc: TC,
         f: ts.FunctionTypeNormal):
     e = self.expr.te_visit(tc, f)
     if not self.expr.lvalue:
-        add_dest(f, tc, e)
+        add_dest(self, f, tc, e)
 
 
 @add_method_te_visit(sa.TypeDeclarationStatementFunction)
@@ -218,15 +219,15 @@ def _(self: sa.AssignmentStatement, tc: TC,
 
     le = self.left.te_visit(tc, f)
     if not self.left.lvalue:
-        raise ierr.RuntimeExpressionError("Require lvalue at {self.linespan[0]}!")
+        raise ierr.RuntimeExpressionError(f"Require lvalue at {self.linespan[0]}!")
 
     re = self.right.te_visit(tc, f)
 
     if f.types[le] != f.types[re]:
-        raise ierr.RuntimeExpressionError("type missmatch at {self.linespan[0]}")
+        raise ierr.RuntimeExpressionError(f"type missmatch at {self.linespan[0]}")
     else:
         # destroy left side
-        add_dest(f, tc, le)
+        add_dest(self, f, tc, le)
 
         # copy or memory copy
         if self.right.lvalue:
@@ -274,11 +275,11 @@ def _(self: sa.WhileStatement, tc: TC,
 
     f.flat_statements.append(ir.Label(lwe))
     if not self.expr_check.lvalue:
-        add_dest(f, tc, ec)
+        add_dest(self, f, tc, ec)
 
     
     for td in tc.scope_man.get_dest_list():
-        add_dest(f,tc,td)
+        add_dest(self, f,tc,td)
     tc.scope_man.end_scope()
     f.break_label_stack.pop()
 
@@ -313,10 +314,10 @@ def _(self: sa.ForStatement, tc: TC,
 
     f.flat_statements.append(ir.JumpToLabel(lfcheck))
     if not self.expr_check.lvalue:
-        add_dest(f, tc, ec)
+        add_dest(self, f, tc, ec)
 
     for td in tc.scope_man.get_dest_list():
-        add_dest(f,tc,td)
+        add_dest(self, f,tc,td)
 
     tc.scope_man.end_scope()
     f.break_label_stack.pop()
@@ -348,10 +349,10 @@ def _(self: sa.IfElseStatement, tc: TC,
 
     f.flat_statements.append(ir.Label(ifend))
     if not self.expr_check.lvalue:
-        add_dest(f, tc, ec)
+        add_dest(self, f, tc, ec)
 
     for td in tc.scope_man.get_dest_list():
-        add_dest(f,tc,td)
+        add_dest(self, f,tc,td)
     tc.scope_man.end_scope()
 
 
@@ -360,13 +361,13 @@ def _(self: sa.ReturnStatement, tc: TC,
         f: ts.FunctionTypeNormal):
     if self.expr is None:
         if f.types["return"]!=ts.VoidType():
-            raise ierr.InferenceError("type missmatch with return {self.linespan[0]}")
+            raise ierr.InferenceError(f"type missmatch with return {self.linespan[0]}")
         f.flat_statements.append(ir.JumpToLabel("func_end"))
     else:
         e = self.expr.te_visit(tc, f)
 
         if f.types[e] != f.types["return"]:
-            raise ierr.InferenceError("type missmatch with return {self.linespan[0]}")
+            raise ierr.InferenceError(f"type missmatch with return {self.linespan[0]}")
 
         f.flat_statements.append(ir.StackCopy("return", e))
         f.flat_statements.append(ir.JumpToLabel("func_end"))
@@ -376,9 +377,9 @@ def _(self: sa.ReturnStatement, tc: TC,
 def _(self: sa.BreakStatement, tc: TC,
         f: ts.FunctionTypeNormal):
     if self.no <= 0:
-        raise ierr.RuntimeExpressionError("break must be >0")
+        raise ierr.RuntimeExpressionError(f"break must be >0")
     if self.no > len(f.break_label_stack):
-        raise ierr.RuntimeExpressionError("dont have enough \
+        raise ierr.RuntimeExpressionError(f"dont have enough \
                 loops to break out of")
 
     f.flat_statements.append(ir.JumpToLabel(
@@ -415,7 +416,7 @@ def _(self: sa.TypeDeclarationStatementStruct, tc: TC,
 def _(self: sa.IdExpression, tc: TC,
         f: ts.FunctionTypeNormal):
     self.lvalue = True
-    tmp = get_stack_symbolic_register(f, tc, self.name)
+    tmp = get_stack_symbolic_register(self, f, tc, self.name)
     return tmp
 
 
@@ -527,7 +528,7 @@ def _(self: sa.CallExpression, tc: TC,
     copy_bools = [t.lvalue for t in self.args]
 
     if func_call is not None:
-        ret = add_func_call(f, tc, func_call, arg_names, copy_bools, "call")
+        ret = add_func_call(self, f, tc, func_call, arg_names, copy_bools, "call")
         return ret
     else:
         struct = tc.resolve_struct(self.name, type_args_types)
@@ -537,7 +538,7 @@ def _(self: sa.CallExpression, tc: TC,
         newo_ptr = new_tmp_stack_symbolic_register(f, tc, ts.PointerType(struct), "ptr_to_newo")
         f.flat_statements.append(ir.AddressOf(newo_ptr, newo))
 
-        add_func_call(f, tc, init_call, [newo_ptr]+arg_names, [False]+copy_bools, "init_call")
+        add_func_call(self, f, tc, init_call, [newo_ptr]+arg_names, [False]+copy_bools, "init_call")
 
         st.needs_gen = True
         return reg
@@ -571,14 +572,16 @@ def _(self: sa.TypeAngleExpression, tc: TC,
 
     if self.name == "enable_if":
         if len(self.expr_list) != 1:
-            raise ierr.TypeExpressionError("Enable_if has to have 1 expression only")
+            raise ierr.TypeExpressionError(f"Enable_if has to have 1 expression only")
         else:
+            print("UP tO HERE ONLY")
             try:
-                texpr = self.expr_list[0].te_visit(tc,cf)
-            except:
-                raise ierr.ChoiceSkipError("Failed enable_if: error, skipping")
+                t_expr = self.expr_list[0].te_visit(tc, sf)
+            except ierr.InferenceError:
+                raise ierr.ChoiceSkipError(f"Failed enable_if: error, skipping")
+            print("UP tO HERE")
             if t_expr != ts.IntType(1):
-                raise ierr.ChoiceSkipError("Failed enable_if: expr is not true(i1), skipping")
+                raise ierr.ChoiceSkipError(f"Failed enable_if: expr is not true(i1), skipping")
             return t_expr
     else:
         texprs = [te.te_visit(tc, sf) for te in self.expr_list]
@@ -633,6 +636,6 @@ def _(self: sa.TypeIndexExpression, tc: TC,
     e = self.expr.te_visit(tc, sf)
 
     if not isinstance(e, ts.StructType):
-        raise ierr.TypeExpressionError("Type indexing expression must be done on a struct type!")
+        raise ierr.TypeExpressionError(f"Type indexing expression must be done on a struct type!")
     return e.types[self.name]
 
