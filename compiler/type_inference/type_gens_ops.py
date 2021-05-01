@@ -30,21 +30,19 @@ def gen_int_type_ops(tc, name: str,
     if argument_types[0].size != argument_types[1].size:
         return False
 
-    op_dummy_name = tc.scope_man.new_func_name(f"dummy_func_{name}")
-    ft = ts.FunctionType(name)
-    ft.is_primitive = True
-    ft.mangled_name = op_dummy_name
-    ft.types["return"] = argument_types[0] if name in [
+    dname = tc.scope_man.new_func_name(f"dummy_func_{name}")
+    retty = argument_types[0] if name in [
             '__add__','__sub__','__mul__','__div__','__mod__'
         ] else ts.BoolType()
-
-    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
-
     tc.primitives.append(prim.IntTypeOp(
-        op_dummy_name,
+        dname,
         name,
         argument_types[0].size, 
     ))
+
+    ft = ts.FunctionTypePrimitive(dname, retty)
+    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
+
     return True
 
 @add_method_to_list(func_methods)
@@ -64,43 +62,14 @@ def gen_bool_type_ops(tc, name: str,
     if not isinstance(argument_types[1], ts.BoolType):
         return False
 
-    op_dummy_name = tc.scope_man.new_func_name(f"dummy name {name}")
-
-    f = sa.FunctionDefinition(
-        f"{name}",
-        [],
-        ["a", "b"],
-        sa.TypeIdExpression("a"),
-        [
-            sa.TypeDeclarationStatementFunction("_1", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("a"), 
-                    "__eq__",
-                    sa.TypeTypeExpression(argument_types[0])
-                )]
-            )),
-            sa.TypeDeclarationStatementFunction("_2", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("b"), 
-                    "__eq__",
-                    sa.TypeTypeExpression(argument_types[1])
-                )]
-            )),
-            sa.ReturnStatement(sa.PrimitiveCallExpression(
-                op_dummy_name, 
-                [sa.IdExpression("a"), sa.IdExpression("b")],
-                argument_types[0],
-            )),
-        ]
-    )
-    f.linespan = (-1,-1)
-    f.lexspan = (-1,-1)
-    tc.func_defs.append(f)
-
-
+    dname = tc.scope_man.new_func_name(f"dummy_func_{name}")
     tc.primitives.append(prim.IntTypeOp(
-        op_dummy_name,
+        dname,
         name,
-        1, 
+        1 
     ))
+
+    ft = ts.FunctionTypePrimitive(dname, ts.BoolType())
+    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
+
     return True

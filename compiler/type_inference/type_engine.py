@@ -10,6 +10,8 @@ from .type_gens import gen_function, gen_struct
 from ..semantics_parsing import semantic_ast as sa
 from .recursive_logger import RecursiveLogger, LogTypes
 
+from . import inference_errors as ierr
+
 separator = "$"
 
 class ScopeManager:
@@ -19,10 +21,19 @@ class ScopeManager:
 
         self.var_cnt = 0
         self.tmp_var_cnt = 0
-
         self.label_cnt = 0
+
         self.func_cnt = 0
         self.struct_cnt = 0
+
+    def clear(self, no):
+        while len(self.scope_stack)>no:
+            self.scope_stack.pop()
+        while len(self.dest_stack)>no:
+            self.dest_stack.pop()
+
+    def get_size(self):
+        return len(self.scope_stack)
 
     def begin_scope(self):
         self.scope_stack.append(dict())
@@ -41,6 +52,9 @@ class ScopeManager:
     # var names
 
     def new_var_name(self, name, type_name=False):
+        if name in self.scope_stack:
+            return None
+        
         self.var_cnt += 1
         if type_name:
             res_var = f"type_var{separator}{name}{separator}{self.var_cnt}"
@@ -55,6 +69,7 @@ class ScopeManager:
         for s in reversed(self.scope_stack):
             if name in s:
                 return s[name]
+        return None
 
     def new_tmp_var_name(self, description="", type_name=False):
         self.tmp_var_cnt += 1
@@ -116,15 +131,9 @@ class TypingContext:
             tuple(type_argument_types), 
             tuple(argument_types)
         )
-        self.logger.go_in()
-        self.logger.log(f"Resolving function {desc}", 
-                LogTypes.FUNCTION_RESOLUTION)
 
         gen_function(self, name, type_argument_types, argument_types)
         if desc in self.function_type_container:
-            self.logger.log(f"[SUCC] Resolving function {desc}", 
-                    LogTypes.FUNCTION_RESOLUTION)
-            self.logger.go_out()
             return self.function_type_container[desc]
 
         candidates = []
@@ -135,26 +144,19 @@ class TypingContext:
                 len(fd.type_parameter_names) == len(type_argument_types),
                 len(fd.parameter_names) == len(argument_types),
             ]):
-                r = fd.te_visit(self, 
-                        type_argument_types, argument_types)
-                if r is not None:
+                try:
+                    r = fd.te_visit(self, 
+                            type_argument_types, argument_types)
                     candidates.append(r)
+                except ierr.ChoiceSkipError as cse:
+                    pass
         if len(candidates)==1:
             self.function_type_container[desc] = candidates[0]
-            self.logger.log(f"[SUCC] Resolving function {desc}", 
-                    LogTypes.FUNCTION_RESOLUTION)
-            self.logger.go_out()
             return candidates[0]
         elif len(candidates)==0:
-            self.logger.log(f"[FAIL] Resolving function {desc}", 
-                    LogTypes.FUNCTION_RESOLUTION)
-            self.logger.go_out()
-            return None
+            raise ierr.InferenceError(f"Can not infer function {desc} (no candidates)!")
         else:
-            self.logger.log(f"[FAIL] Resolving function with too much {desc}", 
-                    LogTypes.FUNCTION_RESOLUTION)
-            self.logger.go_out()
-            return None
+            raise ierr.InferenceError(f"Can not infer function {desc} (too many candidates)!")
 
 
     def resolve_struct(self, name: str,
@@ -165,16 +167,11 @@ class TypingContext:
             name, 
             tuple(type_argument_types), 
         )
-        self.logger.go_in()
-        self.logger.log(f"Resolving struct {desc}", 
-                LogTypes.STRUCT_RESOLUTION)
 
         gen_struct(self, name, type_argument_types)
         if desc in self.struct_type_container:
-            self.logger.log(f"[SUCC] Resolving struct {desc}", 
-                    LogTypes.STRUCT_RESOLUTION)
-            self.logger.go_out()
             return self.struct_type_container[desc]
+
         candidates = []
         for sd in self.struct_defs:
             sd: sa.StructDefinition
@@ -182,22 +179,15 @@ class TypingContext:
                 sd.name == name,
                 len(sd.type_parameter_names) == len(type_argument_types),
             ]):
-                r = sd.te_visit(self, type_argument_types)
-                if r is not None:
+                try:
+                    r = sd.te_visit(self, type_argument_types)
                     candidates.append(r)
+                except ierr.ChoiceSkipError as cse:
+                    pass
         if len(candidates)==1:
             self.struct_type_container[desc] = candidates[0]
-            self.logger.log(f"[SUCC] Resolving struct {desc}", 
-                    LogTypes.STRUCT_RESOLUTION)
-            self.logger.go_out()
             return candidates[0]
         elif len(candidates)==0:
-            self.logger.log(f"[FAIL] Resolving struct {desc}", 
-                    LogTypes.STRUCT_RESOLUTION)
-            self.logger.go_out()
-            return None
+            raise ierr.InferenceError(f"Can not infer the struct {desc} (no candidates)!")
         else:
-            self.logger.log(f"[FAIL] Resolving struct {desc}", 
-                    LogTypes.STRUCT_RESOLUTION)
-            self.logger.go_out()
-            return None
+            raise ierr.InferenceError(f"Can not infer the struct {desc} (too many candidates)!")

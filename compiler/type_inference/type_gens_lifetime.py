@@ -71,7 +71,7 @@ def gen_builtin_copy(tc, name: str,
     dname = tc.scope_man.new_func_name(f"builtin_copy")
     tc.primitives.append(prim.MemoryCopyPrimitive(
         dname,
-        pointed.mangled_name
+        ptr_dest.pointed.mangled_name
     ))
 
     ft = ts.FunctionTypePrimitive(dname, ts.VoidType())

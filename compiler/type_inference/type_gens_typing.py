@@ -124,23 +124,6 @@ def gen_int_type_ops(tc, name: str,
     return True
 
 @add_method_to_list(struct_methods)
-def gen_enable_if_type(tc, name: str,
-                 type_argument_types: List[Type],
-            ):
-    if name != 'enable_if':
-        return False
-    if len(type_argument_types) != 1:
-        return False
-    if not isinstance(type_argument_types[0], ts.IntType):
-        return False
-
-    if type_argument_types[0].size != 0:
-        tc.struct_type_container[(name, tuple(type_argument_types))] = ts.IntType(1)
-        return True
-    else:
-        return False
-
-@add_method_to_list(struct_methods)
 def gen_type_ops(tc, name: str,
                  type_argument_types: List[Type],
             ):
