@@ -138,6 +138,11 @@ class TypeDeclarationStatementStruct(StructStatement):
     name: str
     type_expr: TypeExpression
 
+@ dataclass
+class TypeReturnStatement(StructStatement):
+    "return typeexpr"
+    type_expr: TypeExpression
+
 # Value expressions
 
 @ dataclass
@@ -458,14 +463,21 @@ def _(self: pr.WhileStatement, se: SE):
 @add_method_parse_semantics(pr.ReturnStatement)
 def _(self: pr.ReturnStatement, se: SE):
     if not se.in_func:
-        raise RuntimeError("Cant use return out of func!")
-    if self.expr is None:
-        return ReturnStatement(None)
+        if self.expr is None:
+            raise RuntimeError("Type expr return can't return none!")
+        else:
+            se.add(SS.TYPE_EXPR)
+            e = self.expr.parse_semantics(se)
+            se.pop()
+            return TypeReturnStatement(e)
     else:
-        se.add(SS.VALUE_EXPR)
-        e = self.expr.parse_semantics(se)
-        se.pop()
-        return ReturnStatement(e)
+        if self.expr is None:
+            return ReturnStatement(None)
+        else:
+            se.add(SS.VALUE_EXPR)
+            e = self.expr.parse_semantics(se)
+            se.pop()
+            return ReturnStatement(e)
 
 
 @add_method_parse_semantics(pr.BreakStatement)

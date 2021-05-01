@@ -8,7 +8,7 @@ from . import type_system as ts
 from .type_gens import gen_function, gen_struct
 
 from ..semantics_parsing import semantic_ast as sa
-from .recursive_logger import RecursiveLogger, LogTypes
+from .recursive_logger import RecursiveLogger
 
 from . import inference_errors as ierr
 
@@ -106,7 +106,7 @@ class TypingContext:
         self.function_type_container: Dict[Tuple, ts.FunctionType] = dict()
         self.struct_type_container: Dict[Tuple, ts.Type] = dict()
 
-        self.logger: RecursiveLogger = RecursiveLogger()
+        self.recursive_logger: RecursiveLogger = RecursiveLogger()
         self.gen_set = set()
 
         self.primitives: List[Primitive] = []
@@ -131,10 +131,15 @@ class TypingContext:
             tuple(type_argument_types), 
             tuple(argument_types)
         )
+        self.recursive_logger.go_in()
 
         gen_function(self, name, type_argument_types, argument_types)
         if desc in self.function_type_container:
+            #self.recursive_logger.log(f"{desc} = {self.function_type_container[desc]}")
+            self.recursive_logger.go_out()
             return self.function_type_container[desc]
+
+        self.recursive_logger.log(f"{desc} ???")
 
         candidates = []
         for fd in self.func_defs:
@@ -150,12 +155,17 @@ class TypingContext:
                     candidates.append(r)
                 except ierr.ChoiceSkipError as cse:
                     pass
+
         if len(candidates)==1:
             self.function_type_container[desc] = candidates[0]
+            self.recursive_logger.log(f"{desc} -> {candidates[0]}")
+            self.recursive_logger.go_out()
             return candidates[0]
         elif len(candidates)==0:
+            self.recursive_logger.go_out()
             raise ierr.InferenceError(f"Can not infer function {desc} (no candidates)!")
         else:
+            self.recursive_logger.go_out()
             raise ierr.InferenceError(f"Can not infer function {desc} (too many candidates)!")
 
 
@@ -167,10 +177,15 @@ class TypingContext:
             name, 
             tuple(type_argument_types), 
         )
+        self.recursive_logger.go_in()
 
         gen_struct(self, name, type_argument_types)
         if desc in self.struct_type_container:
+            #self.recursive_logger.log(f"{desc} = {self.struct_type_container[desc]}")
+            self.recursive_logger.go_out()
             return self.struct_type_container[desc]
+
+        self.recursive_logger.log(f"{desc} ???")
 
         candidates = []
         for sd in self.struct_defs:
@@ -185,9 +200,13 @@ class TypingContext:
                 except ierr.ChoiceSkipError as cse:
                     pass
         if len(candidates)==1:
+            self.recursive_logger.log(f"{desc} -> {candidates[0]}")
+            self.recursive_logger.go_out()
             self.struct_type_container[desc] = candidates[0]
             return candidates[0]
         elif len(candidates)==0:
+            self.recursive_logger.go_out()
             raise ierr.InferenceError(f"Can not infer the struct {desc} (no candidates)!")
         else:
+            self.recursive_logger.go_out()
             raise ierr.InferenceError(f"Can not infer the struct {desc} (too many candidates)!")

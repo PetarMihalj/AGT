@@ -12,7 +12,7 @@ if __name__ == '__main__':
 
     tr = get_typed_program(semantics_ast)
     print("\n"*3+"LOGS")
-    tr.logger.print_logs(log_level = 2)
+    tr.logger.print_logs()
     print("\n"*3+"FUNCTIONS")
     tree_print(tr.func_types)
     print("\n"*3+"STRUCTS")

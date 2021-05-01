@@ -5,7 +5,6 @@ from ..helpers import add_method_te_visit
 from ..semantics_parsing import semantic_ast as sa
 
 from .type_engine import TypingContext as TC
-from .type_engine import LogTypes 
 
 from . import type_system as ts
 from . import inference_errors as ierr
@@ -180,8 +179,14 @@ def _(self: sa.StructDefinition, tc: TC,
     for stat in self.statement_list:
         stat.te_visit(tc, s)
 
-    s.mangled_name = tc.scope_man.new_struct_name(self.name)
-    return s
+    if s.return_type is not None and len(s.members)>0:
+        raise ierr.InferenceError(f"Can't have both return types and members in a struct, at {self.linespan[0]}") from e
+
+    if s.return_type is not None:
+        return s.return_type
+    else:
+        s.mangled_name = tc.scope_man.new_struct_name(self.name)
+        return s
 
 
 # function statements
@@ -393,6 +398,8 @@ def _(self: sa.BreakStatement, tc: TC,
 @add_method_te_visit(sa.MemberDeclarationStatement)
 def _(self: sa.MemberDeclarationStatement, tc: TC,
         s: ts.StructType):
+    if s.return_type is not None:
+        raise ierr.TypeExpressionError(f"statement after return in struct, at {self.linespan[0]}")
     t = self.type_expr.te_visit(tc, s)
     if self.name in s.types:
         raise ierr.TypeExpressionError(f"redefinition of name {self.name}")
@@ -400,10 +407,20 @@ def _(self: sa.MemberDeclarationStatement, tc: TC,
     s.types[self.name] = t
     s.members.append(self.name)
 
+@add_method_te_visit(sa.TypeReturnStatement)
+def _(self: sa.TypeReturnStatement, tc: TC,
+        s: ts.StructType):
+    t = self.type_expr.te_visit(tc, s)
+    if s.return_type is not None:
+        raise ierr.TypeExpressionError(f"multiple returns in struct, at {self.linespan[0]}")
+    s.return_type = t
+
 
 @add_method_te_visit(sa.TypeDeclarationStatementStruct)
 def _(self: sa.TypeDeclarationStatementStruct, tc: TC,
         s: ts.StructType):
+    if s.return_type is not None:
+        raise ierr.TypeExpressionError(f"statement after return in struct, at {self.linespan[0]}")
     t = self.type_expr.te_visit(tc, s)
     if self.name in s.types:
         raise ierr.TypeExpressionError(f"redefinition of name {self.name}")
@@ -574,12 +591,10 @@ def _(self: sa.TypeAngleExpression, tc: TC,
         if len(self.expr_list) != 1:
             raise ierr.TypeExpressionError(f"Enable_if has to have 1 expression only")
         else:
-            print("UP tO HERE ONLY")
             try:
                 t_expr = self.expr_list[0].te_visit(tc, sf)
             except ierr.InferenceError:
                 raise ierr.ChoiceSkipError(f"Failed enable_if: error, skipping")
-            print("UP tO HERE")
             if t_expr != ts.IntType(1):
                 raise ierr.ChoiceSkipError(f"Failed enable_if: expr is not true(i1), skipping")
             return t_expr

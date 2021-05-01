@@ -62,6 +62,7 @@ class StructType(Type):
 
         self.types: Dict[str, Type] = {}
         self.members: List[str] = []
+        self.return_type: Type = None
 
         self.needs_gen: bool = False
 

@@ -20,7 +20,7 @@ def get_typed_program(semantics_ast):
             dict([(k,v) for k,v in tc.function_type_container.items() if isinstance(v, type_system.FunctionTypeNormal)]), 
             tc.struct_type_container, 
             tc.primitives,
-            tc.logger)
+            tc.recursive_logger)
 
 
 

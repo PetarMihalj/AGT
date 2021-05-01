@@ -1,1 +1,72 @@
-param_placeholdervar$n$1
+; ModuleID = 'cprog.c'
+source_filename = "cprog.c"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-pc-linux-gnu"
+
+; Structs
+
+
+; Primitives
+
+%i8 = type i8
+%i16 = type i16
+%i32 = type i32
+%i64 = type i64
+%bool = type i1
+
+; Funcs
+
+define dso_local %i32 @func$main$1 () {
+	; func setup done
+	%return = alloca %i32
+	%tmp_varcall$3 = alloca %i32
+	%t_1 = call %i32 @func$ct_fib$2()
+	store %i32 %t_1, %i32* %tmp_varcall$3
+	%var$v$1 = alloca %i32
+	%t_2 = load %i32, %i32* %tmp_varcall$3
+	store %i32 %t_2, %i32* %var$v$1
+	%t_3 = load %i32, %i32* %var$v$1
+	store %i32 %t_3, %i32* %return
+	br label %func_end
+	br label %func_end
+	func_end:
+	%t_4 = load %i32, %i32* %return
+	ret %i32 %t_4
+}
+define dso_local %i32 @func$ct_fib$2 () {
+	; func setup done
+	%return = alloca %i32
+	%tmp_varcall$2 = alloca %i32
+	%t_1 = call %i32 @func$type_to_value$3()
+	store %i32 %t_1, %i32* %tmp_varcall$2
+	%var$value$4 = alloca %i32
+	%t_2 = load %i32, %i32* %tmp_varcall$2
+	store %i32 %t_2, %i32* %var$value$4
+	%t_3 = load %i32, %i32* %var$value$4
+	store %i32 %t_3, %i32* %return
+	br label %func_end
+	br label %func_end
+	func_end:
+	%t_4 = load %i32, %i32* %return
+	ret %i32 %t_4
+}
+define dso_local %i32 @func$type_to_value$3 () {
+	; func setup done
+	%return = alloca %i32
+	%tmp_varint_lit$1 = alloca %i32
+	store %i32 55, %i32* %tmp_varint_lit$1
+	%t_1 = load %i32, %i32* %tmp_varint_lit$1
+	store %i32 %t_1, %i32* %return
+	br label %func_end
+	br label %func_end
+	func_end:
+	%t_2 = load %i32, %i32* %return
+	ret %i32 %t_2
+}
+
+; Footer
+
+define dso_local i32 @main() #0 {
+	%1 = call i32 @func$main$1()
+	ret i32 %1
+}

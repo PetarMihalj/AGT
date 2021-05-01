@@ -201,14 +201,14 @@ class FunctionCall:
     dest: str
     fn_to_call_mn: str
     fn_to_call_retty_mn: str
-    arguments_names: List[str]
+    argument_names: List[str]
 
     def get_code(self, f: FunctionType):
-        tmps = [f.new_tmp() for an in self.arguments_names]
+        tmps = [f.new_tmp() for an in self.argument_names]
         types = [f.types[an].mangled_name for an in self.argument_names]
 
         derefs = [f"\t%{tmp} = load %{ty}, %{ty}* %{an}" 
-            for an,tmp,ty in zip(self.argument_names, self.tmps, self.types)]
+            for an,tmp,ty in zip(self.argument_names, tmps, types)]
 
         args_str = ", ".join([f"%{ty} %{tmp}" for tmp,ty in zip(tmps,types)])
 

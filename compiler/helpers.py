@@ -44,12 +44,7 @@ def add_method_te_visit(cls):
     def go(func):
         def wrapper(self, *vargs, **kwargs):
             from .type_inference.type_engine import TypingContext
-            from .type_inference.recursive_logger import LogTypes
             tc: TypingContext = vargs[0]
-            if hasattr(self,"linespan"):
-                tc.logger.log(f"Visiting {type(self).__name__} at span: {self.linespan}", LogTypes.VISITING)
-            else:
-                tc.logger.log(f"Visiting {type(self).__name__}", LogTypes.VISITING)
 
             a = func(self, *vargs, **kwargs)
             if hasattr(a, "__dict__") and hasattr(self, "linespan"):
