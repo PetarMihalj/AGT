@@ -55,33 +55,51 @@ def add_func_call(sa_node, f: ts.FunctionTypeNormal, tc: TC,
         if not args_lvalues[i] or f.do_not_copy_args:
             copied_args_names.append(args_names[i])
         else:
-            tmp = new_tmp_stack_symbolic_register(f, tc, types[i], args_names[i]+"_copy")
-            fn_copy = tc.resolve_function("__copy__", [], [ts.PointerType(types[i])]*2)
-            add_func_call(
-                    sa_node,
-                    f, 
-                    tc, 
-                    fn_copy, 
-                    [tmp, args_names[i]], 
-                    [False, False], 
-                    "copy_call"
-            )
-            copied_args_names.append(tmp)
+            copy_reg = new_tmp_stack_symbolic_register(f, tc, types[i], args_names[i]+"_copy")
+            add_copy(sa_node, f, tc, copy_reg, args_names[i])
+            copied_args_names.append(copy_reg)
 
     f.flat_statements.append(ir.FunctionCall(ret_reg, fn_to_call.mangled_name, retty.mangled_name, copied_args_names))
             
     return ret_reg
 
 def add_dest(sa_node, f: ts.FunctionTypeNormal, tc, name: str):
+    """
+    Expects a stack symbolic registers with type s.
+    """
+    ptr_name = new_tmp_stack_symbolic_register(f, tc, ts.PointerType(f.types[name]), name+"_destptr")
+    f.flat_statements.append(ir.AddressOf(ptr_name, name))
+
     fn_dest = tc.resolve_function("__dest__", [], [ts.PointerType(f.types[name])])
     add_func_call(
             sa_node,
             f, 
             tc, 
             fn_dest, 
-            [name], 
+            [ptr_name], 
             [False], 
             "dest_call"
+    )
+
+def add_copy(sa_node, f: ts.FunctionTypeNormal, tc, dst: str, src: str):
+    """
+    Expects two stack symbolic registers with type s.
+    """
+    ptr_src = new_tmp_stack_symbolic_register(f, tc, ts.PointerType(f.types[src]), src+"_srcptr")
+    ptr_dst = new_tmp_stack_symbolic_register(f, tc, ts.PointerType(f.types[dst]), dst+"_dstptr")
+
+    f.flat_statements.append(ir.AddressOf(ptr_src, src))
+    f.flat_statements.append(ir.AddressOf(ptr_dst, dst))
+
+    fn_copy = tc.resolve_function("__copy__", [], [ts.PointerType(f.types[dst]), ts.PointerType(f.types[src])])
+    add_func_call(
+            sa_node,
+            f, 
+            tc, 
+            fn_copy, 
+            [ptr_dst, ptr_src], 
+            [False, False], 
+            "copy_call"
     )
 
 # structural
@@ -126,7 +144,7 @@ def _(self: sa.FunctionDefinition, tc: TC,
 
         # params
         for name, t in zip(self.parameter_names, args_types):
-            n = new_stack_symbolic_register(f, tc, t, name)
+            n = new_stack_symbolic_register(self, f, tc, t, name)
 
             pp = "param_placeholder"+n
             f.parameter_names_ordered.append(pp)
@@ -207,7 +225,7 @@ def _(self: sa.BlockStatement, tc: TC,
 def _(self: sa.ExpressionStatement, tc: TC,
         f: ts.FunctionTypeNormal):
     e = self.expr.te_visit(tc, f)
-    if not self.expr.lvalue:
+    if e is not None and not self.expr.lvalue:
         add_dest(self, f, tc, e)
 
 
@@ -244,13 +262,11 @@ def _(self: sa.AssignmentStatement, tc: TC,
 @add_method_te_visit(sa.InitStatement)
 def _(self: sa.InitStatement, tc: TC,
         f: ts.FunctionTypeNormal):
-    mn = tc.scope_man.new_var_name(self.name)
+    e = self.expr.te_visit(tc, f)
+
+    mn = new_stack_symbolic_register(self, f, tc, f.types[e], self.name)
     tc.scope_man.add_to_dest(mn)
 
-    e = self.expr.te_visit(tc, f)
-    f.types[mn] = f.types[e]
-
-    f.flat_statements.append(ir.StackAllocate(mn))
 
     if self.expr.lvalue:
         add_copy(self, f, tc, mn, e)

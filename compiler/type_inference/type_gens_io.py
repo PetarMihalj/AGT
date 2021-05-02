@@ -19,40 +19,23 @@ def gen_in_int32(tc, name: str,
     if len(type_argument_types) != 1: return False
 
     type_arg = type_argument_types[0]
-    if type_arg != ts.IntType(32):
+
+    if not isinstance(type_arg,ts.IntType):
         return False
+    size = type_arg.size
 
-    dummy_name = tc.scope_man.new_func_name("in i32 dummy")
+    dname = tc.scope_man.new_func_name(f"in_i{size}_dummy")
+    tc.primitives.append(prim.InIntPrimitive(
+        dname,
+        size
+    ))
 
-    f = sa.FunctionDefinition(
-        "in",
-        ['type_arg'],
-        [],
-        sa.TypeIdExpression("type_arg"),
-        [
-            sa.TypeDeclarationStatementFunction("_1", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("type_arg"), 
-                    "__eq__",
-                    sa.TypeTypeExpression(type_arg)
-                )]
-            )),
-            sa.ReturnStatement(sa.PrimitiveCallExpression(
-                dummy_name, 
-                [],
-                type_arg
-            )),
-        ]
-    )
-    f.linespan = (-1,-1)
-    f.lexspan = (-1,-1)
-    tc.func_defs.append(f)
-
-    tc.primitives.append(prim.InInt32Primitive(dummy_name))
+    ft = ts.FunctionTypePrimitive(dname, ts.IntType(size))
+    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
     return True
 
 @add_method_to_list(func_methods)
-def gen_out_i32(tc, name: str,
+def gen_out_int(tc, name: str,
                  type_argument_types: List[Type],
                  argument_types: List[Type],
             ):
@@ -61,35 +44,17 @@ def gen_out_i32(tc, name: str,
     if len(type_argument_types) != 0: return False
 
     type_arg = argument_types[0]
-    if type_arg != ts.IntType(32):
+    if not isinstance(type_arg,ts.IntType):
         return False
+    size = type_arg.size
 
-    dummy_name = tc.scope_man.new_func_name("out i32 dummy")
+    dname = tc.scope_man.new_func_name(f"out_i{size}_dummy")
+    tc.primitives.append(prim.OutIntPrimitive(
+        dname,
+        size
+    ))
 
-    f = sa.FunctionDefinition(
-        "out",
-        [],
-        ['type_arg'],
-        sa.TypeIdExpression("void"),
-        [
-            sa.TypeDeclarationStatementFunction("_1", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("type_arg"), 
-                    "__eq__",
-                    sa.TypeTypeExpression(type_arg)
-                )]
-            )),
-            sa.ExpressionStatement(sa.PrimitiveCallExpression(
-                dummy_name, 
-                [sa.IdExpression("type_arg")],
-                ts.VoidType()
-            )),
-        ]
-    )
-    f.linespan = (-1,-1)
-    f.lexspan = (-1,-1)
-    tc.func_defs.append(f)
-
-    tc.primitives.append(prim.OutInt32Primitive(dummy_name))
+    ft = ts.FunctionTypePrimitive(dname, ts.VoidType())
+    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
     return True
 

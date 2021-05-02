@@ -31,6 +31,14 @@ class CodeGenerator:
             "source_filename = \"cprog.c\"",
             "target datalayout = \"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128\"",
             "target triple = \"x86_64-pc-linux-gnu\"",
+            "",
+            "; Function Attrs: nofree nounwind",
+            "declare i32 @printf(i8* nocapture readonly, ...) local_unnamed_addr #1",
+            "",
+            "; Function Attrs: nofree nounwind",
+            "declare i32 @__isoc99_scanf(i8* nocapture readonly, ...) local_unnamed_addr #2",
+            ""
+            "@.inout_int_str = private unnamed_addr constant [5 x i8] c\"%lld\\00\", align 1",
         ]
 
     def add_footer(self):

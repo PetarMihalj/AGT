@@ -93,16 +93,37 @@ class CastPrimitive(Primitive):
         return []
 
 @dataclass
-class InInt32Primitive(Primitive):
+class InIntPrimitive(Primitive):
     mangled_name: str
+    size: int
     def get_code(self, tr: TypingResult):
-        return []
+        return [
+            f"; Function Attrs: nounwind sspstrong uwtable",
+            f"define dso_local i{self.size} @{self.mangled_name}() local_unnamed_addr #0 {{",
+            f"  %1 = alloca i64, align 8",
+            f"  %2 = bitcast i64* %1 to i8*",
+            #f"  call void @llvm.lifetime.start.p0i8(i64 8, i8* nonnull %2) #3",
+            f"  %3 = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.inout_int_str, i64 0, i64 0), i64* nonnull %1)",
+            f"  %4 = load i64, i64* %1, align 8",
+            f"  %5 = trunc i64 %4 to i{self.size}",
+            #f"  call void @llvm.lifetime.end.p0i8(i64 8, i8* nonnull %2) #3",
+            f"  ret i{self.size} %5",
+            f"}}",
+        ]
 
 @dataclass
-class OutInt32Primitive(Primitive):
+class OutIntPrimitive(Primitive):
     mangled_name: str
+    size: int
     def get_code(self, tr: TypingResult):
-        return []
+        return [
+            f"; Function Attrs: nofree nounwind sspstrong uwtable",
+            f"define dso_local void @{self.mangled_name}(i{self.size} %0) local_unnamed_addr #0 {{",
+            f"  %2 = sext i{self.size} %0 to i64",
+            f"  %3 = tail call i32 (i8*, ...) @printf(i8* nonnull dereferenceable(1) getelementptr inbounds ([5 x i8], [5 x i8]* @.inout_int_str, i64 0, i64 0), i64 %2)",
+            f"  ret void",
+            f"}}",
+        ]
 
 @dataclass
 class IntTypeOp(Primitive):
