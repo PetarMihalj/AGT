@@ -93,7 +93,7 @@ class CastPrimitive(Primitive):
         return []
 
 @dataclass
-class InIntPrimitive(Primitive):
+class InIntBoolPrimitive(Primitive):
     mangled_name: str
     size: int
     def get_code(self, tr: TypingResult):
@@ -103,7 +103,7 @@ class InIntPrimitive(Primitive):
             f"  %1 = alloca i64, align 8",
             f"  %2 = bitcast i64* %1 to i8*",
             #f"  call void @llvm.lifetime.start.p0i8(i64 8, i8* nonnull %2) #3",
-            f"  %3 = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.inout_int_str, i64 0, i64 0), i64* nonnull %1)",
+            f"  %3 = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.in_int_str, i64 0, i64 0), i64* nonnull %1)",
             f"  %4 = load i64, i64* %1, align 8",
             f"  %5 = trunc i64 %4 to i{self.size}",
             #f"  call void @llvm.lifetime.end.p0i8(i64 8, i8* nonnull %2) #3",
@@ -112,7 +112,7 @@ class InIntPrimitive(Primitive):
         ]
 
 @dataclass
-class OutIntPrimitive(Primitive):
+class OutIntBoolPrimitive(Primitive):
     mangled_name: str
     size: int
     def get_code(self, tr: TypingResult):
@@ -120,7 +120,7 @@ class OutIntPrimitive(Primitive):
             f"; Function Attrs: nofree nounwind sspstrong uwtable",
             f"define dso_local void @{self.mangled_name}(i{self.size} %0) local_unnamed_addr #0 {{",
             f"  %2 = sext i{self.size} %0 to i64",
-            f"  %3 = tail call i32 (i8*, ...) @printf(i8* nonnull dereferenceable(1) getelementptr inbounds ([5 x i8], [5 x i8]* @.inout_int_str, i64 0, i64 0), i64 %2)",
+            f"  %3 = tail call i32 (i8*, ...) @printf(i8* nonnull dereferenceable(1) getelementptr inbounds ([6 x i8], [6 x i8]* @.out_int_str, i64 0, i64 0), i64 %2)",
             f"  ret void",
             f"}}",
         ]
@@ -135,7 +135,7 @@ class IntTypeOp(Primitive):
         def arithmetic(opname):
             return [
                 f"define dso_local i{self.size} @{self.mangled_name}(i{self.size} %0, i{self.size} %1) {{",
-                f"  %3 = {opname} nsw i{self.size} %1, %0",
+                f"  %3 = {opname} nsw i{self.size} %0, %1",
                 f"  ret i{self.size} %3",
                 f"}}",
             ]

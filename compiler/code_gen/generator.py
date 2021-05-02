@@ -38,7 +38,8 @@ class CodeGenerator:
             "; Function Attrs: nofree nounwind",
             "declare i32 @__isoc99_scanf(i8* nocapture readonly, ...) local_unnamed_addr #2",
             ""
-            "@.inout_int_str = private unnamed_addr constant [5 x i8] c\"%lld\\00\", align 1",
+            "@.in_int_str = private unnamed_addr constant [5 x i8] c\"%lld\\00\", align 1",
+            "@.out_int_str = private unnamed_addr constant [6 x i8] c\"%lld\\0A\\00\", align 1",
         ]
 
     def add_footer(self):

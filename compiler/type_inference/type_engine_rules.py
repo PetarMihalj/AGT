@@ -318,6 +318,7 @@ def _(self: sa.ForStatement, tc: TC,
 
     self.stat_init.te_visit(tc, f)
 
+    f.flat_statements.append(ir.JumpToLabel(lfcheck))
     f.flat_statements.append(ir.Label(lfcheck))
 
     ec = self.expr_check.te_visit(tc, f)
@@ -330,10 +331,13 @@ def _(self: sa.ForStatement, tc: TC,
     for s in self.statement_list:
         s.te_visit(tc, f)
 
+    f.flat_statements.append(ir.JumpToLabel(lfchange))
     f.flat_statements.append(ir.Label(lfchange))
     self.stat_change.te_visit(tc, f)
 
     f.flat_statements.append(ir.JumpToLabel(lfcheck))
+
+    f.flat_statements.append(ir.Label(lfe))
     if not self.expr_check.lvalue:
         add_dest(self, f, tc, ec)
 
@@ -360,7 +364,7 @@ def _(self: sa.IfElseStatement, tc: TC,
 
     f.flat_statements.append(ir.JumpToLabelConditional(ec, iftrue, iffalse))
     f.flat_statements.append(ir.Label(iftrue))
-    for s in self.statement_list_false:
+    for s in self.statement_list_true:
         s.te_visit(tc, f)
     f.flat_statements.append(ir.JumpToLabel(ifend))
 

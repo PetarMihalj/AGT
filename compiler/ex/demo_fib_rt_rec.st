@@ -10,6 +10,8 @@ fn fib(n) -> i32{
 }
 
 fn main() -> i32{
-    let v = fib(7);
-    return v;
+    let n = in<i32>();
+    let f = fib(n);
+    out(f);
+    return 0;
 }

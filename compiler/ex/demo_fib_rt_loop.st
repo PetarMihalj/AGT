@@ -1,29 +1,20 @@
-//
-// compile time computation example
-//
+fn fib(n) -> i32{
+    type _1 = enable_if<n==i32>;
+    let f1 = 1;
+    let f2 = 1;
+    let fb = 0;
 
-struct fib<T>{
-    type _1 = enable_if<T == i1>;
-    return i1;
-}
-struct fib<T>{
-    type _1 = enable_if<T == i2>;
-    return i1;
-}
-
-struct fib<T>{
-    type _1 = enable_if<T != i1>;
-    type _2 = enable_if<T != i2>;
-    return fib<T-i1>+fib<T-i2>;
-}
-
-fn ct_fib<T>() -> i32{
-    type f = fib<T>;
-    let value = type_to_value<f, i32>();
-    return value;
+    for (n=n-1;n>!0; n=n-1;){
+        fb = f2;
+        f2 = f1 + f2;
+        f1 = fb;
+    }
+    return f1;
 }
 
 fn main() -> i32{
-    let v = ct_fib<i10>();
-    return v;
+    let n = in<i32>();
+    let f = fib(n);
+    out(f);
+    return 0;
 }

@@ -202,8 +202,8 @@ class CallExpression(ValueExpression):
 ops_mapping = {
         '==': '__eq__',
         '!=': '__ne__',
-        '>' : '__gt__',
-        '<' : '__lt__',
+        '>!' : '__gt__',
+        '<!' : '__lt__',
         '<=': '__le__',
         '>=': '__ge__',
 

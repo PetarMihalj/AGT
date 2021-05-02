@@ -10,7 +10,7 @@ from ..semantics_parsing import semantic_ast as sa
 from .type_gens import func_methods, struct_methods
 
 @add_method_to_list(func_methods)
-def gen_in_int32(tc, name: str,
+def gen_in_intbool(tc, name: str,
                  type_argument_types: List[Type],
                  argument_types: List[Type],
             ):
@@ -19,13 +19,15 @@ def gen_in_int32(tc, name: str,
     if len(type_argument_types) != 1: return False
 
     type_arg = type_argument_types[0]
-
-    if not isinstance(type_arg,ts.IntType):
+    if isinstance(type_arg,ts.IntType):
+        size = type_arg.size
+    elif isinstance(type_arg, ts.BoolType):
+        size = 1
+    else:
         return False
-    size = type_arg.size
 
     dname = tc.scope_man.new_func_name(f"in_i{size}_dummy")
-    tc.primitives.append(prim.InIntPrimitive(
+    tc.primitives.append(prim.InIntBoolPrimitive(
         dname,
         size
     ))
@@ -35,7 +37,7 @@ def gen_in_int32(tc, name: str,
     return True
 
 @add_method_to_list(func_methods)
-def gen_out_int(tc, name: str,
+def gen_out_intbool(tc, name: str,
                  type_argument_types: List[Type],
                  argument_types: List[Type],
             ):
@@ -44,12 +46,15 @@ def gen_out_int(tc, name: str,
     if len(type_argument_types) != 0: return False
 
     type_arg = argument_types[0]
-    if not isinstance(type_arg,ts.IntType):
+    if isinstance(type_arg,ts.IntType):
+        size = type_arg.size
+    elif isinstance(type_arg, ts.BoolType):
+        size = 1
+    else:
         return False
-    size = type_arg.size
 
     dname = tc.scope_man.new_func_name(f"out_i{size}_dummy")
-    tc.primitives.append(prim.OutIntPrimitive(
+    tc.primitives.append(prim.OutIntBoolPrimitive(
         dname,
         size
     ))

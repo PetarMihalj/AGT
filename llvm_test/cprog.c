@@ -3,13 +3,9 @@
 #include <string.h>
 
 
-int in(){
-    long long ext;
-    scanf("%lld", &ext);
-    int red = ext;
-    return red;
-}
 
 int main(){
-    int b = in();
+    int a =5;
+    printf("%d\n", a);
+    printf("%d\n", a);
 }
