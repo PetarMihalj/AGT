@@ -467,6 +467,7 @@ def _(self: sa.BracketCallExpression, tc: TC,
     ind = self.index.te_visit(tc, f)
     if ind is None: return None
     if not isinstance(f.types[ind], ts.IntType):
+        print(f.types[ind])
         raise ierr.RuntimeExpressionError(f"Can not offset with a non-int type, at {self.linespan[0]}!")
 
     self.lvalue = self.expr.lvalue
@@ -521,7 +522,7 @@ def _(self: sa.BinaryExpression, tc: TC,
     if not self.expr.lvalue:
         raise ierr.RuntimeExpressionError(f"Taking address requires a lvalue, at {self.linespan[0]}!")
 
-    tmp - new_tmp_stack_symbolic_register(f, tc, ts.PointerType(f.types[e]), "addrof")
+    tmp = new_tmp_stack_symbolic_register(f, tc, ts.PointerType(f.types[e]), "addrof")
     f.flat_statements.append(ir.AddressOf(tmp, e))
 
     return tmp

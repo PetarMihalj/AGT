@@ -14,9 +14,12 @@ class CodeGenerator:
             if not isinstance(s, ts.StructType) or not s.needs_gen:
                 continue
             s: ts.StructType
-            self.code.append(f"{s.mangled_name} = type {{")
-            for member in s.members:
-                self.code.append(f"\t{s.types[member].mangled_name}\t\t\t#{member}")
+            self.code.append(f"%{s.mangled_name} = type {{")
+            for i, member in enumerate(s.members):
+                comma = ','
+                if i==len(s.members)-1:
+                    comma=''
+                self.code.append(f"\t{s.types[member].mangled_name}{comma}\t\t\t;{member}")
             self.code.append(f"}}")
 
     def add_prims(self):
@@ -40,6 +43,12 @@ class CodeGenerator:
             ""
             "@.in_int_str = private unnamed_addr constant [5 x i8] c\"%lld\\00\", align 1",
             "@.out_int_str = private unnamed_addr constant [6 x i8] c\"%lld\\0A\\00\", align 1",
+            "",
+            "; Function Attrs: nounwind",
+            "declare noalias i8* @malloc(i64) #1",
+            "",
+            "; Function Attrs: nounwind",
+            "declare void @free(i8* nocapture) local_unnamed_addr #1",
         ]
 
     def add_footer(self):

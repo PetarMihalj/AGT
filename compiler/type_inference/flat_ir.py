@@ -53,25 +53,6 @@ class StackStore:
             f"\tstore %{s} %{self.src}, %{s}* %{self.dest}",
         ]
 
-'''
-same as deref
-@dataclass
-class StackLoad:
-    """
-    Src has to be a stack symbolic register with a value of type s.
-    Dest becomes a symbolic register of type s.
-    """
-    dest: str
-    src: str
-
-    def get_code(self, f: FunctionType):
-        s = f.types[self.src].mangled_name
-        return [
-            f"\t%{self.dest} = load %{s}, %{s}* %{self.src}",
-        ]
-'''
-
-
 # functional
 
 
@@ -111,15 +92,14 @@ class AddressOf:
 class GetPointerOffset:
     """
     Src has to be a stack symbolic register with a value of type PointerType(s)
-    offset_src has to be a stack symbolic register with a value of IntType(x)
-    offset_src_size is an int with value from [8,16,32,64]
+    offset_size is an int with value from [8,16,32,64]
 
     Dest has to be a stack symbolic register with a value of type PointerType(s) 
     """
     dest: str
     src: str
-    offset_src: str
-    offset_src_size: int
+    offset: str
+    offset_size: int
 
     def get_code(self, f: FunctionType):
         pointer_t = f.types[self.src].mangled_name
@@ -132,13 +112,13 @@ class GetPointerOffset:
         tmp_newptr = f.new_tmp()
 
         return [
-            f"%{tmp_val} = load i{offset_src_size}, i{offset_src_size}* %{offset_src}"
-            f"%{tmp_ext_val} = sext i{offset_src_size} %{tmp_val} to i64",
+            f"%{tmp_val} = load i{self.offset_size}, i{self.offset_size}* %{self.offset}",
+            f"%{tmp_ext_val} = sext i{self.offset_size} %{tmp_val} to i64",
 
-            f"%{tmp_ptr} = load %{pointer_t}, %{pointer_t}* %{src}",
+            f"%{tmp_ptr} = load %{pointer_t}, %{pointer_t}* %{self.src}",
             f"%{tmp_newptr} = getelementptr inbounds %{inside_t}, %{pointer_t} %{tmp_ptr}, i64 %{tmp_ext_val}",
 
-            f"store %{pointer_t} %{tmp_newptr}, %{pointer_t}* {dest}",
+            f"store %{pointer_t} %{tmp_newptr}, %{pointer_t}* %{self.dest}",
         ]
 
 @dataclass
@@ -154,10 +134,10 @@ class GetElementPtr:
 
     def get_code(self, f: FunctionType):
         s = f.types[self.src].mangled_name
-        ind = f.types[self.src].members.index(element_name)
+        ind = f.types[self.src].members.index(self.element_name)
 
         return [
-            f"%{dest} = getelementptr inbounds %{s}, %{s}* %{self.src}, i32 0, i32 {ind}"
+            f"%{self.dest} = getelementptr inbounds %{s}, %{s}* %{self.src}, i32 0, i32 {ind}"
         ]
 
 @dataclass

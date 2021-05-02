@@ -580,7 +580,7 @@ def _(self: pr.BracketCallExpression, se: SE):
     if se.top() != SS.VALUE_EXPR:
         raise RuntimeError("Bracket call not available in typeexpr")
     e1 = self.expr1.parse_semantics(se)
-    e2 = self.expr1.parse_semantics(se)
+    e2 = self.expr2.parse_semantics(se)
     return BracketCallExpression(e1, e2)
 
 

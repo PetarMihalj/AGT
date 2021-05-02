@@ -160,6 +160,7 @@ def gen_init_struct(tc, name: str,
     f.linespan = (-1,-1)
     f.lexspan = (-1,-1)
     tc.func_defs.append(f)
+    pointed.needs_gen = True
     return True
 
 @add_method_to_list(func_methods)

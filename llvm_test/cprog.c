@@ -3,14 +3,12 @@
 #include <string.h>
 
 
-int cast(long long b){
-    return b;
-}
-
-long long castup(int b){
-    return b;
+void fr(int* a){
+    free(a);
 }
 
 int main(){
-    int a = 5;
+    int* a = malloc(sizeof(int)*5);
+    int* b = 0;
+    fr(a);
 }
