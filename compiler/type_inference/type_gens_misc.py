@@ -25,42 +25,17 @@ def gen_cast(tc, name: str,
     if type_target not in allowed or type_source not in allowed:
         return False
 
-    cast_dummy_name = tc.scope_man.new_func_name("cast alloc dummy")
+    size_target = type_target.size if isinstance(type_target, ts.IntType) else 1
+    size_source = type_source.size if isinstance(type_source, ts.IntType) else 1
 
-    f = sa.FunctionDefinition(
-        "cast",
-        ['target'],
-        ['source'],
-        sa.TypeIdExpression("target"),
-        [
-            sa.TypeDeclarationStatementFunction("_1", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("target"), 
-                    "__eq__",
-                    sa.TypeTypeExpression(type_target)
-                )]
-            )),
-            sa.TypeDeclarationStatementFunction("_2", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("source"), 
-                    "__eq__",
-                    sa.TypeTypeExpression(type_source)
-                )]
-            )),
-            sa.ReturnStatement(sa.PrimitiveCallExpression(
-                cast_dummy_name, 
-                [sa.IdExpression("source")],
-                type_target
-            )),
-        ]
-    )
-    f.linespan = (-1,-1)
-    f.lexspan = (-1,-1)
-    tc.func_defs.append(f)
-
-    tc.primitives.append(prim.CastPrimitive(
-        cast_dummy_name,
-        type_target.mangled_name,
-        type_source.mangled_name
+    dname = tc.scope_man.new_func_name(f"dummy_cast_{size_source}_to_{size_target}")
+    tc.primitives.append(prim.CastIntBoolPrimitive(
+        dname,
+        size_target,
+        size_source,
     ))
+
+    ft = ts.FunctionTypePrimitive(dname, type_target)
+    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
+
     return True

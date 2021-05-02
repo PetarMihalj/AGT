@@ -31,8 +31,8 @@ class MemoryCopyPrimitive(Primitive):
     def get_code(self, tr: TypingResult):
         return [
             f"define dso_local void @{self.fn_mn}(%{self.type_mn}* %0, %{self.type_mn}* %1){{",
-            f"%val = load {self.type_mn}, {self.type_mn}* %1",
-            f"store {self.type_mn} %val, {self.type_mn}* %0",
+            f"%val = load %{self.type_mn}, %{self.type_mn}* %1",
+            f"store %{self.type_mn} %val, %{self.type_mn}* %0",
             f"ret void",
             f"}}",
         ]
@@ -45,7 +45,7 @@ class MemoryInitPrimitive(Primitive):
     def get_code(self, tr: TypingResult):
         return [
             f"define dso_local void @{self.fn_mn}(%{self.type_mn}* %0, %{self.type_mn} %1){{",
-            f"store {self.type_mn} %1, {self.type_mn}* %0",
+            f"store %{self.type_mn} %1, %{self.type_mn}* %0",
             f"ret void",
             f"}}",
         ]
@@ -85,12 +85,27 @@ class HeapFreePrimitive(Primitive):
         return []
 
 @dataclass
-class CastPrimitive(Primitive):
+class CastIntBoolPrimitive(Primitive):
     mangled_name: str
-    type_target_mangled_name: str
-    type_source_mangled_name: str
+    target_size: int
+    source_size: int
     def get_code(self, tr: TypingResult):
-        return []
+        if self.target_size < self.source_size:
+            return [
+                f"; Function Attrs: norecurse nounwind readnone sspstrong uwtable",
+                f"define dso_local i{self.target_size} @{self.mangled_name}(i{self.source_size} %0) local_unnamed_addr #0 {{",
+                f"  %2 = trunc i{self.source_size} %0 to i{self.target_size}",
+                f"  ret i{self.target_size} %2",
+                f"}}",
+            ]
+        else:
+            return [
+                f"; Function Attrs: norecurse nounwind readnone sspstrong uwtable",
+                f"define dso_local i{self.target_size} @{self.mangled_name}(i{self.source_size} %0) local_unnamed_addr #0 {{",
+                f"  %2 = sext i{self.source_size} %0 to i{self.target_size}",
+                f"  ret i{self.target_size} %2",
+                f"}}",
+            ]
 
 @dataclass
 class InIntBoolPrimitive(Primitive):
@@ -126,7 +141,7 @@ class OutIntBoolPrimitive(Primitive):
         ]
 
 @dataclass
-class IntTypeOp(Primitive):
+class IntTypeOpPrimitive(Primitive):
     mangled_name: str
     op: str
     size: int

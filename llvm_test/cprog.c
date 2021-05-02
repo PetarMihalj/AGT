@@ -3,9 +3,14 @@
 #include <string.h>
 
 
+int cast(long long b){
+    return b;
+}
+
+long long castup(int b){
+    return b;
+}
 
 int main(){
-    int a =5;
-    printf("%d\n", a);
-    printf("%d\n", a);
+    int a = 5;
 }

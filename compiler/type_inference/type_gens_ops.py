@@ -33,7 +33,7 @@ def gen_int_type_ops(tc, name: str,
     retty = argument_types[0] if name in [
             '__add__','__sub__','__mul__','__div__','__mod__'
         ] else ts.BoolType()
-    tc.primitives.append(prim.IntTypeOp(
+    tc.primitives.append(prim.IntTypeOpPrimitive(
         dname,
         name,
         argument_types[0].size, 
@@ -62,7 +62,7 @@ def gen_bool_type_ops(tc, name: str,
         return False
 
     dname = tc.scope_man.new_func_name(f"dummy_func_{name}")
-    tc.primitives.append(prim.IntTypeOp(
+    tc.primitives.append(prim.IntTypeOpPrimitive(
         dname,
         name,
         1 
