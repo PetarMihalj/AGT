@@ -1,5 +1,6 @@
 from typing import List
 
+from . import inference_errors as ierr
 from . import primitives as prim
 from .type_system import Type
 from ..helpers import add_method_to_list
@@ -14,55 +15,37 @@ def gen_type_to_value(tc, name: str,
                          type_argument_types: List[Type],
                          argument_types: List[Type],
             ):
-    if name != "type_to_value": return False
-    if len(argument_types)>0: return False
+    if name != "type_to_value": raise ierr.TypeGenError()
+    if len(argument_types)>0: raise ierr.TypeGenError()
 
-    if len(type_argument_types) != 2: return False
+    if len(type_argument_types) != 2: raise ierr.TypeGenError()
 
-    if not isinstance(type_argument_types[0], ts.IntType): return False
-    if not isinstance(type_argument_types[1], ts.IntType): return False
+    if not isinstance(type_argument_types[0], ts.IntType): raise ierr.TypeGenError()
+    if not isinstance(type_argument_types[1], ts.IntType): raise ierr.TypeGenError()
     val = type_argument_types[0].size
     size = type_argument_types[1].size
 
+    dname = tc.scope_man.new_func_name(f"dummy_ttv_{val}i{size}")
+    tc.primitives.append(prim.TypeToValuePrimitive(
+        dname,
+        val,
+        size,
+    ))
 
-    f = sa.FunctionDefinition(
-        "type_to_value",
-        ["val", "size"],
-        [],
-        sa.TypeIdExpression(f"i{size}"),
-        [
-            sa.TypeDeclarationStatementFunction("_1", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("val"), 
-                    "__eq__",
-                    sa.TypeIdExpression(f"i{val}")
-                )]
-            )),
-            sa.TypeDeclarationStatementFunction("_2", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("size"), 
-                    "__eq__",
-                    sa.TypeIdExpression(f"i{size}")
-                )]
-            )),
-            sa.ReturnStatement(sa.IntLiteralExpression(val, size))
-        ]
-    )
-    f.linespan = (-1,-1)
-    f.lexspan = (-1,-1)
-    tc.func_defs.append(f)
-    return True
+    ft = ts.FunctionTypePrimitive(dname, ts.IntType(size))
+    return ft
 
 
 @add_method_to_list(struct_methods)
 def gen_void_type(tc, name: str,
                  type_argument_types: List[Type],
             ):
-    if name == "void" and len(type_argument_types)==0:
-        tc.struct_type_container[(name, tuple(type_argument_types))] = ts.VoidType()
-        return True
-    else:
-        return False
+    if name != "void": 
+        raise ierr.TypeGenError()
+    if len(type_argument_types)!=0:
+        raise ierr.TypeGenError()
+
+    return ts.VoidType()
 
 
 @add_method_to_list(struct_methods)
@@ -70,74 +53,70 @@ def gen_int_type(tc, name: str,
                  type_argument_types: List[Type],
             ):
     if len(name)==0:
-        return False
+        raise ierr.TypeGenError()
     if len(type_argument_types)!=0:
-        return False
+        raise ierr.TypeGenError()
     if name[0] != 'i':
-        return False
+        raise ierr.TypeGenError()
     
     try:
-        val = int(name[1:])
+        size = int(name[1:])
     except:
-        return False
+        raise ierr.TypeGenError()
 
-    tc.struct_type_container[(name, tuple(type_argument_types))] = ts.IntType(val)
+    return ts.IntType(size)
 
 @add_method_to_list(struct_methods)
 def gen_bool_type(tc, name: str,
                  type_argument_types: List[Type],
             ):
     if name!='bool':
-        return False
+        raise ierr.TypeGenError()
     if len(type_argument_types)!=0:
-        return False
+        raise ierr.TypeGenError()
     
-    tc.struct_type_container[(name, tuple(type_argument_types))] = ts.BoolType()
-    return True
+    return ts.BoolType()
 
 @add_method_to_list(struct_methods)
 def gen_int_type_ops(tc, name: str,
                  type_argument_types: List[Type],
             ):
     if name not in sa.ops_mapping.values():
-        return False
+        raise ierr.TypeGenError()
     if len(type_argument_types) != 2:
-        return False
+        raise ierr.TypeGenError()
     if not isinstance(type_argument_types[0], ts.IntType):
-        return False
+        raise ierr.TypeGenError()
     if not isinstance(type_argument_types[1], ts.IntType):
-        return False
+        raise ierr.TypeGenError()
 
     i1 = type_argument_types[0].size
     i2 = type_argument_types[1].size
     try:
         res = int(getattr(i1, name if name!="__div__" else "__floordiv__")(i2))
     except:
-        return False
+        raise ierr.TypeGenError()
 
-    tc.struct_type_container[(name, tuple(type_argument_types))] = ts.IntType(res)
-    return True
+    return ts.IntType(res)
 
 @add_method_to_list(struct_methods)
 def gen_type_ops(tc, name: str,
                  type_argument_types: List[Type],
             ):
     if len(type_argument_types) != 2:
-        return False
+        raise ierr.TypeGenError()
     t1 = type_argument_types[0]
     t2 = type_argument_types[1]
 
     # because there is a specialization for this already in gens
     if isinstance(type_argument_types[0], ts.IntType):
-        return False
+        raise ierr.TypeGenError()
     if isinstance(type_argument_types[1], ts.IntType):
-        return False
+        raise ierr.TypeGenError()
 
     if name=="__eq__":
-        tc.struct_type_container[(name, tuple(type_argument_types))] = ts.IntType(int(t1 == t2))
-        return True
+        return ts.IntType(int(t1 == t2))
     elif name=="__ne__":
-        tc.struct_type_container[(name, tuple(type_argument_types))] = ts.IntType(int(t1 != t2))
-        return True
+        return ts.IntType(int(t1 != t2))
     else:
-        return False
+        raise ierr.TypeGenError()

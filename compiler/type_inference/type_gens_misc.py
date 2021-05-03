@@ -1,5 +1,6 @@
 from typing import List
 
+from . import inference_errors as ierr
 from . import primitives as prim
 from .type_system import Type
 from ..helpers import add_method_to_list
@@ -14,16 +15,16 @@ def gen_cast(tc, name: str,
                  type_argument_types: List[Type],
                  argument_types: List[Type],
             ):
-    if name != "cast": return False
-    if len(argument_types)!=1: return False
-    if len(type_argument_types) != 1: return False
+    if name != "cast": raise ierr.TypeGenError()
+    if len(argument_types)!=1: raise ierr.TypeGenError()
+    if len(type_argument_types) != 1: raise ierr.TypeGenError()
 
     type_target = type_argument_types[0]
     type_source = argument_types[0]
 
     allowed = [ts.IntType(size) for size in [8,16,32,64]]+[ts.BoolType()]
     if type_target not in allowed or type_source not in allowed:
-        return False
+        raise ierr.TypeGenError()
 
     size_target = type_target.size if isinstance(type_target, ts.IntType) else 1
     size_source = type_source.size if isinstance(type_source, ts.IntType) else 1
@@ -36,6 +37,4 @@ def gen_cast(tc, name: str,
     ))
 
     ft = ts.FunctionTypePrimitive(dname, type_target)
-    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
-
-    return True
+    return ft

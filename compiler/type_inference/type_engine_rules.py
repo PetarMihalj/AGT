@@ -38,9 +38,6 @@ def get_stack_symbolic_register(sa_node, f: ts.FunctionTypeNormal, tc: TC, name:
 
 def add_func_call(sa_node, f: ts.FunctionTypeNormal, tc: TC, 
         fn_to_call: ts.FunctionType, args_names, args_lvalues, desc: str):
-    if isinstance(fn_to_call, ts.FunctionTypeDoNothing):
-        return None
-
     retty = fn_to_call.types["return"]
 
     if retty != ts.VoidType():
@@ -559,27 +556,34 @@ def _(self: sa.CallExpression, tc: TC,
     type_args_types = [t.te_visit(tc, f) for t in self.type_expr_list]
 
     arg_names = [v.te_visit(tc, f) for v in self.args]
-
     args_types = [f.types[a] for a in arg_names]
-
-    func_call = tc.resolve_function(self.name, type_args_types, args_types)
     copy_bools = [t.lvalue for t in self.args]
+
+    try:
+        func_call = tc.resolve_function(self.name, type_args_types, args_types)
+    except ierr.InferenceError as e:
+        func_call = None
 
     if func_call is not None:
         ret = add_func_call(self, f, tc, func_call, arg_names, copy_bools, "call")
         return ret
     else:
-        struct = tc.resolve_struct(self.name, type_args_types)
-        init_call = tc.resolve_function("__init__", [], [ts.PointerType(st)]+args_types)
+        try:
+            struct = tc.resolve_struct(self.name, type_args_types)
+            init_call = tc.resolve_function("__init__", [], [ts.PointerType(struct)]+args_types)
 
-        newo = new_tmp_stack_symbolic_register(f, tc, struct, "newo")
-        newo_ptr = new_tmp_stack_symbolic_register(f, tc, ts.PointerType(struct), "ptr_to_newo")
-        f.flat_statements.append(ir.AddressOf(newo_ptr, newo))
+            newo = new_tmp_stack_symbolic_register(f, tc, struct, "newo")
+            newo_ptr = new_tmp_stack_symbolic_register(f, tc, ts.PointerType(struct), "ptr_to_newo")
+            f.flat_statements.append(ir.AddressOf(newo_ptr, newo))
 
-        add_func_call(self, f, tc, init_call, [newo_ptr]+arg_names, [False]+copy_bools, "init_call")
+            add_func_call(self, f, tc, init_call, [newo_ptr]+arg_names, [False]+copy_bools, "init_call")
 
-        st.needs_gen = True
-        return reg
+            struct.needs_gen = True
+            return newo
+        except ierr.InferenceError as e:
+            raise ierr.InferenceError(f"Can not infer neither a function or an object constrution at {self.linespan[0]}") from e
+
+
 
 
 # type expressions
@@ -612,12 +616,18 @@ def _(self: sa.TypeAngleExpression, tc: TC,
         if len(self.expr_list) != 1:
             raise ierr.TypeExpressionError(f"Enable_if has to have 1 expression only")
         else:
+            t_expr = self.expr_list[0].te_visit(tc, sf)
+            if t_expr != ts.IntType(1):
+                raise ierr.ChoiceSkipError(f"Failed enable_if: expr is not true(i1), skipping at {self.linespan[0]}")
+            return t_expr
+    if self.name == "enable_if_resolve":
+        if len(self.expr_list) != 1:
+            raise ierr.TypeExpressionError(f"Enable_if_resolve has to have 1 expression only")
+        else:
             try:
                 t_expr = self.expr_list[0].te_visit(tc, sf)
-            except ierr.InferenceError:
-                raise ierr.ChoiceSkipError(f"Failed enable_if: error, skipping")
-            if t_expr != ts.IntType(1):
-                raise ierr.ChoiceSkipError(f"Failed enable_if: expr is not true(i1), skipping")
+            except ierr.InferenceError as e:
+                raise ierr.ChoiceSkipError(f"Failed enable_if_resolve: error at resolution, skipping at {self.linespan[0]}") from e
             return t_expr
     else:
         texprs = [te.te_visit(tc, sf) for te in self.expr_list]

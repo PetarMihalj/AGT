@@ -1,7 +1,16 @@
 class InferenceError(Exception):
     pass
 
+
+class TypeGenError(InferenceError):
+    """
+    This type of error is used by type generators 
+    to indicate they haven't been successful
+    """
+    pass
+
 # crashing errors
+
 
 class TypeExpressionError(InferenceError):
     pass

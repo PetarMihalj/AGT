@@ -1,5 +1,6 @@
 from typing import List
 
+from . import inference_errors as ierr
 from . import primitives as prim
 from .type_system import Type
 from ..helpers import add_method_to_list
@@ -18,20 +19,20 @@ def gen_builtin_init(tc, name: str,
                          type_argument_types: List[Type],
                          argument_types: List[Type],
             ):
-    if name != "__init__": return False
-    if len(type_argument_types)>0: return False
-    if len(argument_types) != 2: return False
+    if name != "__init__": raise ierr.TypeGenError()
+    if len(type_argument_types)>0: raise ierr.TypeGenError()
+    if len(argument_types) != 2: raise ierr.TypeGenError()
 
-    if not isinstance(argument_types[0], ts.PointerType): return False
+    if not isinstance(argument_types[0], ts.PointerType): raise ierr.TypeGenError()
     pointed = argument_types[0].pointed
     val=argument_types[1]
 
     if pointed != val:
-        return False
+        raise ierr.TypeGenError()
 
     allowed = [ts.IntType(i) for i in [8,16,32,64]] + [ts.BoolType()]
     if val not in allowed and not isinstance(val, ts.PointerType):
-        return False
+        raise ierr.TypeGenError()
 
     dname = tc.scope_man.new_func_name(f"builtin_init")
     tc.primitives.append(prim.MemoryInitPrimitive(
@@ -40,9 +41,7 @@ def gen_builtin_init(tc, name: str,
     ))
 
     ft = ts.FunctionTypePrimitive(dname, ts.VoidType())
-    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
-
-    return True
+    return ft
 
 
 @add_method_to_list(func_methods)
@@ -50,22 +49,22 @@ def gen_builtin_copy(tc, name: str,
                          type_argument_types: List[Type],
                          argument_types: List[Type],
             ):
-    if name != "__copy__": return False
-    if len(type_argument_types)>0: return False
+    if name != "__copy__": raise ierr.TypeGenError()
+    if len(type_argument_types)>0: raise ierr.TypeGenError()
 
-    if len(argument_types) != 2: return False
+    if len(argument_types) != 2: raise ierr.TypeGenError()
 
-    if not isinstance(argument_types[0], ts.PointerType): return False
-    if not isinstance(argument_types[1], ts.PointerType): return False
+    if not isinstance(argument_types[0], ts.PointerType): raise ierr.TypeGenError()
+    if not isinstance(argument_types[1], ts.PointerType): raise ierr.TypeGenError()
 
     ptr_dest = argument_types[0]
     ptr_src = argument_types[1]
     if ptr_dest != ptr_src:
-        return False
+        raise ierr.TypeGenError()
 
     allowed = [ts.IntType(i) for i in [8,16,32,64]] + [ts.BoolType()]
     if (ptr_dest.pointed not in allowed and not isinstance(ptr_dest.pointed, ts.PointerType)):
-        return False
+        raise ierr.TypeGenError()
 
     dname = tc.scope_man.new_func_name(f"builtin_copy")
     tc.primitives.append(prim.MemoryCopyPrimitive(
@@ -74,30 +73,35 @@ def gen_builtin_copy(tc, name: str,
     ))
 
     ft = ts.FunctionTypePrimitive(dname, ts.VoidType())
-    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
-    return True
+    return ft
 
 @add_method_to_list(func_methods)
 def gen_builtin_dest(tc, name: str,
                          type_argument_types: List[Type],
                          argument_types: List[Type],
             ):
-    if name != "__dest__": return False
-    if len(type_argument_types)>0: return False
+    if name != "__dest__": raise ierr.TypeGenError()
+    if len(type_argument_types)>0: raise ierr.TypeGenError()
 
-    if len(argument_types) != 1: return False
+    if len(argument_types) != 1: raise ierr.TypeGenError()
 
-    if not isinstance(argument_types[0], ts.PointerType): return False
+    if not isinstance(argument_types[0], ts.PointerType): raise ierr.TypeGenError()
 
     ptr = argument_types[0]
 
     allowed = [ts.IntType(i) for i in [8,16,32,64]] + [ts.BoolType()]
     if (ptr.pointed not in allowed and not isinstance(ptr.pointed, ts.PointerType)):
-        return False
+        raise ierr.TypeGenError()
 
-    ft = ts.FunctionTypeDoNothing()
-    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
-    return True
+    
+    dname = tc.scope_man.new_func_name(f"func_do_nothing")
+    tc.primitives.append(prim.DoNothingPrimitive(
+        dname,
+        [ptr.mangled_name]
+    ))
+
+    ft = ts.FunctionTypePrimitive(dname, ts.VoidType())
+    return ft
 
 
 # STRUCT lifetime constructs
@@ -107,173 +111,121 @@ def gen_init_struct(tc, name: str,
                          type_argument_types: List[Type],
                          argument_types: List[Type],
             ):
-    if name != "__init__": return False
-    if len(type_argument_types)>0: return False
+    if name != "__init__": raise ierr.TypeGenError()
+    if len(type_argument_types)>0: raise ierr.TypeGenError()
 
-    if len(argument_types) == 0: return False
-    if not isinstance(argument_types[0], ts.PointerType): return False
+    if len(argument_types) == 0: raise ierr.TypeGenError()
+    if not isinstance(argument_types[0], ts.PointerType): raise ierr.TypeGenError()
     pointed = argument_types[0].pointed
-    if not isinstance(pointed, ts.StructType): return False
+    if not isinstance(pointed, ts.StructType): raise ierr.TypeGenError()
     pointed: ts.StructType
 
-    if len(argument_types)-1 != len(pointed.members): return False
+    if len(argument_types)-1 != len(pointed.members): raise ierr.TypeGenError()
 
-    checks_mems = [
-        sa.TypeDeclarationStatementFunction(f"_{i}", sa.TypeAngleExpression("enable_if", 
-            [sa.TypeBinaryExpression(
-                sa.TypeIdExpression(f"_part_{i}"), 
-                "__eq__",
-                sa.TypeTypeExpression(argument_types[i])
-            )]
-        )) for i in range(1,len(argument_types))
-    ]
+    for t1, m in zip(argument_types[1:], pointed.members):
+        t2 = pointed.types[m]
+        if t1!=t2:
+            raise ierr.TypeGenError()
 
-    init_mems = [
-            sa.ExpressionStatement(sa.CallExpression("__init__", [], [
-                sa.AddressExpression(sa.MemberIndexExpression(
-                    sa.DerefExpression(sa.IdExpression("ptr")),
-                    name
-                )),
-                sa.IdExpression(f"_part_{i+1}"),
-            ]
-            )) for i,name in enumerate(pointed.members) 
-    ]
+    dname = tc.scope_man.new_func_name(f"dummy_init_struct")
+    tc.primitives.append(prim.StructInitPrimitive(
+        dname,
+        pointed.mangled_name,
+        [a.mangled_name for a in argument_types[1:]],
+    ))
 
-    f = sa.FunctionDefinition(
-        "__init__",
-        [],
-        ["ptr"]+[f"_part_{i}" for i in range(1,len(argument_types))],
-        sa.TypeIdExpression("void"),
-        [
-            sa.TypeDeclarationStatementFunction("_0", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("ptr"), 
-                    "__eq__",
-                    sa.TypeTypeExpression(argument_types[0])
-                )]
-            )),
-        ] + checks_mems + init_mems + [
-            sa.ReturnStatement(None),
-        ]
-    )
-    f.default_ignore_when_other_available = True
-    f.linespan = (-1,-1)
-    f.lexspan = (-1,-1)
-    tc.func_defs.append(f)
+    ft = ts.FunctionTypePrimitive(dname, ts.VoidType())
     pointed.needs_gen = True
-    return True
+    return ft
 
 @add_method_to_list(func_methods)
 def gen_copy_struct(tc, name: str,
                          type_argument_types: List[Type],
                          argument_types: List[Type],
             ):
-    if name != "__copy__": return False
-    if len(type_argument_types)>0: return False
+    if name != "__copy__": raise ierr.TypeGenError()
+    if len(type_argument_types)>0: raise ierr.TypeGenError()
 
-    if len(argument_types) != 2: return False
+    if len(argument_types) != 2: raise ierr.TypeGenError()
 
-    if not isinstance(argument_types[0], ts.PointerType): return False
+    if not isinstance(argument_types[0], ts.PointerType): raise ierr.TypeGenError()
     pointed1 = argument_types[0].pointed
-    if not isinstance(pointed1, ts.StructType): return False
+    if not isinstance(pointed1, ts.StructType): raise ierr.TypeGenError()
     pointed1: ts.StructType
 
-    if not isinstance(argument_types[1], ts.PointerType): return False
+    if not isinstance(argument_types[1], ts.PointerType): raise ierr.TypeGenError()
     pointed2 = argument_types[0].pointed
-    if not isinstance(pointed2, ts.StructType): return False
+    if not isinstance(pointed2, ts.StructType): raise ierr.TypeGenError()
     pointed2: ts.StructType
 
-    if pointed1 != pointed2:
-        return False
+    copy_calls_mn = []
+    member_types_mn = []
+    for m in pointed1.members:
+        t = pointed1.types[m]
+        member_types_mn.append(t.mangled_name)
+        try:
+            cf = tc.resolve_function(
+                    "__copy__",
+                    [],
+                    [ts.PointerType(t)]*2,
+            )
+            copy_calls_mn.append(cf.mangled_name)
+        except ierr.InferenceError:
+            raise ierr.TypeGenError()
 
-    copy_mems = [
-            sa.ExpressionStatement(sa.CallExpression("__copy__", [], [
-                sa.AddressExpression(sa.MemberIndexExpression(
-                    sa.DerefExpression(sa.IdExpression("ptr_dest")),
-                    name
-                )),
-                sa.AddressExpression(sa.MemberIndexExpression(
-                    sa.DerefExpression(sa.IdExpression("ptr_src")),
-                    name
-                )),
-            ]
-            )) for i,name in enumerate(pointed1.members) 
-    ]
 
-    f = sa.FunctionDefinition(
-        "__copy__",
-        [],
-        ["ptr_dest", "ptr_src"],
-        sa.TypeIdExpression("void"),
-        [
-            sa.TypeDeclarationStatementFunction("_1", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("ptr_dest"), 
-                    "__eq__",
-                    sa.TypeTypeExpression(argument_types[0])
-                )]
-            )),
-            sa.TypeDeclarationStatementFunction("_2", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("ptr_src"), 
-                    "__eq__",
-                    sa.TypeTypeExpression(argument_types[1])
-                )]
-            )),
-        ] + copy_mems + [
-            sa.ReturnStatement(None),
-        ]
-    )
-    f.default_ignore_when_other_available = True
-    f.linespan = (-1,-1)
-    f.lexspan = (-1,-1)
-    tc.func_defs.append(f)
-    return True
+    dname = tc.scope_man.new_func_name(f"dummy_copy_struct")
+    tc.primitives.append(prim.StructCopyPrimitive(
+        dname,
+        pointed1.mangled_name,
+        member_types_mn,
+        copy_calls_mn,
+    ))
+
+    ft = ts.FunctionTypePrimitive(dname, ts.VoidType())
+    pointed1.needs_gen = True
+    return ft
+
 
 @add_method_to_list(func_methods)
 def gen_dest_struct(tc, name: str,
                          type_argument_types: List[Type],
                          argument_types: List[Type],
             ):
-    if name != "__dest__": return False
-    if len(type_argument_types)>0: return False
+    if name != "__dest__": raise ierr.TypeGenError()
+    if len(type_argument_types)>0: raise ierr.TypeGenError()
 
-    if len(argument_types) != 1: return False
-    if not isinstance(argument_types[0], ts.PointerType): return False
+    if len(argument_types) != 1: raise ierr.TypeGenError()
+    if not isinstance(argument_types[0], ts.PointerType): raise ierr.TypeGenError()
     pointed = argument_types[0].pointed
-    if not isinstance(pointed, ts.StructType): return False
+    if not isinstance(pointed, ts.StructType): raise ierr.TypeGenError()
     pointed: ts.StructType
 
-    dest_mems = [
-            sa.ExpressionStatement(sa.CallExpression("__dest__", [], [
-                sa.AddressExpression(sa.MemberIndexExpression(
-                    sa.DerefExpression(sa.IdExpression("ptr")),
-                    name
-                ))
-            ]
-            )) for i,name in enumerate(pointed.members) 
-    ]
 
-    f = sa.FunctionDefinition(
-        "__dest__",
-        [],
-        ["ptr"],
-        sa.TypeIdExpression("void"),
-        [
-            sa.TypeDeclarationStatementFunction("_1", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("ptr"), 
-                    "__eq__",
-                    sa.TypeTypeExpression(argument_types[0])
-                )]
-            )),
-        ] + dest_mems + [
-            sa.ReturnStatement(None),
-        ]
-    )
-    f.default_ignore_when_other_available = True
-    f.linespan = (-1,-1)
-    f.lexspan = (-1,-1)
-    tc.func_defs.append(f)
-    return True
+    dest_calls_mn = []
+    member_types_mn = []
+    for m in pointed.members:
+        t = pointed.types[m]
+        member_types_mn.append(t.mangled_name)
+        try:
+            cf = tc.resolve_function(
+                "__dest__",
+                [],
+                [ts.PointerType(t)],
+            )
+            dest_calls_mn.append(cf.mangled_name)
+        except ierr.InferenceError:
+            raise ierr.TypeGenError()
+
+
+    dname = tc.scope_man.new_func_name(f"dummy_dest_struct")
+    tc.primitives.append(prim.StructDestPrimitive(
+        dname,
+        pointed.mangled_name,
+        member_types_mn,
+        dest_calls_mn,
+    ))
+
+    ft = ts.FunctionTypePrimitive(dname, ts.VoidType())
+    return ft
 

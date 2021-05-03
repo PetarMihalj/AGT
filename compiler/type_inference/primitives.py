@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import List
 from . import TypingResult
 
 class Primitive:
@@ -75,6 +76,29 @@ class HeapAllocPrimitive(Primitive):
         ]
 
 @dataclass
+class HeapInitStructPrimitive(Primitive):
+    fn_mn: str
+    type_struct_mn: str
+    types_mn: List[str]
+
+    alloc_fn_i32_mn: str
+    init_fn_mn: str
+
+    def get_code(self, tr: TypingResult):
+        n = len(self.types_mn)
+
+        args = ", ".join([f"%{self.types_mn[i]} %t_{i}" for i in range(n)])
+
+        return [
+                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly",
+                f"define dso_local %{self.type_struct_mn}* @{self.fn_mn}({args}) local_unnamed_addr #0 {{",
+                f"%ptr = call %{self.type_struct_mn}* @{self.alloc_fn_i32_mn}(i32 1)",
+                f"call void @{self.init_fn_mn}(%{self.type_struct_mn}* %ptr, {args})",
+                f"ret %{self.type_struct_mn}* %ptr",
+                f"}}",
+            ]
+
+@dataclass
 class HeapFreePrimitive(Primitive):
     mangled_name: str
     type_mangled_name: str
@@ -121,11 +145,9 @@ class InIntBoolPrimitive(Primitive):
             f"define dso_local i{self.size} @{self.mangled_name}() local_unnamed_addr #0 {{",
             f"  %1 = alloca i64, align 8",
             f"  %2 = bitcast i64* %1 to i8*",
-            #f"  call void @llvm.lifetime.start.p0i8(i64 8, i8* nonnull %2) #3",
             f"  %3 = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.in_int_str, i64 0, i64 0), i64* nonnull %1)",
             f"  %4 = load i64, i64* %1, align 8",
             f"  %5 = trunc i64 %4 to i{self.size}",
-            #f"  call void @llvm.lifetime.end.p0i8(i64 8, i8* nonnull %2) #3",
             f"  ret i{self.size} %5",
             f"}}",
         ]
@@ -185,14 +207,106 @@ class IntTypeOpPrimitive(Primitive):
         return f(opname)
 
 
+@dataclass
+class TypeToValuePrimitive(Primitive):
+    mangled_name: str
+    value: int
+    size: int
+
+    def get_code(self, tr: TypingResult):
+        return [
+            f"define dso_local i{self.size} @{self.mangled_name}() #0 {{",
+            f"  ret i{self.size} {self.value}",
+            f"}}",
+        ]
 
 
+@dataclass
+class StructInitPrimitive(Primitive):
+    fn_mn: str
+    type_struct_mn: str
+    types_mn: List[str]
+
+    def get_code(self, tr: TypingResult):
+        n = len(self.types_mn)
+
+        args = ", ".join([f"%{self.types_mn[i]} %t_{i+1}" for i in range(n)])
+
+        copies = []
+        for i in range(n):
+            copies.append(f"  %t_{n+i+1} = getelementptr inbounds %{self.type_struct_mn}, %{self.type_struct_mn}* %0, i64 0, i32 {i}")
+            copies.append(f"  store %{self.types_mn[i]} %t_{i+1}, %{self.types_mn[i]}* %t_{n+i+1}")
+
+        return [
+                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly",
+                f"define dso_local void @{self.fn_mn}(%{self.type_struct_mn}* nocapture %0, {args}) local_unnamed_addr #0 {{",
+            ] + copies + [ 
+                f"  ret void",
+                f"}}",
+            ]
 
 
+@dataclass
+class StructCopyPrimitive(Primitive):
+    fn_mn: str
+    type_struct_mn: str
+    types_mn: List[str]
+    copy_calls_mn: List[str]
+
+    def get_code(self, tr: TypingResult):
+        n = len(self.types_mn)
+
+        calls = []
+        for i in range(n):
+            calls.append(f"%t_{2*i} = getelementptr inbounds %{self.type_struct_mn}, %{self.type_struct_mn}* %dst, i64 0, i32 {i}")
+            calls.append(f"%t_{2*i+1} = getelementptr inbounds %{self.type_struct_mn}, %{self.type_struct_mn}* %src, i64 0, i32 {i}")
+            calls.append(f"call void @{self.copy_calls_mn[i]}(%{self.types_mn[i]}* %t_{2*i}, %{self.types_mn[i]}* %t_{2*i+1})")
+
+        return [
+                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable",
+                f"define dso_local void @{self.fn_mn}(%{self.type_struct_mn}* nocapture %dst, %{self.type_struct_mn}* nocapture %src) local_unnamed_addr #0 {{",
+            ] + calls + [ 
+                f"  ret void",
+                f"}}",
+            ]
+
+@dataclass
+class StructDestPrimitive(Primitive):
+    fn_mn: str
+    type_struct_mn: str
+    types_mn: List[str]
+    dest_calls_mn: List[str]
+
+    def get_code(self, tr: TypingResult):
+        n = len(self.types_mn)
+
+        calls = []
+        for i in range(n):
+            calls.append(f"%t_{i} = getelementptr inbounds %{self.type_struct_mn}, %{self.type_struct_mn}* %todest, i64 0, i32 {i}")
+            calls.append(f"call void @{self.dest_calls_mn[i]}(%{self.types_mn[i]}* %t_{i})")
+
+        return [
+                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable",
+                f"define dso_local void @{self.fn_mn}(%{self.type_struct_mn}* nocapture %todest) local_unnamed_addr #0 {{",
+            ] + calls + [ 
+                f"  ret void",
+                f"}}",
+            ]
+
+@dataclass
+class DoNothingPrimitive(Primitive):
+    fn_mn: str
+    types_mn: List[str]
+
+    def get_code(self, tr: TypingResult):
+        n = len(self.types_mn)
+
+        args = ", ".join([f"%{self.types_mn[i]} %t_{i}" for i in range(n)])
 
 
-
-
-
-
-
+        return [
+                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable",
+                f"define dso_local void @{self.fn_mn}({args}) local_unnamed_addr #0 {{",
+                f"  ret void",
+                f"}}",
+            ]

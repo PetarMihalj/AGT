@@ -1,5 +1,6 @@
 from typing import List
 
+from . import inference_errors as ierr
 from . import primitives as prim
 from .type_system import Type
 from ..helpers import add_method_to_list
@@ -15,12 +16,12 @@ def gen_heap_alloc(tc, name: str,
                          type_argument_types: List[Type],
                          argument_types: List[Type],
             ):
-    if name != "heap_alloc": return False
-    if len(argument_types)!=1: return False
+    if name != "heap_alloc": raise ierr.TypeGenError()
+    if len(argument_types)!=1: raise ierr.TypeGenError()
 
-    if len(type_argument_types) != 1: return False
+    if len(type_argument_types) != 1: raise ierr.TypeGenError()
 
-    if not isinstance(argument_types[0], ts.IntType): return False
+    if not isinstance(argument_types[0], ts.IntType): raise ierr.TypeGenError()
 
     type_alloc = type_argument_types[0]
     type_size = argument_types[0]
@@ -33,21 +34,19 @@ def gen_heap_alloc(tc, name: str,
     ))
 
     ft = ts.FunctionTypePrimitive(dname, ts.PointerType(type_alloc))
-    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
-
-    return True
+    return ft
 
 @add_method_to_list(func_methods)
 def gen_heap_free(tc, name: str,
                      type_argument_types: List[Type],
                      argument_types: List[Type],
             ):
-    if name != "heap_free": return False
-    if len(argument_types) != 1: return False
-    if len(type_argument_types) != 0: return False
+    if name != "heap_free": raise ierr.TypeGenError()
+    if len(argument_types) != 1: raise ierr.TypeGenError()
+    if len(type_argument_types) != 0: raise ierr.TypeGenError()
 
     type_free_ptr = argument_types[0]
-    if not isinstance(type_free_ptr, ts.PointerType): return False
+    if not isinstance(type_free_ptr, ts.PointerType): raise ierr.TypeGenError()
 
     type_free = type_free_ptr.pointed
 
@@ -58,66 +57,52 @@ def gen_heap_free(tc, name: str,
     ))
 
     ft = ts.FunctionTypePrimitive(dname, ts.VoidType())
-    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
-
-    return True
+    return ft
 
 @add_method_to_list(func_methods)
-def gen_heap_init(tc, name: str,
+def gen_heap_init_struct(tc, name: str,
                      type_argument_types: List[Type],
                      argument_types: List[Type],
             ):
-    if name != "heap_init": return False
-    if len(type_argument_types) != 1: return False
+    if name != "heap_init": raise ierr.TypeGenError()
+    if len(type_argument_types) != 1: raise ierr.TypeGenError()
 
-    type_for_alloc = type_argument_types[0]
+    init_type = type_argument_types[0]
 
-    checks = [
-            sa.TypeDeclarationStatementFunction(f"_{i}", sa.TypeAngleExpression("enable_if",
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression(f"_pos_{i}"),
-                    "__eq__",
-                    sa.TypeTypeExpression(argument_types[i])
-                )]
-            )) for i in range(len(argument_types))
-    ]
-    heap_alloc_fn = tc.resolve_function("heap_alloc", [type_for_alloc], [ts.IntType(32)])
+    if not isinstance(init_type, ts.StructType): raise ierr.TypeGenError()
+    init_type: ts.StructType
+
+    if len(argument_types) != len(init_type.members): raise ierr.TypeGenError()
+
+    types_mn = []
+    for t1, m in zip(argument_types, init_type.members):
+        t2 = init_type.types[m]
+        if t1!=t2:
+            raise ierr.TypeGenError()
+        types_mn.append(t2.mangled_name)
+
+    try:
+        fn_alloc_mn = tc.resolve_function("heap_alloc", [init_type], [ts.IntType(32)]).mangled_name
+        fn_init_mn = tc.resolve_function("__init__", [], 
+            [ts.PointerType(init_type)] + argument_types
+        ).mangled_name
+    except ierr.InferenceError:
+        raise ierr.TypeGenError()
 
 
-    f = sa.FunctionDefinition(
-        "heap_init",
-        ['type_for_alloc'],
-        [f'_pos_{i}' for i in range(len(argument_types))],
-        sa.TypePtrExpression(sa.TypeTypeExpression(type_for_alloc)),
-        [
-            sa.TypeDeclarationStatementFunction("_c", sa.TypeAngleExpression("enable_if", 
-                [sa.TypeBinaryExpression(
-                    sa.TypeIdExpression("type_for_alloc"), 
-                    "__eq__",
-                    sa.TypeTypeExpression(type_for_alloc)
-                )]
-            ))] + checks +
-        [
-            sa.InitStatement(
-                "assigned",
-                sa.CallExpression(
-                    "heap_alloc", 
-                    [sa.TypeTypeExpression(type_for_alloc)],
-                    [sa.IntLiteralExpression(1, 32)],
-                )),
-            sa.ExpressionStatement(
-                sa.CallExpression("__init__",[],
-                    [sa.IdExpression("assigned")]+[
-                        sa.IdExpression(f"_pos_{i}") for i in range(len(argument_types))
-                    ]
-                )
-            ),
-            sa.ReturnStatement(sa.IdExpression("assigned")),
-        ]
-    )
-    f.linespan = (-1,-1)
-    f.lexspan = (-1,-1)
-    tc.func_defs.append(f)
+    dname = tc.scope_man.new_func_name(f"dummy_heap_init_struct")
+    tc.primitives.append(prim.HeapInitStructPrimitive(
+        dname,
+        init_type.mangled_name,
+        types_mn,
+        fn_alloc_mn,
+        fn_init_mn,
+    ))
 
-    return True
+    ft = ts.FunctionTypePrimitive(dname, ts.PointerType(init_type))
+    init_type.needs_gen = True
+    return ft
+
+
+
 

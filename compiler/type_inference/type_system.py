@@ -132,6 +132,7 @@ class FunctionTypePrimitive(FunctionType):
     def __init__(self, name: str, ty: Type):
         self.mangled_name: str = name
         self.types: Dict[str, Type] = {"return" : ty}
+        self.default_ignore_when_other_available = False
 
         self.do_not_copy_args = True
 
@@ -140,16 +141,3 @@ class FunctionTypePrimitive(FunctionType):
 
     def __hash__(self):
         return hash(self.mangled_name)
-
-class FunctionTypeDoNothing(FunctionType):
-    """
-    Nothing is inserted into the code when a function of this type is called
-    """
-    def __init__(self):
-        pass
-
-    def __repr__(self):
-        return f"FuncDoNothing()"
-
-    def __hash__(self):
-        return hash(self.__repr__())

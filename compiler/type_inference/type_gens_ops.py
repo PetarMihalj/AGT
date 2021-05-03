@@ -1,5 +1,6 @@
 from typing import List
 
+from . import inference_errors as ierr
 from . import primitives as prim
 from .type_system import Type
 from ..helpers import add_method_to_list
@@ -16,18 +17,18 @@ def gen_int_type_ops(tc, name: str,
                      argument_types: List[Type],
             ):
     if name not in sa.ops_mapping.values():
-        return False
+        raise ierr.TypeGenError()
     if len(type_argument_types) != 0:
-        return False
+        raise ierr.TypeGenError()
     if len(argument_types) != 2:
-        return False
+        raise ierr.TypeGenError()
 
     if not isinstance(argument_types[0], ts.IntType):
-        return False
+        raise ierr.TypeGenError()
     if not isinstance(argument_types[1], ts.IntType):
-        return False
+        raise ierr.TypeGenError()
     if argument_types[0].size != argument_types[1].size:
-        return False
+        raise ierr.TypeGenError()
 
     dname = tc.scope_man.new_func_name(f"dummy_func_{name}")
     retty = argument_types[0] if name in [
@@ -40,9 +41,7 @@ def gen_int_type_ops(tc, name: str,
     ))
 
     ft = ts.FunctionTypePrimitive(dname, retty)
-    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
-
-    return True
+    return ft
 
 @add_method_to_list(func_methods)
 def gen_bool_type_ops(tc, name: str,
@@ -50,16 +49,16 @@ def gen_bool_type_ops(tc, name: str,
                      argument_types: List[Type],
             ):
     if name not in sa.ops_mapping.values():
-        return False
+        raise ierr.TypeGenError()
     if len(type_argument_types) != 0:
-        return False
+        raise ierr.TypeGenError()
     if len(argument_types) != 2:
-        return False
+        raise ierr.TypeGenError()
 
     if not isinstance(argument_types[0], ts.BoolType):
-        return False
+        raise ierr.TypeGenError()
     if not isinstance(argument_types[1], ts.BoolType):
-        return False
+        raise ierr.TypeGenError()
 
     dname = tc.scope_man.new_func_name(f"dummy_func_{name}")
     tc.primitives.append(prim.IntTypeOpPrimitive(
@@ -69,6 +68,4 @@ def gen_bool_type_ops(tc, name: str,
     ))
 
     ft = ts.FunctionTypePrimitive(dname, ts.BoolType())
-    tc.function_type_container[(name, tuple(type_argument_types), tuple(argument_types))] = ft
-
-    return True
+    return ft
