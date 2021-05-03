@@ -10,6 +10,7 @@ from ..semantics_parsing import semantic_ast as sa
 func_methods = []
 struct_methods = []
 
+from . import type_gens_init
 from . import type_gens_lifetime
 from . import type_gens_io
 from . import type_gens_memory

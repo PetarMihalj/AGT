@@ -10,9 +10,7 @@ from ..semantics_parsing import semantic_ast as sa
 
 from .type_gens import func_methods, struct_methods
 
-
 # builtin lifetime constructs
-
 
 @add_method_to_list(func_methods)
 def gen_builtin_init(tc, name: str,
@@ -35,7 +33,7 @@ def gen_builtin_init(tc, name: str,
         raise ierr.TypeGenError()
 
     dname = tc.scope_man.new_func_name(f"builtin_init")
-    tc.primitives.append(prim.MemoryInitPrimitive(
+    tc.primitives.append(prim.DefaultBuiltinInitPrimitive(
         dname,
         pointed.mangled_name
     ))
@@ -67,7 +65,7 @@ def gen_builtin_copy(tc, name: str,
         raise ierr.TypeGenError()
 
     dname = tc.scope_man.new_func_name(f"builtin_copy")
-    tc.primitives.append(prim.MemoryCopyPrimitive(
+    tc.primitives.append(prim.DefaultBuiltinCopyPrimitive(
         dname,
         ptr_dest.pointed.mangled_name
     ))
@@ -95,7 +93,7 @@ def gen_builtin_dest(tc, name: str,
 
     
     dname = tc.scope_man.new_func_name(f"func_do_nothing")
-    tc.primitives.append(prim.DoNothingPrimitive(
+    tc.primitives.append(prim.DefaultBuiltinDestPrimitive(
         dname,
         [ptr.mangled_name]
     ))
@@ -107,7 +105,7 @@ def gen_builtin_dest(tc, name: str,
 # STRUCT lifetime constructs
 
 @add_method_to_list(func_methods)
-def gen_init_struct(tc, name: str,
+def gen_struct_init(tc, name: str,
                          type_argument_types: List[Type],
                          argument_types: List[Type],
             ):
@@ -128,7 +126,7 @@ def gen_init_struct(tc, name: str,
             raise ierr.TypeGenError()
 
     dname = tc.scope_man.new_func_name(f"dummy_init_struct")
-    tc.primitives.append(prim.StructInitPrimitive(
+    tc.primitives.append(prim.DefaultStructInitPrimitive(
         dname,
         pointed.mangled_name,
         [a.mangled_name for a in argument_types[1:]],
@@ -139,7 +137,7 @@ def gen_init_struct(tc, name: str,
     return ft
 
 @add_method_to_list(func_methods)
-def gen_copy_struct(tc, name: str,
+def gen_struct_copy(tc, name: str,
                          type_argument_types: List[Type],
                          argument_types: List[Type],
             ):
@@ -175,7 +173,7 @@ def gen_copy_struct(tc, name: str,
 
 
     dname = tc.scope_man.new_func_name(f"dummy_copy_struct")
-    tc.primitives.append(prim.StructCopyPrimitive(
+    tc.primitives.append(prim.DefaultStructCopyPrimitive(
         dname,
         pointed1.mangled_name,
         member_types_mn,
@@ -188,7 +186,7 @@ def gen_copy_struct(tc, name: str,
 
 
 @add_method_to_list(func_methods)
-def gen_dest_struct(tc, name: str,
+def gen_struct_dest(tc, name: str,
                          type_argument_types: List[Type],
                          argument_types: List[Type],
             ):
@@ -219,7 +217,7 @@ def gen_dest_struct(tc, name: str,
 
 
     dname = tc.scope_man.new_func_name(f"dummy_dest_struct")
-    tc.primitives.append(prim.StructDestPrimitive(
+    tc.primitives.append(prim.DefaultStructDestPrimitive(
         dname,
         pointed.mangled_name,
         member_types_mn,

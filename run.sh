@@ -1,8 +1,27 @@
 #!/bin/bash
 
-python -m compiler.code_gen $1 | tee tmp | nl -ba -
+for example in "$@"
+do
+
+python -m compiler.code_gen $example | tee tmp > /dev/null #| nl -ba -
+
+echo ""
+echo ""
+echo ""
+echo "---------------------"
+echo "Program: $example"
+echo ""
+cat $example
+echo "---------------------"
+
 lli tmp
 es=$?
-
 echo
 echo "Exit status: $es"
+read -p "Press any key to continue"
+echo "---------------------"
+rm tmp
+
+
+done
+

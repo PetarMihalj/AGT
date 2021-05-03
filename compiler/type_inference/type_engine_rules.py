@@ -562,28 +562,10 @@ def _(self: sa.CallExpression, tc: TC,
     try:
         func_call = tc.resolve_function(self.name, type_args_types, args_types)
     except ierr.InferenceError as e:
-        func_call = None
+        raise ierr.InferenceError(f"Can not infer function call at {self.linespan[0]}") from e
 
-    if func_call is not None:
-        ret = add_func_call(self, f, tc, func_call, arg_names, copy_bools, "call")
-        return ret
-    else:
-        try:
-            struct = tc.resolve_struct(self.name, type_args_types)
-            init_call = tc.resolve_function("__init__", [], [ts.PointerType(struct)]+args_types)
-
-            newo = new_tmp_stack_symbolic_register(f, tc, struct, "newo")
-            newo_ptr = new_tmp_stack_symbolic_register(f, tc, ts.PointerType(struct), "ptr_to_newo")
-            f.flat_statements.append(ir.AddressOf(newo_ptr, newo))
-
-            add_func_call(self, f, tc, init_call, [newo_ptr]+arg_names, [False]+copy_bools, "init_call")
-
-            struct.needs_gen = True
-            return newo
-        except ierr.InferenceError as e:
-            raise ierr.InferenceError(f"Can not infer neither a function or an object constrution at {self.linespan[0]}") from e
-
-
+    ret = add_func_call(self, f, tc, func_call, arg_names, copy_bools, "call")
+    return ret
 
 
 # type expressions

@@ -12,7 +12,7 @@ fn area(r) -> T{
 
 fn main() -> i32{
     let a = in<i32>();
-    let rec = rectangle<i32>(a, 3);
+    let rec = object<rectangle<i32>>(a, 3);
     let ar = area(rec);
     out(ar);
     return 0;

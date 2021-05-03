@@ -35,6 +35,12 @@ class CodeGenerator:
             "target datalayout = \"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128\"",
             "target triple = \"x86_64-pc-linux-gnu\"",
             "",
+            "%i8 = type i8",
+            "%i16 = type i16",
+            "%i32 = type i32",
+            "%i64 = type i64",
+            "%bool = type i1",
+            "",
             "; Function Attrs: nofree nounwind",
             "declare i32 @printf(i8* nocapture readonly, ...) local_unnamed_addr #1",
             "",
@@ -51,15 +57,6 @@ class CodeGenerator:
             "declare void @free(i8* nocapture) local_unnamed_addr #1",
         ]
 
-    def add_footer(self):
-        main_name = self.tr.func_types[("main",(),())].mangled_name
-        self.code+=[
-            "define dso_local i32 @main() #0 {",
-            f"\t%1 = call i32 @{main_name}()",
-            "\tret i32 %1",
-            "}",
-        ]
-
     def add_funcs(self):
         for f in self.tr.func_types.values():
             self.add_func(f)
@@ -74,6 +71,15 @@ class CodeGenerator:
             self.code+=fs.get_code(f)
 
         self.code.append('}')
+
+    def add_footer(self):
+        main_name = self.tr.func_types[("main",(),())].mangled_name
+        self.code+=[
+            "define dso_local i32 @main() #0 {",
+            f"\t%1 = call i32 @{main_name}()",
+            "\tret i32 %1",
+            "}",
+        ]
 
     def run(self):
         self.add_header()

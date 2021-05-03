@@ -9,7 +9,7 @@ fn main() -> i32{
 
     type irect = rect<i32>;
 
-    let rect_heap = heap_init<irect>(a,b);
+    let rect_heap = heap_object<irect>(a,b);
 
     out(rect_heap!.a);
     out(rect_heap!.b);

@@ -110,11 +110,6 @@ class TypingContext:
         self.primitives: List[Primitive] = []
 
     def run(self):
-        for s in [8,16,32,64]:
-            self.primitives.append(prim.IntTypePrimitive(ts.IntType(s).mangled_name, s))
-        self.primitives.append(prim.BoolTypePrimitive(ts.BoolType().mangled_name))
-
-
         self.resolve_function("main", [], [])
 
         self.struct_type_container = dict([(k,s) for k,s in self.struct_type_container.items()\
