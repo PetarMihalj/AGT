@@ -9,10 +9,10 @@ python -m compiler.code_gen $example | tee tmp > /dev/null #| nl -ba -
 echo ""
 echo ""
 echo ""
-echo "---------------------"
-echo "Program: $example"
-cat tmp
-echo ""
+#echo "---------------------"
+#echo "Program: $example"
+#cat tmp
+#echo ""
 echo "---------------------"
 echo "Program: $example"
 echo ""
