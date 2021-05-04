@@ -27,6 +27,7 @@ def gen_builtin_init(tc, name: str,
 
     if pointed != val:
         raise ierr.TypeGenError()
+    print("C")
 
     allowed = [ts.IntType(i) for i in [8,16,32,64]] + [ts.BoolType()]
     if val not in allowed and not isinstance(val, ts.PointerType):
@@ -38,7 +39,8 @@ def gen_builtin_init(tc, name: str,
         pointed.mangled_name
     ))
 
-    ft = ts.FunctionTypePrimitive(dname, ts.VoidType())
+    ft = ts.FunctionType(dname, ts.VoidType())
+    print("DDD")
     return ft
 
 

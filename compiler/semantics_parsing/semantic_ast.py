@@ -53,6 +53,7 @@ class FunctionDefinition(Structural):
 class StructDefinition(Structural):
     name: str
     type_parameter_names: List[str]
+    return_type_expr: TypeExpression
     statement_list: List[StructStatement]
 
 # function statement
@@ -136,11 +137,6 @@ class MemberDeclarationStatement(StructStatement):
 class TypeDeclarationStatementStruct(StructStatement):
     "type a = typeexpr"
     name: str
-    type_expr: TypeExpression
-
-@ dataclass
-class TypeReturnStatement(StructStatement):
-    "return typeexpr"
     type_expr: TypeExpression
 
 # Value expressions
@@ -292,12 +288,19 @@ def _(self: pr.CompilationUnit, se: SemanticEnvironment):
 @add_method_parse_semantics(pr.StructDefinition)
 def _(self: pr.StructDefinition, se: SE):
     se.in_struct = True
+
     sl = self.block.parse_semantics(se)
+    if self.expr_ret is None:
+        return_type_expr =  None
+    else:
+        return_type_expr = self.expr_ret.parse_semantics(se)
+
     se.in_struct = False
     if hasattr(self.expr.expr, "id"):
         return StructDefinition(
             name=self.expr.expr.id,
             type_parameter_names=[],
+            return_type_expr=return_type_expr
             statement_list = sl
         )
     else:
@@ -305,6 +308,7 @@ def _(self: pr.StructDefinition, se: SE):
             name=self.expr.expr.expr.expr.expr.id,
             type_parameter_names=[
                 i.expr.id for i in self.expr.expr.expr.expr_list],
+            return_type_expr=return_type_expr
             statement_list = sl
         )
 

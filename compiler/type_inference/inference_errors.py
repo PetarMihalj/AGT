@@ -9,6 +9,13 @@ class TypeGenError(InferenceError):
     """
     pass
 
+class ChoiceSkipError(InferenceError):
+    """
+    This type of error is used by enable_if and enable_if_resolve
+    to indicate they haven't been successful
+    """
+    pass
+
 # crashing errors
 
 
@@ -22,7 +29,3 @@ class NameError(InferenceError):
     pass
 
 
-# choice errors
-
-class ChoiceSkipError(InferenceError):
-    pass

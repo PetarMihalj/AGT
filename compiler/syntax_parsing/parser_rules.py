@@ -30,11 +30,18 @@ class DefinitionList(ParserRule):
 
 class StructDefinition(ParserRule):
     """StructDefinition : STRUCT Expression Block
+                          STRUCT Expression ARROW Expression Block
     """
 
     def __init__(self, r):
-        self.expr = r[1]
-        self.block = r[2]
+        if len(r) == 3:
+            self.expr = r[1]
+            self.block = r[2]
+            self.expr_ret = None
+        elif len(r) == 5:
+            self.expr = r[1]
+            self.expr_ret = r[3]
+            self.block = r[4]
 
 
 class FunctionDefinition(ParserRule):

@@ -20,8 +20,6 @@ class BoolType(Type):
     def __repr__(self):
         return type(self).__name__
 
-
-
 class VoidType(Type):
     def __init__(self):
         self.mangled_name = "void"
@@ -39,8 +37,8 @@ class VoidType(Type):
 
 class IntType(Type):
     def __init__(self, size):
-        self.size = size
         self.mangled_name = f"i{size}"
+        self.size = size
 
     def __eq__(self, other):
         if not isinstance(other, IntType):
@@ -53,18 +51,12 @@ class IntType(Type):
     def __repr__(self):
         return f"{type(self).__name__}({self.size})"
 
-
-
 class StructType(Type):
-    def __init__(self, name):
-        self.name: str = name
-        self.mangled_name: str = None
-
-        self.types: Dict[str, Type] = {}
-        self.members: List[str] = []
-        self.return_type: Type = None
-
-        self.needs_gen: bool = False
+    def __init__(self, mangled_name, types: Dict[str,Type], members: List[str], return_type: Type):
+        self.mangled_name: str = mangled_name
+        self.types: Dict[str, Type] = types
+        self.members: List[str] = members
+        self.return_type: Type = return_type
 
     def __eq__(self, other):
         if not isinstance(other, StructType):
@@ -90,54 +82,19 @@ class PointerType(Type):
     def __repr__(self):
         return f"PointerType({self.pointed})"
 
-# funcs
 
-class FunctionType:
-    pass
-
-class FunctionTypeNormal(FunctionType):
-    def __init__(self, name):
-        self.name: str = name
-        self.mangled_name: str = None
-
-        self.break_label_stack = []
-
-        self.parameter_names_ordered: List[str] = []
-
-        self.types: Dict[str, Type] = {}
-        self.flat_statements: List = []
-
-        self.dest_stack: List[List[str]] = []
-
-        self.default_ignore_when_other_available = False
-        self.tmp_cnt = 0
-
-        self.dest_params = True
-        self.do_not_copy_args = False
-
-    def __repr__(self):
-        return f"FuncType({self.mangled_name})"
-
-    def __hash__(self):
-        return hash(self.mangled_name)
-
-    def new_tmp(self):
-        self.tmp_cnt+=1
-        return f"t_{self.tmp_cnt}"
-
-class FunctionTypePrimitive(FunctionType):
-    """
-    Nothing is copied when calling, expecting a primitive with mangled_name to exist
-    """
-    def __init__(self, name: str, ty: Type):
+class FunctionType(Type):
+    def __init__(self, name: str, retty: Type, default: bool, do_not_copy_args: bool, code: List[str]):
         self.mangled_name: str = name
-        self.types: Dict[str, Type] = {"return" : ty}
-        self.default_ignore_when_other_available = False
+        self.return_type: Type = retty
 
-        self.do_not_copy_args = True
+        self.default: bool = default
+        self.do_not_copy_args: bool = do_not_copy_args
+
+        self.code: List[str] = code
 
     def __repr__(self):
-        return f"FuncTypePrim({self.mangled_name})"
+        return f"FuncTyp({self.mangled_name})"
 
     def __hash__(self):
         return hash(self.mangled_name)

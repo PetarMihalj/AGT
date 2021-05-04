@@ -1,280 +1,282 @@
-from typing import List, Tuple
-from dataclasses import dataclass
-from .type_system import FunctionType
+from typing import List
 from . import type_system as ts
-
-class FlatStatement:
-    pass
+from . import context
 
 # operations on stack symbolic registers
 
-@dataclass
-class StackAllocate:
+def put_stack_allocate(dest: str, ty: Type, fc: context.FunctionContext):
     """
-    Dest has to be an UNALLOCATED stack symbolic register with a value of type s.
+    Dest becomes an stack symbolic register with a value of type s.
     """
-    dest: str 
+    fc.types[dest] = ty
+    fc.code.extend([
+        f"\t%{dest} = alloca %{ty.mangled_name}",
+    ])
 
-    def get_code(self, f: FunctionType):
-        s = f.types[self.dest].mangled_name
-        return [
-            f"\t%{self.dest} = alloca %{s}",
-        ]
+def get_stack_allocate_tmp(desc: str, ty: Type, fc: context.FunctionContext):
+    """
+    Dest becomes an stack symbolic register with a value of type s.
+    """
+    dest = fc.scope_man.new_tmp_var_name(desc)
+    fc.types[dest] = ty
 
-@dataclass
-class StackCopy:
+    fc.code.extend([
+        f"\t%{dest} = alloca %{ty.mangled_name}",
+    ])
+    return dest
+
+def put_stack_copy(dest: str, src: str, fc: context.FunctionContext):
     """
     Src has to be a stack symbolic register with a value of type s.
     Dest has to be a stack symbolic register with a value of type s.
     """
-    dest: str
-    src: str
+    tmp = fc.scope_man.new_tmp_var_name("")
+    s = fc.types[dest].mangled_name
 
-    def get_code(self, f: FunctionType):
-        tmp = f.new_tmp()
-        s = f.types[self.dest].mangled_name
-        return [
-            f"\t%{tmp} = load %{s}, %{s}* %{self.src}",
-            f"\tstore %{s} %{tmp}, %{s}* %{self.dest}",
-        ]
+    fc.code.extend([
+        f"\t%{tmp} = load %{s}, %{s}* %{src}",
+        f"\tstore %{s} %{tmp}, %{s}* %{dest}",
+    ])
 
-@dataclass
-class StackStore:
+def param_to_stack_store(dest: str, ty: Type, fc: context.FunctionContext):
     """
-    Src has to be a symbolic register with of type s.
-    Dest has to be a stack symbolic register with a value of type s.
+    Dest becomes a stack symbolic register with a value of type s.
     """
-    dest: str
-    src: str
+    pp = fc.scope_man.new_tmp_var_name("param_placeholder")
+    fc.parameter_names_ordered.append(pp)
 
-    def get_code(self, f: FunctionType):
-        s = f.types[self.src].mangled_name
-        return [
-            f"\tstore %{s} %{self.src}, %{s}* %{self.dest}",
-        ]
+    fc.types[dest] = ty
+    return [
+        f"\tstore %{ty.mangled_name} %{pp}, %{ty.mangled_name}* %{dest}",
+    ]
 
 # functional
 
 
-@dataclass
-class Dereference:
+#1
+def get_dereference(src: str, fc: context.FunctionContext):
     """
     Src has to be a stack symbolic register with a value of type PointerType(d).
-    Dest has to be a UNALLOCATED stack symbolic register with a value of type d
+
+    RETURNS a stack symbolic register with a value of type d
     """
-    dest: str
-    src: str
+    dest = fc.scope_man.new_tmp_var_name("deref")
+    fc.types[dest]=fc.types[src].pointed
 
-    def get_code(self, f: FunctionType):
-        d = f.types[self.dest].mangled_name
-        return [
-            f"\t%{self.dest} = load %{d}*, %{d}** %{self.src}",
-        ]
+    stmn = fc.types[src].mangled_name
+    dtmn = fc.types[dest].mangled_name
 
-@dataclass
-class AddressOf:
+    fc.code.extend([
+        f"\t%{dest} = load %{dtmn}*, %{stmn}* %{src}",
+    ])
+    return dest
+
+
+#1
+def get_address_of(src: str, fc: context.FunctionContext):
     """
     Src has to be a stack symbolic register with a value of type s.
-    Dest has to be a stack symbolic register with a value of type PointerType(s)
-    """
-    dest: str
-    src: str
 
-    def get_code(self, f: FunctionType):
-        s = f.types[self.src].mangled_name
-        return [
-            f"\tstore %{s}* %{self.src}, %{s}** %{self.dest}"
-        ]
+    RETURNS a stack symbolic register with a value of type PointerType(s)
+    """
+
+    dest = fc.scope_man.new_tmp_var_name("addrof")
+    fc.types[dest]=ts.PointerType(fc.types[src])
+
+    stmn = fc.types[src].mangled_name
+    dtmn = fc.types[dest].mangled_name
+
+    fc.code.extend([
+        f"\t%{dest} = alloca {dtmn}",
+        f"\tstore %{stmn}* %{src}, %{dtmn}* %{dest}"
+    ])
+    return dest
 
 # pointer control
 
-@dataclass
-class GetPointerOffset:
+#1
+def get_pointer_offset(src: str, offset: str, fc: context.FunctionContext):
     """
     Src has to be a stack symbolic register with a value of type PointerType(s)
-    offset_size is an int with value from [8,16,32,64]
+    offset has to be a stack symbolic register with a value of type IntType(size from [8,16,32,64])
 
-    Dest has to be a stack symbolic register with a value of type PointerType(s) 
+    RETURNS a stack symbolic register with a value of type PointerType(s) 
     """
-    dest: str
-    src: str
-    offset: str
-    offset_size: int
 
-    def get_code(self, f: FunctionType):
-        pointer_t = f.types[self.src].mangled_name
-        inside_t = f.types[self.src].pointed.mangled_name
+    dest = fc.scope_man.new_tmp_var_name("ptroffset")
+    fc.types[dest]=fc.types[src]
 
-        tmp_val = f.new_tmp()
-        tmp_ext_val = f.new_tmp()
+    ptmn = fc.types[src].mangled_name
+    itmn = fc.types[src].pointed.mangled_name
+    size = fc.types[offset].size
 
-        tmp_ptr = f.new_tmp()
-        tmp_newptr = f.new_tmp()
+    tmp_val = fc.scope_man.new_tmp_var_name()
+    tmp_ext_val = fc.scope_man.new_tmp_var_name()
 
-        return [
-            f"%{tmp_val} = load i{self.offset_size}, i{self.offset_size}* %{self.offset}",
-            f"%{tmp_ext_val} = sext i{self.offset_size} %{tmp_val} to i64",
+    tmp_ptr = fc.scope_man.new_tmp_var_name()
+    tmp_newptr = fc.scope_man.new_tmp_var_name()
 
-            f"%{tmp_ptr} = load %{pointer_t}, %{pointer_t}* %{self.src}",
-            f"%{tmp_newptr} = getelementptr inbounds %{inside_t}, %{pointer_t} %{tmp_ptr}, i64 %{tmp_ext_val}",
+    fc.code.extend([
+        f"\t%{dest} = alloca {ptmn}",
 
-            f"store %{pointer_t} %{tmp_newptr}, %{pointer_t}* %{self.dest}",
-        ]
+        f"\t%{tmp_val} = load i{size}, i{size}* %{offset}",
+        f"\t%{tmp_ext_val} = sext i{size} %{tmp_val} to i64",
 
-@dataclass
-class GetElementPtr:
+        f"\t%{tmp_ptr} = load %{ptmn}, %{ptmn}* %{src}",
+        f"\t%{tmp_newptr} = getelementptr inbounds %{itmn}, %{ptmn} %{tmp_ptr}, i64 %{tmp_ext_val}",
+
+        f"\tstore %{ptmn} %{tmp_newptr}, %{ptmn}* %{dest}",
+    ])
+    return dest
+
+#1
+def get_member(src: str, member_name: str, fc: context.FunctionContext):
     """
     Src has to be a stack symbolic register with a value of type s
 
-    Dest has to be a UNALLOCATED stack symbolic register with a value of type m same as the type of s.element_name
+    RETURNS a stack symbolic register with a value of type m same as the type of s.member_name
     """
-    dest: str
-    src: str
-    element_name: str
 
-    def get_code(self, f: FunctionType):
-        s = f.types[self.src].mangled_name
-        ind = f.types[self.src].members.index(self.element_name)
+    dest = fc.scope_man.new_tmp_var_name("member")
+    fc.types[dest] = fc.types[src].types[member_name]
 
-        return [
-            f"%{self.dest} = getelementptr inbounds %{s}, %{s}* %{self.src}, i32 0, i32 {ind}"
-        ]
+    stmn = fc.types[src].mangled_name
+    ind = fc.types[src].members.index(member_name)
 
-@dataclass
-class IntConstantAssignment:
+    fc.code.extend([ 
+        f"%{dest} = getelementptr inbounds %{stmn}, %{stmn}* %{src}, i32 0, i32 {ind}"
+    ])
+    return dest
+
+#1
+def get_int_constant(value: str, size: int, fc: context.FunctionContext):
     """
-    Dest has to be a stack symbolic register with a value of type i{size}.
+    RETURNS a stack symbolic register with a value of type i{size}.
     """
-    dest: str
-    value: int
-    size: int
+    dest = fc.scope_man.new_tmp_var_name("intconst")
+    fc.types[dest] = ts.IntType(size)
 
-    def get_code(self, f: FunctionType):
-        return [
-            f"\tstore %i{self.size} {self.value}, %i{self.size}* %{self.dest}"
-        ]
+    fc.code.extend([
+        f"\t%{dest} = alloca i{size}",
+        f"\tstore %i{size} {value}, %i{size}* %{dest}"
+    ])
+    return dest
 
-@dataclass
-class BoolConstantAssignment:
+#1
+def get_bool_constant(value: bool):
     """
-    Dest has to be a stack symbolic register with a value of type i{size}.
+    RETURNS a stack symbolic register with a value of type i{size}.
     """
-    dest: str
-    value: bool
+    dest = fc.scope_man.new_tmp_var_name("boolconst")
+    fc.types[dest] = ts.BoolType()
 
-    def get_code(self, f: FunctionType):
-        v = 1 if self.value else 0
-        return [
-            f"\tstore %i1 {v}, %i1* %{self.dest}"
-        ]
+    value = 1 if value else 0
+
+    fc.code.extend([
+        f"\t%{dest} = alloca i1",
+        f"\tstore %i1 {value}, %i1* %{dest}"
+    ])
+    return dest
 
 
-@dataclass
-class FunctionCall:
+#1
+def get_function_call(fn_to_call: ts.FunctionType, argument_names: List[str], fc: context.FunctionContext):
     """
     DOES NOT COPY stack symbolic registers!
 
-    dest has to be a stack symbolic register which the result is saved into.
     argument_names should be located in stack symbolic registers [argument_names]
     
+    RETURNS a stack symbolic register which the result is saved into or None
     """
-    dest: str
-    fn_to_call_mn: str
-    fn_to_call_retty_mn: str
-    argument_names: List[str]
+    if not fn_to_call.return_type == ts.VoidType():
+        dest = fc.scope_man.new_tmp_var_name("funcres")
+        fc.types[dest] = fn_to_call.return_type
 
-    def get_code(self, f: FunctionType):
-        tmps = [f.new_tmp() for an in self.argument_names]
-        types = [f.types[an].mangled_name for an in self.argument_names]
+    tmps = [fc.scope_man.new_tmp_var_name() for an in argument_names]
+    types = [fc.types[an].mangled_name for an in argument_names]
 
-        derefs = [f"\t%{tmp} = load %{ty}, %{ty}* %{an}" 
-            for an,tmp,ty in zip(self.argument_names, tmps, types)]
+    derefs = [f"\t%{tmp} = load %{ty}, %{ty}* %{an}" 
+        for an,tmp,ty in zip(argument_names, tmps, types)]
 
-        args_str = ", ".join([f"%{ty} %{tmp}" for tmp,ty in zip(tmps,types)])
+    args_str = ", ".join([f"%{ty} %{tmp}" for tmp,ty in zip(tmps,types)])
 
 
-        if self.dest is None:
-            return derefs+[
-                f"\tcall void @{self.fn_to_call_mn}({args_str})",
-            ]
-        else:
-            dest_tmp = f.new_tmp()
-            return derefs+[
-                f'\t%{dest_tmp} = call %{self.fn_to_call_retty_mn} @{self.fn_to_call_mn}({args_str})',
-                f'\tstore %{self.fn_to_call_retty_mn} %{dest_tmp}, %{self.fn_to_call_retty_mn}* %{self.dest}'
-            ]
+    if fn_to_call.return_type == ts.VoidType():
+        fc.code.extend(derefs+[
+            f"\tcall void @{fn_to_call.mangled_name}({args_str})",
+        ])
+        return None
+    else:
+        dest_tmp = fc.scope_man.new_tmp_var_name()
 
-
-@dataclass
-class FunctionReturn:
-    """
-    Exits the function with a value located in a stack symbolic register return or void
-    """
-
-    def get_code(self, f: FunctionType):
-        from .type_system import VoidType
-        if f.types["return"] == VoidType():
-            return ["\tret void"]
-        else:
-            tmp = f.new_tmp()
-            ty = f.types["return"].mangled_name
-            return [
-                f'\t%{tmp} = load %{ty}, %{ty}* %return',
-                f'\tret %{ty} %{tmp}',
-            ]
+        fc.code.extend(derefs+[
+            f'\t%{dest_tmp} = call %{fn_to_call.return_type.mangled_name} @{fn_to_call.mangled_name}({args_str})',
+            f'\tstore %{fn_to_call.return_type.mangled_name} %{dest_tmp}, %{fn_to_call.return_type.mangled_name}* %{dest}'
+        ])
+        return dest
 
 # flow control
 
-@dataclass
-class Label:
+#2
+def put_function_return(fc: context.FunctionContext):
     """
-    defines a label
+    Generates the code to exit the function with a value located in a stack symbolic register return or void
     """
-    name: str
-    def get_code(self, f: FunctionType):
-        return [
-            f"\t{self.name}:",
-        ]
 
-@dataclass
-class JumpToLabelConditional:
+    if fc.return_type == ts.VoidType():
+        fc.code.extend([
+            "\tret void"]
+        ])
+    else:
+        tmp = fc.scope_man.new_tmp_var_name("rettmp")
+        ty = fc.types["return"].mangled_name
+        fc.code.extend([
+            f'\t%{tmp} = load %{ty}, %{ty}* %return',
+            f'\tret %{ty} %{tmp}',
+        ])
+
+
+#2
+def put_label(name: str, fc: context.FunctionContext):
+    """
+    Generates the code which defines a label
+    """
+
+    fc.code.extend([
+        f"\t{name}:",
+    ])
+
+
+#2
+def put_jump_to_label_conditional(var_name: str, label_true: str, label_false: str, fc: context.FunctionContext):
     """
     var_name has to be a stack symbolic register with a value of type s = bool.
     label_true and label_false have to be existant label names
     """
-    var_name: str
-    label_true: str
-    label_false: str
 
-    def get_code(self, f: FunctionType):
-        tmp = f.new_tmp()
+    tmp = fc.scope_man.new_tmp_var_name("jumptmp")
 
-        return [
-            f"\t%{tmp} = load i1, i1* %{self.var_name}",
-            f"\tbr i1 %{tmp}, label %{self.label_true}, label %{self.label_false}",
-        ]
+    fc.code.extend([
+        f"\t%{tmp} = load i1, i1* %{var_name}",
+        f"\tbr i1 %{tmp}, label %{label_true}, label %{label_false}",
+    ])
 
-@dataclass
-class JumpToLabel:
+#2
+def put_jump_to_label(label: str, fc: context.FunctionContext):
     """
     label has to be an existant label name
     """
-    label: str
 
-    def get_code(self, f: FunctionType):
-        return [
-            f"\tbr label %{self.label}",
-        ]
+    fc.code.extend([
+        f"\tbr label %{label}",
+    ])
 
-# misc
-
-@dataclass 
-class Comment:
+#2
+def put_comment(comment: str, fc: context.FunctionContext):
     """
-    comm is a nonfunctional string embedded in llvm ir
+    Generates nonfunctional code with a comment 
     """
-    comm: str
-    def get_code(self, f: FunctionType):
-        return [
-            f"\t; {self.comm}",
-        ]
+
+    fc.code.extend([
+        f"\t; {comment}",
+    ])

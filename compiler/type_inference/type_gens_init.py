@@ -35,9 +35,11 @@ def gen_heap_object(tc, name: str,
 
     try:
         fn_alloc_mn = tc.resolve_function("heap_alloc", [init_type], [ts.IntType(32)]).mangled_name
+        print("A")
         fn_init_mn = tc.resolve_function("__init__", [], 
             [ts.PointerType(init_type)] + argument_types
         ).mangled_name
+        print("B")
     except ierr.InferenceError:
         raise ierr.TypeGenError()
 

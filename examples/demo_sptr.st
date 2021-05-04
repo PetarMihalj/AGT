@@ -35,8 +35,8 @@ fn __copy__(sptr_ptr_dest, sptr_ptr_src){
 }
 
 fn main() -> i32{
-    let b = i64(5i64);
-    let a = shared_ptr<i64>(heap_init<i64>(15i64));
+    let b = 5i64;
+    let a = shared_ptr<i64>(heap_object<i64>(15i64));
 
     return 0;
 }

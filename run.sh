@@ -20,7 +20,7 @@ echo
 echo "Exit status: $es"
 read -p "Press any key to continue"
 echo "---------------------"
-rm tmp
+#rm tmp
 
 
 done
