@@ -238,7 +238,7 @@ class CastIntBoolPrimitive(Primitive):
     target_size: int
     source_size: int
     def get_code(self):
-        if self.target_size < self.source_size:
+        if self.target_size <= self.source_size:
             return [
                 f"; Function Attrs: norecurse nounwind readnone sspstrong uwtable",
                 f"define dso_local i{self.target_size} @{self.mangled_name}(i{self.source_size} %0) local_unnamed_addr #0 {{",

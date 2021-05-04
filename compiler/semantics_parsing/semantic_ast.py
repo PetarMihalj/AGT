@@ -314,7 +314,6 @@ def _(self: pr.StructDefinition, se: SE):
 def _(self: pr.FunctionDefinition, se: SE):
     se.in_func = True
     sl = self.block.parse_semantics(se)
-    se.in_func = False
 
     se.add(SS.TYPE_EXPR)
     if self.expr_ret is not None:
@@ -322,6 +321,7 @@ def _(self: pr.FunctionDefinition, se: SE):
     else:
         expr_ret = None
     se.pop()
+    se.in_func = False
 
     pce = self.expr.expr.expr
     if hasattr(pce.expr.expr, "id"):
@@ -379,7 +379,7 @@ def _(self, se: SE):
 
 @add_method_parse_semantics(pr.BlockStatement)
 def _(self, se: SE):
-    if se.in_func:
+    if not se.in_func:
         raise RuntimeError("Cant declare new block out of func!")
     a = self.block.parse_semantics(se)
     return BlockStatement(a)

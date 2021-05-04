@@ -1,0 +1,2661 @@
+
+
+
+---------------------
+Program: examples/demo_cast.st
+; ModuleID = 'cprog.c'
+source_filename = "cprog.c"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-pc-linux-gnu"
+
+%i8 = type i8
+%i16 = type i16
+%i32 = type i32
+%i64 = type i64
+%bool = type i1
+
+; Function Attrs: nofree nounwind
+declare i32 @printf(i8* nocapture readonly, ...) local_unnamed_addr #1
+
+; Function Attrs: nofree nounwind
+declare i32 @__isoc99_scanf(i8* nocapture readonly, ...) local_unnamed_addr #2
+@.in_int_str = private unnamed_addr constant [5 x i8] c"%lld\00", align 1
+@.out_int_str = private unnamed_addr constant [6 x i8] c"%lld\0A\00", align 1
+
+; Function Attrs: nounwind
+declare noalias i8* @malloc(i64) #1
+
+; Function Attrs: nounwind
+declare void @free(i8* nocapture) local_unnamed_addr #1
+; END OF HEADER
+
+; Function Attrs: nounwind sspstrong uwtable
+define dso_local i32 @func$in_i32_dummy$2() local_unnamed_addr #0 {
+  %1 = alloca i64, align 8
+  %2 = bitcast i64* %1 to i8*
+  %3 = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.in_int_str, i64 0, i64 0), i64* nonnull %1)
+  %4 = load i64, i64* %1, align 8
+  %5 = trunc i64 %4 to i32
+  ret i32 %5
+}
+; Function Attrs: norecurse nounwind readnone sspstrong uwtable
+define dso_local i1 @func$dummy_cast_32_to_1$3(i32 %0) local_unnamed_addr #0 {
+  %2 = trunc i32 %0 to i1
+  ret i1 %2
+}
+define dso_local void @func$builtin_copy$4(%i32* %0, %i32* %1){
+%val = load %i32, %i32* %1
+store %i32 %val, %i32* %0
+ret void
+}
+; Function Attrs: nofree nounwind sspstrong uwtable
+define dso_local void @func$out_i1_dummy$5(i1 %0) local_unnamed_addr #0 {
+  %2 = sext i1 %0 to i64
+  %3 = tail call i32 (i8*, ...) @printf(i8* nonnull dereferenceable(1) getelementptr inbounds ([6 x i8], [6 x i8]* @.out_int_str, i64 0, i64 0), i64 %2)
+  ret void
+}
+define dso_local void @func$builtin_copy$6(%bool* %0, %bool* %1){
+%val = load %bool, %bool* %1
+store %bool %val, %bool* %0
+ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$7(%i32* %t_0) local_unnamed_addr #0 {
+  ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$8(%bool* %t_0) local_unnamed_addr #0 {
+  ret void
+}
+define dso_local %i32 @func$main$1 () {
+	; func setup done
+	%return = alloca %i32
+%tmp_varfuncres$1 = alloca %i32
+	%tmp_var$2 = call %i32 @func$in_i32_dummy$2()
+	store %i32 %tmp_var$2, %i32* %tmp_varfuncres$1
+	%var$a$1 = alloca %i32
+	%tmp_var$3 = load %i32, %i32* %tmp_varfuncres$1
+	store %i32 %tmp_var$3, %i32* %var$a$1
+	%tmp_varcopied_arg_0$4 = alloca %i32
+	%tmp_varaddrof$5 = alloca %i32*
+	store %i32* %var$a$1, %i32** %tmp_varaddrof$5
+	%tmp_varaddrof$6 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$4, %i32** %tmp_varaddrof$6
+	%tmp_var$7 = load %i32*, %i32** %tmp_varaddrof$6
+	%tmp_var$8 = load %i32*, %i32** %tmp_varaddrof$5
+	call void @func$builtin_copy$4(%i32* %tmp_var$7, %i32* %tmp_var$8)
+%tmp_varfuncres$9 = alloca %bool
+	%tmp_var$10 = load %i32, %i32* %tmp_varcopied_arg_0$4
+	%tmp_var$11 = call %bool @func$dummy_cast_32_to_1$3(%i32 %tmp_var$10)
+	store %bool %tmp_var$11, %bool* %tmp_varfuncres$9
+	%var$b$2 = alloca %bool
+	%tmp_var$12 = load %bool, %bool* %tmp_varfuncres$9
+	store %bool %tmp_var$12, %bool* %var$b$2
+	%tmp_varcopied_arg_0$13 = alloca %bool
+	%tmp_varaddrof$14 = alloca %bool*
+	store %bool* %var$b$2, %bool** %tmp_varaddrof$14
+	%tmp_varaddrof$15 = alloca %bool*
+	store %bool* %tmp_varcopied_arg_0$13, %bool** %tmp_varaddrof$15
+	%tmp_var$16 = load %bool*, %bool** %tmp_varaddrof$15
+	%tmp_var$17 = load %bool*, %bool** %tmp_varaddrof$14
+	call void @func$builtin_copy$6(%bool* %tmp_var$16, %bool* %tmp_var$17)
+	%tmp_var$18 = load %bool, %bool* %tmp_varcopied_arg_0$13
+	call void @func$out_i1_dummy$5(%bool %tmp_var$18)
+	br label %func_end
+	func_end:
+	%tmp_varaddrof$19 = alloca %i32*
+	store %i32* %var$a$1, %i32** %tmp_varaddrof$19
+	%tmp_var$20 = load %i32*, %i32** %tmp_varaddrof$19
+	call void @func$func_do_nothing$7(%i32* %tmp_var$20)
+	%tmp_varaddrof$21 = alloca %bool*
+	store %bool* %var$b$2, %bool** %tmp_varaddrof$21
+	%tmp_var$22 = load %bool*, %bool** %tmp_varaddrof$21
+	call void @func$func_do_nothing$8(%bool* %tmp_var$22)
+	%tmp_varrettmp$23 = load %i32, %i32* %return
+	ret %i32 %tmp_varrettmp$23
+}
+
+; START OF HEADER
+define dso_local i32 @main() #0 {
+	%1 = call i32 @func$main$1()
+	ret i32 %1
+}
+
+---------------------
+Program: examples/demo_cast.st
+
+fn main() -> i32{
+    let a = in<i32>();
+    let b = cast<bool>(a);
+    out(b);
+}
+---------------------
+
+-1
+
+Exit status: 0
+---------------------
+======================
+======================
+======================
+
+
+
+---------------------
+Program: examples/demo_check.st
+; ModuleID = 'cprog.c'
+source_filename = "cprog.c"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-pc-linux-gnu"
+
+%i8 = type i8
+%i16 = type i16
+%i32 = type i32
+%i64 = type i64
+%bool = type i1
+
+; Function Attrs: nofree nounwind
+declare i32 @printf(i8* nocapture readonly, ...) local_unnamed_addr #1
+
+; Function Attrs: nofree nounwind
+declare i32 @__isoc99_scanf(i8* nocapture readonly, ...) local_unnamed_addr #2
+@.in_int_str = private unnamed_addr constant [5 x i8] c"%lld\00", align 1
+@.out_int_str = private unnamed_addr constant [6 x i8] c"%lld\0A\00", align 1
+
+; Function Attrs: nounwind
+declare noalias i8* @malloc(i64) #1
+
+; Function Attrs: nounwind
+declare void @free(i8* nocapture) local_unnamed_addr #1
+; END OF HEADER
+
+; Function Attrs: noinline nounwind optnone sspstrong uwtable
+define dso_local %i64* @func$dummy_heap_alloc_array$2(%i32 %0) #0 {
+  %2 = alloca %i32
+  store %i32 %0, %i32* %2
+  %3 = load %i32, %i32* %2
+  %4 = sext %i32 %3 to i64
+
+  %Size = getelementptr %i64, %i64* null, i32 1
+  %SizeI = ptrtoint %i64* %Size to i64
+
+  %5 = mul i64 %SizeI, %4
+  %6 = call noalias i8* @malloc(i64 %5) #2
+  %7 = bitcast i8* %6 to %i64*
+  ret %i64* %7
+}
+define dso_local void @func$builtin_init$3(%i64* %0, %i64 %1){
+store %i64 %1, %i64* %0
+ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly
+define dso_local %i64* @func$heap_object$4(%i64 %t_0) local_unnamed_addr #0 {
+%ptr = call %i64* @func$dummy_heap_alloc_array$2(i32 1)
+call void @func$builtin_init$3(%i64* %ptr, %i64 %t_0)
+ret %i64* %ptr
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$5(%i64* %t_0) local_unnamed_addr #0 {
+  ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$6(%i64** %t_0) local_unnamed_addr #0 {
+  ret void
+}
+define dso_local %i32 @func$main$1 () {
+	; func setup done
+	%return = alloca %i32
+	%tmp_varintconst$1 = alloca i64
+	store %i64 5, %i64* %tmp_varintconst$1
+	%var$b$1 = alloca %i64
+	%tmp_var$2 = load %i64, %i64* %tmp_varintconst$1
+	store %i64 %tmp_var$2, %i64* %var$b$1
+	%tmp_varintconst$3 = alloca i64
+	store %i64 15, %i64* %tmp_varintconst$3
+%tmp_varfuncres$4 = alloca %i64*
+	%tmp_var$5 = load %i64, %i64* %tmp_varintconst$3
+	%tmp_var$6 = call %i64* @func$heap_object$4(%i64 %tmp_var$5)
+	store %i64* %tmp_var$6, %i64** %tmp_varfuncres$4
+	%var$a$2 = alloca %i64*
+	%tmp_var$7 = load %i64*, %i64** %tmp_varfuncres$4
+	store %i64* %tmp_var$7, %i64** %var$a$2
+	%tmp_varintconst$8 = alloca i32
+	store %i32 0, %i32* %tmp_varintconst$8
+	%tmp_var$9 = load %i32, %i32* %tmp_varintconst$8
+	store %i32 %tmp_var$9, %i32* %return
+	br label %func_end
+	br label %func_end
+	func_end:
+	%tmp_varaddrof$10 = alloca %i64*
+	store %i64* %var$b$1, %i64** %tmp_varaddrof$10
+	%tmp_var$11 = load %i64*, %i64** %tmp_varaddrof$10
+	call void @func$func_do_nothing$5(%i64* %tmp_var$11)
+	%tmp_varaddrof$12 = alloca %i64**
+	store %i64** %var$a$2, %i64*** %tmp_varaddrof$12
+	%tmp_var$13 = load %i64**, %i64*** %tmp_varaddrof$12
+	call void @func$func_do_nothing$6(%i64** %tmp_var$13)
+	%tmp_varrettmp$14 = load %i32, %i32* %return
+	ret %i32 %tmp_varrettmp$14
+}
+
+; START OF HEADER
+define dso_local i32 @main() #0 {
+	%1 = call i32 @func$main$1()
+	ret i32 %1
+}
+
+---------------------
+Program: examples/demo_check.st
+
+fn main() -> i32{
+    let b = 5i64;
+    let a = heap_object<i64>(15i64);
+
+    return 0;
+}
+---------------------
+
+
+Exit status: 0
+---------------------
+======================
+======================
+======================
+
+
+
+---------------------
+Program: examples/demo_fib_ct.st
+; ModuleID = 'cprog.c'
+source_filename = "cprog.c"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-pc-linux-gnu"
+
+%i8 = type i8
+%i16 = type i16
+%i32 = type i32
+%i64 = type i64
+%bool = type i1
+
+; Function Attrs: nofree nounwind
+declare i32 @printf(i8* nocapture readonly, ...) local_unnamed_addr #1
+
+; Function Attrs: nofree nounwind
+declare i32 @__isoc99_scanf(i8* nocapture readonly, ...) local_unnamed_addr #2
+@.in_int_str = private unnamed_addr constant [5 x i8] c"%lld\00", align 1
+@.out_int_str = private unnamed_addr constant [6 x i8] c"%lld\0A\00", align 1
+
+; Function Attrs: nounwind
+declare noalias i8* @malloc(i64) #1
+
+; Function Attrs: nounwind
+declare void @free(i8* nocapture) local_unnamed_addr #1
+; END OF HEADER
+
+%struct$fib$26 = type {
+}
+%struct$fib$28 = type {
+}
+%struct$fib$24 = type {
+}
+%struct$fib$21 = type {
+}
+%struct$fib$18 = type {
+}
+%struct$fib$15 = type {
+}
+%struct$fib$12 = type {
+}
+%struct$fib$9 = type {
+}
+%struct$fib$6 = type {
+}
+%struct$fib$3 = type {
+}
+define dso_local i32 @func$dummy_ttv_55i32$3() #0 {
+  ret i32 55
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$4(%i32* %t_0) local_unnamed_addr #0 {
+  ret void
+}
+define dso_local %i32 @func$ct_fib$2 () {
+	; func setup done
+	%return = alloca %i32
+%tmp_varfuncres$1 = alloca %i32
+	%tmp_var$2 = call %i32 @func$dummy_ttv_55i32$3()
+	store %i32 %tmp_var$2, %i32* %tmp_varfuncres$1
+	%var$value$3 = alloca %i32
+	%tmp_var$3 = load %i32, %i32* %tmp_varfuncres$1
+	store %i32 %tmp_var$3, %i32* %var$value$3
+	%tmp_var$4 = load %i32, %i32* %var$value$3
+	store %i32 %tmp_var$4, %i32* %return
+	br label %func_end
+	br label %func_end
+	func_end:
+	%tmp_varaddrof$5 = alloca %i32*
+	store %i32* %var$value$3, %i32** %tmp_varaddrof$5
+	%tmp_var$6 = load %i32*, %i32** %tmp_varaddrof$5
+	call void @func$func_do_nothing$4(%i32* %tmp_var$6)
+	%tmp_varrettmp$7 = load %i32, %i32* %return
+	ret %i32 %tmp_varrettmp$7
+}
+define dso_local %i32 @func$main$1 () {
+	; func setup done
+	%return = alloca %i32
+%tmp_varfuncres$1 = alloca %i32
+	%tmp_var$2 = call %i32 @func$ct_fib$2()
+	store %i32 %tmp_var$2, %i32* %tmp_varfuncres$1
+	%var$v$1 = alloca %i32
+	%tmp_var$3 = load %i32, %i32* %tmp_varfuncres$1
+	store %i32 %tmp_var$3, %i32* %var$v$1
+	%tmp_var$4 = load %i32, %i32* %var$v$1
+	store %i32 %tmp_var$4, %i32* %return
+	br label %func_end
+	br label %func_end
+	func_end:
+	%tmp_varaddrof$5 = alloca %i32*
+	store %i32* %var$v$1, %i32** %tmp_varaddrof$5
+	%tmp_var$6 = load %i32*, %i32** %tmp_varaddrof$5
+	call void @func$func_do_nothing$4(%i32* %tmp_var$6)
+	%tmp_varrettmp$7 = load %i32, %i32* %return
+	ret %i32 %tmp_varrettmp$7
+}
+
+; START OF HEADER
+define dso_local i32 @main() #0 {
+	%1 = call i32 @func$main$1()
+	ret i32 %1
+}
+
+---------------------
+Program: examples/demo_fib_ct.st
+
+//
+// compile time computation example
+//
+
+struct fib<T> -> i1{
+    type _ = enable_if<T == i1>;
+}
+struct fib<T> -> i1{
+    type _ = enable_if<T == i2>;
+}
+
+struct fib<T> -> R{
+    type _ = enable_if<T != i1>;
+    type _ = enable_if<T != i2>;
+    type R = fib<T-i1>+fib<T-i2>;
+}
+
+fn ct_fib<T>() -> i32{
+    type f = fib<T>;
+    let value = type_to_value<f, i32>();
+    return value;
+}
+
+fn main() -> i32{
+    let v = ct_fib<i10>();
+    return v;
+}
+---------------------
+
+
+Exit status: 55
+---------------------
+======================
+======================
+======================
+
+
+
+---------------------
+Program: examples/demo_fib_rt_loop.st
+; ModuleID = 'cprog.c'
+source_filename = "cprog.c"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-pc-linux-gnu"
+
+%i8 = type i8
+%i16 = type i16
+%i32 = type i32
+%i64 = type i64
+%bool = type i1
+
+; Function Attrs: nofree nounwind
+declare i32 @printf(i8* nocapture readonly, ...) local_unnamed_addr #1
+
+; Function Attrs: nofree nounwind
+declare i32 @__isoc99_scanf(i8* nocapture readonly, ...) local_unnamed_addr #2
+@.in_int_str = private unnamed_addr constant [5 x i8] c"%lld\00", align 1
+@.out_int_str = private unnamed_addr constant [6 x i8] c"%lld\0A\00", align 1
+
+; Function Attrs: nounwind
+declare noalias i8* @malloc(i64) #1
+
+; Function Attrs: nounwind
+declare void @free(i8* nocapture) local_unnamed_addr #1
+; END OF HEADER
+
+; Function Attrs: nounwind sspstrong uwtable
+define dso_local i32 @func$in_i32_dummy$2() local_unnamed_addr #0 {
+  %1 = alloca i64, align 8
+  %2 = bitcast i64* %1 to i8*
+  %3 = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.in_int_str, i64 0, i64 0), i64* nonnull %1)
+  %4 = load i64, i64* %1, align 8
+  %5 = trunc i64 %4 to i32
+  ret i32 %5
+}
+define dso_local i32 @func$dummy_func___sub__$4(i32 %0, i32 %1) {
+  %3 = sub nsw i32 %0, %1
+  ret i32 %3
+}
+define dso_local void @func$builtin_copy$5(%i32* %0, %i32* %1){
+%val = load %i32, %i32* %1
+store %i32 %val, %i32* %0
+ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$6(%i32* %t_0) local_unnamed_addr #0 {
+  ret void
+}
+define dso_local i1 @func$dummy_func___gt__$7(i32 %0, i32 %1) {
+	%3 = icmp sgt i32 %0, %1
+	ret i1 %3
+}
+define dso_local i32 @func$dummy_func___add__$8(i32 %0, i32 %1) {
+  %3 = add nsw i32 %0, %1
+  ret i32 %3
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$9(%bool* %t_0) local_unnamed_addr #0 {
+  ret void
+}
+define dso_local %i32 @func$fib$3 ( %i32 %tmp_varparam_placeholder$1) {
+	%var$n$1 = alloca %i32
+	store %i32 %tmp_varparam_placeholder$1, %i32* %var$n$1
+	; func setup done
+	%return = alloca %i32
+	%tmp_varintconst$2 = alloca i32
+	store %i32 1, %i32* %tmp_varintconst$2
+	%var$f1$3 = alloca %i32
+	%tmp_var$3 = load %i32, %i32* %tmp_varintconst$2
+	store %i32 %tmp_var$3, %i32* %var$f1$3
+	%tmp_varintconst$4 = alloca i32
+	store %i32 1, %i32* %tmp_varintconst$4
+	%var$f2$4 = alloca %i32
+	%tmp_var$5 = load %i32, %i32* %tmp_varintconst$4
+	store %i32 %tmp_var$5, %i32* %var$f2$4
+	%tmp_varintconst$6 = alloca i32
+	store %i32 0, %i32* %tmp_varintconst$6
+	%var$fb$5 = alloca %i32
+	%tmp_var$7 = load %i32, %i32* %tmp_varintconst$6
+	store %i32 %tmp_var$7, %i32* %var$fb$5
+	%tmp_varintconst$8 = alloca i32
+	store %i32 1, %i32* %tmp_varintconst$8
+	%tmp_varcopied_arg_0$9 = alloca %i32
+	%tmp_varaddrof$10 = alloca %i32*
+	store %i32* %var$n$1, %i32** %tmp_varaddrof$10
+	%tmp_varaddrof$11 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$9, %i32** %tmp_varaddrof$11
+	%tmp_var$12 = load %i32*, %i32** %tmp_varaddrof$11
+	%tmp_var$13 = load %i32*, %i32** %tmp_varaddrof$10
+	call void @func$builtin_copy$5(%i32* %tmp_var$12, %i32* %tmp_var$13)
+%tmp_varfuncres$14 = alloca %i32
+	%tmp_var$15 = load %i32, %i32* %tmp_varcopied_arg_0$9
+	%tmp_var$16 = load %i32, %i32* %tmp_varintconst$8
+	%tmp_var$17 = call %i32 @func$dummy_func___sub__$4(%i32 %tmp_var$15, %i32 %tmp_var$16)
+	store %i32 %tmp_var$17, %i32* %tmp_varfuncres$14
+	%tmp_varaddrof$18 = alloca %i32*
+	store %i32* %var$n$1, %i32** %tmp_varaddrof$18
+	%tmp_var$19 = load %i32*, %i32** %tmp_varaddrof$18
+	call void @func$func_do_nothing$6(%i32* %tmp_var$19)
+	%tmp_var$20 = load %i32, %i32* %tmp_varfuncres$14
+	store %i32 %tmp_var$20, %i32* %var$n$1
+	br label %labelfor_check$1
+	labelfor_check$1:
+	%tmp_varintconst$21 = alloca i32
+	store %i32 0, %i32* %tmp_varintconst$21
+	%tmp_varcopied_arg_0$22 = alloca %i32
+	%tmp_varaddrof$23 = alloca %i32*
+	store %i32* %var$n$1, %i32** %tmp_varaddrof$23
+	%tmp_varaddrof$24 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$22, %i32** %tmp_varaddrof$24
+	%tmp_var$25 = load %i32*, %i32** %tmp_varaddrof$24
+	%tmp_var$26 = load %i32*, %i32** %tmp_varaddrof$23
+	call void @func$builtin_copy$5(%i32* %tmp_var$25, %i32* %tmp_var$26)
+%tmp_varfuncres$27 = alloca %bool
+	%tmp_var$28 = load %i32, %i32* %tmp_varcopied_arg_0$22
+	%tmp_var$29 = load %i32, %i32* %tmp_varintconst$21
+	%tmp_var$30 = call %bool @func$dummy_func___gt__$7(%i32 %tmp_var$28, %i32 %tmp_var$29)
+	store %bool %tmp_var$30, %bool* %tmp_varfuncres$27
+	%tmp_varjumptmp$31 = load i1, i1* %tmp_varfuncres$27
+	br i1 %tmp_varjumptmp$31, label %labelfor_succ$2, label %labelfor_end$3
+	labelfor_succ$2:
+	%tmp_varaddrof$32 = alloca %i32*
+	store %i32* %var$fb$5, %i32** %tmp_varaddrof$32
+	%tmp_var$33 = load %i32*, %i32** %tmp_varaddrof$32
+	call void @func$func_do_nothing$6(%i32* %tmp_var$33)
+	%tmp_varaddrof$34 = alloca %i32*
+	store %i32* %var$f2$4, %i32** %tmp_varaddrof$34
+	%tmp_varaddrof$35 = alloca %i32*
+	store %i32* %var$fb$5, %i32** %tmp_varaddrof$35
+	%tmp_var$36 = load %i32*, %i32** %tmp_varaddrof$35
+	%tmp_var$37 = load %i32*, %i32** %tmp_varaddrof$34
+	call void @func$builtin_copy$5(%i32* %tmp_var$36, %i32* %tmp_var$37)
+	%tmp_varcopied_arg_0$38 = alloca %i32
+	%tmp_varaddrof$39 = alloca %i32*
+	store %i32* %var$f1$3, %i32** %tmp_varaddrof$39
+	%tmp_varaddrof$40 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$38, %i32** %tmp_varaddrof$40
+	%tmp_var$41 = load %i32*, %i32** %tmp_varaddrof$40
+	%tmp_var$42 = load %i32*, %i32** %tmp_varaddrof$39
+	call void @func$builtin_copy$5(%i32* %tmp_var$41, %i32* %tmp_var$42)
+	%tmp_varcopied_arg_1$43 = alloca %i32
+	%tmp_varaddrof$44 = alloca %i32*
+	store %i32* %var$f2$4, %i32** %tmp_varaddrof$44
+	%tmp_varaddrof$45 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_1$43, %i32** %tmp_varaddrof$45
+	%tmp_var$46 = load %i32*, %i32** %tmp_varaddrof$45
+	%tmp_var$47 = load %i32*, %i32** %tmp_varaddrof$44
+	call void @func$builtin_copy$5(%i32* %tmp_var$46, %i32* %tmp_var$47)
+%tmp_varfuncres$48 = alloca %i32
+	%tmp_var$49 = load %i32, %i32* %tmp_varcopied_arg_0$38
+	%tmp_var$50 = load %i32, %i32* %tmp_varcopied_arg_1$43
+	%tmp_var$51 = call %i32 @func$dummy_func___add__$8(%i32 %tmp_var$49, %i32 %tmp_var$50)
+	store %i32 %tmp_var$51, %i32* %tmp_varfuncres$48
+	%tmp_varaddrof$52 = alloca %i32*
+	store %i32* %var$f2$4, %i32** %tmp_varaddrof$52
+	%tmp_var$53 = load %i32*, %i32** %tmp_varaddrof$52
+	call void @func$func_do_nothing$6(%i32* %tmp_var$53)
+	%tmp_var$54 = load %i32, %i32* %tmp_varfuncres$48
+	store %i32 %tmp_var$54, %i32* %var$f2$4
+	%tmp_varaddrof$55 = alloca %i32*
+	store %i32* %var$f1$3, %i32** %tmp_varaddrof$55
+	%tmp_var$56 = load %i32*, %i32** %tmp_varaddrof$55
+	call void @func$func_do_nothing$6(%i32* %tmp_var$56)
+	%tmp_varaddrof$57 = alloca %i32*
+	store %i32* %var$fb$5, %i32** %tmp_varaddrof$57
+	%tmp_varaddrof$58 = alloca %i32*
+	store %i32* %var$f1$3, %i32** %tmp_varaddrof$58
+	%tmp_var$59 = load %i32*, %i32** %tmp_varaddrof$58
+	%tmp_var$60 = load %i32*, %i32** %tmp_varaddrof$57
+	call void @func$builtin_copy$5(%i32* %tmp_var$59, %i32* %tmp_var$60)
+	%tmp_varintconst$61 = alloca i32
+	store %i32 1, %i32* %tmp_varintconst$61
+	%tmp_varcopied_arg_0$62 = alloca %i32
+	%tmp_varaddrof$63 = alloca %i32*
+	store %i32* %var$n$1, %i32** %tmp_varaddrof$63
+	%tmp_varaddrof$64 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$62, %i32** %tmp_varaddrof$64
+	%tmp_var$65 = load %i32*, %i32** %tmp_varaddrof$64
+	%tmp_var$66 = load %i32*, %i32** %tmp_varaddrof$63
+	call void @func$builtin_copy$5(%i32* %tmp_var$65, %i32* %tmp_var$66)
+%tmp_varfuncres$67 = alloca %i32
+	%tmp_var$68 = load %i32, %i32* %tmp_varcopied_arg_0$62
+	%tmp_var$69 = load %i32, %i32* %tmp_varintconst$61
+	%tmp_var$70 = call %i32 @func$dummy_func___sub__$4(%i32 %tmp_var$68, %i32 %tmp_var$69)
+	store %i32 %tmp_var$70, %i32* %tmp_varfuncres$67
+	%tmp_varaddrof$71 = alloca %i32*
+	store %i32* %var$n$1, %i32** %tmp_varaddrof$71
+	%tmp_var$72 = load %i32*, %i32** %tmp_varaddrof$71
+	call void @func$func_do_nothing$6(%i32* %tmp_var$72)
+	%tmp_var$73 = load %i32, %i32* %tmp_varfuncres$67
+	store %i32 %tmp_var$73, %i32* %var$n$1
+	br label %labelfor_check$1
+	labelfor_end$3:
+	%tmp_varaddrof$74 = alloca %bool*
+	store %bool* %tmp_varfuncres$27, %bool** %tmp_varaddrof$74
+	%tmp_var$75 = load %bool*, %bool** %tmp_varaddrof$74
+	call void @func$func_do_nothing$9(%bool* %tmp_var$75)
+	%tmp_var$76 = load %i32, %i32* %var$f1$3
+	store %i32 %tmp_var$76, %i32* %return
+	br label %func_end
+	br label %func_end
+	func_end:
+	%tmp_varaddrof$77 = alloca %i32*
+	store %i32* %var$f1$3, %i32** %tmp_varaddrof$77
+	%tmp_var$78 = load %i32*, %i32** %tmp_varaddrof$77
+	call void @func$func_do_nothing$6(%i32* %tmp_var$78)
+	%tmp_varaddrof$79 = alloca %i32*
+	store %i32* %var$f2$4, %i32** %tmp_varaddrof$79
+	%tmp_var$80 = load %i32*, %i32** %tmp_varaddrof$79
+	call void @func$func_do_nothing$6(%i32* %tmp_var$80)
+	%tmp_varaddrof$81 = alloca %i32*
+	store %i32* %var$fb$5, %i32** %tmp_varaddrof$81
+	%tmp_var$82 = load %i32*, %i32** %tmp_varaddrof$81
+	call void @func$func_do_nothing$6(%i32* %tmp_var$82)
+	%tmp_varrettmp$83 = load %i32, %i32* %return
+	ret %i32 %tmp_varrettmp$83
+}
+; Function Attrs: nofree nounwind sspstrong uwtable
+define dso_local void @func$out_i32_dummy$10(i32 %0) local_unnamed_addr #0 {
+  %2 = sext i32 %0 to i64
+  %3 = tail call i32 (i8*, ...) @printf(i8* nonnull dereferenceable(1) getelementptr inbounds ([6 x i8], [6 x i8]* @.out_int_str, i64 0, i64 0), i64 %2)
+  ret void
+}
+define dso_local %i32 @func$main$1 () {
+	; func setup done
+	%return = alloca %i32
+%tmp_varfuncres$1 = alloca %i32
+	%tmp_var$2 = call %i32 @func$in_i32_dummy$2()
+	store %i32 %tmp_var$2, %i32* %tmp_varfuncres$1
+	%var$n$1 = alloca %i32
+	%tmp_var$3 = load %i32, %i32* %tmp_varfuncres$1
+	store %i32 %tmp_var$3, %i32* %var$n$1
+	%tmp_varcopied_arg_0$4 = alloca %i32
+	%tmp_varaddrof$5 = alloca %i32*
+	store %i32* %var$n$1, %i32** %tmp_varaddrof$5
+	%tmp_varaddrof$6 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$4, %i32** %tmp_varaddrof$6
+	%tmp_var$7 = load %i32*, %i32** %tmp_varaddrof$6
+	%tmp_var$8 = load %i32*, %i32** %tmp_varaddrof$5
+	call void @func$builtin_copy$5(%i32* %tmp_var$7, %i32* %tmp_var$8)
+%tmp_varfuncres$9 = alloca %i32
+	%tmp_var$10 = load %i32, %i32* %tmp_varcopied_arg_0$4
+	%tmp_var$11 = call %i32 @func$fib$3(%i32 %tmp_var$10)
+	store %i32 %tmp_var$11, %i32* %tmp_varfuncres$9
+	%var$f$2 = alloca %i32
+	%tmp_var$12 = load %i32, %i32* %tmp_varfuncres$9
+	store %i32 %tmp_var$12, %i32* %var$f$2
+	%tmp_varcopied_arg_0$13 = alloca %i32
+	%tmp_varaddrof$14 = alloca %i32*
+	store %i32* %var$f$2, %i32** %tmp_varaddrof$14
+	%tmp_varaddrof$15 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$13, %i32** %tmp_varaddrof$15
+	%tmp_var$16 = load %i32*, %i32** %tmp_varaddrof$15
+	%tmp_var$17 = load %i32*, %i32** %tmp_varaddrof$14
+	call void @func$builtin_copy$5(%i32* %tmp_var$16, %i32* %tmp_var$17)
+	%tmp_var$18 = load %i32, %i32* %tmp_varcopied_arg_0$13
+	call void @func$out_i32_dummy$10(%i32 %tmp_var$18)
+	%tmp_varintconst$19 = alloca i32
+	store %i32 0, %i32* %tmp_varintconst$19
+	%tmp_var$20 = load %i32, %i32* %tmp_varintconst$19
+	store %i32 %tmp_var$20, %i32* %return
+	br label %func_end
+	br label %func_end
+	func_end:
+	%tmp_varaddrof$21 = alloca %i32*
+	store %i32* %var$n$1, %i32** %tmp_varaddrof$21
+	%tmp_var$22 = load %i32*, %i32** %tmp_varaddrof$21
+	call void @func$func_do_nothing$6(%i32* %tmp_var$22)
+	%tmp_varaddrof$23 = alloca %i32*
+	store %i32* %var$f$2, %i32** %tmp_varaddrof$23
+	%tmp_var$24 = load %i32*, %i32** %tmp_varaddrof$23
+	call void @func$func_do_nothing$6(%i32* %tmp_var$24)
+	%tmp_varrettmp$25 = load %i32, %i32* %return
+	ret %i32 %tmp_varrettmp$25
+}
+
+; START OF HEADER
+define dso_local i32 @main() #0 {
+	%1 = call i32 @func$main$1()
+	ret i32 %1
+}
+
+---------------------
+Program: examples/demo_fib_rt_loop.st
+
+fn fib(n) -> i32{
+    type _1 = enable_if<n==i32>;
+    let f1 = 1;
+    let f2 = 1;
+    let fb = 0;
+
+    for (n=n-1;n>!0; n=n-1;){
+        fb = f2;
+        f2 = f1 + f2;
+        f1 = fb;
+    }
+    return f1;
+}
+
+fn main() -> i32{
+    let n = in<i32>();
+    let f = fib(n);
+    out(f);
+    return 0;
+}
+---------------------
+
+55
+
+Exit status: 0
+---------------------
+======================
+======================
+======================
+
+
+
+---------------------
+Program: examples/demo_fib_rt_rec.st
+; ModuleID = 'cprog.c'
+source_filename = "cprog.c"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-pc-linux-gnu"
+
+%i8 = type i8
+%i16 = type i16
+%i32 = type i32
+%i64 = type i64
+%bool = type i1
+
+; Function Attrs: nofree nounwind
+declare i32 @printf(i8* nocapture readonly, ...) local_unnamed_addr #1
+
+; Function Attrs: nofree nounwind
+declare i32 @__isoc99_scanf(i8* nocapture readonly, ...) local_unnamed_addr #2
+@.in_int_str = private unnamed_addr constant [5 x i8] c"%lld\00", align 1
+@.out_int_str = private unnamed_addr constant [6 x i8] c"%lld\0A\00", align 1
+
+; Function Attrs: nounwind
+declare noalias i8* @malloc(i64) #1
+
+; Function Attrs: nounwind
+declare void @free(i8* nocapture) local_unnamed_addr #1
+; END OF HEADER
+
+; Function Attrs: nounwind sspstrong uwtable
+define dso_local i32 @func$in_i32_dummy$2() local_unnamed_addr #0 {
+  %1 = alloca i64, align 8
+  %2 = bitcast i64* %1 to i8*
+  %3 = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.in_int_str, i64 0, i64 0), i64* nonnull %1)
+  %4 = load i64, i64* %1, align 8
+  %5 = trunc i64 %4 to i32
+  ret i32 %5
+}
+define dso_local i1 @func$dummy_func___le__$4(i32 %0, i32 %1) {
+	%3 = icmp sle i32 %0, %1
+	ret i1 %3
+}
+define dso_local void @func$builtin_copy$5(%i32* %0, %i32* %1){
+%val = load %i32, %i32* %1
+store %i32 %val, %i32* %0
+ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$6(%bool* %t_0) local_unnamed_addr #0 {
+  ret void
+}
+define dso_local i32 @func$dummy_func___sub__$7(i32 %0, i32 %1) {
+  %3 = sub nsw i32 %0, %1
+  ret i32 %3
+}
+define dso_local i32 @func$dummy_func___add__$8(i32 %0, i32 %1) {
+  %3 = add nsw i32 %0, %1
+  ret i32 %3
+}
+define dso_local %i32 @func$fib$3 ( %i32 %tmp_varparam_placeholder$1) {
+	%var$n$1 = alloca %i32
+	store %i32 %tmp_varparam_placeholder$1, %i32* %var$n$1
+	; func setup done
+	%return = alloca %i32
+	%tmp_varintconst$2 = alloca i32
+	store %i32 2, %i32* %tmp_varintconst$2
+	%tmp_varcopied_arg_0$3 = alloca %i32
+	%tmp_varaddrof$4 = alloca %i32*
+	store %i32* %var$n$1, %i32** %tmp_varaddrof$4
+	%tmp_varaddrof$5 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$3, %i32** %tmp_varaddrof$5
+	%tmp_var$6 = load %i32*, %i32** %tmp_varaddrof$5
+	%tmp_var$7 = load %i32*, %i32** %tmp_varaddrof$4
+	call void @func$builtin_copy$5(%i32* %tmp_var$6, %i32* %tmp_var$7)
+%tmp_varfuncres$8 = alloca %bool
+	%tmp_var$9 = load %i32, %i32* %tmp_varcopied_arg_0$3
+	%tmp_var$10 = load %i32, %i32* %tmp_varintconst$2
+	%tmp_var$11 = call %bool @func$dummy_func___le__$4(%i32 %tmp_var$9, %i32 %tmp_var$10)
+	store %bool %tmp_var$11, %bool* %tmp_varfuncres$8
+	%tmp_varjumptmp$12 = load i1, i1* %tmp_varfuncres$8
+	br i1 %tmp_varjumptmp$12, label %labelif_true$1, label %labelif_false$2
+	labelif_true$1:
+	%tmp_varintconst$13 = alloca i32
+	store %i32 1, %i32* %tmp_varintconst$13
+	%tmp_var$14 = load %i32, %i32* %tmp_varintconst$13
+	store %i32 %tmp_var$14, %i32* %return
+	%tmp_varaddrof$15 = alloca %bool*
+	store %bool* %tmp_varfuncres$8, %bool** %tmp_varaddrof$15
+	%tmp_var$16 = load %bool*, %bool** %tmp_varaddrof$15
+	call void @func$func_do_nothing$6(%bool* %tmp_var$16)
+	br label %func_end
+	br label %labelif_end$3
+	labelif_false$2:
+	%tmp_varintconst$17 = alloca i32
+	store %i32 1, %i32* %tmp_varintconst$17
+	%tmp_varcopied_arg_0$18 = alloca %i32
+	%tmp_varaddrof$19 = alloca %i32*
+	store %i32* %var$n$1, %i32** %tmp_varaddrof$19
+	%tmp_varaddrof$20 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$18, %i32** %tmp_varaddrof$20
+	%tmp_var$21 = load %i32*, %i32** %tmp_varaddrof$20
+	%tmp_var$22 = load %i32*, %i32** %tmp_varaddrof$19
+	call void @func$builtin_copy$5(%i32* %tmp_var$21, %i32* %tmp_var$22)
+%tmp_varfuncres$23 = alloca %i32
+	%tmp_var$24 = load %i32, %i32* %tmp_varcopied_arg_0$18
+	%tmp_var$25 = load %i32, %i32* %tmp_varintconst$17
+	%tmp_var$26 = call %i32 @func$dummy_func___sub__$7(%i32 %tmp_var$24, %i32 %tmp_var$25)
+	store %i32 %tmp_var$26, %i32* %tmp_varfuncres$23
+%tmp_varfuncres$27 = alloca %i32
+	%tmp_var$28 = load %i32, %i32* %tmp_varfuncres$23
+	%tmp_var$29 = call %i32 @func$fib$3(%i32 %tmp_var$28)
+	store %i32 %tmp_var$29, %i32* %tmp_varfuncres$27
+	%tmp_varintconst$30 = alloca i32
+	store %i32 2, %i32* %tmp_varintconst$30
+	%tmp_varcopied_arg_0$31 = alloca %i32
+	%tmp_varaddrof$32 = alloca %i32*
+	store %i32* %var$n$1, %i32** %tmp_varaddrof$32
+	%tmp_varaddrof$33 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$31, %i32** %tmp_varaddrof$33
+	%tmp_var$34 = load %i32*, %i32** %tmp_varaddrof$33
+	%tmp_var$35 = load %i32*, %i32** %tmp_varaddrof$32
+	call void @func$builtin_copy$5(%i32* %tmp_var$34, %i32* %tmp_var$35)
+%tmp_varfuncres$36 = alloca %i32
+	%tmp_var$37 = load %i32, %i32* %tmp_varcopied_arg_0$31
+	%tmp_var$38 = load %i32, %i32* %tmp_varintconst$30
+	%tmp_var$39 = call %i32 @func$dummy_func___sub__$7(%i32 %tmp_var$37, %i32 %tmp_var$38)
+	store %i32 %tmp_var$39, %i32* %tmp_varfuncres$36
+%tmp_varfuncres$40 = alloca %i32
+	%tmp_var$41 = load %i32, %i32* %tmp_varfuncres$36
+	%tmp_var$42 = call %i32 @func$fib$3(%i32 %tmp_var$41)
+	store %i32 %tmp_var$42, %i32* %tmp_varfuncres$40
+%tmp_varfuncres$43 = alloca %i32
+	%tmp_var$44 = load %i32, %i32* %tmp_varfuncres$27
+	%tmp_var$45 = load %i32, %i32* %tmp_varfuncres$40
+	%tmp_var$46 = call %i32 @func$dummy_func___add__$8(%i32 %tmp_var$44, %i32 %tmp_var$45)
+	store %i32 %tmp_var$46, %i32* %tmp_varfuncres$43
+	%tmp_var$47 = load %i32, %i32* %tmp_varfuncres$43
+	store %i32 %tmp_var$47, %i32* %return
+	%tmp_varaddrof$48 = alloca %bool*
+	store %bool* %tmp_varfuncres$8, %bool** %tmp_varaddrof$48
+	%tmp_var$49 = load %bool*, %bool** %tmp_varaddrof$48
+	call void @func$func_do_nothing$6(%bool* %tmp_var$49)
+	br label %func_end
+	br label %labelif_end$3
+	labelif_end$3:
+	%tmp_varaddrof$50 = alloca %bool*
+	store %bool* %tmp_varfuncres$8, %bool** %tmp_varaddrof$50
+	%tmp_var$51 = load %bool*, %bool** %tmp_varaddrof$50
+	call void @func$func_do_nothing$6(%bool* %tmp_var$51)
+	br label %func_end
+	func_end:
+	%tmp_varrettmp$52 = load %i32, %i32* %return
+	ret %i32 %tmp_varrettmp$52
+}
+; Function Attrs: nofree nounwind sspstrong uwtable
+define dso_local void @func$out_i32_dummy$9(i32 %0) local_unnamed_addr #0 {
+  %2 = sext i32 %0 to i64
+  %3 = tail call i32 (i8*, ...) @printf(i8* nonnull dereferenceable(1) getelementptr inbounds ([6 x i8], [6 x i8]* @.out_int_str, i64 0, i64 0), i64 %2)
+  ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$10(%i32* %t_0) local_unnamed_addr #0 {
+  ret void
+}
+define dso_local %i32 @func$main$1 () {
+	; func setup done
+	%return = alloca %i32
+%tmp_varfuncres$1 = alloca %i32
+	%tmp_var$2 = call %i32 @func$in_i32_dummy$2()
+	store %i32 %tmp_var$2, %i32* %tmp_varfuncres$1
+	%var$n$1 = alloca %i32
+	%tmp_var$3 = load %i32, %i32* %tmp_varfuncres$1
+	store %i32 %tmp_var$3, %i32* %var$n$1
+	%tmp_varcopied_arg_0$4 = alloca %i32
+	%tmp_varaddrof$5 = alloca %i32*
+	store %i32* %var$n$1, %i32** %tmp_varaddrof$5
+	%tmp_varaddrof$6 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$4, %i32** %tmp_varaddrof$6
+	%tmp_var$7 = load %i32*, %i32** %tmp_varaddrof$6
+	%tmp_var$8 = load %i32*, %i32** %tmp_varaddrof$5
+	call void @func$builtin_copy$5(%i32* %tmp_var$7, %i32* %tmp_var$8)
+%tmp_varfuncres$9 = alloca %i32
+	%tmp_var$10 = load %i32, %i32* %tmp_varcopied_arg_0$4
+	%tmp_var$11 = call %i32 @func$fib$3(%i32 %tmp_var$10)
+	store %i32 %tmp_var$11, %i32* %tmp_varfuncres$9
+	%var$f$2 = alloca %i32
+	%tmp_var$12 = load %i32, %i32* %tmp_varfuncres$9
+	store %i32 %tmp_var$12, %i32* %var$f$2
+	%tmp_varcopied_arg_0$13 = alloca %i32
+	%tmp_varaddrof$14 = alloca %i32*
+	store %i32* %var$f$2, %i32** %tmp_varaddrof$14
+	%tmp_varaddrof$15 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$13, %i32** %tmp_varaddrof$15
+	%tmp_var$16 = load %i32*, %i32** %tmp_varaddrof$15
+	%tmp_var$17 = load %i32*, %i32** %tmp_varaddrof$14
+	call void @func$builtin_copy$5(%i32* %tmp_var$16, %i32* %tmp_var$17)
+	%tmp_var$18 = load %i32, %i32* %tmp_varcopied_arg_0$13
+	call void @func$out_i32_dummy$9(%i32 %tmp_var$18)
+	%tmp_varintconst$19 = alloca i32
+	store %i32 0, %i32* %tmp_varintconst$19
+	%tmp_var$20 = load %i32, %i32* %tmp_varintconst$19
+	store %i32 %tmp_var$20, %i32* %return
+	br label %func_end
+	br label %func_end
+	func_end:
+	%tmp_varaddrof$21 = alloca %i32*
+	store %i32* %var$n$1, %i32** %tmp_varaddrof$21
+	%tmp_var$22 = load %i32*, %i32** %tmp_varaddrof$21
+	call void @func$func_do_nothing$10(%i32* %tmp_var$22)
+	%tmp_varaddrof$23 = alloca %i32*
+	store %i32* %var$f$2, %i32** %tmp_varaddrof$23
+	%tmp_var$24 = load %i32*, %i32** %tmp_varaddrof$23
+	call void @func$func_do_nothing$10(%i32* %tmp_var$24)
+	%tmp_varrettmp$25 = load %i32, %i32* %return
+	ret %i32 %tmp_varrettmp$25
+}
+
+; START OF HEADER
+define dso_local i32 @main() #0 {
+	%1 = call i32 @func$main$1()
+	ret i32 %1
+}
+
+---------------------
+Program: examples/demo_fib_rt_rec.st
+
+fn fib(n) -> i32{
+    type _1 = enable_if<n==i32>;
+
+    if (n<=2){
+        return 1;
+    }
+    else{
+        return fib(n-1)+fib(n-2);
+    }
+}
+
+fn main() -> i32{
+    let n = in<i32>();
+    let f = fib(n);
+    out(f);
+    return 0;
+}
+---------------------
+
+55
+
+Exit status: 0
+---------------------
+======================
+======================
+======================
+
+
+
+---------------------
+Program: examples/demo_io.st
+; ModuleID = 'cprog.c'
+source_filename = "cprog.c"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-pc-linux-gnu"
+
+%i8 = type i8
+%i16 = type i16
+%i32 = type i32
+%i64 = type i64
+%bool = type i1
+
+; Function Attrs: nofree nounwind
+declare i32 @printf(i8* nocapture readonly, ...) local_unnamed_addr #1
+
+; Function Attrs: nofree nounwind
+declare i32 @__isoc99_scanf(i8* nocapture readonly, ...) local_unnamed_addr #2
+@.in_int_str = private unnamed_addr constant [5 x i8] c"%lld\00", align 1
+@.out_int_str = private unnamed_addr constant [6 x i8] c"%lld\0A\00", align 1
+
+; Function Attrs: nounwind
+declare noalias i8* @malloc(i64) #1
+
+; Function Attrs: nounwind
+declare void @free(i8* nocapture) local_unnamed_addr #1
+; END OF HEADER
+
+; Function Attrs: nounwind sspstrong uwtable
+define dso_local i32 @func$in_i32_dummy$2() local_unnamed_addr #0 {
+  %1 = alloca i64, align 8
+  %2 = bitcast i64* %1 to i8*
+  %3 = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.in_int_str, i64 0, i64 0), i64* nonnull %1)
+  %4 = load i64, i64* %1, align 8
+  %5 = trunc i64 %4 to i32
+  ret i32 %5
+}
+define dso_local i32 @func$dummy_func___add__$3(i32 %0, i32 %1) {
+  %3 = add nsw i32 %0, %1
+  ret i32 %3
+}
+define dso_local void @func$builtin_copy$4(%i32* %0, %i32* %1){
+%val = load %i32, %i32* %1
+store %i32 %val, %i32* %0
+ret void
+}
+; Function Attrs: nofree nounwind sspstrong uwtable
+define dso_local void @func$out_i32_dummy$5(i32 %0) local_unnamed_addr #0 {
+  %2 = sext i32 %0 to i64
+  %3 = tail call i32 (i8*, ...) @printf(i8* nonnull dereferenceable(1) getelementptr inbounds ([6 x i8], [6 x i8]* @.out_int_str, i64 0, i64 0), i64 %2)
+  ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$6(%i32* %t_0) local_unnamed_addr #0 {
+  ret void
+}
+define dso_local %i32 @func$main$1 () {
+	; func setup done
+	%return = alloca %i32
+%tmp_varfuncres$1 = alloca %i32
+	%tmp_var$2 = call %i32 @func$in_i32_dummy$2()
+	store %i32 %tmp_var$2, %i32* %tmp_varfuncres$1
+	%var$n$1 = alloca %i32
+	%tmp_var$3 = load %i32, %i32* %tmp_varfuncres$1
+	store %i32 %tmp_var$3, %i32* %var$n$1
+	%tmp_varintconst$4 = alloca i32
+	store %i32 1, %i32* %tmp_varintconst$4
+	%tmp_varcopied_arg_0$5 = alloca %i32
+	%tmp_varaddrof$6 = alloca %i32*
+	store %i32* %var$n$1, %i32** %tmp_varaddrof$6
+	%tmp_varaddrof$7 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$5, %i32** %tmp_varaddrof$7
+	%tmp_var$8 = load %i32*, %i32** %tmp_varaddrof$7
+	%tmp_var$9 = load %i32*, %i32** %tmp_varaddrof$6
+	call void @func$builtin_copy$4(%i32* %tmp_var$8, %i32* %tmp_var$9)
+%tmp_varfuncres$10 = alloca %i32
+	%tmp_var$11 = load %i32, %i32* %tmp_varcopied_arg_0$5
+	%tmp_var$12 = load %i32, %i32* %tmp_varintconst$4
+	%tmp_var$13 = call %i32 @func$dummy_func___add__$3(%i32 %tmp_var$11, %i32 %tmp_var$12)
+	store %i32 %tmp_var$13, %i32* %tmp_varfuncres$10
+	%tmp_var$14 = load %i32, %i32* %tmp_varfuncres$10
+	call void @func$out_i32_dummy$5(%i32 %tmp_var$14)
+	%tmp_varintconst$15 = alloca i32
+	store %i32 0, %i32* %tmp_varintconst$15
+	%tmp_var$16 = load %i32, %i32* %tmp_varintconst$15
+	store %i32 %tmp_var$16, %i32* %return
+	br label %func_end
+	br label %func_end
+	func_end:
+	%tmp_varaddrof$17 = alloca %i32*
+	store %i32* %var$n$1, %i32** %tmp_varaddrof$17
+	%tmp_var$18 = load %i32*, %i32** %tmp_varaddrof$17
+	call void @func$func_do_nothing$6(%i32* %tmp_var$18)
+	%tmp_varrettmp$19 = load %i32, %i32* %return
+	ret %i32 %tmp_varrettmp$19
+}
+
+; START OF HEADER
+define dso_local i32 @main() #0 {
+	%1 = call i32 @func$main$1()
+	ret i32 %1
+}
+
+---------------------
+Program: examples/demo_io.st
+
+fn main() -> i32{
+    let n = in<i32>();
+    out(n+1);
+    return 0;
+}
+---------------------
+
+6
+
+Exit status: 0
+---------------------
+======================
+======================
+======================
+
+
+
+---------------------
+Program: examples/demo_memory_init.st
+; ModuleID = 'cprog.c'
+source_filename = "cprog.c"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-pc-linux-gnu"
+
+%i8 = type i8
+%i16 = type i16
+%i32 = type i32
+%i64 = type i64
+%bool = type i1
+
+; Function Attrs: nofree nounwind
+declare i32 @printf(i8* nocapture readonly, ...) local_unnamed_addr #1
+
+; Function Attrs: nofree nounwind
+declare i32 @__isoc99_scanf(i8* nocapture readonly, ...) local_unnamed_addr #2
+@.in_int_str = private unnamed_addr constant [5 x i8] c"%lld\00", align 1
+@.out_int_str = private unnamed_addr constant [6 x i8] c"%lld\0A\00", align 1
+
+; Function Attrs: nounwind
+declare noalias i8* @malloc(i64) #1
+
+; Function Attrs: nounwind
+declare void @free(i8* nocapture) local_unnamed_addr #1
+; END OF HEADER
+
+; Function Attrs: nounwind sspstrong uwtable
+define dso_local i32 @func$in_i32_dummy$2() local_unnamed_addr #0 {
+  %1 = alloca i64, align 8
+  %2 = bitcast i64* %1 to i8*
+  %3 = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.in_int_str, i64 0, i64 0), i64* nonnull %1)
+  %4 = load i64, i64* %1, align 8
+  %5 = trunc i64 %4 to i32
+  ret i32 %5
+}
+%struct$rect$1 = type {
+	i32,			;a
+	i32			;b
+}
+; Function Attrs: noinline nounwind optnone sspstrong uwtable
+define dso_local %struct$rect$1* @func$dummy_heap_alloc_array$3(%i32 %0) #0 {
+  %2 = alloca %i32
+  store %i32 %0, %i32* %2
+  %3 = load %i32, %i32* %2
+  %4 = sext %i32 %3 to i64
+
+  %Size = getelementptr %struct$rect$1, %struct$rect$1* null, i32 1
+  %SizeI = ptrtoint %struct$rect$1* %Size to i64
+
+  %5 = mul i64 %SizeI, %4
+  %6 = call noalias i8* @malloc(i64 %5) #2
+  %7 = bitcast i8* %6 to %struct$rect$1*
+  ret %struct$rect$1* %7
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly
+define dso_local void @func$dummy_init_struct$4(%struct$rect$1* nocapture %0, %i32 %t_1, %i32 %t_2) local_unnamed_addr #0 {
+  %t_3 = getelementptr inbounds %struct$rect$1, %struct$rect$1* %0, i64 0, i32 0
+  store %i32 %t_1, %i32* %t_3
+  %t_4 = getelementptr inbounds %struct$rect$1, %struct$rect$1* %0, i64 0, i32 1
+  store %i32 %t_2, %i32* %t_4
+  ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly
+define dso_local %struct$rect$1* @func$heap_object$5(%i32 %t_0, %i32 %t_1) local_unnamed_addr #0 {
+%ptr = call %struct$rect$1* @func$dummy_heap_alloc_array$3(i32 1)
+call void @func$dummy_init_struct$4(%struct$rect$1* %ptr, %i32 %t_0, %i32 %t_1)
+ret %struct$rect$1* %ptr
+}
+define dso_local void @func$builtin_copy$6(%i32* %0, %i32* %1){
+%val = load %i32, %i32* %1
+store %i32 %val, %i32* %0
+ret void
+}
+; Function Attrs: nofree nounwind sspstrong uwtable
+define dso_local void @func$out_i32_dummy$7(i32 %0) local_unnamed_addr #0 {
+  %2 = sext i32 %0 to i64
+  %3 = tail call i32 (i8*, ...) @printf(i8* nonnull dereferenceable(1) getelementptr inbounds ([6 x i8], [6 x i8]* @.out_int_str, i64 0, i64 0), i64 %2)
+  ret void
+}
+; Function Attrs: nounwind sspstrong uwtable
+define dso_local void @func$dummy_heap_free$8(%struct$rect$1* nocapture %0) local_unnamed_addr #0 {
+  %2 = bitcast %struct$rect$1* %0 to i8*
+  tail call void @free(i8* %2) #2
+  ret void
+}
+define dso_local void @func$builtin_copy$9(%struct$rect$1** %0, %struct$rect$1** %1){
+%val = load %struct$rect$1*, %struct$rect$1** %1
+store %struct$rect$1* %val, %struct$rect$1** %0
+ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$10(%i32* %t_0) local_unnamed_addr #0 {
+  ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$11(%struct$rect$1** %t_0) local_unnamed_addr #0 {
+  ret void
+}
+define dso_local %i32 @func$main$1 () {
+	; func setup done
+	%return = alloca %i32
+%tmp_varfuncres$1 = alloca %i32
+	%tmp_var$2 = call %i32 @func$in_i32_dummy$2()
+	store %i32 %tmp_var$2, %i32* %tmp_varfuncres$1
+	%var$a$1 = alloca %i32
+	%tmp_var$3 = load %i32, %i32* %tmp_varfuncres$1
+	store %i32 %tmp_var$3, %i32* %var$a$1
+%tmp_varfuncres$4 = alloca %i32
+	%tmp_var$5 = call %i32 @func$in_i32_dummy$2()
+	store %i32 %tmp_var$5, %i32* %tmp_varfuncres$4
+	%var$b$2 = alloca %i32
+	%tmp_var$6 = load %i32, %i32* %tmp_varfuncres$4
+	store %i32 %tmp_var$6, %i32* %var$b$2
+	%tmp_varcopied_arg_0$7 = alloca %i32
+	%tmp_varaddrof$8 = alloca %i32*
+	store %i32* %var$a$1, %i32** %tmp_varaddrof$8
+	%tmp_varaddrof$9 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$7, %i32** %tmp_varaddrof$9
+	%tmp_var$10 = load %i32*, %i32** %tmp_varaddrof$9
+	%tmp_var$11 = load %i32*, %i32** %tmp_varaddrof$8
+	call void @func$builtin_copy$6(%i32* %tmp_var$10, %i32* %tmp_var$11)
+	%tmp_varcopied_arg_1$12 = alloca %i32
+	%tmp_varaddrof$13 = alloca %i32*
+	store %i32* %var$b$2, %i32** %tmp_varaddrof$13
+	%tmp_varaddrof$14 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_1$12, %i32** %tmp_varaddrof$14
+	%tmp_var$15 = load %i32*, %i32** %tmp_varaddrof$14
+	%tmp_var$16 = load %i32*, %i32** %tmp_varaddrof$13
+	call void @func$builtin_copy$6(%i32* %tmp_var$15, %i32* %tmp_var$16)
+%tmp_varfuncres$17 = alloca %struct$rect$1*
+	%tmp_var$18 = load %i32, %i32* %tmp_varcopied_arg_0$7
+	%tmp_var$19 = load %i32, %i32* %tmp_varcopied_arg_1$12
+	%tmp_var$20 = call %struct$rect$1* @func$heap_object$5(%i32 %tmp_var$18, %i32 %tmp_var$19)
+	store %struct$rect$1* %tmp_var$20, %struct$rect$1** %tmp_varfuncres$17
+	%var$rect_heap$4 = alloca %struct$rect$1*
+	%tmp_var$21 = load %struct$rect$1*, %struct$rect$1** %tmp_varfuncres$17
+	store %struct$rect$1* %tmp_var$21, %struct$rect$1** %var$rect_heap$4
+	%tmp_varderef$22 = load %struct$rect$1*, %struct$rect$1** %var$rect_heap$4
+%tmp_varmember$23 = getelementptr inbounds %struct$rect$1, %struct$rect$1* %tmp_varderef$22, i32 0, i32 0
+	%tmp_varcopied_arg_0$24 = alloca %i32
+	%tmp_varaddrof$25 = alloca %i32*
+	store %i32* %tmp_varmember$23, %i32** %tmp_varaddrof$25
+	%tmp_varaddrof$26 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$24, %i32** %tmp_varaddrof$26
+	%tmp_var$27 = load %i32*, %i32** %tmp_varaddrof$26
+	%tmp_var$28 = load %i32*, %i32** %tmp_varaddrof$25
+	call void @func$builtin_copy$6(%i32* %tmp_var$27, %i32* %tmp_var$28)
+	%tmp_var$29 = load %i32, %i32* %tmp_varcopied_arg_0$24
+	call void @func$out_i32_dummy$7(%i32 %tmp_var$29)
+	%tmp_varderef$30 = load %struct$rect$1*, %struct$rect$1** %var$rect_heap$4
+%tmp_varmember$31 = getelementptr inbounds %struct$rect$1, %struct$rect$1* %tmp_varderef$30, i32 0, i32 1
+	%tmp_varcopied_arg_0$32 = alloca %i32
+	%tmp_varaddrof$33 = alloca %i32*
+	store %i32* %tmp_varmember$31, %i32** %tmp_varaddrof$33
+	%tmp_varaddrof$34 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$32, %i32** %tmp_varaddrof$34
+	%tmp_var$35 = load %i32*, %i32** %tmp_varaddrof$34
+	%tmp_var$36 = load %i32*, %i32** %tmp_varaddrof$33
+	call void @func$builtin_copy$6(%i32* %tmp_var$35, %i32* %tmp_var$36)
+	%tmp_var$37 = load %i32, %i32* %tmp_varcopied_arg_0$32
+	call void @func$out_i32_dummy$7(%i32 %tmp_var$37)
+	%tmp_varcopied_arg_0$38 = alloca %struct$rect$1*
+	%tmp_varaddrof$39 = alloca %struct$rect$1**
+	store %struct$rect$1** %var$rect_heap$4, %struct$rect$1*** %tmp_varaddrof$39
+	%tmp_varaddrof$40 = alloca %struct$rect$1**
+	store %struct$rect$1** %tmp_varcopied_arg_0$38, %struct$rect$1*** %tmp_varaddrof$40
+	%tmp_var$41 = load %struct$rect$1**, %struct$rect$1*** %tmp_varaddrof$40
+	%tmp_var$42 = load %struct$rect$1**, %struct$rect$1*** %tmp_varaddrof$39
+	call void @func$builtin_copy$9(%struct$rect$1** %tmp_var$41, %struct$rect$1** %tmp_var$42)
+	%tmp_var$43 = load %struct$rect$1*, %struct$rect$1** %tmp_varcopied_arg_0$38
+	call void @func$dummy_heap_free$8(%struct$rect$1* %tmp_var$43)
+	%tmp_varderef$44 = load %struct$rect$1*, %struct$rect$1** %var$rect_heap$4
+%tmp_varmember$45 = getelementptr inbounds %struct$rect$1, %struct$rect$1* %tmp_varderef$44, i32 0, i32 0
+	%tmp_varcopied_arg_0$46 = alloca %i32
+	%tmp_varaddrof$47 = alloca %i32*
+	store %i32* %tmp_varmember$45, %i32** %tmp_varaddrof$47
+	%tmp_varaddrof$48 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$46, %i32** %tmp_varaddrof$48
+	%tmp_var$49 = load %i32*, %i32** %tmp_varaddrof$48
+	%tmp_var$50 = load %i32*, %i32** %tmp_varaddrof$47
+	call void @func$builtin_copy$6(%i32* %tmp_var$49, %i32* %tmp_var$50)
+	%tmp_var$51 = load %i32, %i32* %tmp_varcopied_arg_0$46
+	call void @func$out_i32_dummy$7(%i32 %tmp_var$51)
+	%tmp_varderef$52 = load %struct$rect$1*, %struct$rect$1** %var$rect_heap$4
+%tmp_varmember$53 = getelementptr inbounds %struct$rect$1, %struct$rect$1* %tmp_varderef$52, i32 0, i32 1
+	%tmp_varcopied_arg_0$54 = alloca %i32
+	%tmp_varaddrof$55 = alloca %i32*
+	store %i32* %tmp_varmember$53, %i32** %tmp_varaddrof$55
+	%tmp_varaddrof$56 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$54, %i32** %tmp_varaddrof$56
+	%tmp_var$57 = load %i32*, %i32** %tmp_varaddrof$56
+	%tmp_var$58 = load %i32*, %i32** %tmp_varaddrof$55
+	call void @func$builtin_copy$6(%i32* %tmp_var$57, %i32* %tmp_var$58)
+	%tmp_var$59 = load %i32, %i32* %tmp_varcopied_arg_0$54
+	call void @func$out_i32_dummy$7(%i32 %tmp_var$59)
+	br label %func_end
+	func_end:
+	%tmp_varaddrof$60 = alloca %i32*
+	store %i32* %var$a$1, %i32** %tmp_varaddrof$60
+	%tmp_var$61 = load %i32*, %i32** %tmp_varaddrof$60
+	call void @func$func_do_nothing$10(%i32* %tmp_var$61)
+	%tmp_varaddrof$62 = alloca %i32*
+	store %i32* %var$b$2, %i32** %tmp_varaddrof$62
+	%tmp_var$63 = load %i32*, %i32** %tmp_varaddrof$62
+	call void @func$func_do_nothing$10(%i32* %tmp_var$63)
+	%tmp_varaddrof$64 = alloca %struct$rect$1**
+	store %struct$rect$1** %var$rect_heap$4, %struct$rect$1*** %tmp_varaddrof$64
+	%tmp_var$65 = load %struct$rect$1**, %struct$rect$1*** %tmp_varaddrof$64
+	call void @func$func_do_nothing$11(%struct$rect$1** %tmp_var$65)
+	%tmp_varrettmp$66 = load %i32, %i32* %return
+	ret %i32 %tmp_varrettmp$66
+}
+
+; START OF HEADER
+define dso_local i32 @main() #0 {
+	%1 = call i32 @func$main$1()
+	ret i32 %1
+}
+
+---------------------
+Program: examples/demo_memory_init.st
+
+struct rect<T>{
+    let a = T;
+    let b = T;
+}
+
+fn main() -> i32{
+    let a = in<i32>();
+    let b = in<i32>();
+
+    type irect = rect<i32>;
+
+    let rect_heap = heap_object<irect>(a,b);
+
+    out(rect_heap!.a);
+    out(rect_heap!.b);
+
+    heap_free(rect_heap);
+    out(rect_heap!.a);
+    out(rect_heap!.b);
+}
+---------------------
+
+10
+20
+402618126
+21880
+
+Exit status: 125
+---------------------
+======================
+======================
+======================
+
+
+
+---------------------
+Program: examples/demo_memory.st
+; ModuleID = 'cprog.c'
+source_filename = "cprog.c"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-pc-linux-gnu"
+
+%i8 = type i8
+%i16 = type i16
+%i32 = type i32
+%i64 = type i64
+%bool = type i1
+
+; Function Attrs: nofree nounwind
+declare i32 @printf(i8* nocapture readonly, ...) local_unnamed_addr #1
+
+; Function Attrs: nofree nounwind
+declare i32 @__isoc99_scanf(i8* nocapture readonly, ...) local_unnamed_addr #2
+@.in_int_str = private unnamed_addr constant [5 x i8] c"%lld\00", align 1
+@.out_int_str = private unnamed_addr constant [6 x i8] c"%lld\0A\00", align 1
+
+; Function Attrs: nounwind
+declare noalias i8* @malloc(i64) #1
+
+; Function Attrs: nounwind
+declare void @free(i8* nocapture) local_unnamed_addr #1
+; END OF HEADER
+
+; Function Attrs: noinline nounwind optnone sspstrong uwtable
+define dso_local %i32* @func$dummy_heap_alloc_array$2(%i32 %0) #0 {
+  %2 = alloca %i32
+  store %i32 %0, %i32* %2
+  %3 = load %i32, %i32* %2
+  %4 = sext %i32 %3 to i64
+
+  %Size = getelementptr %i32, %i32* null, i32 1
+  %SizeI = ptrtoint %i32* %Size to i64
+
+  %5 = mul i64 %SizeI, %4
+  %6 = call noalias i8* @malloc(i64 %5) #2
+  %7 = bitcast i8* %6 to %i32*
+  ret %i32* %7
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$4(%i32* %t_0) local_unnamed_addr #0 {
+  ret void
+}
+define dso_local void @func$builtin_copy$5(%i32* %0, %i32* %1){
+%val = load %i32, %i32* %1
+store %i32 %val, %i32* %0
+ret void
+}
+define dso_local void @func$setpos$3 ( %i32* %tmp_varparam_placeholder$1,  %i32 %tmp_varparam_placeholder$2,  %i32 %tmp_varparam_placeholder$3) {
+	%var$ptr$1 = alloca %i32*
+	store %i32* %tmp_varparam_placeholder$1, %i32** %var$ptr$1
+	%var$pos$2 = alloca %i32
+	store %i32 %tmp_varparam_placeholder$2, %i32* %var$pos$2
+	%var$val$3 = alloca %i32
+	store %i32 %tmp_varparam_placeholder$3, %i32* %var$val$3
+	; func setup done
+	%tmp_varptroffset$4 = alloca %i32*
+	%tmp_var$5 = load i32, i32* %var$pos$2
+	%tmp_var$6 = sext i32 %tmp_var$5 to i64
+	%tmp_var$7 = load %i32*, %i32** %var$ptr$1
+	%tmp_var$8 = getelementptr inbounds %i32, %i32* %tmp_var$7, i64 %tmp_var$6
+	store %i32* %tmp_var$8, %i32** %tmp_varptroffset$4
+	%tmp_varderef$9 = load %i32*, %i32** %tmp_varptroffset$4
+	%tmp_varaddrof$10 = alloca %i32*
+	store %i32* %tmp_varderef$9, %i32** %tmp_varaddrof$10
+	%tmp_var$11 = load %i32*, %i32** %tmp_varaddrof$10
+	call void @func$func_do_nothing$4(%i32* %tmp_var$11)
+	%tmp_varaddrof$12 = alloca %i32*
+	store %i32* %var$val$3, %i32** %tmp_varaddrof$12
+	%tmp_varaddrof$13 = alloca %i32*
+	store %i32* %tmp_varderef$9, %i32** %tmp_varaddrof$13
+	%tmp_var$14 = load %i32*, %i32** %tmp_varaddrof$13
+	%tmp_var$15 = load %i32*, %i32** %tmp_varaddrof$12
+	call void @func$builtin_copy$5(%i32* %tmp_var$14, %i32* %tmp_var$15)
+	br label %func_end
+	func_end:
+	ret void
+}
+define dso_local void @func$builtin_copy$6(%i32** %0, %i32** %1){
+%val = load %i32*, %i32** %1
+store %i32* %val, %i32** %0
+ret void
+}
+; Function Attrs: nofree nounwind sspstrong uwtable
+define dso_local void @func$out_i32_dummy$8(i32 %0) local_unnamed_addr #0 {
+  %2 = sext i32 %0 to i64
+  %3 = tail call i32 (i8*, ...) @printf(i8* nonnull dereferenceable(1) getelementptr inbounds ([6 x i8], [6 x i8]* @.out_int_str, i64 0, i64 0), i64 %2)
+  ret void
+}
+define dso_local void @func$printpos$7 ( %i32* %tmp_varparam_placeholder$1,  %i32 %tmp_varparam_placeholder$2) {
+	%var$ptr$1 = alloca %i32*
+	store %i32* %tmp_varparam_placeholder$1, %i32** %var$ptr$1
+	%var$pos$2 = alloca %i32
+	store %i32 %tmp_varparam_placeholder$2, %i32* %var$pos$2
+	; func setup done
+	%tmp_varptroffset$3 = alloca %i32*
+	%tmp_var$4 = load i32, i32* %var$pos$2
+	%tmp_var$5 = sext i32 %tmp_var$4 to i64
+	%tmp_var$6 = load %i32*, %i32** %var$ptr$1
+	%tmp_var$7 = getelementptr inbounds %i32, %i32* %tmp_var$6, i64 %tmp_var$5
+	store %i32* %tmp_var$7, %i32** %tmp_varptroffset$3
+	%tmp_varderef$8 = load %i32*, %i32** %tmp_varptroffset$3
+	%tmp_varcopied_arg_0$9 = alloca %i32
+	%tmp_varaddrof$10 = alloca %i32*
+	store %i32* %tmp_varderef$8, %i32** %tmp_varaddrof$10
+	%tmp_varaddrof$11 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$9, %i32** %tmp_varaddrof$11
+	%tmp_var$12 = load %i32*, %i32** %tmp_varaddrof$11
+	%tmp_var$13 = load %i32*, %i32** %tmp_varaddrof$10
+	call void @func$builtin_copy$5(%i32* %tmp_var$12, %i32* %tmp_var$13)
+	%tmp_var$14 = load %i32, %i32* %tmp_varcopied_arg_0$9
+	call void @func$out_i32_dummy$8(%i32 %tmp_var$14)
+	br label %func_end
+	func_end:
+	ret void
+}
+; Function Attrs: nounwind sspstrong uwtable
+define dso_local void @func$dummy_heap_free$9(%i32* nocapture %0) local_unnamed_addr #0 {
+  %2 = bitcast %i32* %0 to i8*
+  tail call void @free(i8* %2) #2
+  ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$10(%i32** %t_0) local_unnamed_addr #0 {
+  ret void
+}
+define dso_local %i32 @func$main$1 () {
+	; func setup done
+	%return = alloca %i32
+	%tmp_varintconst$1 = alloca i32
+	store %i32 10, %i32* %tmp_varintconst$1
+%tmp_varfuncres$2 = alloca %i32*
+	%tmp_var$3 = load %i32, %i32* %tmp_varintconst$1
+	%tmp_var$4 = call %i32* @func$dummy_heap_alloc_array$2(%i32 %tmp_var$3)
+	store %i32* %tmp_var$4, %i32** %tmp_varfuncres$2
+	%var$A$1 = alloca %i32*
+	%tmp_var$5 = load %i32*, %i32** %tmp_varfuncres$2
+	store %i32* %tmp_var$5, %i32** %var$A$1
+	%tmp_varintconst$6 = alloca i32
+	store %i32 3, %i32* %tmp_varintconst$6
+	%tmp_varintconst$7 = alloca i32
+	store %i32 123, %i32* %tmp_varintconst$7
+	%tmp_varcopied_arg_0$8 = alloca %i32*
+	%tmp_varaddrof$9 = alloca %i32**
+	store %i32** %var$A$1, %i32*** %tmp_varaddrof$9
+	%tmp_varaddrof$10 = alloca %i32**
+	store %i32** %tmp_varcopied_arg_0$8, %i32*** %tmp_varaddrof$10
+	%tmp_var$11 = load %i32**, %i32*** %tmp_varaddrof$10
+	%tmp_var$12 = load %i32**, %i32*** %tmp_varaddrof$9
+	call void @func$builtin_copy$6(%i32** %tmp_var$11, %i32** %tmp_var$12)
+	%tmp_var$13 = load %i32*, %i32** %tmp_varcopied_arg_0$8
+	%tmp_var$14 = load %i32, %i32* %tmp_varintconst$6
+	%tmp_var$15 = load %i32, %i32* %tmp_varintconst$7
+	call void @func$setpos$3(%i32* %tmp_var$13, %i32 %tmp_var$14, %i32 %tmp_var$15)
+	%tmp_varintconst$16 = alloca i32
+	store %i32 6, %i32* %tmp_varintconst$16
+	%tmp_varintconst$17 = alloca i32
+	store %i32 456, %i32* %tmp_varintconst$17
+	%tmp_varcopied_arg_0$18 = alloca %i32*
+	%tmp_varaddrof$19 = alloca %i32**
+	store %i32** %var$A$1, %i32*** %tmp_varaddrof$19
+	%tmp_varaddrof$20 = alloca %i32**
+	store %i32** %tmp_varcopied_arg_0$18, %i32*** %tmp_varaddrof$20
+	%tmp_var$21 = load %i32**, %i32*** %tmp_varaddrof$20
+	%tmp_var$22 = load %i32**, %i32*** %tmp_varaddrof$19
+	call void @func$builtin_copy$6(%i32** %tmp_var$21, %i32** %tmp_var$22)
+	%tmp_var$23 = load %i32*, %i32** %tmp_varcopied_arg_0$18
+	%tmp_var$24 = load %i32, %i32* %tmp_varintconst$16
+	%tmp_var$25 = load %i32, %i32* %tmp_varintconst$17
+	call void @func$setpos$3(%i32* %tmp_var$23, %i32 %tmp_var$24, %i32 %tmp_var$25)
+	%tmp_varintconst$26 = alloca i32
+	store %i32 3, %i32* %tmp_varintconst$26
+	%tmp_varcopied_arg_0$27 = alloca %i32*
+	%tmp_varaddrof$28 = alloca %i32**
+	store %i32** %var$A$1, %i32*** %tmp_varaddrof$28
+	%tmp_varaddrof$29 = alloca %i32**
+	store %i32** %tmp_varcopied_arg_0$27, %i32*** %tmp_varaddrof$29
+	%tmp_var$30 = load %i32**, %i32*** %tmp_varaddrof$29
+	%tmp_var$31 = load %i32**, %i32*** %tmp_varaddrof$28
+	call void @func$builtin_copy$6(%i32** %tmp_var$30, %i32** %tmp_var$31)
+	%tmp_var$32 = load %i32*, %i32** %tmp_varcopied_arg_0$27
+	%tmp_var$33 = load %i32, %i32* %tmp_varintconst$26
+	call void @func$printpos$7(%i32* %tmp_var$32, %i32 %tmp_var$33)
+	%tmp_varintconst$34 = alloca i32
+	store %i32 6, %i32* %tmp_varintconst$34
+	%tmp_varcopied_arg_0$35 = alloca %i32*
+	%tmp_varaddrof$36 = alloca %i32**
+	store %i32** %var$A$1, %i32*** %tmp_varaddrof$36
+	%tmp_varaddrof$37 = alloca %i32**
+	store %i32** %tmp_varcopied_arg_0$35, %i32*** %tmp_varaddrof$37
+	%tmp_var$38 = load %i32**, %i32*** %tmp_varaddrof$37
+	%tmp_var$39 = load %i32**, %i32*** %tmp_varaddrof$36
+	call void @func$builtin_copy$6(%i32** %tmp_var$38, %i32** %tmp_var$39)
+	%tmp_var$40 = load %i32*, %i32** %tmp_varcopied_arg_0$35
+	%tmp_var$41 = load %i32, %i32* %tmp_varintconst$34
+	call void @func$printpos$7(%i32* %tmp_var$40, %i32 %tmp_var$41)
+	%tmp_varintconst$42 = alloca i32
+	store %i32 5, %i32* %tmp_varintconst$42
+	%tmp_varcopied_arg_0$43 = alloca %i32*
+	%tmp_varaddrof$44 = alloca %i32**
+	store %i32** %var$A$1, %i32*** %tmp_varaddrof$44
+	%tmp_varaddrof$45 = alloca %i32**
+	store %i32** %tmp_varcopied_arg_0$43, %i32*** %tmp_varaddrof$45
+	%tmp_var$46 = load %i32**, %i32*** %tmp_varaddrof$45
+	%tmp_var$47 = load %i32**, %i32*** %tmp_varaddrof$44
+	call void @func$builtin_copy$6(%i32** %tmp_var$46, %i32** %tmp_var$47)
+	%tmp_var$48 = load %i32*, %i32** %tmp_varcopied_arg_0$43
+	%tmp_var$49 = load %i32, %i32* %tmp_varintconst$42
+	call void @func$printpos$7(%i32* %tmp_var$48, %i32 %tmp_var$49)
+	%tmp_varcopied_arg_0$50 = alloca %i32*
+	%tmp_varaddrof$51 = alloca %i32**
+	store %i32** %var$A$1, %i32*** %tmp_varaddrof$51
+	%tmp_varaddrof$52 = alloca %i32**
+	store %i32** %tmp_varcopied_arg_0$50, %i32*** %tmp_varaddrof$52
+	%tmp_var$53 = load %i32**, %i32*** %tmp_varaddrof$52
+	%tmp_var$54 = load %i32**, %i32*** %tmp_varaddrof$51
+	call void @func$builtin_copy$6(%i32** %tmp_var$53, %i32** %tmp_var$54)
+	%tmp_var$55 = load %i32*, %i32** %tmp_varcopied_arg_0$50
+	call void @func$dummy_heap_free$9(%i32* %tmp_var$55)
+	%tmp_varintconst$56 = alloca i32
+	store %i32 10, %i32* %tmp_varintconst$56
+%tmp_varfuncres$57 = alloca %i32*
+	%tmp_var$58 = load %i32, %i32* %tmp_varintconst$56
+	%tmp_var$59 = call %i32* @func$dummy_heap_alloc_array$2(%i32 %tmp_var$58)
+	store %i32* %tmp_var$59, %i32** %tmp_varfuncres$57
+	%var$B$2 = alloca %i32*
+	%tmp_var$60 = load %i32*, %i32** %tmp_varfuncres$57
+	store %i32* %tmp_var$60, %i32** %var$B$2
+	%tmp_varintconst$61 = alloca i32
+	store %i32 3, %i32* %tmp_varintconst$61
+	%tmp_varintconst$62 = alloca i32
+	store %i32 0, %i32* %tmp_varintconst$62
+	%tmp_varcopied_arg_0$63 = alloca %i32*
+	%tmp_varaddrof$64 = alloca %i32**
+	store %i32** %var$B$2, %i32*** %tmp_varaddrof$64
+	%tmp_varaddrof$65 = alloca %i32**
+	store %i32** %tmp_varcopied_arg_0$63, %i32*** %tmp_varaddrof$65
+	%tmp_var$66 = load %i32**, %i32*** %tmp_varaddrof$65
+	%tmp_var$67 = load %i32**, %i32*** %tmp_varaddrof$64
+	call void @func$builtin_copy$6(%i32** %tmp_var$66, %i32** %tmp_var$67)
+	%tmp_var$68 = load %i32*, %i32** %tmp_varcopied_arg_0$63
+	%tmp_var$69 = load %i32, %i32* %tmp_varintconst$61
+	%tmp_var$70 = load %i32, %i32* %tmp_varintconst$62
+	call void @func$setpos$3(%i32* %tmp_var$68, %i32 %tmp_var$69, %i32 %tmp_var$70)
+	%tmp_varintconst$71 = alloca i32
+	store %i32 6, %i32* %tmp_varintconst$71
+	%tmp_varintconst$72 = alloca i32
+	store %i32 0, %i32* %tmp_varintconst$72
+	%tmp_varcopied_arg_0$73 = alloca %i32*
+	%tmp_varaddrof$74 = alloca %i32**
+	store %i32** %var$B$2, %i32*** %tmp_varaddrof$74
+	%tmp_varaddrof$75 = alloca %i32**
+	store %i32** %tmp_varcopied_arg_0$73, %i32*** %tmp_varaddrof$75
+	%tmp_var$76 = load %i32**, %i32*** %tmp_varaddrof$75
+	%tmp_var$77 = load %i32**, %i32*** %tmp_varaddrof$74
+	call void @func$builtin_copy$6(%i32** %tmp_var$76, %i32** %tmp_var$77)
+	%tmp_var$78 = load %i32*, %i32** %tmp_varcopied_arg_0$73
+	%tmp_var$79 = load %i32, %i32* %tmp_varintconst$71
+	%tmp_var$80 = load %i32, %i32* %tmp_varintconst$72
+	call void @func$setpos$3(%i32* %tmp_var$78, %i32 %tmp_var$79, %i32 %tmp_var$80)
+	%tmp_varintconst$81 = alloca i32
+	store %i32 3, %i32* %tmp_varintconst$81
+	%tmp_varcopied_arg_0$82 = alloca %i32*
+	%tmp_varaddrof$83 = alloca %i32**
+	store %i32** %var$A$1, %i32*** %tmp_varaddrof$83
+	%tmp_varaddrof$84 = alloca %i32**
+	store %i32** %tmp_varcopied_arg_0$82, %i32*** %tmp_varaddrof$84
+	%tmp_var$85 = load %i32**, %i32*** %tmp_varaddrof$84
+	%tmp_var$86 = load %i32**, %i32*** %tmp_varaddrof$83
+	call void @func$builtin_copy$6(%i32** %tmp_var$85, %i32** %tmp_var$86)
+	%tmp_var$87 = load %i32*, %i32** %tmp_varcopied_arg_0$82
+	%tmp_var$88 = load %i32, %i32* %tmp_varintconst$81
+	call void @func$printpos$7(%i32* %tmp_var$87, %i32 %tmp_var$88)
+	%tmp_varintconst$89 = alloca i32
+	store %i32 6, %i32* %tmp_varintconst$89
+	%tmp_varcopied_arg_0$90 = alloca %i32*
+	%tmp_varaddrof$91 = alloca %i32**
+	store %i32** %var$A$1, %i32*** %tmp_varaddrof$91
+	%tmp_varaddrof$92 = alloca %i32**
+	store %i32** %tmp_varcopied_arg_0$90, %i32*** %tmp_varaddrof$92
+	%tmp_var$93 = load %i32**, %i32*** %tmp_varaddrof$92
+	%tmp_var$94 = load %i32**, %i32*** %tmp_varaddrof$91
+	call void @func$builtin_copy$6(%i32** %tmp_var$93, %i32** %tmp_var$94)
+	%tmp_var$95 = load %i32*, %i32** %tmp_varcopied_arg_0$90
+	%tmp_var$96 = load %i32, %i32* %tmp_varintconst$89
+	call void @func$printpos$7(%i32* %tmp_var$95, %i32 %tmp_var$96)
+	%tmp_varintconst$97 = alloca i32
+	store %i32 5, %i32* %tmp_varintconst$97
+	%tmp_varcopied_arg_0$98 = alloca %i32*
+	%tmp_varaddrof$99 = alloca %i32**
+	store %i32** %var$A$1, %i32*** %tmp_varaddrof$99
+	%tmp_varaddrof$100 = alloca %i32**
+	store %i32** %tmp_varcopied_arg_0$98, %i32*** %tmp_varaddrof$100
+	%tmp_var$101 = load %i32**, %i32*** %tmp_varaddrof$100
+	%tmp_var$102 = load %i32**, %i32*** %tmp_varaddrof$99
+	call void @func$builtin_copy$6(%i32** %tmp_var$101, %i32** %tmp_var$102)
+	%tmp_var$103 = load %i32*, %i32** %tmp_varcopied_arg_0$98
+	%tmp_var$104 = load %i32, %i32* %tmp_varintconst$97
+	call void @func$printpos$7(%i32* %tmp_var$103, %i32 %tmp_var$104)
+	%tmp_varintconst$105 = alloca i32
+	store %i32 0, %i32* %tmp_varintconst$105
+	%tmp_var$106 = load %i32, %i32* %tmp_varintconst$105
+	store %i32 %tmp_var$106, %i32* %return
+	br label %func_end
+	br label %func_end
+	func_end:
+	%tmp_varaddrof$107 = alloca %i32**
+	store %i32** %var$A$1, %i32*** %tmp_varaddrof$107
+	%tmp_var$108 = load %i32**, %i32*** %tmp_varaddrof$107
+	call void @func$func_do_nothing$10(%i32** %tmp_var$108)
+	%tmp_varaddrof$109 = alloca %i32**
+	store %i32** %var$B$2, %i32*** %tmp_varaddrof$109
+	%tmp_var$110 = load %i32**, %i32*** %tmp_varaddrof$109
+	call void @func$func_do_nothing$10(%i32** %tmp_var$110)
+	%tmp_varrettmp$111 = load %i32, %i32* %return
+	ret %i32 %tmp_varrettmp$111
+}
+
+; START OF HEADER
+define dso_local i32 @main() #0 {
+	%1 = call i32 @func$main$1()
+	ret i32 %1
+}
+
+---------------------
+Program: examples/demo_memory.st
+
+fn printpos(ptr, pos){
+    out(ptr[pos]!);
+}
+
+fn setpos(ptr, pos, val){
+    ptr[pos]! = val;
+}
+
+fn main() -> i32{
+    let A = heap_alloc<i32>(10);
+    setpos(A, 3, 123);
+    setpos(A, 6, 456);
+    printpos(A, 3);
+    printpos(A, 6);
+    printpos(A, 5);
+    heap_free(A);
+
+    // B will sometimes be allocated exactly where A was, and overwrite its contents.
+    // of course, this is a memory error, but it will probably continue without crashing.
+
+    let B = heap_alloc<i32>(10);
+    setpos(B, 3, 0);
+    setpos(B, 6, 0);
+    printpos(A, 3);
+    printpos(A, 6);
+    printpos(A, 5);
+
+    return 0;
+}
+---------------------
+
+123
+456
+21889
+0
+0
+21889
+
+Exit status: 0
+---------------------
+======================
+======================
+======================
+
+
+
+---------------------
+Program: examples/demo_rect.st
+; ModuleID = 'cprog.c'
+source_filename = "cprog.c"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-pc-linux-gnu"
+
+%i8 = type i8
+%i16 = type i16
+%i32 = type i32
+%i64 = type i64
+%bool = type i1
+
+; Function Attrs: nofree nounwind
+declare i32 @printf(i8* nocapture readonly, ...) local_unnamed_addr #1
+
+; Function Attrs: nofree nounwind
+declare i32 @__isoc99_scanf(i8* nocapture readonly, ...) local_unnamed_addr #2
+@.in_int_str = private unnamed_addr constant [5 x i8] c"%lld\00", align 1
+@.out_int_str = private unnamed_addr constant [6 x i8] c"%lld\0A\00", align 1
+
+; Function Attrs: nounwind
+declare noalias i8* @malloc(i64) #1
+
+; Function Attrs: nounwind
+declare void @free(i8* nocapture) local_unnamed_addr #1
+; END OF HEADER
+
+; Function Attrs: nounwind sspstrong uwtable
+define dso_local i32 @func$in_i32_dummy$2() local_unnamed_addr #0 {
+  %1 = alloca i64, align 8
+  %2 = bitcast i64* %1 to i8*
+  %3 = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.in_int_str, i64 0, i64 0), i64* nonnull %1)
+  %4 = load i64, i64* %1, align 8
+  %5 = trunc i64 %4 to i32
+  ret i32 %5
+}
+%struct$rectangle$1 = type {
+	i32,			;a
+	i32			;b
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly
+define dso_local void @func$dummy_init_struct$3(%struct$rectangle$1* nocapture %0, %i32 %t_1, %i32 %t_2) local_unnamed_addr #0 {
+  %t_3 = getelementptr inbounds %struct$rectangle$1, %struct$rectangle$1* %0, i64 0, i32 0
+  store %i32 %t_1, %i32* %t_3
+  %t_4 = getelementptr inbounds %struct$rectangle$1, %struct$rectangle$1* %0, i64 0, i32 1
+  store %i32 %t_2, %i32* %t_4
+  ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly
+define dso_local %struct$rectangle$1 @func$stack_object_struct$4(%i32 %t_0, %i32 %t_1) local_unnamed_addr #0 {
+%ptr = alloca %struct$rectangle$1
+call void @func$dummy_init_struct$3(%struct$rectangle$1* %ptr, %i32 %t_0, %i32 %t_1)
+%item = load %struct$rectangle$1, %struct$rectangle$1* %ptr
+ret %struct$rectangle$1 %item
+}
+define dso_local void @func$builtin_copy$5(%i32* %0, %i32* %1){
+%val = load %i32, %i32* %1
+store %i32 %val, %i32* %0
+ret void
+}
+define dso_local i32 @func$dummy_func___mul__$7(i32 %0, i32 %1) {
+  %3 = mul nsw i32 %0, %1
+  ret i32 %3
+}
+define dso_local %i32 @func$area$6 ( %struct$rectangle$1 %tmp_varparam_placeholder$1) {
+	%var$r$1 = alloca %struct$rectangle$1
+	store %struct$rectangle$1 %tmp_varparam_placeholder$1, %struct$rectangle$1* %var$r$1
+	; func setup done
+	%return = alloca %i32
+%tmp_varmember$2 = getelementptr inbounds %struct$rectangle$1, %struct$rectangle$1* %var$r$1, i32 0, i32 0
+%tmp_varmember$3 = getelementptr inbounds %struct$rectangle$1, %struct$rectangle$1* %var$r$1, i32 0, i32 1
+	%tmp_varcopied_arg_0$4 = alloca %i32
+	%tmp_varaddrof$5 = alloca %i32*
+	store %i32* %tmp_varmember$2, %i32** %tmp_varaddrof$5
+	%tmp_varaddrof$6 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$4, %i32** %tmp_varaddrof$6
+	%tmp_var$7 = load %i32*, %i32** %tmp_varaddrof$6
+	%tmp_var$8 = load %i32*, %i32** %tmp_varaddrof$5
+	call void @func$builtin_copy$5(%i32* %tmp_var$7, %i32* %tmp_var$8)
+	%tmp_varcopied_arg_1$9 = alloca %i32
+	%tmp_varaddrof$10 = alloca %i32*
+	store %i32* %tmp_varmember$3, %i32** %tmp_varaddrof$10
+	%tmp_varaddrof$11 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_1$9, %i32** %tmp_varaddrof$11
+	%tmp_var$12 = load %i32*, %i32** %tmp_varaddrof$11
+	%tmp_var$13 = load %i32*, %i32** %tmp_varaddrof$10
+	call void @func$builtin_copy$5(%i32* %tmp_var$12, %i32* %tmp_var$13)
+%tmp_varfuncres$14 = alloca %i32
+	%tmp_var$15 = load %i32, %i32* %tmp_varcopied_arg_0$4
+	%tmp_var$16 = load %i32, %i32* %tmp_varcopied_arg_1$9
+	%tmp_var$17 = call %i32 @func$dummy_func___mul__$7(%i32 %tmp_var$15, %i32 %tmp_var$16)
+	store %i32 %tmp_var$17, %i32* %tmp_varfuncres$14
+	%tmp_var$18 = load %i32, %i32* %tmp_varfuncres$14
+	store %i32 %tmp_var$18, %i32* %return
+	br label %func_end
+	br label %func_end
+	func_end:
+	%tmp_varrettmp$19 = load %i32, %i32* %return
+	ret %i32 %tmp_varrettmp$19
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$dummy_copy_struct$8(%struct$rectangle$1* nocapture %dst, %struct$rectangle$1* nocapture %src) local_unnamed_addr #0 {
+%t_0 = getelementptr inbounds %struct$rectangle$1, %struct$rectangle$1* %dst, i64 0, i32 0
+%t_1 = getelementptr inbounds %struct$rectangle$1, %struct$rectangle$1* %src, i64 0, i32 0
+call void @func$builtin_copy$5(%i32* %t_0, %i32* %t_1)
+%t_2 = getelementptr inbounds %struct$rectangle$1, %struct$rectangle$1* %dst, i64 0, i32 1
+%t_3 = getelementptr inbounds %struct$rectangle$1, %struct$rectangle$1* %src, i64 0, i32 1
+call void @func$builtin_copy$5(%i32* %t_2, %i32* %t_3)
+  ret void
+}
+; Function Attrs: nofree nounwind sspstrong uwtable
+define dso_local void @func$out_i32_dummy$9(i32 %0) local_unnamed_addr #0 {
+  %2 = sext i32 %0 to i64
+  %3 = tail call i32 (i8*, ...) @printf(i8* nonnull dereferenceable(1) getelementptr inbounds ([6 x i8], [6 x i8]* @.out_int_str, i64 0, i64 0), i64 %2)
+  ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$10(%i32* %t_0) local_unnamed_addr #0 {
+  ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$dummy_dest_struct$11(%struct$rectangle$1* nocapture %todest) local_unnamed_addr #0 {
+%t_0 = getelementptr inbounds %struct$rectangle$1, %struct$rectangle$1* %todest, i64 0, i32 0
+call void @func$func_do_nothing$10(%i32* %t_0)
+%t_1 = getelementptr inbounds %struct$rectangle$1, %struct$rectangle$1* %todest, i64 0, i32 1
+call void @func$func_do_nothing$10(%i32* %t_1)
+  ret void
+}
+define dso_local %i32 @func$main$1 () {
+	; func setup done
+	%return = alloca %i32
+%tmp_varfuncres$1 = alloca %i32
+	%tmp_var$2 = call %i32 @func$in_i32_dummy$2()
+	store %i32 %tmp_var$2, %i32* %tmp_varfuncres$1
+	%var$a$1 = alloca %i32
+	%tmp_var$3 = load %i32, %i32* %tmp_varfuncres$1
+	store %i32 %tmp_var$3, %i32* %var$a$1
+	%tmp_varintconst$4 = alloca i32
+	store %i32 3, %i32* %tmp_varintconst$4
+	%tmp_varcopied_arg_0$5 = alloca %i32
+	%tmp_varaddrof$6 = alloca %i32*
+	store %i32* %var$a$1, %i32** %tmp_varaddrof$6
+	%tmp_varaddrof$7 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$5, %i32** %tmp_varaddrof$7
+	%tmp_var$8 = load %i32*, %i32** %tmp_varaddrof$7
+	%tmp_var$9 = load %i32*, %i32** %tmp_varaddrof$6
+	call void @func$builtin_copy$5(%i32* %tmp_var$8, %i32* %tmp_var$9)
+%tmp_varfuncres$10 = alloca %struct$rectangle$1
+	%tmp_var$11 = load %i32, %i32* %tmp_varcopied_arg_0$5
+	%tmp_var$12 = load %i32, %i32* %tmp_varintconst$4
+	%tmp_var$13 = call %struct$rectangle$1 @func$stack_object_struct$4(%i32 %tmp_var$11, %i32 %tmp_var$12)
+	store %struct$rectangle$1 %tmp_var$13, %struct$rectangle$1* %tmp_varfuncres$10
+	%var$rec$2 = alloca %struct$rectangle$1
+	%tmp_var$14 = load %struct$rectangle$1, %struct$rectangle$1* %tmp_varfuncres$10
+	store %struct$rectangle$1 %tmp_var$14, %struct$rectangle$1* %var$rec$2
+	%tmp_varcopied_arg_0$15 = alloca %struct$rectangle$1
+	%tmp_varaddrof$16 = alloca %struct$rectangle$1*
+	store %struct$rectangle$1* %var$rec$2, %struct$rectangle$1** %tmp_varaddrof$16
+	%tmp_varaddrof$17 = alloca %struct$rectangle$1*
+	store %struct$rectangle$1* %tmp_varcopied_arg_0$15, %struct$rectangle$1** %tmp_varaddrof$17
+	%tmp_var$18 = load %struct$rectangle$1*, %struct$rectangle$1** %tmp_varaddrof$17
+	%tmp_var$19 = load %struct$rectangle$1*, %struct$rectangle$1** %tmp_varaddrof$16
+	call void @func$dummy_copy_struct$8(%struct$rectangle$1* %tmp_var$18, %struct$rectangle$1* %tmp_var$19)
+%tmp_varfuncres$20 = alloca %i32
+	%tmp_var$21 = load %struct$rectangle$1, %struct$rectangle$1* %tmp_varcopied_arg_0$15
+	%tmp_var$22 = call %i32 @func$area$6(%struct$rectangle$1 %tmp_var$21)
+	store %i32 %tmp_var$22, %i32* %tmp_varfuncres$20
+	%var$ar$3 = alloca %i32
+	%tmp_var$23 = load %i32, %i32* %tmp_varfuncres$20
+	store %i32 %tmp_var$23, %i32* %var$ar$3
+	%tmp_varcopied_arg_0$24 = alloca %i32
+	%tmp_varaddrof$25 = alloca %i32*
+	store %i32* %var$ar$3, %i32** %tmp_varaddrof$25
+	%tmp_varaddrof$26 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$24, %i32** %tmp_varaddrof$26
+	%tmp_var$27 = load %i32*, %i32** %tmp_varaddrof$26
+	%tmp_var$28 = load %i32*, %i32** %tmp_varaddrof$25
+	call void @func$builtin_copy$5(%i32* %tmp_var$27, %i32* %tmp_var$28)
+	%tmp_var$29 = load %i32, %i32* %tmp_varcopied_arg_0$24
+	call void @func$out_i32_dummy$9(%i32 %tmp_var$29)
+	%tmp_varintconst$30 = alloca i32
+	store %i32 0, %i32* %tmp_varintconst$30
+	%tmp_var$31 = load %i32, %i32* %tmp_varintconst$30
+	store %i32 %tmp_var$31, %i32* %return
+	br label %func_end
+	br label %func_end
+	func_end:
+	%tmp_varaddrof$32 = alloca %i32*
+	store %i32* %var$a$1, %i32** %tmp_varaddrof$32
+	%tmp_var$33 = load %i32*, %i32** %tmp_varaddrof$32
+	call void @func$func_do_nothing$10(%i32* %tmp_var$33)
+	%tmp_varaddrof$34 = alloca %struct$rectangle$1*
+	store %struct$rectangle$1* %var$rec$2, %struct$rectangle$1** %tmp_varaddrof$34
+	%tmp_var$35 = load %struct$rectangle$1*, %struct$rectangle$1** %tmp_varaddrof$34
+	call void @func$dummy_dest_struct$11(%struct$rectangle$1* %tmp_var$35)
+	%tmp_varaddrof$36 = alloca %i32*
+	store %i32* %var$ar$3, %i32** %tmp_varaddrof$36
+	%tmp_var$37 = load %i32*, %i32** %tmp_varaddrof$36
+	call void @func$func_do_nothing$10(%i32* %tmp_var$37)
+	%tmp_varrettmp$38 = load %i32, %i32* %return
+	ret %i32 %tmp_varrettmp$38
+}
+
+; START OF HEADER
+define dso_local i32 @main() #0 {
+	%1 = call i32 @func$main$1()
+	ret i32 %1
+}
+
+---------------------
+Program: examples/demo_rect.st
+
+struct rectangle<T>{
+    let a = T;
+    let b = T;
+}
+
+fn area(r) -> T{
+    type T = enable_if_resolve<r.T>;
+    type _1 = enable_if<r==rectangle<T>>;
+
+    return r.a * r.b;
+}
+
+fn main() -> i32{
+    let a = in<i32>();
+    let rec = object<rectangle<i32>>(a, 3);
+    let ar = area(rec);
+    out(ar);
+    return 0;
+}
+---------------------
+
+12
+
+Exit status: 0
+---------------------
+======================
+======================
+======================
+
+
+
+---------------------
+Program: examples/demo_simple.st
+; ModuleID = 'cprog.c'
+source_filename = "cprog.c"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-pc-linux-gnu"
+
+%i8 = type i8
+%i16 = type i16
+%i32 = type i32
+%i64 = type i64
+%bool = type i1
+
+; Function Attrs: nofree nounwind
+declare i32 @printf(i8* nocapture readonly, ...) local_unnamed_addr #1
+
+; Function Attrs: nofree nounwind
+declare i32 @__isoc99_scanf(i8* nocapture readonly, ...) local_unnamed_addr #2
+@.in_int_str = private unnamed_addr constant [5 x i8] c"%lld\00", align 1
+@.out_int_str = private unnamed_addr constant [6 x i8] c"%lld\0A\00", align 1
+
+; Function Attrs: nounwind
+declare noalias i8* @malloc(i64) #1
+
+; Function Attrs: nounwind
+declare void @free(i8* nocapture) local_unnamed_addr #1
+; END OF HEADER
+
+define dso_local %i32 @func$main$1 () {
+	; func setup done
+	%return = alloca %i32
+	%tmp_varintconst$1 = alloca i32
+	store %i32 123, %i32* %tmp_varintconst$1
+	%tmp_var$2 = load %i32, %i32* %tmp_varintconst$1
+	store %i32 %tmp_var$2, %i32* %return
+	br label %func_end
+	br label %func_end
+	func_end:
+	%tmp_varrettmp$3 = load %i32, %i32* %return
+	ret %i32 %tmp_varrettmp$3
+}
+
+; START OF HEADER
+define dso_local i32 @main() #0 {
+	%1 = call i32 @func$main$1()
+	ret i32 %1
+}
+
+---------------------
+Program: examples/demo_simple.st
+
+fn main() -> i32{
+    return 123;
+}
+---------------------
+
+
+Exit status: 123
+---------------------
+======================
+======================
+======================
+
+
+
+---------------------
+Program: examples/demo_sptr.st
+; ModuleID = 'cprog.c'
+source_filename = "cprog.c"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-pc-linux-gnu"
+
+%i8 = type i8
+%i16 = type i16
+%i32 = type i32
+%i64 = type i64
+%bool = type i1
+
+; Function Attrs: nofree nounwind
+declare i32 @printf(i8* nocapture readonly, ...) local_unnamed_addr #1
+
+; Function Attrs: nofree nounwind
+declare i32 @__isoc99_scanf(i8* nocapture readonly, ...) local_unnamed_addr #2
+@.in_int_str = private unnamed_addr constant [5 x i8] c"%lld\00", align 1
+@.out_int_str = private unnamed_addr constant [6 x i8] c"%lld\0A\00", align 1
+
+; Function Attrs: nounwind
+declare noalias i8* @malloc(i64) #1
+
+; Function Attrs: nounwind
+declare void @free(i8* nocapture) local_unnamed_addr #1
+; END OF HEADER
+
+%struct$shared_ptr$1 = type {
+	i8*,			;item_ptr
+	i32*			;count
+}
+; Function Attrs: noinline nounwind optnone sspstrong uwtable
+define dso_local %i8* @func$dummy_heap_alloc_array$2(%i32 %0) #0 {
+  %2 = alloca %i32
+  store %i32 %0, %i32* %2
+  %3 = load %i32, %i32* %2
+  %4 = sext %i32 %3 to i64
+
+  %Size = getelementptr %i8, %i8* null, i32 1
+  %SizeI = ptrtoint %i8* %Size to i64
+
+  %5 = mul i64 %SizeI, %4
+  %6 = call noalias i8* @malloc(i64 %5) #2
+  %7 = bitcast i8* %6 to %i8*
+  ret %i8* %7
+}
+define dso_local void @func$builtin_init$3(%i8* %0, %i8 %1){
+store %i8 %1, %i8* %0
+ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly
+define dso_local %i8* @func$heap_object$5(%i8 %t_0) local_unnamed_addr #0 {
+%ptr = call %i8* @func$dummy_heap_alloc_array$2(i32 1)
+call void @func$builtin_init$3(%i8* %ptr, %i8 %t_0)
+ret %i8* %ptr
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$7(%i8** %t_0) local_unnamed_addr #0 {
+  ret void
+}
+define dso_local void @func$builtin_copy$9(%i8** %0, %i8** %1){
+%val = load %i8*, %i8** %1
+store %i8* %val, %i8** %0
+ret void
+}
+; Function Attrs: noinline nounwind optnone sspstrong uwtable
+define dso_local %i32* @func$dummy_heap_alloc_array$11(%i32 %0) #0 {
+  %2 = alloca %i32
+  store %i32 %0, %i32* %2
+  %3 = load %i32, %i32* %2
+  %4 = sext %i32 %3 to i64
+
+  %Size = getelementptr %i32, %i32* null, i32 1
+  %SizeI = ptrtoint %i32* %Size to i64
+
+  %5 = mul i64 %SizeI, %4
+  %6 = call noalias i8* @malloc(i64 %5) #2
+  %7 = bitcast i8* %6 to %i32*
+  ret %i32* %7
+}
+define dso_local void @func$builtin_init$12(%i32* %0, %i32 %1){
+store %i32 %1, %i32* %0
+ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly
+define dso_local %i32* @func$heap_object$14(%i32 %t_0) local_unnamed_addr #0 {
+%ptr = call %i32* @func$dummy_heap_alloc_array$11(i32 1)
+call void @func$builtin_init$12(%i32* %ptr, %i32 %t_0)
+ret %i32* %ptr
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$15(%i32** %t_0) local_unnamed_addr #0 {
+  ret void
+}
+define dso_local void @func$__init__$6 ( %struct$shared_ptr$1* %tmp_varparam_placeholder$1,  %i8* %tmp_varparam_placeholder$2) {
+	%var$sptr_ptr$1 = alloca %struct$shared_ptr$1*
+	store %struct$shared_ptr$1* %tmp_varparam_placeholder$1, %struct$shared_ptr$1** %var$sptr_ptr$1
+	%var$item_ptr$2 = alloca %i8*
+	store %i8* %tmp_varparam_placeholder$2, %i8** %var$item_ptr$2
+	; func setup done
+	%tmp_varderef$3 = load %struct$shared_ptr$1*, %struct$shared_ptr$1** %var$sptr_ptr$1
+%tmp_varmember$4 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %tmp_varderef$3, i32 0, i32 0
+	%tmp_varaddrof$5 = alloca %i8**
+	store %i8** %tmp_varmember$4, %i8*** %tmp_varaddrof$5
+	%tmp_var$6 = load %i8**, %i8*** %tmp_varaddrof$5
+	call void @func$func_do_nothing$7(%i8** %tmp_var$6)
+	%tmp_varaddrof$7 = alloca %i8**
+	store %i8** %var$item_ptr$2, %i8*** %tmp_varaddrof$7
+	%tmp_varaddrof$8 = alloca %i8**
+	store %i8** %tmp_varmember$4, %i8*** %tmp_varaddrof$8
+	%tmp_var$9 = load %i8**, %i8*** %tmp_varaddrof$8
+	%tmp_var$10 = load %i8**, %i8*** %tmp_varaddrof$7
+	call void @func$builtin_copy$9(%i8** %tmp_var$9, %i8** %tmp_var$10)
+	%tmp_varderef$11 = load %struct$shared_ptr$1*, %struct$shared_ptr$1** %var$sptr_ptr$1
+%tmp_varmember$12 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %tmp_varderef$11, i32 0, i32 1
+	%tmp_varintconst$13 = alloca i32
+	store %i32 1, %i32* %tmp_varintconst$13
+%tmp_varfuncres$14 = alloca %i32*
+	%tmp_var$15 = load %i32, %i32* %tmp_varintconst$13
+	%tmp_var$16 = call %i32* @func$heap_object$14(%i32 %tmp_var$15)
+	store %i32* %tmp_var$16, %i32** %tmp_varfuncres$14
+	%tmp_varaddrof$17 = alloca %i32**
+	store %i32** %tmp_varmember$12, %i32*** %tmp_varaddrof$17
+	%tmp_var$18 = load %i32**, %i32*** %tmp_varaddrof$17
+	call void @func$func_do_nothing$15(%i32** %tmp_var$18)
+	%tmp_var$19 = load %i32*, %i32** %tmp_varfuncres$14
+	store %i32* %tmp_var$19, %i32** %tmp_varmember$12
+	br label %func_end
+	func_end:
+	ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly
+define dso_local %struct$shared_ptr$1 @func$stack_object_struct$17(%i8* %t_0) local_unnamed_addr #0 {
+%ptr = alloca %struct$shared_ptr$1
+call void @func$__init__$6(%struct$shared_ptr$1* %ptr, %i8* %t_0)
+%item = load %struct$shared_ptr$1, %struct$shared_ptr$1* %ptr
+ret %struct$shared_ptr$1 %item
+}
+; Function Attrs: nofree nounwind sspstrong uwtable
+define dso_local void @func$out_i32_dummy$18(i32 %0) local_unnamed_addr #0 {
+  %2 = sext i32 %0 to i64
+  %3 = tail call i32 (i8*, ...) @printf(i8* nonnull dereferenceable(1) getelementptr inbounds ([6 x i8], [6 x i8]* @.out_int_str, i64 0, i64 0), i64 %2)
+  ret void
+}
+define dso_local void @func$builtin_copy$19(%i32* %0, %i32* %1){
+%val = load %i32, %i32* %1
+store %i32 %val, %i32* %0
+ret void
+}
+; Function Attrs: nofree nounwind sspstrong uwtable
+define dso_local void @func$out_i8_dummy$21(i8 %0) local_unnamed_addr #0 {
+  %2 = sext i8 %0 to i64
+  %3 = tail call i32 (i8*, ...) @printf(i8* nonnull dereferenceable(1) getelementptr inbounds ([6 x i8], [6 x i8]* @.out_int_str, i64 0, i64 0), i64 %2)
+  ret void
+}
+define dso_local void @func$builtin_copy$22(%i8* %0, %i8* %1){
+%val = load %i8, %i8* %1
+store %i8 %val, %i8* %0
+ret void
+}
+define dso_local void @func$builtin_copy$24(%i32** %0, %i32** %1){
+%val = load %i32*, %i32** %1
+store %i32* %val, %i32** %0
+ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$dummy_copy_struct$26(%struct$shared_ptr$1* nocapture %dst, %struct$shared_ptr$1* nocapture %src) local_unnamed_addr #0 {
+%t_0 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %dst, i64 0, i32 0
+%t_1 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %src, i64 0, i32 0
+call void @func$builtin_copy$9(%i8** %t_0, %i8** %t_1)
+%t_2 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %dst, i64 0, i32 1
+%t_3 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %src, i64 0, i32 1
+call void @func$builtin_copy$24(%i32** %t_2, %i32** %t_3)
+  ret void
+}
+define dso_local i32 @func$dummy_func___add__$28(i32 %0, i32 %1) {
+  %3 = add nsw i32 %0, %1
+  ret i32 %3
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$29(%i32* %t_0) local_unnamed_addr #0 {
+  ret void
+}
+define dso_local void @func$__copy__$27 ( %struct$shared_ptr$1* %tmp_varparam_placeholder$1,  %struct$shared_ptr$1* %tmp_varparam_placeholder$2) {
+	%var$sptr_ptr_dest$1 = alloca %struct$shared_ptr$1*
+	store %struct$shared_ptr$1* %tmp_varparam_placeholder$1, %struct$shared_ptr$1** %var$sptr_ptr_dest$1
+	%var$sptr_ptr_src$2 = alloca %struct$shared_ptr$1*
+	store %struct$shared_ptr$1* %tmp_varparam_placeholder$2, %struct$shared_ptr$1** %var$sptr_ptr_src$2
+	; func setup done
+	%tmp_varderef$3 = load %struct$shared_ptr$1*, %struct$shared_ptr$1** %var$sptr_ptr_src$2
+%tmp_varmember$4 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %tmp_varderef$3, i32 0, i32 1
+	%tmp_varderef$5 = load %i32*, %i32** %tmp_varmember$4
+	%tmp_varderef$6 = load %struct$shared_ptr$1*, %struct$shared_ptr$1** %var$sptr_ptr_src$2
+%tmp_varmember$7 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %tmp_varderef$6, i32 0, i32 1
+	%tmp_varderef$8 = load %i32*, %i32** %tmp_varmember$7
+	%tmp_varintconst$9 = alloca i32
+	store %i32 1, %i32* %tmp_varintconst$9
+	%tmp_varcopied_arg_0$10 = alloca %i32
+	%tmp_varaddrof$11 = alloca %i32*
+	store %i32* %tmp_varderef$8, %i32** %tmp_varaddrof$11
+	%tmp_varaddrof$12 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$10, %i32** %tmp_varaddrof$12
+	%tmp_var$13 = load %i32*, %i32** %tmp_varaddrof$12
+	%tmp_var$14 = load %i32*, %i32** %tmp_varaddrof$11
+	call void @func$builtin_copy$19(%i32* %tmp_var$13, %i32* %tmp_var$14)
+%tmp_varfuncres$15 = alloca %i32
+	%tmp_var$16 = load %i32, %i32* %tmp_varcopied_arg_0$10
+	%tmp_var$17 = load %i32, %i32* %tmp_varintconst$9
+	%tmp_var$18 = call %i32 @func$dummy_func___add__$28(%i32 %tmp_var$16, %i32 %tmp_var$17)
+	store %i32 %tmp_var$18, %i32* %tmp_varfuncres$15
+	%tmp_varaddrof$19 = alloca %i32*
+	store %i32* %tmp_varderef$5, %i32** %tmp_varaddrof$19
+	%tmp_var$20 = load %i32*, %i32** %tmp_varaddrof$19
+	call void @func$func_do_nothing$29(%i32* %tmp_var$20)
+	%tmp_var$21 = load %i32, %i32* %tmp_varfuncres$15
+	store %i32 %tmp_var$21, %i32* %tmp_varderef$5
+	%tmp_varderef$22 = load %struct$shared_ptr$1*, %struct$shared_ptr$1** %var$sptr_ptr_dest$1
+%tmp_varmember$23 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %tmp_varderef$22, i32 0, i32 0
+	%tmp_varderef$24 = load %struct$shared_ptr$1*, %struct$shared_ptr$1** %var$sptr_ptr_src$2
+%tmp_varmember$25 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %tmp_varderef$24, i32 0, i32 0
+	%tmp_varaddrof$26 = alloca %i8**
+	store %i8** %tmp_varmember$23, %i8*** %tmp_varaddrof$26
+	%tmp_var$27 = load %i8**, %i8*** %tmp_varaddrof$26
+	call void @func$func_do_nothing$7(%i8** %tmp_var$27)
+	%tmp_varaddrof$28 = alloca %i8**
+	store %i8** %tmp_varmember$25, %i8*** %tmp_varaddrof$28
+	%tmp_varaddrof$29 = alloca %i8**
+	store %i8** %tmp_varmember$23, %i8*** %tmp_varaddrof$29
+	%tmp_var$30 = load %i8**, %i8*** %tmp_varaddrof$29
+	%tmp_var$31 = load %i8**, %i8*** %tmp_varaddrof$28
+	call void @func$builtin_copy$9(%i8** %tmp_var$30, %i8** %tmp_var$31)
+	%tmp_varderef$32 = load %struct$shared_ptr$1*, %struct$shared_ptr$1** %var$sptr_ptr_dest$1
+%tmp_varmember$33 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %tmp_varderef$32, i32 0, i32 1
+	%tmp_varderef$34 = load %struct$shared_ptr$1*, %struct$shared_ptr$1** %var$sptr_ptr_src$2
+%tmp_varmember$35 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %tmp_varderef$34, i32 0, i32 1
+	%tmp_varaddrof$36 = alloca %i32**
+	store %i32** %tmp_varmember$33, %i32*** %tmp_varaddrof$36
+	%tmp_var$37 = load %i32**, %i32*** %tmp_varaddrof$36
+	call void @func$func_do_nothing$15(%i32** %tmp_var$37)
+	%tmp_varaddrof$38 = alloca %i32**
+	store %i32** %tmp_varmember$35, %i32*** %tmp_varaddrof$38
+	%tmp_varaddrof$39 = alloca %i32**
+	store %i32** %tmp_varmember$33, %i32*** %tmp_varaddrof$39
+	%tmp_var$40 = load %i32**, %i32*** %tmp_varaddrof$39
+	%tmp_var$41 = load %i32**, %i32*** %tmp_varaddrof$38
+	call void @func$builtin_copy$24(%i32** %tmp_var$40, %i32** %tmp_var$41)
+	br label %func_end
+	func_end:
+	ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$func_do_nothing$31(%i8* %t_0) local_unnamed_addr #0 {
+  ret void
+}
+; Function Attrs: nofree norecurse nounwind sspstrong uwtable
+define dso_local void @func$dummy_dest_struct$33(%struct$shared_ptr$1* nocapture %todest) local_unnamed_addr #0 {
+%t_0 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %todest, i64 0, i32 0
+call void @func$func_do_nothing$7(%i8** %t_0)
+%t_1 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %todest, i64 0, i32 1
+call void @func$func_do_nothing$15(%i32** %t_1)
+  ret void
+}
+define dso_local i32 @func$dummy_func___sub__$35(i32 %0, i32 %1) {
+  %3 = sub nsw i32 %0, %1
+  ret i32 %3
+}
+define dso_local void @func$__dest__$34 ( %struct$shared_ptr$1* %tmp_varparam_placeholder$1) {
+	%var$sptr_ptr$1 = alloca %struct$shared_ptr$1*
+	store %struct$shared_ptr$1* %tmp_varparam_placeholder$1, %struct$shared_ptr$1** %var$sptr_ptr$1
+	; func setup done
+	%tmp_varderef$2 = load %struct$shared_ptr$1*, %struct$shared_ptr$1** %var$sptr_ptr$1
+%tmp_varmember$3 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %tmp_varderef$2, i32 0, i32 1
+	%tmp_varderef$4 = load %i32*, %i32** %tmp_varmember$3
+	%tmp_varderef$5 = load %struct$shared_ptr$1*, %struct$shared_ptr$1** %var$sptr_ptr$1
+%tmp_varmember$6 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %tmp_varderef$5, i32 0, i32 1
+	%tmp_varderef$7 = load %i32*, %i32** %tmp_varmember$6
+	%tmp_varintconst$8 = alloca i32
+	store %i32 1, %i32* %tmp_varintconst$8
+	%tmp_varcopied_arg_0$9 = alloca %i32
+	%tmp_varaddrof$10 = alloca %i32*
+	store %i32* %tmp_varderef$7, %i32** %tmp_varaddrof$10
+	%tmp_varaddrof$11 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$9, %i32** %tmp_varaddrof$11
+	%tmp_var$12 = load %i32*, %i32** %tmp_varaddrof$11
+	%tmp_var$13 = load %i32*, %i32** %tmp_varaddrof$10
+	call void @func$builtin_copy$19(%i32* %tmp_var$12, %i32* %tmp_var$13)
+%tmp_varfuncres$14 = alloca %i32
+	%tmp_var$15 = load %i32, %i32* %tmp_varcopied_arg_0$9
+	%tmp_var$16 = load %i32, %i32* %tmp_varintconst$8
+	%tmp_var$17 = call %i32 @func$dummy_func___sub__$35(%i32 %tmp_var$15, %i32 %tmp_var$16)
+	store %i32 %tmp_var$17, %i32* %tmp_varfuncres$14
+	%tmp_varaddrof$18 = alloca %i32*
+	store %i32* %tmp_varderef$4, %i32** %tmp_varaddrof$18
+	%tmp_var$19 = load %i32*, %i32** %tmp_varaddrof$18
+	call void @func$func_do_nothing$29(%i32* %tmp_var$19)
+	%tmp_var$20 = load %i32, %i32* %tmp_varfuncres$14
+	store %i32 %tmp_var$20, %i32* %tmp_varderef$4
+	br label %func_end
+	func_end:
+	ret void
+}
+define dso_local %i32 @func$main$1 () {
+	; func setup done
+	%return = alloca %i32
+	%tmp_varintconst$1 = alloca i8
+	store %i8 15, %i8* %tmp_varintconst$1
+%tmp_varfuncres$2 = alloca %i8*
+	%tmp_var$3 = load %i8, %i8* %tmp_varintconst$1
+	%tmp_var$4 = call %i8* @func$heap_object$5(%i8 %tmp_var$3)
+	store %i8* %tmp_var$4, %i8** %tmp_varfuncres$2
+%tmp_varfuncres$5 = alloca %struct$shared_ptr$1
+	%tmp_var$6 = load %i8*, %i8** %tmp_varfuncres$2
+	%tmp_var$7 = call %struct$shared_ptr$1 @func$stack_object_struct$17(%i8* %tmp_var$6)
+	store %struct$shared_ptr$1 %tmp_var$7, %struct$shared_ptr$1* %tmp_varfuncres$5
+	%var$a$1 = alloca %struct$shared_ptr$1
+	%tmp_var$8 = load %struct$shared_ptr$1, %struct$shared_ptr$1* %tmp_varfuncres$5
+	store %struct$shared_ptr$1 %tmp_var$8, %struct$shared_ptr$1* %var$a$1
+	%tmp_varintconst$9 = alloca i32
+	store %i32 1000000, %i32* %tmp_varintconst$9
+	%tmp_var$10 = load %i32, %i32* %tmp_varintconst$9
+	call void @func$out_i32_dummy$18(%i32 %tmp_var$10)
+%tmp_varmember$11 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %var$a$1, i32 0, i32 1
+	%tmp_varderef$12 = load %i32*, %i32** %tmp_varmember$11
+	%tmp_varcopied_arg_0$13 = alloca %i32
+	%tmp_varaddrof$14 = alloca %i32*
+	store %i32* %tmp_varderef$12, %i32** %tmp_varaddrof$14
+	%tmp_varaddrof$15 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$13, %i32** %tmp_varaddrof$15
+	%tmp_var$16 = load %i32*, %i32** %tmp_varaddrof$15
+	%tmp_var$17 = load %i32*, %i32** %tmp_varaddrof$14
+	call void @func$builtin_copy$19(%i32* %tmp_var$16, %i32* %tmp_var$17)
+	%tmp_var$18 = load %i32, %i32* %tmp_varcopied_arg_0$13
+	call void @func$out_i32_dummy$18(%i32 %tmp_var$18)
+%tmp_varmember$19 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %var$a$1, i32 0, i32 0
+	%tmp_varderef$20 = load %i8*, %i8** %tmp_varmember$19
+	%tmp_varcopied_arg_0$21 = alloca %i8
+	%tmp_varaddrof$22 = alloca %i8*
+	store %i8* %tmp_varderef$20, %i8** %tmp_varaddrof$22
+	%tmp_varaddrof$23 = alloca %i8*
+	store %i8* %tmp_varcopied_arg_0$21, %i8** %tmp_varaddrof$23
+	%tmp_var$24 = load %i8*, %i8** %tmp_varaddrof$23
+	%tmp_var$25 = load %i8*, %i8** %tmp_varaddrof$22
+	call void @func$builtin_copy$22(%i8* %tmp_var$24, %i8* %tmp_var$25)
+	%tmp_var$26 = load %i8, %i8* %tmp_varcopied_arg_0$21
+	call void @func$out_i8_dummy$21(%i8 %tmp_var$26)
+	%var$b$2 = alloca %struct$shared_ptr$1
+	%tmp_varaddrof$27 = alloca %struct$shared_ptr$1*
+	store %struct$shared_ptr$1* %var$a$1, %struct$shared_ptr$1** %tmp_varaddrof$27
+	%tmp_varaddrof$28 = alloca %struct$shared_ptr$1*
+	store %struct$shared_ptr$1* %var$b$2, %struct$shared_ptr$1** %tmp_varaddrof$28
+	%tmp_var$29 = load %struct$shared_ptr$1*, %struct$shared_ptr$1** %tmp_varaddrof$28
+	%tmp_var$30 = load %struct$shared_ptr$1*, %struct$shared_ptr$1** %tmp_varaddrof$27
+	call void @func$__copy__$27(%struct$shared_ptr$1* %tmp_var$29, %struct$shared_ptr$1* %tmp_var$30)
+	%tmp_varintconst$31 = alloca i32
+	store %i32 1000000, %i32* %tmp_varintconst$31
+	%tmp_var$32 = load %i32, %i32* %tmp_varintconst$31
+	call void @func$out_i32_dummy$18(%i32 %tmp_var$32)
+%tmp_varmember$33 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %var$a$1, i32 0, i32 1
+	%tmp_varderef$34 = load %i32*, %i32** %tmp_varmember$33
+	%tmp_varcopied_arg_0$35 = alloca %i32
+	%tmp_varaddrof$36 = alloca %i32*
+	store %i32* %tmp_varderef$34, %i32** %tmp_varaddrof$36
+	%tmp_varaddrof$37 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$35, %i32** %tmp_varaddrof$37
+	%tmp_var$38 = load %i32*, %i32** %tmp_varaddrof$37
+	%tmp_var$39 = load %i32*, %i32** %tmp_varaddrof$36
+	call void @func$builtin_copy$19(%i32* %tmp_var$38, %i32* %tmp_var$39)
+	%tmp_var$40 = load %i32, %i32* %tmp_varcopied_arg_0$35
+	call void @func$out_i32_dummy$18(%i32 %tmp_var$40)
+%tmp_varmember$41 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %var$a$1, i32 0, i32 0
+	%tmp_varderef$42 = load %i8*, %i8** %tmp_varmember$41
+	%tmp_varcopied_arg_0$43 = alloca %i8
+	%tmp_varaddrof$44 = alloca %i8*
+	store %i8* %tmp_varderef$42, %i8** %tmp_varaddrof$44
+	%tmp_varaddrof$45 = alloca %i8*
+	store %i8* %tmp_varcopied_arg_0$43, %i8** %tmp_varaddrof$45
+	%tmp_var$46 = load %i8*, %i8** %tmp_varaddrof$45
+	%tmp_var$47 = load %i8*, %i8** %tmp_varaddrof$44
+	call void @func$builtin_copy$22(%i8* %tmp_var$46, %i8* %tmp_var$47)
+	%tmp_var$48 = load %i8, %i8* %tmp_varcopied_arg_0$43
+	call void @func$out_i8_dummy$21(%i8 %tmp_var$48)
+%tmp_varmember$49 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %var$b$2, i32 0, i32 1
+	%tmp_varderef$50 = load %i32*, %i32** %tmp_varmember$49
+	%tmp_varcopied_arg_0$51 = alloca %i32
+	%tmp_varaddrof$52 = alloca %i32*
+	store %i32* %tmp_varderef$50, %i32** %tmp_varaddrof$52
+	%tmp_varaddrof$53 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$51, %i32** %tmp_varaddrof$53
+	%tmp_var$54 = load %i32*, %i32** %tmp_varaddrof$53
+	%tmp_var$55 = load %i32*, %i32** %tmp_varaddrof$52
+	call void @func$builtin_copy$19(%i32* %tmp_var$54, %i32* %tmp_var$55)
+	%tmp_var$56 = load %i32, %i32* %tmp_varcopied_arg_0$51
+	call void @func$out_i32_dummy$18(%i32 %tmp_var$56)
+%tmp_varmember$57 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %var$b$2, i32 0, i32 0
+	%tmp_varderef$58 = load %i8*, %i8** %tmp_varmember$57
+	%tmp_varcopied_arg_0$59 = alloca %i8
+	%tmp_varaddrof$60 = alloca %i8*
+	store %i8* %tmp_varderef$58, %i8** %tmp_varaddrof$60
+	%tmp_varaddrof$61 = alloca %i8*
+	store %i8* %tmp_varcopied_arg_0$59, %i8** %tmp_varaddrof$61
+	%tmp_var$62 = load %i8*, %i8** %tmp_varaddrof$61
+	%tmp_var$63 = load %i8*, %i8** %tmp_varaddrof$60
+	call void @func$builtin_copy$22(%i8* %tmp_var$62, %i8* %tmp_var$63)
+	%tmp_var$64 = load %i8, %i8* %tmp_varcopied_arg_0$59
+	call void @func$out_i8_dummy$21(%i8 %tmp_var$64)
+%tmp_varmember$65 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %var$b$2, i32 0, i32 0
+	%tmp_varderef$66 = load %i8*, %i8** %tmp_varmember$65
+	%tmp_varintconst$67 = alloca i8
+	store %i8 13, %i8* %tmp_varintconst$67
+	%tmp_varaddrof$68 = alloca %i8*
+	store %i8* %tmp_varderef$66, %i8** %tmp_varaddrof$68
+	%tmp_var$69 = load %i8*, %i8** %tmp_varaddrof$68
+	call void @func$func_do_nothing$31(%i8* %tmp_var$69)
+	%tmp_var$70 = load %i8, %i8* %tmp_varintconst$67
+	store %i8 %tmp_var$70, %i8* %tmp_varderef$66
+	%tmp_varintconst$71 = alloca i32
+	store %i32 1000000, %i32* %tmp_varintconst$71
+	%tmp_var$72 = load %i32, %i32* %tmp_varintconst$71
+	call void @func$out_i32_dummy$18(%i32 %tmp_var$72)
+%tmp_varmember$73 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %var$a$1, i32 0, i32 1
+	%tmp_varderef$74 = load %i32*, %i32** %tmp_varmember$73
+	%tmp_varcopied_arg_0$75 = alloca %i32
+	%tmp_varaddrof$76 = alloca %i32*
+	store %i32* %tmp_varderef$74, %i32** %tmp_varaddrof$76
+	%tmp_varaddrof$77 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$75, %i32** %tmp_varaddrof$77
+	%tmp_var$78 = load %i32*, %i32** %tmp_varaddrof$77
+	%tmp_var$79 = load %i32*, %i32** %tmp_varaddrof$76
+	call void @func$builtin_copy$19(%i32* %tmp_var$78, %i32* %tmp_var$79)
+	%tmp_var$80 = load %i32, %i32* %tmp_varcopied_arg_0$75
+	call void @func$out_i32_dummy$18(%i32 %tmp_var$80)
+%tmp_varmember$81 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %var$a$1, i32 0, i32 0
+	%tmp_varderef$82 = load %i8*, %i8** %tmp_varmember$81
+	%tmp_varcopied_arg_0$83 = alloca %i8
+	%tmp_varaddrof$84 = alloca %i8*
+	store %i8* %tmp_varderef$82, %i8** %tmp_varaddrof$84
+	%tmp_varaddrof$85 = alloca %i8*
+	store %i8* %tmp_varcopied_arg_0$83, %i8** %tmp_varaddrof$85
+	%tmp_var$86 = load %i8*, %i8** %tmp_varaddrof$85
+	%tmp_var$87 = load %i8*, %i8** %tmp_varaddrof$84
+	call void @func$builtin_copy$22(%i8* %tmp_var$86, %i8* %tmp_var$87)
+	%tmp_var$88 = load %i8, %i8* %tmp_varcopied_arg_0$83
+	call void @func$out_i8_dummy$21(%i8 %tmp_var$88)
+%tmp_varmember$89 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %var$b$2, i32 0, i32 1
+	%tmp_varderef$90 = load %i32*, %i32** %tmp_varmember$89
+	%tmp_varcopied_arg_0$91 = alloca %i32
+	%tmp_varaddrof$92 = alloca %i32*
+	store %i32* %tmp_varderef$90, %i32** %tmp_varaddrof$92
+	%tmp_varaddrof$93 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$91, %i32** %tmp_varaddrof$93
+	%tmp_var$94 = load %i32*, %i32** %tmp_varaddrof$93
+	%tmp_var$95 = load %i32*, %i32** %tmp_varaddrof$92
+	call void @func$builtin_copy$19(%i32* %tmp_var$94, %i32* %tmp_var$95)
+	%tmp_var$96 = load %i32, %i32* %tmp_varcopied_arg_0$91
+	call void @func$out_i32_dummy$18(%i32 %tmp_var$96)
+%tmp_varmember$97 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %var$b$2, i32 0, i32 0
+	%tmp_varderef$98 = load %i8*, %i8** %tmp_varmember$97
+	%tmp_varcopied_arg_0$99 = alloca %i8
+	%tmp_varaddrof$100 = alloca %i8*
+	store %i8* %tmp_varderef$98, %i8** %tmp_varaddrof$100
+	%tmp_varaddrof$101 = alloca %i8*
+	store %i8* %tmp_varcopied_arg_0$99, %i8** %tmp_varaddrof$101
+	%tmp_var$102 = load %i8*, %i8** %tmp_varaddrof$101
+	%tmp_var$103 = load %i8*, %i8** %tmp_varaddrof$100
+	call void @func$builtin_copy$22(%i8* %tmp_var$102, %i8* %tmp_var$103)
+	%tmp_var$104 = load %i8, %i8* %tmp_varcopied_arg_0$99
+	call void @func$out_i8_dummy$21(%i8 %tmp_var$104)
+	%tmp_varaddrof$105 = alloca %struct$shared_ptr$1*
+	store %struct$shared_ptr$1* %var$b$2, %struct$shared_ptr$1** %tmp_varaddrof$105
+	%tmp_var$106 = load %struct$shared_ptr$1*, %struct$shared_ptr$1** %tmp_varaddrof$105
+	call void @func$__dest__$34(%struct$shared_ptr$1* %tmp_var$106)
+	%tmp_varintconst$107 = alloca i32
+	store %i32 1000000, %i32* %tmp_varintconst$107
+	%tmp_var$108 = load %i32, %i32* %tmp_varintconst$107
+	call void @func$out_i32_dummy$18(%i32 %tmp_var$108)
+%tmp_varmember$109 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %var$a$1, i32 0, i32 1
+	%tmp_varderef$110 = load %i32*, %i32** %tmp_varmember$109
+	%tmp_varcopied_arg_0$111 = alloca %i32
+	%tmp_varaddrof$112 = alloca %i32*
+	store %i32* %tmp_varderef$110, %i32** %tmp_varaddrof$112
+	%tmp_varaddrof$113 = alloca %i32*
+	store %i32* %tmp_varcopied_arg_0$111, %i32** %tmp_varaddrof$113
+	%tmp_var$114 = load %i32*, %i32** %tmp_varaddrof$113
+	%tmp_var$115 = load %i32*, %i32** %tmp_varaddrof$112
+	call void @func$builtin_copy$19(%i32* %tmp_var$114, %i32* %tmp_var$115)
+	%tmp_var$116 = load %i32, %i32* %tmp_varcopied_arg_0$111
+	call void @func$out_i32_dummy$18(%i32 %tmp_var$116)
+%tmp_varmember$117 = getelementptr inbounds %struct$shared_ptr$1, %struct$shared_ptr$1* %var$a$1, i32 0, i32 0
+	%tmp_varderef$118 = load %i8*, %i8** %tmp_varmember$117
+	%tmp_varcopied_arg_0$119 = alloca %i8
+	%tmp_varaddrof$120 = alloca %i8*
+	store %i8* %tmp_varderef$118, %i8** %tmp_varaddrof$120
+	%tmp_varaddrof$121 = alloca %i8*
+	store %i8* %tmp_varcopied_arg_0$119, %i8** %tmp_varaddrof$121
+	%tmp_var$122 = load %i8*, %i8** %tmp_varaddrof$121
+	%tmp_var$123 = load %i8*, %i8** %tmp_varaddrof$120
+	call void @func$builtin_copy$22(%i8* %tmp_var$122, %i8* %tmp_var$123)
+	%tmp_var$124 = load %i8, %i8* %tmp_varcopied_arg_0$119
+	call void @func$out_i8_dummy$21(%i8 %tmp_var$124)
+	%tmp_varintconst$125 = alloca i32
+	store %i32 0, %i32* %tmp_varintconst$125
+	%tmp_var$126 = load %i32, %i32* %tmp_varintconst$125
+	store %i32 %tmp_var$126, %i32* %return
+	br label %func_end
+	br label %func_end
+	func_end:
+	%tmp_varaddrof$127 = alloca %struct$shared_ptr$1*
+	store %struct$shared_ptr$1* %var$a$1, %struct$shared_ptr$1** %tmp_varaddrof$127
+	%tmp_var$128 = load %struct$shared_ptr$1*, %struct$shared_ptr$1** %tmp_varaddrof$127
+	call void @func$__dest__$34(%struct$shared_ptr$1* %tmp_var$128)
+	%tmp_varrettmp$129 = load %i32, %i32* %return
+	ret %i32 %tmp_varrettmp$129
+}
+
+; START OF HEADER
+define dso_local i32 @main() #0 {
+	%1 = call i32 @func$main$1()
+	ret i32 %1
+}
+
+---------------------
+Program: examples/demo_sptr.st
+
+struct shared_ptr<T>{
+    let item_ptr = @T;
+    let count = @i32;
+}
+
+fn __init__(sptr_ptr, item_ptr){
+    type T = enable_if_resolve<sptr_ptr!.T>;
+    type _1 = enable_if<sptr_ptr == @shared_ptr<T>>;
+    type _2 = enable_if<item_ptr == @T>;
+
+    sptr_ptr!.item_ptr = item_ptr;
+    sptr_ptr!.count = heap_object<i32>(1);
+}
+
+fn __dest__(sptr_ptr){
+    type T = enable_if_resolve<sptr_ptr!.T>;
+    type _1 = enable_if<sptr_ptr == @shared_ptr<T>>;
+
+    sptr_ptr!.count! = sptr_ptr!.count! - 1;
+    /*if (sptr_ptr!.count! == 1){
+        heap_free<T>(sptr_ptr!.item_ptr);
+        //heap_free<i32>(sptr_ptr!.count);
+    }*/
+}
+
+fn __copy__(sptr_ptr_dest, sptr_ptr_src){
+    type T = enable_if_resolve<sptr_ptr_dest!.T>;
+    type _1 = enable_if<sptr_ptr_dest == @shared_ptr<T>>;
+    type _2 = enable_if<sptr_ptr_src == @shared_ptr<T>>;
+
+    sptr_ptr_src!.count! = sptr_ptr_src!.count! + 1;
+
+    sptr_ptr_dest!.item_ptr = sptr_ptr_src!.item_ptr;
+    sptr_ptr_dest!.count = sptr_ptr_src!.count;
+}
+
+fn main() -> i32{
+    let a = object<shared_ptr<i8>>(heap_object<i8>(15i8));
+    out(1000000);
+    out(a.count!);
+    out(a.item_ptr!);
+    {
+        let b = a;
+        out(1000000);
+        out(a.count!);
+        out(a.item_ptr!);
+        out(b.count!);
+        out(b.item_ptr!);
+        b.item_ptr! = 13i8;
+        out(1000000);
+        out(a.count!);
+        out(a.item_ptr!);
+        out(b.count!);
+        out(b.item_ptr!);
+    }
+    out(1000000);
+    out(a.count!);
+    out(a.item_ptr!);
+
+    return 0;
+}
+---------------------
+
+1000000
+1
+15
+1000000
+2
+15
+2
+15
+1000000
+2
+13
+2
+13
+1000000
+1
+13
+
+Exit status: 0
+---------------------
+======================
+======================
+======================

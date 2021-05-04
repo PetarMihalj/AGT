@@ -107,12 +107,16 @@ def _(self: sa.FunctionDefinition, tc: TypingContext,
 
         def infer_ret_type():
             try:
-                retty = self.expr_ret.te_visit(tc, fc)
+                if self.expr_ret is not None:
+                    retty = self.expr_ret.te_visit(tc, fc)
+                else:
+                    retty = None
+
             except ierr.InferenceError as e:
                 raise ierr.TypeExpressionError(f"Can not infer return type at {self.linespan[0]}") from e
 
             fc.return_type = retty
-            if retty != None:
+            if retty is not None:
                 ir.put_stack_allocate("return", retty, fc)
 
             # this is crucial for recursive calls
@@ -159,7 +163,7 @@ def _(self: sa.FunctionDefinition, tc: TypingContext,
         tc.code_blocks.append(code_blocks.FuncTypeCodeBlock(fc))
         return ts.FunctionType(fc.mangled_name, fc.return_type, do_not_copy_args=False) 
 
-    except ierr.InferenceError as e:
+    except ierr.CrashingError as e:
         raise ierr.InferenceError(f"Can not synthetize function at {self.linespan[0]}") from e
 
     finally:
@@ -205,7 +209,7 @@ def _(self: sa.BlockStatement, tc: TypingContext,
     fc.dest_stack.append([])
 
     for s in self.statement_list:
-        self.expr.te_visit(tc, fc)
+        s.te_visit(tc, fc)
 
     for td in fc.dest_stack[-1]:
         put_dest(self, fc, tc, td)
@@ -271,7 +275,7 @@ def _(self: sa.InitStatement, tc: TypingContext,
 
     ir.put_stack_allocate(mn, fc.types[e], fc)
     if self.expr.lvalue:
-        add_copy(self, fc, tc, mn, e)
+        put_copy(self, fc, tc, mn, e)
     else:
         ir.put_stack_copy(mn, e, fc)
 

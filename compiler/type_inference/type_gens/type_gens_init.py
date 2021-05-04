@@ -23,19 +23,6 @@ def gen_heap_object(
     if len(type_argument_types) != 1: raise ierr.TypeGenError()
     init_type = type_argument_types[0]
 
-    types_mn = []
-    if isinstance(init_type, ts.StructType): 
-        if len(argument_types) != len(init_type.members): raise ierr.TypeGenError()
-        for t1, m in zip(argument_types, init_type.members):
-            t2 = init_type.types[m]
-            if t1!=t2:
-                raise ierr.TypeGenError()
-            types_mn.append(t2.mangled_name)
-    else:
-        if len(argument_types) != 1: raise ierr.TypeGenError()
-        if argument_types[0] != init_type: raise ierr.TypeGenError()
-        types_mn = [init_type.mangled_name]
-
     try:
         fn_alloc_mn = tc.resolve_function("heap_alloc", (init_type,), (ts.IntType(32),)).mangled_name
         fn_init_mn = tc.resolve_function("__init__", (), 
@@ -44,12 +31,11 @@ def gen_heap_object(
     except ierr.InferenceError:
         raise ierr.TypeGenError()
 
-
     dname = tc.scope_man.new_func_name(f"heap_object")
     tc.code_blocks.append(prim.HeapObjectPrimitive(
         dname,
         init_type.mangled_name,
-        types_mn,
+        [at.mangled_name for at in argument_types],
         fn_alloc_mn,
         fn_init_mn,
     ))
@@ -74,19 +60,6 @@ def gen_stack_object(
 
     init_type = type_argument_types[0]
 
-    types_mn = []
-    if isinstance(init_type, ts.StructType): 
-        if len(argument_types) != len(init_type.members): raise ierr.TypeGenError()
-        for t1, m in zip(argument_types, init_type.members):
-            t2 = init_type.types[m]
-            if t1!=t2:
-                raise ierr.TypeGenError()
-            types_mn.append(t2.mangled_name)
-    else:
-        if len(argument_types) != 1: raise ierr.TypeGenError()
-        if argument_types[0] != init_type: raise ierr.TypeGenError()
-        types_mn = [init_type.mangled_name]
-
     try:
         fn_init_mn = tc.resolve_function("__init__", (), 
             (ts.PointerType(init_type),) + argument_types
@@ -94,12 +67,11 @@ def gen_stack_object(
     except ierr.InferenceError:
         raise ierr.TypeGenError()
 
-
     dname = tc.scope_man.new_func_name(f"stack_object_struct")
     tc.code_blocks.append(prim.StackObjectPrimitive(
         dname,
         init_type.mangled_name,
-        types_mn,
+        [at.mangled_name for at in argument_types],
         fn_init_mn,
     ))
 

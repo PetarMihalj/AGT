@@ -5,6 +5,7 @@ do
 
 python -m compiler.code_gen $example | tee tmp > /dev/null #| nl -ba -
 
+
 echo ""
 echo ""
 echo ""
@@ -27,6 +28,9 @@ read -p "Press any key to continue"
 echo "---------------------"
 #rm tmp
 
+echo "======================"
+echo "======================"
+echo "======================"
 
 done
 

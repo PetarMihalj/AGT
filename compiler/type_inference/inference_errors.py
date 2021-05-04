@@ -18,14 +18,16 @@ class ChoiceSkipError(InferenceError):
 
 # crashing errors
 
-
-class TypeExpressionError(InferenceError):
+class CrashingError(InferenceError):
     pass
 
-class RuntimeExpressionError(InferenceError):
+class TypeExpressionError(CrashingError):
     pass
 
-class NameError(InferenceError):
+class RuntimeExpressionError(CrashingError):
+    pass
+
+class NameError(CrashingError):
     pass
 
 

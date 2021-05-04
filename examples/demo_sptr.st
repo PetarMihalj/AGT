@@ -9,7 +9,7 @@ fn __init__(sptr_ptr, item_ptr){
     type _2 = enable_if<item_ptr == @T>;
 
     sptr_ptr!.item_ptr = item_ptr;
-    sptr_ptr!.count = heap_alloc<i32>(1);
+    sptr_ptr!.count = heap_object<i32>(1);
 }
 
 fn __dest__(sptr_ptr){
@@ -35,8 +35,27 @@ fn __copy__(sptr_ptr_dest, sptr_ptr_src){
 }
 
 fn main() -> i32{
-    let b = 5i64;
-    let a = shared_ptr<i64>(heap_object<i64>(15i64));
+    let a = object<shared_ptr<i8>>(heap_object<i8>(15i8));
+    out(1000000);
+    out(a.count!);
+    out(a.item_ptr!);
+    {
+        let b = a;
+        out(1000000);
+        out(a.count!);
+        out(a.item_ptr!);
+        out(b.count!);
+        out(b.item_ptr!);
+        b.item_ptr! = 13i8;
+        out(1000000);
+        out(a.count!);
+        out(a.item_ptr!);
+        out(b.count!);
+        out(b.item_ptr!);
+    }
+    out(1000000);
+    out(a.count!);
+    out(a.item_ptr!);
 
     return 0;
 }

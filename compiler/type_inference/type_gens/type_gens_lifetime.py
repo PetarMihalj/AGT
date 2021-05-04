@@ -158,7 +158,7 @@ def gen_struct_init(
         None,
         do_not_copy_args = True,
     )
-    return (ft)
+    return (ft,)
 
 @add_method_to_list(func_methods)
 def gen_struct_copy(
@@ -211,7 +211,7 @@ def gen_struct_copy(
         None,
         do_not_copy_args = True,
     )
-    return (ft)
+    return (ft,)
 
 
 @add_method_to_list(func_methods)
@@ -260,5 +260,5 @@ def gen_struct_dest(
         None,
         do_not_copy_args = True,
     )
-    return (ft)
+    return (ft,)
 
