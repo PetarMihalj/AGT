@@ -10,9 +10,14 @@ echo ""
 echo ""
 echo "---------------------"
 echo "Program: $example"
+cat tmp
+echo ""
+echo "---------------------"
+echo "Program: $example"
 echo ""
 cat $example
 echo "---------------------"
+echo ""
 
 lli tmp
 es=$?

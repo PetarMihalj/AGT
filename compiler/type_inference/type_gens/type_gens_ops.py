@@ -1,20 +1,22 @@
-from typing import List
+from typing import Tuple
 
-from . import inference_errors as ierr
-from . import primitives as prim
-from .type_system import Type
-from ..helpers import add_method_to_list
-from . import type_system as ts
+from .. import inference_errors as ierr
+from .. import primitives as prim
+from .. import type_system as ts
+from .. import context
+from ...semantics_parsing import semantic_ast as sa
 
-from ..semantics_parsing import semantic_ast as sa
+from ...helpers import add_method_to_list
+from . import func_methods, struct_methods
 
-from .type_gens import func_methods, struct_methods
-
+from ..type_engine import TypingContext
 
 @add_method_to_list(func_methods)
-def gen_int_type_ops(tc, name: str,
-                     type_argument_types: List[Type],
-                     argument_types: List[Type],
+def gen_int_type_ops(
+                tc: TypingContext,
+                name: str,
+                type_argument_types: Tuple[ts.Type],
+                argument_types: Tuple[ts.Type],
             ):
     if name not in sa.ops_mapping.values():
         raise ierr.TypeGenError()
@@ -34,19 +36,25 @@ def gen_int_type_ops(tc, name: str,
     retty = argument_types[0] if name in [
             '__add__','__sub__','__mul__','__div__','__mod__'
         ] else ts.BoolType()
-    tc.primitives.append(prim.IntTypeOpPrimitive(
+    tc.code_blocks.append(prim.IntTypeOpPrimitive(
         dname,
         name,
         argument_types[0].size, 
     ))
 
-    ft = ts.FunctionTypePrimitive(dname, retty)
+    ft = ts.FunctionType(
+        dname, 
+        retty,
+        do_not_copy_args = False,
+    )
     return ft
 
 @add_method_to_list(func_methods)
-def gen_bool_type_ops(tc, name: str,
-                     type_argument_types: List[Type],
-                     argument_types: List[Type],
+def gen_bool_type_ops(
+                tc: TypingContext,
+                name: str,
+                type_argument_types: Tuple[ts.Type],
+                argument_types: Tuple[ts.Type],
             ):
     if name not in sa.ops_mapping.values():
         raise ierr.TypeGenError()
@@ -61,11 +69,15 @@ def gen_bool_type_ops(tc, name: str,
         raise ierr.TypeGenError()
 
     dname = tc.scope_man.new_func_name(f"dummy_func_{name}")
-    tc.primitives.append(prim.IntTypeOpPrimitive(
+    tc.code_blocks.append(prim.IntTypeOpPrimitive(
         dname,
         name,
         1 
     ))
 
-    ft = ts.FunctionTypePrimitive(dname, ts.BoolType())
+    ft = ts.FunctionType(
+        dname, 
+        ts.BoolType(),
+        do_not_copy_args = False,
+    )
     return ft

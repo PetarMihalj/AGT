@@ -34,7 +34,7 @@ class DefinitionScopeManager:
         else:
             res_var = f"var{separator}{name}{separator}{self.var_cnt}"
         if name in self.scope_stack[-1]:
-            raise RuntimeError(f"Cant override var name {name}, quitting")
+            return None
         self.scope_stack[-1][name] = res_var
         return res_var
 

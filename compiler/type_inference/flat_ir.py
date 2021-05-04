@@ -4,7 +4,7 @@ from . import context
 
 # operations on stack symbolic registers
 
-def put_stack_allocate(dest: str, ty: Type, fc: context.FunctionContext):
+def put_stack_allocate(dest: str, ty: ts.Type, fc: context.FunctionContext):
     """
     Dest becomes an stack symbolic register with a value of type s.
     """
@@ -13,7 +13,7 @@ def put_stack_allocate(dest: str, ty: Type, fc: context.FunctionContext):
         f"\t%{dest} = alloca %{ty.mangled_name}",
     ])
 
-def get_stack_allocate_tmp(desc: str, ty: Type, fc: context.FunctionContext):
+def get_stack_allocate_tmp(desc: str, ty: ts.Type, fc: context.FunctionContext):
     """
     Dest becomes an stack symbolic register with a value of type s.
     """
@@ -38,17 +38,21 @@ def put_stack_copy(dest: str, src: str, fc: context.FunctionContext):
         f"\tstore %{s} %{tmp}, %{s}* %{dest}",
     ])
 
-def param_to_stack_store(dest: str, ty: Type, fc: context.FunctionContext):
+def put_param_to_stack_store(desc: str, ty: ts.Type, fc: context.FunctionContext):
     """
     Dest becomes a stack symbolic register with a value of type s.
     """
+    mn = fc.scope_man.new_var_name(desc)
+
     pp = fc.scope_man.new_tmp_var_name("param_placeholder")
+    fc.types[pp] = ty
     fc.parameter_names_ordered.append(pp)
 
-    fc.types[dest] = ty
-    return [
-        f"\tstore %{ty.mangled_name} %{pp}, %{ty.mangled_name}* %{dest}",
-    ]
+    fc.types[mn] = ty
+    fc.code.extend([
+        f"\t%{mn} = alloca %{ty.mangled_name}",
+        f"\tstore %{ty.mangled_name} %{pp}, %{ty.mangled_name}* %{mn}",
+    ])
 
 # functional
 
@@ -87,7 +91,7 @@ def get_address_of(src: str, fc: context.FunctionContext):
     dtmn = fc.types[dest].mangled_name
 
     fc.code.extend([
-        f"\t%{dest} = alloca {dtmn}",
+        f"\t%{dest} = alloca %{dtmn}",
         f"\tstore %{stmn}* %{src}, %{dtmn}* %{dest}"
     ])
     return dest
@@ -117,7 +121,7 @@ def get_pointer_offset(src: str, offset: str, fc: context.FunctionContext):
     tmp_newptr = fc.scope_man.new_tmp_var_name()
 
     fc.code.extend([
-        f"\t%{dest} = alloca {ptmn}",
+        f"\t%{dest} = alloca %{ptmn}",
 
         f"\t%{tmp_val} = load i{size}, i{size}* %{offset}",
         f"\t%{tmp_ext_val} = sext i{size} %{tmp_val} to i64",
@@ -188,8 +192,9 @@ def get_function_call(fn_to_call: ts.FunctionType, argument_names: List[str], fc
     
     RETURNS a stack symbolic register which the result is saved into or None
     """
-    if not fn_to_call.return_type == ts.VoidType():
+    if fn_to_call.return_type is not None:
         dest = fc.scope_man.new_tmp_var_name("funcres")
+        fc.code.append(f"%{dest} = alloca %{fn_to_call.return_type.mangled_name}")
         fc.types[dest] = fn_to_call.return_type
 
     tmps = [fc.scope_man.new_tmp_var_name() for an in argument_names]
@@ -201,7 +206,7 @@ def get_function_call(fn_to_call: ts.FunctionType, argument_names: List[str], fc
     args_str = ", ".join([f"%{ty} %{tmp}" for tmp,ty in zip(tmps,types)])
 
 
-    if fn_to_call.return_type == ts.VoidType():
+    if fn_to_call.return_type is None:
         fc.code.extend(derefs+[
             f"\tcall void @{fn_to_call.mangled_name}({args_str})",
         ])
@@ -223,9 +228,9 @@ def put_function_return(fc: context.FunctionContext):
     Generates the code to exit the function with a value located in a stack symbolic register return or void
     """
 
-    if fc.return_type == ts.VoidType():
+    if fc.return_type is None:
         fc.code.extend([
-            "\tret void"]
+            "\tret void"
         ])
     else:
         tmp = fc.scope_man.new_tmp_var_name("rettmp")

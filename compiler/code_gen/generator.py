@@ -1,31 +1,17 @@
 from ..type_inference import flat_ir
 from ..type_inference import type_engine as te
-from ..type_inference import TypingResult 
 from ..type_inference import type_system as ts
 
 
 class CodeGenerator:
-    def __init__(self, tr: TypingResult):
-        self.tr: TypingResult = tr
+    def __init__(self, tr: te.TypingResult):
+        self.tr: te.TypingResult = tr
         self.code = []
 
-    def add_structs(self): 
-        for s in self.tr.struct_types.values():
-            if not isinstance(s, ts.StructType) or not s.needs_gen:
-                continue
-            s: ts.StructType
-            self.code.append(f"%{s.mangled_name} = type {{")
-            for i, member in enumerate(s.members):
-                comma = ','
-                if i==len(s.members)-1:
-                    comma=''
-                self.code.append(f"\t{s.types[member].mangled_name}{comma}\t\t\t;{member}")
-            self.code.append(f"}}")
-
     def add_prims(self):
-        for pr in self.tr.primitives:
+        for pr in self.tr.code_blocks:
             self.code.extend(
-                pr.get_code(self.tr)
+                pr.get_code()
             )
 
     def add_header(self):
@@ -57,49 +43,21 @@ class CodeGenerator:
             "declare void @free(i8* nocapture) local_unnamed_addr #1",
         ]
 
-    def add_funcs(self):
-        for f in self.tr.func_types.values():
-            self.add_func(f)
-
-    def add_func(self, f: ts.FunctionType):
-        p_names = ", ".join([" %"+f.types[n].mangled_name+" %"+n for n in f.parameter_names_ordered])
-        ret_str = f'%{f.types["return"].mangled_name}' if f.types["return"]!=ts.VoidType() else "void"
-
-        self.code.append(f'define dso_local {ret_str} @{f.mangled_name} ({p_names}) {{')
-
-        for fs in f.flat_statements:
-            self.code+=fs.get_code(f)
-
-        self.code.append('}')
-
     def add_footer(self):
-        main_name = self.tr.func_types[("main",(),())].mangled_name
         self.code+=[
             "define dso_local i32 @main() #0 {",
-            f"\t%1 = call i32 @{main_name}()",
+            f"\t%1 = call i32 @{self.tr.main_name}()",
             "\tret i32 %1",
             "}",
         ]
 
     def run(self):
         self.add_header()
+        self.code.append("; END OF HEADER")
+        self.code.append("")
 
-        self.code.append("")
-        self.code.append("; Structs")
-        self.code.append("")
-        self.add_structs()
-
-        self.code.append("")
-        self.code.append("; Primitives")
-        self.code.append("")
         self.add_prims()
 
         self.code.append("")
-        self.code.append("; Funcs")
-        self.code.append("")
-        self.add_funcs()
-
-        self.code.append("")
-        self.code.append("; Footer")
-        self.code.append("")
+        self.code.append("; START OF HEADER")
         self.add_footer()

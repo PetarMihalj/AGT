@@ -30,7 +30,7 @@ class DefinitionList(ParserRule):
 
 class StructDefinition(ParserRule):
     """StructDefinition : STRUCT Expression Block
-                          STRUCT Expression ARROW Expression Block
+                        | STRUCT Expression ARROW Expression Block
     """
 
     def __init__(self, r):

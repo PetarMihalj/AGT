@@ -1,8 +1,10 @@
 from dataclasses import dataclass
-from typing import List
-from . import TypingResult
+from typing import List, Tuple
 
-class Primitive:
+from . import type_system as ts
+from . import code_blocks
+
+class Primitive(code_blocks.CodeBlock):
     pass
 
 # 
@@ -20,7 +22,7 @@ class HeapObjectPrimitive(Primitive):
     alloc_fn_i32_mn: str
     init_fn_mn: str
 
-    def get_code(self, tr: TypingResult):
+    def get_code(self):
         n = len(self.types_mn)
 
         args = ", ".join([f"%{self.types_mn[i]} %t_{i}" for i in range(n)])
@@ -42,7 +44,7 @@ class StackObjectPrimitive(Primitive):
 
     init_fn_mn: str
 
-    def get_code(self, tr: TypingResult):
+    def get_code(self):
         n = len(self.types_mn)
 
         args = ", ".join([f"%{self.types_mn[i]} %t_{i}" for i in range(n)])
@@ -68,7 +70,7 @@ class HeapAllocPrimitive(Primitive):
     mangled_name: str
     type_mangled_name: str
     size_type_mangled_name: str
-    def get_code(self, tr: TypingResult):
+    def get_code(self):
         return [
             f"; Function Attrs: noinline nounwind optnone sspstrong uwtable",
             f"define dso_local %{self.type_mangled_name}* @{self.mangled_name}(%{self.size_type_mangled_name} %0) #0 {{",
@@ -91,7 +93,7 @@ class HeapAllocPrimitive(Primitive):
 class HeapFreePrimitive(Primitive):
     mangled_name: str
     type_mangled_name: str
-    def get_code(self, tr: TypingResult):
+    def get_code(self):
         return [
             f"; Function Attrs: nounwind sspstrong uwtable",
             f"define dso_local void @{self.mangled_name}(%{self.type_mangled_name}* nocapture %0) local_unnamed_addr #0 {{",
@@ -113,7 +115,7 @@ class DefaultStructInitPrimitive(Primitive):
     type_struct_mn: str
     types_mn: List[str]
 
-    def get_code(self, tr: TypingResult):
+    def get_code(self):
         n = len(self.types_mn)
 
         args = ", ".join([f"%{self.types_mn[i]} %t_{i+1}" for i in range(n)])
@@ -139,7 +141,7 @@ class DefaultStructCopyPrimitive(Primitive):
     types_mn: List[str]
     copy_calls_mn: List[str]
 
-    def get_code(self, tr: TypingResult):
+    def get_code(self):
         n = len(self.types_mn)
 
         calls = []
@@ -163,7 +165,7 @@ class DefaultStructDestPrimitive(Primitive):
     types_mn: List[str]
     dest_calls_mn: List[str]
 
-    def get_code(self, tr: TypingResult):
+    def get_code(self):
         n = len(self.types_mn)
 
         calls = []
@@ -184,7 +186,7 @@ class DefaultBuiltinInitPrimitive(Primitive):
     fn_mn: str
     type_mn: str
 
-    def get_code(self, tr: TypingResult):
+    def get_code(self):
         return [
             f"define dso_local void @{self.fn_mn}(%{self.type_mn}* %0, %{self.type_mn} %1){{",
             f"store %{self.type_mn} %1, %{self.type_mn}* %0",
@@ -197,7 +199,7 @@ class DefaultBuiltinCopyPrimitive(Primitive):
     fn_mn: str
     type_mn: str
 
-    def get_code(self, tr: TypingResult):
+    def get_code(self):
         return [
             f"define dso_local void @{self.fn_mn}(%{self.type_mn}* %0, %{self.type_mn}* %1){{",
             f"%val = load %{self.type_mn}, %{self.type_mn}* %1",
@@ -211,7 +213,7 @@ class DefaultBuiltinDestPrimitive(Primitive):
     fn_mn: str
     types_mn: List[str]
 
-    def get_code(self, tr: TypingResult):
+    def get_code(self):
         n = len(self.types_mn)
 
         args = ", ".join([f"%{self.types_mn[i]} %t_{i}" for i in range(n)])
@@ -235,7 +237,7 @@ class CastIntBoolPrimitive(Primitive):
     mangled_name: str
     target_size: int
     source_size: int
-    def get_code(self, tr: TypingResult):
+    def get_code(self):
         if self.target_size < self.source_size:
             return [
                 f"; Function Attrs: norecurse nounwind readnone sspstrong uwtable",
@@ -257,7 +259,7 @@ class CastIntBoolPrimitive(Primitive):
 class InIntBoolPrimitive(Primitive):
     mangled_name: str
     size: int
-    def get_code(self, tr: TypingResult):
+    def get_code(self):
         return [
             f"; Function Attrs: nounwind sspstrong uwtable",
             f"define dso_local i{self.size} @{self.mangled_name}() local_unnamed_addr #0 {{",
@@ -274,7 +276,7 @@ class InIntBoolPrimitive(Primitive):
 class OutIntBoolPrimitive(Primitive):
     mangled_name: str
     size: int
-    def get_code(self, tr: TypingResult):
+    def get_code(self):
         return [
             f"; Function Attrs: nofree nounwind sspstrong uwtable",
             f"define dso_local void @{self.mangled_name}(i{self.size} %0) local_unnamed_addr #0 {{",
@@ -290,7 +292,7 @@ class IntTypeOpPrimitive(Primitive):
     op: str
     size: int
 
-    def get_code(self, tr: TypingResult):
+    def get_code(self):
         def arithmetic(opname):
             return [
                 f"define dso_local i{self.size} @{self.mangled_name}(i{self.size} %0, i{self.size} %1) {{",
@@ -331,7 +333,7 @@ class TypeToValuePrimitive(Primitive):
     value: int
     size: int
 
-    def get_code(self, tr: TypingResult):
+    def get_code(self):
         return [
             f"define dso_local i{self.size} @{self.mangled_name}() #0 {{",
             f"  ret i{self.size} {self.value}",

@@ -1,6 +1,6 @@
+import sys
 
 if __name__ == '__main__':
-    import sys
     from ..syntax_parsing import get_syntax_ast
     from ..helpers import tree_print
     from ..semantics_parsing import get_semantics_ast
@@ -12,13 +12,9 @@ if __name__ == '__main__':
 
     tr = get_typed_program(semantics_ast)
     print("\n"*3+"LOGS")
-    tr.logger.print_logs()
-    print("\n"*3+"FUNCTIONS")
-    tree_print(tr.func_types)
-    print("\n"*3+"STRUCTS")
-    tree_print(tr.struct_types)
+    tr.recursive_logger.print_logs()
     print("\n"*3+"PRIMS")
-    tree_print(tr.primitives)
+    tree_print(tr.code_blocks)
     print("\n"*3)
-    r = ("main",(),()) in tr.func_types
-    print(f"SUCC = {r}")
+
+    print(f"SUCC = {tr.main_name is not None}")

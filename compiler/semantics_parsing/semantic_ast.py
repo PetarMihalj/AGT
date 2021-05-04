@@ -7,8 +7,6 @@ from ..helpers import add_method_parse_semantics
 from ..helpers import tree_print
 from ..syntax_parsing import parser_rules as pr
 
-NoneType = type(None)
-
 class Structural:
     pass
 
@@ -116,7 +114,7 @@ class IfElseStatement(FunctionStatement):
 
 @ dataclass
 class ReturnStatement(FunctionStatement):
-    expr: Union[ValueExpression, NoneType]
+    expr: ValueExpression
     def __post_init__(self):
         super().__init__()
 
@@ -153,13 +151,13 @@ class BinaryExpression(ValueExpression):
 
 
 @ dataclass
-class BracketCallExpression(ValueExpression):
+class IndexExpression(ValueExpression):
     expr: ValueExpression
     index: ValueExpression
 
 
 @ dataclass
-class MemberIndexExpression(ValueExpression):
+class MemberExpression(ValueExpression):
     expr: ValueExpression
     member: str
 
@@ -228,10 +226,6 @@ class TypeIdExpression(TypeExpression):
     name: str
 
 @ dataclass
-class TypeTypeExpression(TypeExpression):
-    type_obj: Any 
-
-@ dataclass
 class TypeDerefExpression(TypeExpression):
     expr: TypeExpression
 
@@ -242,7 +236,7 @@ class TypePtrExpression(TypeExpression):
 
 
 @ dataclass
-class TypeIndexExpression(TypeExpression):
+class TypeMemberExpression(TypeExpression):
     expr: TypeExpression
     name: str
 
@@ -290,17 +284,20 @@ def _(self: pr.StructDefinition, se: SE):
     se.in_struct = True
 
     sl = self.block.parse_semantics(se)
+
+    se.add(SS.TYPE_EXPR)
     if self.expr_ret is None:
         return_type_expr =  None
     else:
         return_type_expr = self.expr_ret.parse_semantics(se)
+    se.pop()
 
     se.in_struct = False
     if hasattr(self.expr.expr, "id"):
         return StructDefinition(
             name=self.expr.expr.id,
             type_parameter_names=[],
-            return_type_expr=return_type_expr
+            return_type_expr=return_type_expr,
             statement_list = sl
         )
     else:
@@ -308,7 +305,7 @@ def _(self: pr.StructDefinition, se: SE):
             name=self.expr.expr.expr.expr.expr.id,
             type_parameter_names=[
                 i.expr.id for i in self.expr.expr.expr.expr_list],
-            return_type_expr=return_type_expr
+            return_type_expr=return_type_expr,
             statement_list = sl
         )
 
@@ -323,8 +320,9 @@ def _(self: pr.FunctionDefinition, se: SE):
     if self.expr_ret is not None:
         expr_ret = self.expr_ret.parse_semantics(se)
     else:
-        expr_ret = TypeAngleExpression("void", [])
+        expr_ret = None
     se.pop()
+
     pce = self.expr.expr.expr
     if hasattr(pce.expr.expr, "id"):
         name = pce.expr.expr.id
@@ -467,21 +465,15 @@ def _(self: pr.WhileStatement, se: SE):
 @add_method_parse_semantics(pr.ReturnStatement)
 def _(self: pr.ReturnStatement, se: SE):
     if not se.in_func:
-        if self.expr is None:
-            raise RuntimeError("Type expr return can't return none!")
-        else:
-            se.add(SS.TYPE_EXPR)
-            e = self.expr.parse_semantics(se)
-            se.pop()
-            return TypeReturnStatement(e)
+        raise RuntimeError("Can't use return out of function!")
+
+    if self.expr is None:
+        return ReturnStatement(None)
     else:
-        if self.expr is None:
-            return ReturnStatement(None)
-        else:
-            se.add(SS.VALUE_EXPR)
-            e = self.expr.parse_semantics(se)
-            se.pop()
-            return ReturnStatement(e)
+        se.add(SS.VALUE_EXPR)
+        e = self.expr.parse_semantics(se)
+        se.pop()
+        return ReturnStatement(e)
 
 
 @add_method_parse_semantics(pr.BreakStatement)
@@ -568,12 +560,12 @@ def _(self: pr.ParenthesesCallExpression, se: SE):
 @add_method_parse_semantics(pr.DotExpression)
 def _(self: pr.DotExpression, se: SE):
     if se.top() == SS.VALUE_EXPR:
-        return MemberIndexExpression(
+        return MemberExpression(
             self.left.parse_semantics(se),
             self.right.expr.id
         )
     if se.top() == SS.TYPE_EXPR:
-        return TypeIndexExpression(
+        return TypeMemberExpression(
             self.left.parse_semantics(se),
             self.right.expr.id
         )
@@ -585,7 +577,7 @@ def _(self: pr.BracketCallExpression, se: SE):
         raise RuntimeError("Bracket call not available in typeexpr")
     e1 = self.expr1.parse_semantics(se)
     e2 = self.expr2.parse_semantics(se)
-    return BracketCallExpression(e1, e2)
+    return IndexExpression(e1, e2)
 
 
 @add_method_parse_semantics(pr.DereferenceExpression)
