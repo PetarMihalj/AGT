@@ -5,8 +5,8 @@ struct shared_ptr<T>{
 
 fn __init__(sptr_ptr, item_ptr){
     type T = enable_if_resolve<sptr_ptr!.T>;
-    type _1 = enable_if<sptr_ptr == @shared_ptr<T>>;
-    type _2 = enable_if<item_ptr == @T>;
+    type _ = enable_if<sptr_ptr == @shared_ptr<T>>;
+    type _ = enable_if<item_ptr == @T>;
 
     sptr_ptr!.item_ptr = item_ptr;
     sptr_ptr!.count = heap_object<i32>(1);
@@ -14,7 +14,7 @@ fn __init__(sptr_ptr, item_ptr){
 
 fn __dest__(sptr_ptr){
     type T = enable_if_resolve<sptr_ptr!.T>;
-    type _1 = enable_if<sptr_ptr == @shared_ptr<T>>;
+    type _ = enable_if<sptr_ptr == @shared_ptr<T>>;
 
     sptr_ptr!.count! = sptr_ptr!.count! - 1;
     /*if (sptr_ptr!.count! == 1){
@@ -25,8 +25,8 @@ fn __dest__(sptr_ptr){
 
 fn __copy__(sptr_ptr_dest, sptr_ptr_src){
     type T = enable_if_resolve<sptr_ptr_dest!.T>;
-    type _1 = enable_if<sptr_ptr_dest == @shared_ptr<T>>;
-    type _2 = enable_if<sptr_ptr_src == @shared_ptr<T>>;
+    type _ = enable_if<sptr_ptr_dest == @shared_ptr<T>>;
+    type _ = enable_if<sptr_ptr_src == @shared_ptr<T>>;
 
     sptr_ptr_src!.count! = sptr_ptr_src!.count! + 1;
 

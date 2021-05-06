@@ -5,7 +5,7 @@ struct rectangle<T>{
 
 fn area(r) -> T{
     type T = enable_if_resolve<r.T>;
-    type _1 = enable_if<r==rectangle<T>>;
+    type _ = enable_if<r==rectangle<T>>;
 
     return r.a * r.b;
 }

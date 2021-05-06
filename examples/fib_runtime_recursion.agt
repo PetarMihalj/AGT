@@ -1,5 +1,5 @@
 fn fib(n) -> i32{
-    type _1 = enable_if<n==i32>;
+    type _ = enable_if<n==i32>;
 
     if (n<=2){
         return 1;

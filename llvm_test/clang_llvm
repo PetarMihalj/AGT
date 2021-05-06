@@ -1,1 +1,0 @@
-clang -S -emit-llvm -O0 cprog.c -o -
