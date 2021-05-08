@@ -1,0 +1,4 @@
+\babel@toc {croatian}{}
+\contentsline {chapter}{\numberline {1}Uvod}{1}{}%
+\contentsline {chapter}{\numberline {2}Zaključak}{2}{}%
+\contentsline {chapter}{Literatura}{3}{}%
