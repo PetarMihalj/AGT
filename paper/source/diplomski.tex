@@ -4,8 +4,8 @@
 \usepackage{catchfile}
 \usepackage{xparse}
 
+% environment setup
 \ExplSyntaxOn
-
 \NewDocumentCommand{\getenv}{om}
  {
   \sys_get_shell:nnN { kpsewhich ~ --var-value ~ #2 } { } \l_tmpa_tl
@@ -18,11 +18,10 @@
     \tl_set_eq:NN #1 \l_tmpa_tl
    }
  }
-
 \ExplSyntaxOff
 
 \getenv[\resdir]{THESIS_RESDIR}
-% environment setup
+% done
 
 \begin{document}
 \thesisnumber{000}
@@ -41,12 +40,13 @@
 
 \chapter{Uvod}
 Uvod rada. Nakon uvoda dolaze poglavlja u kojima se obrađuje tema.
+\citep{ungar2002uvod}
 
 \chapter{Zaključak}
 Zaključak.
 
+\bibliographystyle{dinat}
 \bibliography{literatura}
-\bibliographystyle{fer}
 
 \begin{sazetak}
 Sažetak na hrvatskom jeziku.

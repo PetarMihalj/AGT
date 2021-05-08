@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  8 MAY 2021 11:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  8 MAY 2021 13:00
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -339,7 +339,7 @@ File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
 0-01.sty
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/l3packages/xparse/xparse-generi
 c.tex))) ()
-LaTeX Font Info:    Trying to load font information for T1+ptm on input line 27
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 26
 .
  (/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
@@ -347,20 +347,20 @@ File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 (/home/pmihalj/agt/paper/build/diplomski.aux)
 \openout1 = `diplomski.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -429,19 +429,19 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 34
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 33
 .
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 34.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 33.
 
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 34.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 33.
 
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/amsfonts/umsb.fd
@@ -453,44 +453,44 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf  used on input li
-ne 36.
+ne 35.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf  used on input li
-ne 36.
+ne 35.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf  used on input li
-ne 36.
+ne 35.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 </home/pmihalj/agt/paper/res/task.pdf, id=11, page=1, 597.23125pt x 845.1575pt>
 
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 1>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page1 used on i
-nput line 36.
+nput line 35.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 1>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page1 used on i
-nput line 36.
+nput line 35.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 1>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page1 used on i
-nput line 36.
+nput line 35.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 1>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page1 used on i
-nput line 36.
+nput line 35.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 1>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page1 used on i
-nput line 36.
+nput line 35.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
  [1 </home/pmihalj/agt/paper/res/task.pdf>]
 </home/pmihalj/agt/paper/res/task.pdf, id=30, page=2, 597.23125pt x 845.1575pt>
@@ -498,17 +498,17 @@ nput line 36.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 2>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page2 used on i
-nput line 36.
+nput line 35.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 2>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page2 used on i
-nput line 36.
+nput line 35.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 2>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page2 used on i
-nput line 36.
+nput line 35.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
  [2 </home/pmihalj/agt/paper/res/task.pdf>] [3]
 (/home/pmihalj/agt/paper/build/diplomski.toc)
@@ -525,32 +525,30 @@ Poglavlje 1.
 Poglavlje 2.
 (/home/pmihalj/agt/paper/build/diplomski.bbl [2
 
-]
+]) [3
 
-Package natbib Warning: Empty `thebibliography' environment on input line 8.
-
-) [3
-
-] [4] (/home/pmihalj/agt/paper/build/diplomski.aux) ) 
+] [4]
+(/home/pmihalj/agt/paper/build/diplomski.aux) ) 
 Here is how much of TeX's memory you used:
- 7708 strings out of 481257
- 115545 string characters out of 2908218
- 423213 words of memory out of 3000000
- 24776 multiletter control sequences out of 15000+600000
- 439631 words of font info for 61 fonts, out of 8000000 for 9000
+ 7739 strings out of 481257
+ 115911 string characters out of 2908218
+ 423243 words of memory out of 3000000
+ 24798 multiletter control sequences out of 15000+600000
+ 452042 words of font info for 82 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
  83i,17n,88p,272b,436s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/home/pmihalj/.miktex/tex
-mfs/install/fonts/enc/dvips/base/8r.enc}</home/pmihalj/.miktex/texmfs/install/f
-onts/type1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/
-type1/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1
-/urw/times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/tim
-es/utmr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmri
-8a.pfb>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (9 pages, 73685 b
+{/home/pmihalj/.miktex/texmfs/in
+stall/fonts/enc/dvips/base/8r.enc}</home/pmihalj/.miktex/texmfs/install/fonts/t
+ype1/public/amsfonts/cm/cmmi12.pfb></home/pmihalj/.miktex/texmfs/install/fonts/
+type1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1
+/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/
+times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/ut
+mr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmri8a.pf
+b>
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (9 pages, 85979 b
 ytes).
 PDF statistics:
- 74 PDF objects out of 1000 (max. 8388607)
+ 78 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
