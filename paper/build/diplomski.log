@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  8 MAY 2021 13:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  12 MAY 2021 07:26
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -55,38 +55,7 @@ Package: inputenc 2020/08/01 v1.3d Input encoding file
 \inpenc@prehook=\toks17
 \inpenc@posthook=\toks18
 )
-(/home/pmihalj/.miktex/texmfs/install/tex/generic/babel/babel.sty
-Package: babel 2021/04/26 3.58 The Babel package
-
-(/home/pmihalj/.miktex/texmfs/install/tex/generic/babel/babel.def
-File: babel.def 2021/04/26 3.58 Babel common definitions
-\babel@savecnt=\count191
-\U@D=\dimen147
-\l@unhyphenated=\language1
-
-(/home/pmihalj/.miktex/texmfs/install/tex/generic/babel/txtbabel.def)
-\bbl@readstream=\read2
-)
-\bbl@dirlevel=\count192
-
-*************************************
-* Local config file bblopts.cfg used
-*
-(/home/pmihalj/.miktex/texmfs/install/tex/latex/arabi/bblopts.cfg
-File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of
- babel
-)
-(/home/pmihalj/.miktex/texmfs/install/tex/latex/babel-croatian/croatian.ldf
-Language: croatian 2014/03/31 v1.3m Croatian support from the babel system
-
-
-Package babel Warning: No hyphenation patterns were preloaded for
-(babel)                the language `Croatian' into the format.
-(babel)                Please, configure your TeX system to add them and
-(babel)                rebuild the format. Now I will use the patterns
-(babel)                preloaded for \language=0 instead on input line 49.
-
-)) (/home/pmihalj/.miktex/texmfs/install/tex/latex/base/fontenc.sty
+(/home/pmihalj/.miktex/texmfs/install/tex/latex/base/fontenc.sty
 Package: fontenc 2020/08/10 v2.0s Standard LaTeX package
 )
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/graphics/graphicx.sty
@@ -106,8 +75,8 @@ Package graphics Info: Driver file: pdftex.def on input line 105.
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen148
-\Gin@req@width=\dimen149
+\Gin@req@height=\dimen147
+\Gin@req@width=\dimen148
 )
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
@@ -132,46 +101,46 @@ Package: amstext 2000/06/29 v2.01 AMS text
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks20
-\ex@=\dimen150
+\ex@=\dimen149
 ))
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen151
+\pmbraise@=\dimen150
 )
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count193
+\inf@bad=\count191
 LaTeX Info: Redefining \frac on input line 234.
-\uproot@=\count194
-\leftroot@=\count195
+\uproot@=\count192
+\leftroot@=\count193
 LaTeX Info: Redefining \overline on input line 399.
-\classnum@=\count196
-\DOTSCASE@=\count197
+\classnum@=\count194
+\DOTSCASE@=\count195
 LaTeX Info: Redefining \ldots on input line 496.
 LaTeX Info: Redefining \dots on input line 499.
 LaTeX Info: Redefining \cdots on input line 620.
 \Mathstrutbox@=\box47
 \strutbox@=\box48
-\big@size=\dimen152
+\big@size=\dimen151
 LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
-\macc@depth=\count198
-\c@MaxMatrixCols=\count199
+\macc@depth=\count196
+\c@MaxMatrixCols=\count197
 \dotsspace@=\muskip16
-\c@parentequation=\count266
-\dspbrk@lvl=\count267
+\c@parentequation=\count198
+\dspbrk@lvl=\count199
 \tag@help=\toks21
-\row@=\count268
-\column@=\count269
-\maxfields@=\count270
+\row@=\count266
+\column@=\count267
+\maxfields@=\count268
 \andhelp@=\toks22
-\eqnshift@=\dimen153
-\alignsep@=\dimen154
-\tagshift@=\dimen155
-\tagwidth@=\dimen156
-\totwidth@=\dimen157
-\lineht@=\dimen158
+\eqnshift@=\dimen152
+\alignsep@=\dimen153
+\tagshift@=\dimen154
+\tagwidth@=\dimen155
+\totwidth@=\dimen156
+\lineht@=\dimen157
 \@envbody=\toks23
 \multlinegap=\skip50
 \multlinetaggap=\skip51
@@ -194,17 +163,17 @@ Package: caption 2020/10/26 v3.5g Customizing captions (AR)
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/caption/caption3.sty
 Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
-\captionmargin=\dimen159
-\captionmargin@=\dimen160
-\captionwidth=\dimen161
-\caption@tempdima=\dimen162
-\caption@indent=\dimen163
-\caption@parindent=\dimen164
-\caption@hangindent=\dimen165
+\captionmargin=\dimen158
+\captionmargin@=\dimen159
+\captionwidth=\dimen160
+\caption@tempdima=\dimen161
+\caption@indent=\dimen162
+\caption@parindent=\dimen163
+\caption@hangindent=\dimen164
 Package caption Info: Standard document class detected.
 )
-\c@caption@flags=\count271
-\c@continuedfloat=\count272
+\c@caption@flags=\count269
+\c@continuedfloat=\count270
 )
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
@@ -216,11 +185,11 @@ Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2019/06/20 v3.9 Customized lists
 \labelindent=\skip52
-\enit@outerparindent=\dimen166
+\enit@outerparindent=\dimen165
 \enit@toks=\toks25
 \enit@inbox=\box49
-\enit@count@id=\count273
-\enitdp@description=\count274
+\enit@count@id=\count271
+\enitdp@description=\count272
 )
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/tocbibind/tocbibind.sty
 Package: tocbibind 2010/10/13 v1.5k extra ToC listings
@@ -237,50 +206,50 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip53
 \bibsep=\skip54
 LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count275
+\c@NAT@ctr=\count273
 )
-\listindentation=\dimen167
+\listindentation=\dimen166
 )
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen168
-\lightrulewidth=\dimen169
-\cmidrulewidth=\dimen170
-\belowrulesep=\dimen171
-\belowbottomsep=\dimen172
-\aboverulesep=\dimen173
-\abovetopsep=\dimen174
-\cmidrulesep=\dimen175
-\cmidrulekern=\dimen176
-\defaultaddspace=\dimen177
-\@cmidla=\count276
-\@cmidlb=\count277
-\@aboverulesep=\dimen178
-\@belowrulesep=\dimen179
-\@thisruleclass=\count278
-\@lastruleclass=\count279
-\@thisrulewidth=\dimen180
+\heavyrulewidth=\dimen167
+\lightrulewidth=\dimen168
+\cmidrulewidth=\dimen169
+\belowrulesep=\dimen170
+\belowbottomsep=\dimen171
+\aboverulesep=\dimen172
+\abovetopsep=\dimen173
+\cmidrulesep=\dimen174
+\cmidrulekern=\dimen175
+\defaultaddspace=\dimen176
+\@cmidla=\count274
+\@cmidlb=\count275
+\@aboverulesep=\dimen177
+\@belowrulesep=\dimen178
+\@thisruleclass=\count276
+\@lastruleclass=\count277
+\@thisrulewidth=\dimen179
 )
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/pdfpages/pdfpages.sty
 Package: pdfpages 2021/03/06 v0.5t Insert pages of external PDF documents (AM)
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/latex-tools/calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count280
-\calc@Bcount=\count281
-\calc@Adimen=\dimen181
-\calc@Bdimen=\dimen182
+\calc@Acount=\count278
+\calc@Bcount=\count279
+\calc@Adimen=\dimen180
+\calc@Bdimen=\dimen181
 \calc@Askip=\skip55
 \calc@Bskip=\skip56
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count282
+\calc@Ccount=\count280
 \calc@Cskip=\skip57
 )
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/eso-pic/eso-pic.sty
 Package: eso-pic 2020/10/14 v3.0a eso-pic (RN)
-\ESO@tempdima=\dimen183
-\ESO@tempdimb=\dimen184
+\ESO@tempdima=\dimen182
+\ESO@tempdimb=\dimen183
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
@@ -299,19 +268,19 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 ))
-\AM@pagewidth=\dimen185
-\AM@pageheight=\dimen186
-\AM@fboxrule=\dimen187
+\AM@pagewidth=\dimen184
+\AM@pageheight=\dimen185
+\AM@fboxrule=\dimen186
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/pdfpages/pppdftex.def
 File: pppdftex.def 2021/03/06 v0.5t Pdfpages driver for pdfTeX (AM)
 )
-\pdfpages@includegraphics@status=\count283
+\pdfpages@includegraphics@status=\count281
 \AM@pagebox=\box50
 \AM@global@opts=\toks26
-\AM@pagecnt=\count284
+\AM@pagecnt=\count282
 \AM@toc@title=\toks27
-\c@AM@survey=\count285
+\c@AM@survey=\count283
 \AM@templatesizebox=\box51
 )
 (/home/pmihalj/.miktex/texmfs/install/tex/generic/catchfile/catchfile.sty
@@ -332,7 +301,7 @@ Package: expl3 2021-02-18 L3 programming layer (loader)
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count286
+\l__color_backend_stack_int=\count284
 \l__pdf_internal_box=\box52
 ))
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/l3packages/xparse/xparse-2020-1
@@ -398,16 +367,16 @@ LaTeX Font Info:    ... okay on input line 26.
 
 (/home/pmihalj/.miktex/texmfs/install/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count287
-\scratchdimen=\dimen188
+\scratchcounter=\count285
+\scratchdimen=\dimen187
 \scratchbox=\box53
-\nofMPsegments=\count288
-\nofMParguments=\count289
+\nofMPsegments=\count286
+\nofMParguments=\count287
 \everyMPshowfont=\toks28
-\MPscratchCnt=\count290
-\MPscratchDim=\dimen189
-\MPnumerator=\count291
-\makeMPintoPDFobject=\count292
+\MPscratchCnt=\count288
+\MPscratchDim=\dimen188
+\MPnumerator=\count289
+\makeMPintoPDFobject=\count290
 \everyMPtoPDFconversion=\toks29
 )
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/epstopdf-pkg/epstopdf-base.sty
@@ -518,11 +487,11 @@ nput line 35.
  [4
 
 ]
-Poglavlje 1.
+Chapter 1.
 [1
 
 ]
-Poglavlje 2.
+Chapter 2.
 (/home/pmihalj/agt/paper/build/diplomski.bbl [2
 
 ]) [3
@@ -530,13 +499,13 @@ Poglavlje 2.
 ] [4]
 (/home/pmihalj/agt/paper/build/diplomski.aux) ) 
 Here is how much of TeX's memory you used:
- 7739 strings out of 481257
- 115911 string characters out of 2908218
- 423243 words of memory out of 3000000
- 24798 multiletter control sequences out of 15000+600000
+ 6974 strings out of 481257
+ 104788 string characters out of 2908218
+ 394188 words of memory out of 3000000
+ 24053 multiletter control sequences out of 15000+600000
  452042 words of font info for 82 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
- 83i,17n,88p,272b,436s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 83i,17n,88p,272b,428s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/home/pmihalj/.miktex/texmfs/in
 stall/fonts/enc/dvips/base/8r.enc}</home/pmihalj/.miktex/texmfs/install/fonts/t
 ype1/public/amsfonts/cm/cmmi12.pfb></home/pmihalj/.miktex/texmfs/install/fonts/
@@ -545,7 +514,7 @@ type1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1
 times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/ut
 mr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmri8a.pf
 b>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (9 pages, 85979 b
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (9 pages, 90101 b
 ytes).
 PDF statistics:
  78 PDF objects out of 1000 (max. 8388607)
