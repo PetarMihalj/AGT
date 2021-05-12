@@ -29,6 +29,10 @@ define dso_local void @aa(i8* %0) #0 {
 
 ; Function Attrs: noinline nounwind optnone sspstrong uwtable
 define dso_local i32 @main() #0 {
+  %1 = alloca i32, align 4
+  %2 = load i32, i32* %1, align 4
+  %3 = sub nsw i32 1, %2
+  store i32 %3, i32* %1, align 4
   ret i32 0
 }
 

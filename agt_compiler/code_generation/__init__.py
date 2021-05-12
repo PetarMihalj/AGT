@@ -21,6 +21,7 @@ def get_code(semantics_ast):
         semantics_ast.function_definitions,
         semantics_ast.struct_definitions,
     )
-    cg = CodeGenerator(tr)
+    cg = generator.CodeGenerator(tr)
     cg.run()
     return cg.code
+

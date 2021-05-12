@@ -11,5 +11,6 @@ void aa(char* b){
 }
 
 int main(){
+    int b = 1 - b;
 
 }

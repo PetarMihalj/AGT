@@ -43,8 +43,7 @@ def add_method_parse_semantics(cls):
 def add_method_te_visit(cls):
     def go(func):
         def wrapper(self, *vargs, **kwargs):
-            from .type_inference.type_engine import TypingContext
-            tc: TypingContext = vargs[0]
+            tc = vargs[0]
 
             a = func(self, *vargs, **kwargs)
             if hasattr(a, "__dict__") and hasattr(self, "linespan"):

@@ -591,6 +591,14 @@ def _(self: pr.DereferenceExpression, se: SE):
         e = self.expr.parse_semantics(se)
         return TypeDerefExpression(e)
 
+@add_method_parse_semantics(pr.AddressExpression)
+def _(self: pr.AddressExpression, se: SE):
+    if se.top() == SS.VALUE_EXPR:
+        e = self.expr.parse_semantics(se)
+        return AddressExpression(e)
+    if se.top() == SS.TYPE_EXPR:
+        e = self.expr.parse_semantics(se)
+        return TypePtrExpression(e)
 
 @add_method_parse_semantics(pr.NotExpression)
 def _(self: pr.NotExpression, se: SE):

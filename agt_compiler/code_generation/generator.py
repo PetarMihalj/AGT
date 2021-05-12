@@ -1,6 +1,6 @@
-from ..type_inference import flat_ir
-from ..type_inference import type_engine as te
-from ..type_inference import type_system as ts
+from . import flat_ir
+from . import type_engine as te
+from . import type_system as ts
 
 
 class CodeGenerator:

@@ -14,18 +14,18 @@ from ..type_engine import TypingContext
 
 # ---------------------------------------------------------------------
 mapping_int_binary = {
-        "__eq__": (True, "eq"),
-        "__ne__": (True, "ne"),
-        '__gt__': (True, "sgt"),
-        '__lt__': (True, "slt"),
-        '__le__': (True, "sle"),
-        '__ge__': (True, "sge"),
+        "__eq__": (False, "eq"),
+        "__ne__": (False, "ne"),
+        '__gt__': (False, "sgt"),
+        '__lt__': (False, "slt"),
+        '__le__': (False, "sle"),
+        '__ge__': (False, "sge"),
 
-        '__add__': (False, "add"),
-        '__sub__': (False, "sub"),
-        '__mul__': (False, "mul"),
-        '__div__': (False, "sdiv"),
-        '__mod__': (False, "srem"),
+        '__add__': (True, "add"),
+        '__sub__': (True, "sub"),
+        '__mul__': (True, "mul"),
+        '__div__': (True, "sdiv"),
+        '__mod__': (True, "srem"),
 }
 
 @add_method_to_list(func_methods)
@@ -52,7 +52,7 @@ def gen_int_type_ops(
     dname = tc.scope_man.new_func_name(f"dummy_func_{name}")
     retty = argument_types[0] if mapping_int_binary[name][0] else ts.BoolType()
 
-    tc.code_blocks.append(prim.IntTypeOpPrimitive(
+    tc.code_blocks.append(IntTypeOpPrimitive(
         dname,
         name,
         argument_types[0].size, 
@@ -90,9 +90,9 @@ class IntTypeOpPrimitive(Primitive):
 
         c,opname = mapping_int_binary[self.op]
         if c:
-            return comp(opname)
-        else:
             return arithmetic(opname)
+        else:
+            return comp(opname)
 
 # ---------------------------------------------------------------------
 
