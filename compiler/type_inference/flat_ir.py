@@ -153,11 +153,11 @@ def get_member(src: str, member_name: str, fc: context.FunctionContext):
     return dest
 
 #1
-def get_int_constant(value: str, size: int, fc: context.FunctionContext):
+def get_int_value(value: str, size: int, fc: context.FunctionContext):
     """
     RETURNS a stack symbolic register with a value of type i{size}.
     """
-    dest = fc.scope_man.new_tmp_var_name("intconst")
+    dest = fc.scope_man.new_tmp_var_name("intval")
     fc.types[dest] = ts.IntType(size)
 
     fc.code.extend([
@@ -167,20 +167,61 @@ def get_int_constant(value: str, size: int, fc: context.FunctionContext):
     return dest
 
 #1
-def get_bool_constant(value: bool):
+def get_bool_value(value: bool, fc: context.FunctionContext):
     """
     RETURNS a stack symbolic register with a value of type i{size}.
     """
-    dest = fc.scope_man.new_tmp_var_name("boolconst")
+    dest = fc.scope_man.new_tmp_var_name("boolval")
     fc.types[dest] = ts.BoolType()
 
     value = 1 if value else 0
 
     fc.code.extend([
         f"\t%{dest} = alloca i1",
-        f"\tstore %i1 {value}, %i1* %{dest}"
+        f"\tstore i1 {value}, i1* %{dest}"
     ])
     return dest
+
+#1
+def get_char_value(value: str, fc: context.FunctionContext):
+    """
+    RETURNS a stack symbolic register with a value of type char.
+    """
+    dest = fc.scope_man.new_tmp_var_name("charval")
+    fc.types[dest] = ts.CharType()
+
+    fc.code.extend([
+        f"\t%{dest} = alloca %char",
+        f"\tstore %char {value}, %char* %{dest}"
+    ])
+    return dest
+
+#1
+def get_chars_ptr(chars: str, fc: context.FunctionContext):
+    """
+    RETURNS a stack symbolic register with a value of type PointerType(char).
+    """
+    ptr = fc.scope_man.new_tmp_var_name("chararrptr")
+    ptr0 = fc.scope_man.new_tmp_var_name("chararrptr0")
+    arr = fc.scope_man.new_tmp_var_name("chararrarr")
+    fc.types[ptr] = ts.PointerType(ts.CharType())
+
+    fc.code.extend([
+        f"\t%{arr} = alloca [{len(chars)} x i8], align 1",
+    ])
+    for i,d in enumerate(chars):
+        tmpptr = fc.scope_man.new_tmp_var_name("tmpptr")
+        fc.code.extend([
+            f"\t%{tmpptr} = getelementptr inbounds [{len(chars)} x i8], [{len(chars)} x i8]* %{arr}, i64 0, i64 {i}",
+            f"\tstore i8 {d}, i8* %{tmpptr}, align 1",
+        ])
+
+    fc.code.extend([
+        f"\t%{ptr0} = getelementptr inbounds [{len(chars)} x i8], [{len(chars)} x i8]* %{arr}, i64 0, i64 0",
+        f"\t%{ptr} = alloca i8*",
+        f"\tstore i8* %{ptr0}, i8** %{ptr}"
+    ])
+    return ptr
 
 
 #1

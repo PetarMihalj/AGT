@@ -26,6 +26,7 @@ class CodeGenerator:
             "%i32 = type i32",
             "%i64 = type i64",
             "%bool = type i1",
+            "%char = type i8",
             "",
             "; Function Attrs: nofree nounwind",
             "declare i32 @printf(i8* nocapture readonly, ...) local_unnamed_addr #1",
@@ -34,8 +35,11 @@ class CodeGenerator:
             "declare i32 @__isoc99_scanf(i8* nocapture readonly, ...) local_unnamed_addr #2",
             ""
             "@.in_int_str = private unnamed_addr constant [5 x i8] c\"%lld\\00\", align 1",
-            "@.out_int_str = private unnamed_addr constant [6 x i8] c\"%lld\\0A\\00\", align 1",
+            "@.out_int_str = private unnamed_addr constant [5 x i8] c\"%lld\\00\", align 1",
+            "@.out_char_str = private unnamed_addr constant [3 x i8] c\"%c\\00\", align 1",
+            "@.out_chararray_str = private unnamed_addr constant [3 x i8] c\"%s\\00\", align 1",
             "",
+
             "; Function Attrs: nounwind",
             "declare noalias i8* @malloc(i64) #1",
             "",

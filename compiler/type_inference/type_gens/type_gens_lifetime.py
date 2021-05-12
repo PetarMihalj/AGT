@@ -31,7 +31,7 @@ def gen_builtin_init(
     if pointed != val:
         raise ierr.TypeGenError()
 
-    allowed = [ts.IntType(i) for i in [8,16,32,64]] + [ts.BoolType()]
+    allowed = [ts.IntType(i) for i in [8,16,32,64]] + [ts.BoolType(), ts.CharType()]
     if val not in allowed and not isinstance(val, ts.PointerType):
         raise ierr.TypeGenError()
 
@@ -69,7 +69,7 @@ def gen_builtin_copy(
     if ptr_dest != ptr_src:
         raise ierr.TypeGenError()
 
-    allowed = [ts.IntType(i) for i in [8,16,32,64]] + [ts.BoolType()]
+    allowed = [ts.IntType(i) for i in [8,16,32,64]] + [ts.BoolType(), ts.CharType()]
     if (ptr_dest.pointed not in allowed and not isinstance(ptr_dest.pointed, ts.PointerType)):
         raise ierr.TypeGenError()
 
@@ -102,7 +102,7 @@ def gen_builtin_dest(
 
     ptr = argument_types[0]
 
-    allowed = [ts.IntType(i) for i in [8,16,32,64]] + [ts.BoolType()]
+    allowed = [ts.IntType(i) for i in [8,16,32,64]] + [ts.BoolType(), ts.CharType()]
     if (ptr.pointed not in allowed and not isinstance(ptr.pointed, ts.PointerType)):
         raise ierr.TypeGenError()
 

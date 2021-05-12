@@ -184,6 +184,14 @@ class IntLiteralExpression(ValueExpression):
 class BoolLiteralExpression(ValueExpression):
     value: bool
 
+@ dataclass
+class CharLiteralExpression(ValueExpression):
+    value: str
+
+@ dataclass
+class StringLiteralExpression(ValueExpression):
+    value: str
+
 
 @ dataclass
 class CallExpression(ValueExpression):
@@ -616,14 +624,11 @@ def _(self: pr.IntLiteral, se: SE):
 def _(self: pr.BoolLiteral, se: SE):
     return BoolLiteralExpression(self.value)
 
-# additional thing
-@dataclass
-class MemoryCopyStatement(FunctionStatement):
-    dest: str
-    src: str
+@add_method_parse_semantics(pr.CharLiteral)
+def _(self: pr.CharLiteral, se: SE):
+    return CharLiteralExpression(self.value)
 
-@dataclass
-class PrimitiveCallExpression(FunctionStatement):
-    mangled_name: str
-    args: List[ValueExpression]
-    return_type: Any
+@add_method_parse_semantics(pr.StringLiteral)
+def _(self: pr.StringLiteral, se: SE):
+    return StringLiteralExpression(self.value)
+

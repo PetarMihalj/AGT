@@ -1,10 +1,28 @@
+import ply.lex as lex
+
+char_code = {
+    "\\n" : 10,
+    "\\t" : 9,
+    "\\0" : 0,
+    "\\\"" : 34,
+    "\\\'" : 39,
+}
+
+SINGLEQUOTE = "'"
+DOUBLEQUOTE = '"'
+BACKSLASH = "\\"
+
+for i in range(32, 126+1):
+    if i not in [34, 39]:
+        char_code[chr(i)] = i 
+
 class Lexer():
     def __init__(self, **kwargs):
-        import ply.lex as lex
         self.lexer = lex.lex(object=self, **kwargs)
 
     states = (
         ('mlc', 'exclusive'),
+        ('strchar', 'exclusive'),
     )
 
     tokens = (
@@ -17,7 +35,8 @@ class Lexer():
         'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
         'DOT', 'COMMA', 'SEMICOLON', 'ASSIGNMENT',
         'LET', 'FN', 'ARROW', 'TYPE',
-        'LANGLE', 'RANGLE', 'DEREF', 'ADDRESS'
+        'LANGLE', 'RANGLE', 'DEREF', 'ADDRESS',
+        'STRINGL', 'CHARL',
     )
 
     t_ADD = r'\+'
@@ -70,9 +89,73 @@ class Lexer():
         return t
 
     def t_INTL(self, t):
-        r'(\d+)([Ii]{0,1})(\d+){0,1}'
+        r'(\d+)([i]{0,1})(\d+){0,1}'
         return t
 
+    # STRING STATE
+
+    def t_ENTER_STRCHAR(self, t):
+        r'''['|"]'''
+
+        t.lexer.push_state('strchar')
+        self.ending_quote = t.value
+        self.escape_on = False
+        self.chars = []
+
+
+    def t_strchar_EXIT_MAYBE(self, t):
+        r'''['|"]'''
+
+        if self.escape_on:
+            self.chars.append(char_code[f'{BACKSLASH}{t.value}'])
+            self.escape_on = False
+        else:
+            if t.value == self.ending_quote:
+                if t.value == SINGLEQUOTE:
+                    if len(self.chars) != 1:
+                        raise RuntimeError("Character must be singular")
+                    t.type = self.reserved.get(t.value, 'CHARL')
+                    t.value = self.chars[0]
+                else:
+                    self.chars.append(char_code[f'{BACKSLASH}0'])
+                    t.type = self.reserved.get(t.value, 'STRINGL')
+                    t.value = self.chars
+                t.lexer.pop_state()
+                del self.chars
+                del self.escape_on
+                del self.ending_quote
+                return t
+            else:
+                self.chars.append(char_code[f'{BACKSLASH}{t.value}'])
+
+
+    def t_strchar_ESCAPE(self, t):
+        r'\\'
+        if self.escape_on:
+            self.chars.append(char_code['\\'])
+            self.escape_on = False
+        else:
+            self.escape_on = True
+
+    def t_strchar_OTHERS(self, t):
+        r'.'
+        if self.escape_on:
+            v = f'\\{t.value}'
+            if v not in char_code:
+                raise RuntimeError("Bad escape!")
+            else:
+                self.chars.append(char_code[v])
+            self.escape_on = False
+        else:
+            v = f'{t.value}'
+            if v not in char_code:
+                raise RuntimeError("Bad character!")
+            else:
+                self.chars.append(char_code[v])
+
+    def t_strchar_WS(self, t):
+        r'[\s]'
+        pass
 
     # MAIN STATE
 
@@ -124,6 +207,11 @@ class Lexer():
 
     def t_mlc_error(self, t):
         print(f"illegal token (mlc state) at line\
+              {t.lexer.lineno}: '{t.value}'")
+        self.lexer.skip(1)
+
+    def t_strchar_error(self, t):
+        print(f"illegal token (strchar state) at line\
               {t.lexer.lineno}: '{t.value}'")
         self.lexer.skip(1)
 

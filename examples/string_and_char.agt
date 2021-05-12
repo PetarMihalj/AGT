@@ -1,0 +1,6 @@
+fn main() -> i32{
+    out(false); out('\n');
+    out(true); out('\n');
+    out("Hello world\n"); out('\n');
+    return 0;
+}

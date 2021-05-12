@@ -353,6 +353,8 @@ class AddressExpression(ParserRule):
 class LiteralExpression(ParserRule):
     '''LiteralExpression : IntLiteral
                          | BoolLiteral
+                         | CharLiteral
+                         | StringLiteral
     '''
 
     def __init__(self, r):
@@ -371,13 +373,6 @@ class IntLiteral(ParserRule):
                 self.size = int(sp[1])
             else:
                 self.size = 32
-        elif 'I' in r[0]:
-            sp = r[0].split('I')
-            self.value = -1 * int(sp[0])
-            if len(sp) == 2:
-                self.size = int(sp[1])
-            else:
-                self.size = 32
         else:
             self.value = int(r[0])
             self.size = 32
@@ -388,3 +383,15 @@ class BoolLiteral(ParserRule):
 
     def __init__(self, r):
         self.value = r[0] in ('True', 'true')
+
+class CharLiteral(ParserRule):
+    '''CharLiteral : CHARL'''
+
+    def __init__(self, r):
+        self.value = r[0]
+
+class StringLiteral(ParserRule):
+    '''StringLiteral : STRINGL'''
+
+    def __init__(self, r):
+        self.value = r[0]

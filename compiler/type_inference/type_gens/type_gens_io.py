@@ -75,3 +75,56 @@ def gen_out_intbool(
     )
     return ft
 
+@add_method_to_list(func_methods)
+def gen_out_char(
+                tc: TypingContext,
+                name: str,
+                type_argument_types: Tuple[ts.Type],
+                argument_types: Tuple[ts.Type],
+            ):
+    if name != "out": raise ierr.TypeGenError()
+    if len(argument_types)!=1: raise ierr.TypeGenError()
+    if len(type_argument_types) != 0: raise ierr.TypeGenError()
+
+    type_arg = argument_types[0]
+    if not isinstance(type_arg,ts.CharType):
+        raise ierr.TypeGenError()
+
+    dname = tc.scope_man.new_func_name(f"out_char_dummy")
+    tc.code_blocks.append(prim.OutCharPrimitive(
+        dname,
+    ))
+
+    ft = ts.FunctionType(
+        dname, 
+        None,
+        do_not_copy_args = False,
+    )
+    return ft
+
+@add_method_to_list(func_methods)
+def gen_out_chararray(
+                tc: TypingContext,
+                name: str,
+                type_argument_types: Tuple[ts.Type],
+                argument_types: Tuple[ts.Type],
+            ):
+    if name != "out": raise ierr.TypeGenError()
+    if len(argument_types)!=1: raise ierr.TypeGenError()
+    if len(type_argument_types) != 0: raise ierr.TypeGenError()
+
+    type_arg = argument_types[0]
+    if not isinstance(type_arg,ts.PointerType) or not isinstance(type_arg.pointed,ts.CharType):
+        raise ierr.TypeGenError()
+
+    dname = tc.scope_man.new_func_name(f"out_char_dummy")
+    tc.code_blocks.append(prim.OutCharArrayPrimitive(
+        dname,
+    ))
+
+    ft = ts.FunctionType(
+        dname, 
+        None,
+        do_not_copy_args = False,
+    )
+    return ft

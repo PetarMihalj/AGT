@@ -6,6 +6,19 @@ from enum import Enum
 class Type:
     pass
 
+class CharType(Type):
+    def __init__(self):
+        self.mangled_name = "char"
+
+    def __eq__(self, other):
+        if not isinstance(other, CharType):
+            return False
+        return True
+    def __hash__(self):
+        return hash(self.mangled_name)
+    def __repr__(self):
+        return type(self).__name__
+
 class BoolType(Type):
     def __init__(self):
         self.mangled_name = "bool"

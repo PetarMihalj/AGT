@@ -546,7 +546,7 @@ def _(self: sa.IntLiteralExpression, tc: TypingContext,
         fc: context.FunctionContext):
     self.lvalue = False
 
-    return ir.get_int_constant(self.value, self.size, fc)
+    return ir.get_int_value(self.value, self.size, fc)
 
 
 @add_method_te_visit(sa.BoolLiteralExpression)
@@ -554,7 +554,21 @@ def _(self: sa.BoolLiteralExpression, tc: TypingContext,
         fc: context.FunctionContext):
     self.lvalue = False
 
-    return ir.get_bool_constant(self.value, fc)
+    return ir.get_bool_value(self.value, fc)
+
+@add_method_te_visit(sa.CharLiteralExpression)
+def _(self: sa.CharLiteralExpression, tc: TypingContext,
+        fc: context.FunctionContext):
+    self.lvalue = False
+
+    return ir.get_char_value(self.value, fc)
+
+@add_method_te_visit(sa.StringLiteralExpression)
+def _(self: sa.StringLiteralExpression, tc: TypingContext,
+        fc: context.FunctionContext):
+    self.lvalue = False
+
+    return ir.get_chars_ptr(self.value, fc)
 
 
 @add_method_te_visit(sa.CallExpression)
