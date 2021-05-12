@@ -173,7 +173,6 @@ class DerefExpression(ValueExpression):
 class AddressExpression(ValueExpression):
     expr: ValueExpression
 
-
 @ dataclass
 class IntLiteralExpression(ValueExpression):
     value: int
@@ -201,11 +200,11 @@ class CallExpression(ValueExpression):
 
 # Type Expressions
 
-ops_mapping = {
+binary_ops_mapping = {
         '==': '__eq__',
         '!=': '__ne__',
-        '>!' : '__gt__',
-        '<!' : '__lt__',
+        '>!': '__gt__',
+        '<!': '__lt__',
         '<=': '__le__',
         '>=': '__ge__',
 
@@ -214,14 +213,10 @@ ops_mapping = {
         '*': '__mul__',
         '/': '__div__',
         '%': '__mod__',
+
+        '&' :  '__and__',
+        '|' :   '__or__',
 }
-
-
-@ dataclass
-class TypeBinaryExpression(TypeExpression):
-    left: TypeExpression
-    op: str
-    right: TypeExpression
 
 
 @ dataclass
@@ -506,14 +501,13 @@ def _(self: pr.IdExpression, se: SE):
 @add_method_parse_semantics(pr.BinaryExpression)
 def _(self: pr.BinaryExpression, se: SE):
     if se.top() == SS.TYPE_EXPR:
-        return TypeBinaryExpression(
-            self.left.parse_semantics(se),
-            ops_mapping[self.op],
-            self.right.parse_semantics(se)
+        return TypeAngleExpression(
+            binary_ops_mapping[self.op],
+            [self.left.parse_semantics(se), self.right.parse_semantics(se)]
         )
     elif se.top() == SS.VALUE_EXPR:
         return CallExpression(
-            ops_mapping[self.op],
+            binary_ops_mapping[self.op],
             [],
             [self.left.parse_semantics(se), self.right.parse_semantics(se)]
         )
@@ -598,14 +592,19 @@ def _(self: pr.DereferenceExpression, se: SE):
         return TypeDerefExpression(e)
 
 
-@add_method_parse_semantics(pr.AddressExpression)
-def _(self: pr.AddressExpression, se: SE):
+@add_method_parse_semantics(pr.NotExpression)
+def _(self: pr.NotExpression, se: SE):
     if se.top() == SS.VALUE_EXPR:
-        e = self.expr.parse_semantics(se)
-        return AddressExpression(e)
+        return CallExpression(
+            "__not__",
+            [],
+            [self.expr.parse_semantics(se)]
+        )
     if se.top() == SS.TYPE_EXPR:
-        e = self.expr.parse_semantics(se)
-        return TypePtrExpression(e)
+        return TypeAngleExpression(
+            "__not__",
+            [self.expr.parse_semantics(se)]
+        )
 
 
 @add_method_parse_semantics(pr.LiteralExpression)

@@ -7,6 +7,10 @@ from . import context
 class CodeBlock:
     pass
 
+class Primitive(CodeBlock):
+    def get_code(self):
+        raise NotImplementedError()
+
 @dataclass
 class FuncTypeCodeBlock(CodeBlock):
     fc: context.FunctionContext

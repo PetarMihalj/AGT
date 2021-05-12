@@ -3,105 +3,8 @@ from typing import List, Tuple
 
 from . import type_system as ts
 from . import code_blocks
+from .code_blocks import Primitive
 
-class Primitive(code_blocks.CodeBlock):
-    pass
-
-# 
-#
-# OBJECT CREATION PRIMITIVES
-#
-#
-
-@dataclass
-class HeapObjectPrimitive(Primitive):
-    fn_mn: str
-    type_struct_mn: str
-    types_mn: List[str]
-
-    alloc_fn_i32_mn: str
-    init_fn_mn: str
-
-    def get_code(self):
-        n = len(self.types_mn)
-
-        args = ", ".join([f"%{self.types_mn[i]} %t_{i}" for i in range(n)])
-
-        return [
-                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly",
-                f"define dso_local %{self.type_struct_mn}* @{self.fn_mn}({args}) local_unnamed_addr #0 {{",
-                f"%ptr = call %{self.type_struct_mn}* @{self.alloc_fn_i32_mn}(i32 1)",
-                f"call void @{self.init_fn_mn}(%{self.type_struct_mn}* %ptr, {args})",
-                f"ret %{self.type_struct_mn}* %ptr",
-                f"}}",
-            ]
-
-@dataclass
-class StackObjectPrimitive(Primitive):
-    fn_mn: str
-    type_struct_mn: str
-    types_mn: List[str]
-
-    init_fn_mn: str
-
-    def get_code(self):
-        n = len(self.types_mn)
-
-        args = ", ".join([f"%{self.types_mn[i]} %t_{i}" for i in range(n)])
-
-        return [
-                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly",
-                f"define dso_local %{self.type_struct_mn} @{self.fn_mn}({args}) local_unnamed_addr #0 {{",
-                f"%ptr = alloca %{self.type_struct_mn}",
-                f"call void @{self.init_fn_mn}(%{self.type_struct_mn}* %ptr, {args})",
-                f"%item = load %{self.type_struct_mn}, %{self.type_struct_mn}* %ptr",
-                f"ret %{self.type_struct_mn} %item",
-                f"}}",
-            ]
-
-#
-#
-# HEAP MEMORY PRIMITIVES
-#
-#
-
-@dataclass
-class HeapAllocPrimitive(Primitive):
-    mangled_name: str
-    type_mangled_name: str
-    size_type_mangled_name: str
-    def get_code(self):
-        return [
-            f"; Function Attrs: noinline nounwind optnone sspstrong uwtable",
-            f"define dso_local %{self.type_mangled_name}* @{self.mangled_name}(%{self.size_type_mangled_name} %0) #0 {{",
-            f"  %2 = alloca %{self.size_type_mangled_name}",
-            f"  store %{self.size_type_mangled_name} %0, %{self.size_type_mangled_name}* %2",
-            f"  %3 = load %{self.size_type_mangled_name}, %{self.size_type_mangled_name}* %2",
-            f"  %4 = sext %{self.size_type_mangled_name} %3 to i64",
-            "",
-            f"  %Size = getelementptr %{self.type_mangled_name}, %{self.type_mangled_name}* null, i32 1",
-            f"  %SizeI = ptrtoint %{self.type_mangled_name}* %Size to i64",
-            "",
-            f"  %5 = mul i64 %SizeI, %4",
-            f"  %6 = call noalias i8* @malloc(i64 %5) #2",
-            f"  %7 = bitcast i8* %6 to %{self.type_mangled_name}*",
-            f"  ret %{self.type_mangled_name}* %7",
-            f"}}",
-        ]
-
-@dataclass
-class HeapFreePrimitive(Primitive):
-    mangled_name: str
-    type_mangled_name: str
-    def get_code(self):
-        return [
-            f"; Function Attrs: nounwind sspstrong uwtable",
-            f"define dso_local void @{self.mangled_name}(%{self.type_mangled_name}* nocapture %0) local_unnamed_addr #0 {{",
-            f"  %2 = bitcast %{self.type_mangled_name}* %0 to i8*",
-            f"  tail call void @free(i8* %2) #2",
-            f"  ret void",
-            f"}}",
-        ]
 
 #
 #
@@ -232,28 +135,8 @@ class DefaultBuiltinDestPrimitive(Primitive):
 #
 #
 
-@dataclass
-class CastIntBoolPrimitive(Primitive):
-    mangled_name: str
-    target_size: int
-    source_size: int
-    def get_code(self):
-        if self.target_size <= self.source_size:
-            return [
-                f"; Function Attrs: norecurse nounwind readnone sspstrong uwtable",
-                f"define dso_local i{self.target_size} @{self.mangled_name}(i{self.source_size} %0) local_unnamed_addr #0 {{",
-                f"  %2 = trunc i{self.source_size} %0 to i{self.target_size}",
-                f"  ret i{self.target_size} %2",
-                f"}}",
-            ]
-        else:
-            return [
-                f"; Function Attrs: norecurse nounwind readnone sspstrong uwtable",
-                f"define dso_local i{self.target_size} @{self.mangled_name}(i{self.source_size} %0) local_unnamed_addr #0 {{",
-                f"  %2 = sext i{self.source_size} %0 to i{self.target_size}",
-                f"  ret i{self.target_size} %2",
-                f"}}",
-            ]
+
+
 
 @dataclass
 class InIntBoolPrimitive(Primitive):
@@ -318,56 +201,4 @@ class OutCharArrayPrimitive(Primitive):
             f"}}",
         ]
 
-@dataclass
-class IntTypeOpPrimitive(Primitive):
-    mangled_name: str
-    op: str
-    size: int
 
-    def get_code(self):
-        def arithmetic(opname):
-            return [
-                f"define dso_local i{self.size} @{self.mangled_name}(i{self.size} %0, i{self.size} %1) {{",
-                f"  %3 = {opname} nsw i{self.size} %0, %1",
-                f"  ret i{self.size} %3",
-                f"}}",
-            ]
-        def comp(opname):
-            return [
-                f"define dso_local i1 @{self.mangled_name}(i{self.size} %0, i{self.size} %1) {{",
-                f"\t%3 = icmp {opname} i{self.size} %0, %1",
-                f"\tret i1 %3",
-                f"}}",
-            ]
-
-        mapping = {
-                "__eq__": (comp, "eq"),
-                "__ne__": (comp, "ne"),
-                '__gt__': (comp, "sgt"),
-                '__lt__': (comp, "slt"),
-                '__le__': (comp, "sle"),
-                '__ge__': (comp, "sge"),
-
-                '__add__': (arithmetic, "add"),
-                '__sub__': (arithmetic, "sub"),
-                '__mul__': (arithmetic, "mul"),
-                '__div__': (arithmetic, "sdiv"),
-                '__mod__': (arithmetic, "srem"),
-        }
-
-        f,opname = mapping[self.op]
-        return f(opname)
-
-
-@dataclass
-class TypeToValuePrimitive(Primitive):
-    mangled_name: str
-    value: int
-    size: int
-
-    def get_code(self):
-        return [
-            f"define dso_local i{self.size} @{self.mangled_name}() #0 {{",
-            f"  ret i{self.size} {self.value}",
-            f"}}",
-        ]

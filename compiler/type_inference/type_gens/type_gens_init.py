@@ -1,7 +1,8 @@
-from typing import Tuple
+from typing import Tuple, List
+from dataclasses import dataclass
 
 from .. import inference_errors as ierr
-from .. import primitives as prim
+from ..code_blocks import Primitive 
 from .. import type_system as ts
 from .. import context
 from ...semantics_parsing import semantic_ast as sa
@@ -10,6 +11,8 @@ from ...helpers import add_method_to_list
 from . import func_methods, struct_methods
 
 from ..type_engine import TypingContext
+
+# --------------------------------------------------------
 
 @add_method_to_list(func_methods)
 def gen_heap_object(
@@ -31,8 +34,8 @@ def gen_heap_object(
     except ierr.InferenceError:
         raise ierr.TypeGenError()
 
-    dname = tc.scope_man.new_func_name(f"heap_object")
-    tc.code_blocks.append(prim.HeapObjectPrimitive(
+    dname = tc.scope_man.new_func_name(f"heap_object_init")
+    tc.code_blocks.append(HeapObjectPrimitive(
         dname,
         init_type.mangled_name,
         [at.mangled_name for at in argument_types],
@@ -46,6 +49,31 @@ def gen_heap_object(
         do_not_copy_args = False,
     )
     return ft
+
+@dataclass
+class HeapObjectPrimitive(Primitive):
+    fn_mn: str
+    type_struct_mn: str
+    types_mn: List[str]
+
+    alloc_fn_i32_mn: str
+    init_fn_mn: str
+
+    def get_code(self):
+        n = len(self.types_mn)
+
+        args = ", ".join([f"%{self.types_mn[i]} %t_{i}" for i in range(n)])
+
+        return [
+                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly",
+                f"define dso_local %{self.type_struct_mn}* @{self.fn_mn}({args}) local_unnamed_addr #0 {{",
+                f"\t%ptr = call %{self.type_struct_mn}* @{self.alloc_fn_i32_mn}(i32 1)",
+                f"\tcall void @{self.init_fn_mn}(%{self.type_struct_mn}* %ptr, {args})",
+                f"\tret %{self.type_struct_mn}* %ptr",
+                f"}}",
+            ]
+
+# --------------------------------------------------------
 
 
 @add_method_to_list(func_methods)
@@ -67,8 +95,8 @@ def gen_stack_object(
     except ierr.InferenceError:
         raise ierr.TypeGenError()
 
-    dname = tc.scope_man.new_func_name(f"stack_object_struct")
-    tc.code_blocks.append(prim.StackObjectPrimitive(
+    dname = tc.scope_man.new_func_name(f"stack_object_init")
+    tc.code_blocks.append(StackObjectPrimitive(
         dname,
         init_type.mangled_name,
         [at.mangled_name for at in argument_types],
@@ -82,3 +110,25 @@ def gen_stack_object(
     )
     return ft
 
+@dataclass
+class StackObjectPrimitive(Primitive):
+    fn_mn: str
+    type_struct_mn: str
+    types_mn: List[str]
+
+    init_fn_mn: str
+
+    def get_code(self):
+        n = len(self.types_mn)
+
+        args = ", ".join([f"%{self.types_mn[i]} %t_{i}" for i in range(n)])
+
+        return [
+                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly",
+                f"define dso_local %{self.type_struct_mn} @{self.fn_mn}({args}) local_unnamed_addr #0 {{",
+                f"\t%ptr = alloca %{self.type_struct_mn}",
+                f"\tcall void @{self.init_fn_mn}(%{self.type_struct_mn}* %ptr, {args})",
+                f"\t%item = load %{self.type_struct_mn}, %{self.type_struct_mn}* %ptr",
+                f"\tret %{self.type_struct_mn} %item",
+                f"}}",
+            ]

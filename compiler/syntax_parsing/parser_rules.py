@@ -232,10 +232,12 @@ class ExpressionList(ParserRule):
 # https://en.cppreference.com/w/c/language/operator_precedence
 precedence = (
     ('left', 'COMMA'),
+    ('left', 'AND'),
+    ('left', 'OR'),
     ('left', 'ADD', 'SUB'),
     ('left', 'MUL', 'DIV', 'MOD'),
     ('left', 'LE', 'GE', 'LT', 'GT', 'EQ', 'NE'),
-    ('left', 'DOT', 'DEREF'),
+    ('left', 'DOT', 'DEREF', 'NOT'),
     ('right', 'ADDRESS'),
     ('left', 'LPAREN', 'LBRACE'),
     ('left', 'LANGLE', 'RANGLE'),
@@ -271,6 +273,8 @@ class BinaryExpression(ParserRule):
                         | Expression GT Expression
                         | Expression EQ Expression
                         | Expression NE Expression
+                        | Expression AND Expression
+                        | Expression OR Expression
     """
 
     def __init__(self, r):
@@ -287,6 +291,7 @@ class UnaryExpression(ParserRule):
                        | ParenthesesExpression
                        | DereferenceExpression
                        | AddressExpression
+                       | NotExpression
                        | AngleCallExpression
     """
 
@@ -345,6 +350,13 @@ class DereferenceExpression(ParserRule):
 
 class AddressExpression(ParserRule):
     """AddressExpression : ADDRESS Expression"""
+
+    def __init__(self, r):
+        self.expr = r[1]
+
+
+class NotExpression(ParserRule):
+    """NotExpression : NOT Expression"""
 
     def __init__(self, r):
         self.expr = r[1]

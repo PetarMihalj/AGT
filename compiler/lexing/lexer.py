@@ -37,6 +37,8 @@ class Lexer():
         'LET', 'FN', 'ARROW', 'TYPE',
         'LANGLE', 'RANGLE', 'DEREF', 'ADDRESS',
         'STRINGL', 'CHARL',
+        'AND', 'OR',
+        'NOT'
     )
 
     t_ADD = r'\+'
@@ -65,6 +67,9 @@ class Lexer():
     t_DEREF = r'!'
     t_ADDRESS = r'@'
     t_ARROW = r'->'
+    t_AND = r'&'
+    t_OR = r'\|'
+    t_NOT = r'~'
 
     reserved = {
         'type': 'TYPE',
@@ -95,7 +100,7 @@ class Lexer():
     # STRING STATE
 
     def t_ENTER_STRCHAR(self, t):
-        r'''['|"]'''
+        r'''['"]'''
 
         t.lexer.push_state('strchar')
         self.ending_quote = t.value
@@ -104,7 +109,7 @@ class Lexer():
 
 
     def t_strchar_EXIT_MAYBE(self, t):
-        r'''['|"]'''
+        r'''['"]'''
 
         if self.escape_on:
             self.chars.append(char_code[f'{BACKSLASH}{t.value}'])

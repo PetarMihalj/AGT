@@ -236,7 +236,7 @@ def _(self: sa.TypeDeclarationStatementFunction, tc: TypingContext,
     if self.name != '_':
         mn = fc.scope_man.new_var_name(self.name, type_name=True)
         if mn is None:
-            raise ierr.RuntimeExpressionError(f"Name duplication ({name}), at {sa_node.linespan[0]}!")
+            raise ierr.RuntimeExpressionError(f"Name duplication ({self.name}), at {sa_node.linespan[0]}!")
         fc.types[mn] = e
 
 
@@ -593,17 +593,6 @@ def _(self: sa.CallExpression, tc: TypingContext,
 
 # type expressions
 
-@add_method_te_visit(sa.TypeBinaryExpression)
-def _(self: sa.TypeBinaryExpression, tc: TypingContext,
-        sfc: Union[context.StructContext, context.FunctionContext]):
-
-    le = self.left.te_visit(tc, sfc)
-    re = self.right.te_visit(tc, sfc)
-    rt = tc.resolve_struct(self.op, (le, re))
-
-    return rt
-
-
 @add_method_te_visit(sa.TypeAngleExpression)
 def _(self: sa.TypeAngleExpression, tc: TypingContext,
         sfc: Union[context.StructContext, context.FunctionContext]):
@@ -637,8 +626,9 @@ def _(self: sa.TypeIdExpression, tc: TypingContext,
         sfc: Union[context.StructContext, context.FunctionContext]):
 
     # prefer a local name
-    if self.name in sfc.types:
-        return sfc.types[self.name]
+    if isinstance(sfc, context.StructContext):
+        if self.name in sfc.types:
+            return sfc.types[self.name]
     if isinstance(sfc, context.FunctionContext):
         mn = sfc.scope_man.get_var_name(self.name)
         if mn is not None:
