@@ -3,7 +3,6 @@ import inspect
 from . import parser_rules
 import ply.yacc as yacc
 from types import MethodType
-from ..helpers import tree_print
 
 
 class SyntaxParser:

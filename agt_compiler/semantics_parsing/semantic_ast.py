@@ -3,7 +3,6 @@ from typing import List, Tuple, Union, Any
 from enum import Enum
 import sys
 
-from ..helpers import tree_print
 from ..syntax_parsing import parser_rules as pr
 
 class Structural:
