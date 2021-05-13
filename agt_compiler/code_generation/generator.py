@@ -8,7 +8,7 @@ class CodeGenerator:
         self.tr: te.TypingResult = tr
         self.code = []
 
-    def add_prims(self):
+    def add_codeblocks(self):
         for pr in self.tr.code_blocks:
             self.code.extend(
                 pr.get_code()
@@ -60,7 +60,7 @@ class CodeGenerator:
         self.code.append("; END OF HEADER")
         self.code.append("")
 
-        self.add_prims()
+        self.add_codeblocks()
 
         self.code.append("")
         self.code.append("; START OF HEADER")

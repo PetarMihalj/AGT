@@ -164,3 +164,45 @@ class CastIntToBool(Primitive):
             f"\tret i1 %2",
             f"}}",
         ]
+
+# ----------------------------------------------------------
+
+@add_method_to_list(func_methods)
+def gen_cast_bool_to_bool(
+                tc: TypingContext,
+                name: str,
+                type_argument_types: Tuple[ts.Type],
+                argument_types: Tuple[ts.Type],
+            ):
+    if name != "cast": raise ierr.TypeGenError()
+    if len(argument_types)!=1: raise ierr.TypeGenError()
+    if len(type_argument_types) != 1: raise ierr.TypeGenError()
+
+    type_target = type_argument_types[0]
+    type_source = argument_types[0]
+
+    if type_source not in [ts.BoolType()] or type_target not in [ts.BoolType()]:
+        raise ierr.TypeGenError()
+
+    dname = tc.scope_man.new_func_name(f"dummy_cast_bool_to_bool")
+    tc.code_blocks.append(CastBoolToBool(
+        dname,
+    ))
+
+    ft = ts.FunctionType(
+        dname, 
+        type_target,
+        do_not_copy_args = False,
+    )
+    return ft
+
+@dataclass
+class CastBoolToBool(Primitive):
+    mangled_name: str
+    def get_code(self):
+        return [
+            f"; Function Attrs: norecurse nounwind readnone sspstrong uwtable",
+            f"define dso_local i1 @{self.mangled_name}(i1 %0) local_unnamed_addr #0 {{",
+            f"\tret i1 %0",
+            f"}}",
+        ]

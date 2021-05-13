@@ -1,0 +1,81 @@
+fn outnl(i){
+	out(i);
+	out('\n');
+}
+
+struct A{
+	let inner = B;	
+}
+
+struct B{
+	let member = i32;
+}
+
+// init
+
+fn __init__(ap, b){
+	type _ = enable_if<ap==@A>;
+
+	outnl("Init A started");
+	ap!.inner = b;
+	outnl("Init A finished");
+}
+
+fn __init__(bp, i){
+	type _ = enable_if<bp==@B>;
+	outnl("Init B started");
+	bp!.member = i;
+	outnl("Init B finished");
+}
+
+// copy
+
+fn __copy__(ap1, ap2){
+	type _ = enable_if<ap1==@A>;
+	type _ = enable_if<ap2==@A>;
+
+	outnl("Copy A started");
+	ap1!.inner = ap2!.inner;
+	outnl("Copy A finished");
+}
+
+fn __copy__(bp1, bp2){
+	type _ = enable_if<bp1==@B>;
+	type _ = enable_if<bp2==@B>;
+
+	outnl("Copy B started");
+	bp1!.member = bp2!.member;
+	outnl("Copy B finished");
+}
+
+// dest
+
+fn __dest__(ap){
+	type _ = enable_if<ap==@A>;
+
+	outnl("Dest A started");
+	__dest__(@(ap!.inner));
+	outnl("Dest A finished");
+}
+
+fn __dest__(bp){
+	type _ = enable_if<bp==@B>;
+
+	outnl("Dest B started");
+	__dest__(@(bp!.member));
+	outnl("Dest B finished");
+}
+
+// main
+
+fn main() -> i32{
+	{
+		let ab = object<A>(object<B>(15));
+	}
+	outnl("-");
+	{
+		let b = heap_object<B>(13);
+		let a = object<A>(b!);
+	}
+	return 0;
+}

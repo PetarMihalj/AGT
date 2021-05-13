@@ -38,6 +38,6 @@ class StructTypeCodeBlock(CodeBlock):
             comma = ','
             if i==len(self.sc.members)-1:
                 comma=''
-            code.append(f"\t{self.sc.types[member].mangled_name}{comma}\t\t\t;{member}")
+            code.append(f"\t%{self.sc.types[member].mangled_name}{comma}\t\t\t;{member}")
         code.append(f"}}")
         return code

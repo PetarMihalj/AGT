@@ -1,0 +1,52 @@
+fn outnl(i){
+	out(i);
+	out("\n");
+}
+
+fn main() -> i32{
+	let _i8 = in<i8>();
+	let _i16 = in<i16>();
+	let _i32 = in<i32>();
+	let _i64 = in<i64>();
+	let _bool = in<bool>();
+
+	outnl(cast<i64>(_i8));
+	outnl(cast<i64>(_i16));
+	outnl(cast<i64>(_i32));
+	outnl(cast<i64>(_i64));
+	outnl(cast<i64>(_bool));
+	
+	outnl("");
+
+	outnl(cast<i32>(_i8));
+	outnl(cast<i32>(_i16));
+	outnl(cast<i32>(_i32));
+	outnl(cast<i32>(_i64));
+	outnl(cast<i32>(_bool));
+
+	outnl("");
+
+	outnl(cast<i16>(_i8));
+	outnl(cast<i16>(_i16));
+	outnl(cast<i16>(_i32));
+	outnl(cast<i16>(_i64));
+	outnl(cast<i16>(_bool));
+
+	outnl("");
+
+	outnl(cast<i8>(_i8));
+	outnl(cast<i8>(_i16));
+	outnl(cast<i8>(_i32));
+	outnl(cast<i8>(_i64));
+	outnl(cast<i8>(_bool));
+
+	outnl("");
+
+	outnl(cast<bool>(_i8));
+	outnl(cast<bool>(_i16));
+	outnl(cast<bool>(_i32));
+	outnl(cast<bool>(_i64));
+	outnl(cast<bool>(_bool));
+
+	return 0;
+}
