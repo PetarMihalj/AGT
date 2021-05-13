@@ -2,7 +2,6 @@ import sys
 from typing import Dict, List, Tuple
 from enum import Enum
 
-from . import primitives as prim
 from . import type_system as ts
 
 from .recursive_logger import RecursiveLogger

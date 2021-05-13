@@ -3,7 +3,6 @@ from typing import List, Tuple, Union, Any
 from enum import Enum
 import sys
 
-from ..helpers import add_method_parse_semantics
 from ..helpers import tree_print
 from ..syntax_parsing import parser_rules as pr
 
@@ -272,6 +271,16 @@ SE = SemanticEnvironment
 
 
 # visitor methods
+def add_method_parse_semantics(cls):
+    def go(func):
+        def wrapper(self, se):
+            a = func(self, se)
+            if hasattr(a, "__dict__") and hasattr(self, "linespan"):
+                a.linespan = self.linespan
+                a.lexspan = self.lexspan
+            return a
+        setattr(cls, "parse_semantics", wrapper)
+    return go
 
 
 @add_method_parse_semantics(pr.CompilationUnit)

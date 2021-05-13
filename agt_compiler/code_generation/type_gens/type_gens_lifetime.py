@@ -1,17 +1,15 @@
-from typing import Tuple
+from typing import Tuple, List
+from dataclasses import dataclass
 
 from .. import inference_errors as ierr
-from .. import primitives as prim
 from .. import type_system as ts
 from .. import context
-from ...semantics_parsing import semantic_ast as sa
-
-from ...helpers import add_method_to_list
-from . import func_methods, struct_methods
-
+from ..code_blocks import Primitive 
 from ..type_engine import TypingContext
 
-# builtin lifetime constructs
+from . import func_methods, struct_methods, add_method_to_list
+
+# ---------------------------------------------------------------------
 
 @add_method_to_list(func_methods)
 def gen_builtin_init(
@@ -36,7 +34,7 @@ def gen_builtin_init(
         raise ierr.TypeGenError()
 
     dname = tc.scope_man.new_func_name(f"builtin_init")
-    tc.code_blocks.append(prim.DefaultBuiltinInitPrimitive(
+    tc.code_blocks.append(DefaultBuiltinInitPrimitive(
         dname,
         pointed.mangled_name
     ))
@@ -48,6 +46,20 @@ def gen_builtin_init(
     )
     return ft
 
+@dataclass
+class DefaultBuiltinInitPrimitive(Primitive):
+    fn_mn: str
+    type_mn: str
+
+    def get_code(self):
+        return [
+            f"define dso_local void @{self.fn_mn}(%{self.type_mn}* %0, %{self.type_mn} %1){{",
+            f"store %{self.type_mn} %1, %{self.type_mn}* %0",
+            f"ret void",
+            f"}}",
+        ]
+
+# ---------------------------------------------------------------------
 
 @add_method_to_list(func_methods)
 def gen_builtin_copy(
@@ -74,7 +86,7 @@ def gen_builtin_copy(
         raise ierr.TypeGenError()
 
     dname = tc.scope_man.new_func_name(f"builtin_copy")
-    tc.code_blocks.append(prim.DefaultBuiltinCopyPrimitive(
+    tc.code_blocks.append(DefaultBuiltinCopyPrimitive(
         dname,
         ptr_dest.pointed.mangled_name
     ))
@@ -85,6 +97,22 @@ def gen_builtin_copy(
         do_not_copy_args = True,
     )
     return ft
+
+@dataclass
+class DefaultBuiltinCopyPrimitive(Primitive):
+    fn_mn: str
+    type_mn: str
+
+    def get_code(self):
+        return [
+            f"define dso_local void @{self.fn_mn}(%{self.type_mn}* %0, %{self.type_mn}* %1){{",
+            f"%val = load %{self.type_mn}, %{self.type_mn}* %1",
+            f"store %{self.type_mn} %val, %{self.type_mn}* %0",
+            f"ret void",
+            f"}}",
+        ]
+
+# ---------------------------------------------------------------------
 
 @add_method_to_list(func_methods)
 def gen_builtin_dest(
@@ -108,7 +136,7 @@ def gen_builtin_dest(
 
     
     dname = tc.scope_man.new_func_name(f"func_do_nothing")
-    tc.code_blocks.append(prim.DefaultBuiltinDestPrimitive(
+    tc.code_blocks.append(DefaultBuiltinDestPrimitive(
         dname,
         [ptr.mangled_name]
     ))
@@ -121,7 +149,25 @@ def gen_builtin_dest(
     return ft
 
 
-# STRUCT lifetime constructs
+@dataclass
+class DefaultBuiltinDestPrimitive(Primitive):
+    fn_mn: str
+    types_mn: List[str]
+
+    def get_code(self):
+        n = len(self.types_mn)
+
+        args = ", ".join([f"%{self.types_mn[i]} %t_{i}" for i in range(n)])
+
+
+        return [
+                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable",
+                f"define dso_local void @{self.fn_mn}({args}) local_unnamed_addr #0 {{",
+                f"  ret void",
+                f"}}",
+            ]
+
+# ---------------------------------------------------------------------
 
 @add_method_to_list(func_methods)
 def gen_struct_init(
@@ -147,7 +193,7 @@ def gen_struct_init(
             raise ierr.TypeGenError()
 
     dname = tc.scope_man.new_func_name(f"dummy_init_struct")
-    tc.code_blocks.append(prim.DefaultStructInitPrimitive(
+    tc.code_blocks.append(DefaultStructInitPrimitive(
         dname,
         pointed.mangled_name,
         [a.mangled_name for a in argument_types[1:]],
@@ -159,6 +205,32 @@ def gen_struct_init(
         do_not_copy_args = True,
     )
     return (ft,)
+
+@dataclass
+class DefaultStructInitPrimitive(Primitive):
+    fn_mn: str
+    type_struct_mn: str
+    types_mn: List[str]
+
+    def get_code(self):
+        n = len(self.types_mn)
+
+        args = ", ".join([f"%{self.types_mn[i]} %t_{i+1}" for i in range(n)])
+
+        copies = []
+        for i in range(n):
+            copies.append(f"  %t_{n+i+1} = getelementptr inbounds %{self.type_struct_mn}, %{self.type_struct_mn}* %0, i64 0, i32 {i}")
+            copies.append(f"  store %{self.types_mn[i]} %t_{i+1}, %{self.types_mn[i]}* %t_{n+i+1}")
+
+        return [
+                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly",
+                f"define dso_local void @{self.fn_mn}(%{self.type_struct_mn}* nocapture %0, {args}) local_unnamed_addr #0 {{",
+            ] + copies + [ 
+                f"  ret void",
+                f"}}",
+            ]
+
+# ---------------------------------------------------------------------
 
 @add_method_to_list(func_methods)
 def gen_struct_copy(
@@ -199,7 +271,7 @@ def gen_struct_copy(
 
 
     dname = tc.scope_man.new_func_name(f"dummy_copy_struct")
-    tc.code_blocks.append(prim.DefaultStructCopyPrimitive(
+    tc.code_blocks.append(DefaultStructCopyPrimitive(
         dname,
         pointed1.mangled_name,
         member_types_mn,
@@ -213,6 +285,31 @@ def gen_struct_copy(
     )
     return (ft,)
 
+@dataclass
+class DefaultStructCopyPrimitive(Primitive):
+    fn_mn: str
+    type_struct_mn: str
+    types_mn: List[str]
+    copy_calls_mn: List[str]
+
+    def get_code(self):
+        n = len(self.types_mn)
+
+        calls = []
+        for i in range(n):
+            calls.append(f"%t_{2*i} = getelementptr inbounds %{self.type_struct_mn}, %{self.type_struct_mn}* %dst, i64 0, i32 {i}")
+            calls.append(f"%t_{2*i+1} = getelementptr inbounds %{self.type_struct_mn}, %{self.type_struct_mn}* %src, i64 0, i32 {i}")
+            calls.append(f"call void @{self.copy_calls_mn[i]}(%{self.types_mn[i]}* %t_{2*i}, %{self.types_mn[i]}* %t_{2*i+1})")
+
+        return [
+                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable",
+                f"define dso_local void @{self.fn_mn}(%{self.type_struct_mn}* nocapture %dst, %{self.type_struct_mn}* nocapture %src) local_unnamed_addr #0 {{",
+            ] + calls + [ 
+                f"  ret void",
+                f"}}",
+            ]
+
+# ---------------------------------------------------------------------
 
 @add_method_to_list(func_methods)
 def gen_struct_dest(
@@ -248,7 +345,7 @@ def gen_struct_dest(
 
 
     dname = tc.scope_man.new_func_name(f"dummy_dest_struct")
-    tc.code_blocks.append(prim.DefaultStructDestPrimitive(
+    tc.code_blocks.append(DefaultStructDestPrimitive(
         dname,
         pointed.mangled_name,
         member_types_mn,
@@ -261,4 +358,29 @@ def gen_struct_dest(
         do_not_copy_args = True,
     )
     return (ft,)
+
+@dataclass
+class DefaultStructDestPrimitive(Primitive):
+    fn_mn: str
+    type_struct_mn: str
+    types_mn: List[str]
+    dest_calls_mn: List[str]
+
+    def get_code(self):
+        n = len(self.types_mn)
+
+        calls = []
+        for i in range(n):
+            calls.append(f"%t_{i} = getelementptr inbounds %{self.type_struct_mn}, %{self.type_struct_mn}* %todest, i64 0, i32 {i}")
+            calls.append(f"call void @{self.dest_calls_mn[i]}(%{self.types_mn[i]}* %t_{i})")
+
+        return [
+                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable",
+                f"define dso_local void @{self.fn_mn}(%{self.type_struct_mn}* nocapture %todest) local_unnamed_addr #0 {{",
+            ] + calls + [ 
+                f"  ret void",
+                f"}}",
+            ]
+
+# ---------------------------------------------------------------------
 

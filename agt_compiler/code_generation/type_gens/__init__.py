@@ -1,12 +1,7 @@
-from typing import Tuple
-
-from .. import inference_errors as ierr
-from .. import primitives as prim
-from .. import type_system as ts
-from .. import context
-from ...semantics_parsing import semantic_ast as sa
-
-from ...helpers import add_method_to_list
+def add_method_to_list(target_list):
+    def go(func):
+        target_list.append(func)
+    return go
 
 func_methods = []
 struct_methods = []

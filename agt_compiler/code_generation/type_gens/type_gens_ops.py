@@ -1,18 +1,16 @@
-from typing import Tuple
+from typing import Tuple, List
 from dataclasses import dataclass
 
 from .. import inference_errors as ierr
-from ..code_blocks import Primitive
 from .. import type_system as ts
 from .. import context
-from ...semantics_parsing import semantic_ast as sa
-
-from ...helpers import add_method_to_list
-from . import func_methods, struct_methods
-
+from ..code_blocks import Primitive 
 from ..type_engine import TypingContext
 
+from . import func_methods, struct_methods, add_method_to_list
+
 # ---------------------------------------------------------------------
+
 mapping_int_binary = {
         "__eq__": (False, "eq"),
         "__ne__": (False, "ne"),

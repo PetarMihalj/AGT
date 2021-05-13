@@ -6,7 +6,6 @@ from . import scope_manager
 from . import context
 
 from . import code_blocks
-from . import primitives
 
 from . import flat_ir
 

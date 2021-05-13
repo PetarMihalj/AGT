@@ -1,15 +1,15 @@
-from typing import Tuple
+from typing import Tuple, List
+from dataclasses import dataclass
 
 from .. import inference_errors as ierr
-from .. import primitives as prim
 from .. import type_system as ts
 from .. import context
-from ...semantics_parsing import semantic_ast as sa
-
-from ...helpers import add_method_to_list
-from . import func_methods, struct_methods
-
+from ..code_blocks import Primitive 
 from ..type_engine import TypingContext
+
+from . import func_methods, struct_methods, add_method_to_list
+
+# ---------------------------------------------------------------------
 
 @add_method_to_list(func_methods)
 def gen_in_intbool(
@@ -31,7 +31,7 @@ def gen_in_intbool(
         raise ierr.TypeGenError()
 
     dname = tc.scope_man.new_func_name(f"in_i{size}_dummy")
-    tc.code_blocks.append(prim.InIntBoolPrimitive(
+    tc.code_blocks.append(InIntBoolPrimitive(
         dname,
         size
     ))
@@ -42,6 +42,25 @@ def gen_in_intbool(
         do_not_copy_args = False,
     )
     return ft
+
+@dataclass
+class InIntBoolPrimitive(Primitive):
+    mangled_name: str
+    size: int
+    def get_code(self):
+        return [
+            f"; Function Attrs: nounwind sspstrong uwtable",
+            f"define dso_local i{self.size} @{self.mangled_name}() local_unnamed_addr #0 {{",
+            f"  %1 = alloca i64, align 8",
+            f"  %2 = bitcast i64* %1 to i8*",
+            f"  %3 = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.in_int_str, i64 0, i64 0), i64* nonnull %1)",
+            f"  %4 = load i64, i64* %1, align 8",
+            f"  %5 = trunc i64 %4 to i{self.size}",
+            f"  ret i{self.size} %5",
+            f"}}",
+        ]
+
+# ---------------------------------------------------------------------
 
 @add_method_to_list(func_methods)
 def gen_out_intbool(
@@ -63,7 +82,7 @@ def gen_out_intbool(
         raise ierr.TypeGenError()
 
     dname = tc.scope_man.new_func_name(f"out_i{size}_dummy")
-    tc.code_blocks.append(prim.OutIntBoolPrimitive(
+    tc.code_blocks.append(OutIntBoolPrimitive(
         dname,
         size
     ))
@@ -74,6 +93,23 @@ def gen_out_intbool(
         do_not_copy_args = False,
     )
     return ft
+
+@dataclass
+class OutIntBoolPrimitive(Primitive):
+    mangled_name: str
+    size: int
+    def get_code(self):
+        ext_mode = "sext" if self.size>1 else "zext"
+        return [
+            f"; Function Attrs: nofree nounwind sspstrong uwtable",
+            f"define dso_local void @{self.mangled_name}(i{self.size} %0) local_unnamed_addr #0 {{",
+            f"  %2 = {ext_mode} i{self.size} %0 to i64",
+            f"  %3 = tail call i32 (i8*, ...) @printf(i8* nonnull dereferenceable(1) getelementptr inbounds ([5 x i8], [5 x i8]* @.out_int_str, i64 0, i64 0), i64 %2)",
+            f"  ret void",
+            f"}}",
+        ]
+
+# ---------------------------------------------------------------------
 
 @add_method_to_list(func_methods)
 def gen_out_char(
@@ -91,7 +127,7 @@ def gen_out_char(
         raise ierr.TypeGenError()
 
     dname = tc.scope_man.new_func_name(f"out_char_dummy")
-    tc.code_blocks.append(prim.OutCharPrimitive(
+    tc.code_blocks.append(OutCharPrimitive(
         dname,
     ))
 
@@ -101,6 +137,24 @@ def gen_out_char(
         do_not_copy_args = False,
     )
     return ft
+
+@dataclass
+class OutCharPrimitive(Primitive):
+    mangled_name: str
+    def get_code(self):
+        return [
+            f"; Function Attrs: noinline nounwind optnone sspstrong uwtable",
+            f"define dso_local void @{self.mangled_name}(i8 signext %0) #0 {{",
+            f"  %2 = alloca i8, align 1",
+            f"  store i8 %0, i8* %2, align 1",
+            f"  %3 = load i8, i8* %2, align 1",
+            f"  %4 = sext i8 %3 to i32",
+            f"  %5 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.out_char_str, i64 0, i64 0), i32 %4)",
+            f"  ret void",
+            f"}}"
+        ]
+
+# ---------------------------------------------------------------------
 
 @add_method_to_list(func_methods)
 def gen_out_chararray(
@@ -118,7 +172,7 @@ def gen_out_chararray(
         raise ierr.TypeGenError()
 
     dname = tc.scope_man.new_func_name(f"out_char_dummy")
-    tc.code_blocks.append(prim.OutCharArrayPrimitive(
+    tc.code_blocks.append(OutCharArrayPrimitive(
         dname,
     ))
 
@@ -128,3 +182,20 @@ def gen_out_chararray(
         do_not_copy_args = False,
     )
     return ft
+
+@dataclass
+class OutCharArrayPrimitive(Primitive):
+    mangled_name: str
+    def get_code(self):
+        return [
+            f"; Function Attrs: noinline nounwind optnone sspstrong uwtable",
+            f"define dso_local void @{self.mangled_name}(i8* %0) #0 {{",
+            f"  %2 = alloca i8*, align 8",
+            f"  store i8* %0, i8** %2, align 8",
+            f"  %3 = load i8*, i8** %2, align 8",
+            f"  %4 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.out_chararray_str, i64 0, i64 0), i8* %3)",
+            f"  ret void",
+            f"}}",
+        ]
+
+

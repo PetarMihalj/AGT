@@ -1,7 +1,6 @@
 from typing import List, Union, Any, Tuple
 
 from . import flat_ir as ir
-from ..helpers import add_method_te_visit
 from ..semantics_parsing import semantic_ast as sa
 
 from . import type_system as ts
@@ -85,6 +84,19 @@ def put_copy(sa_node,
     )
 
 # structural
+
+def add_method_te_visit(cls):
+    def go(func):
+        def wrapper(self, *vargs, **kwargs):
+            tc = vargs[0]
+
+            a = func(self, *vargs, **kwargs)
+            if hasattr(a, "__dict__") and hasattr(self, "linespan"):
+                a.linespan = self.linespan
+                a.lexspan = self.lexspan
+            return a
+        setattr(cls, "te_visit", wrapper)
+    return go
 
 @add_method_te_visit(sa.FunctionDefinition)
 def _(self: sa.FunctionDefinition, tc: TypingContext,

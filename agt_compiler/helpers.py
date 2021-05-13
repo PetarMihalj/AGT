@@ -1,5 +1,3 @@
-from functools import wraps
-
 def tree_print_r(name, obj, prefix, dbg):
     if name is None:
         print(f"{prefix} ", end='')
@@ -28,47 +26,3 @@ def tree_print_r(name, obj, prefix, dbg):
 
 def tree_print(obj, debugging_info = False):
     tree_print_r(None, obj, "", debugging_info)
-
-def add_method_parse_semantics(cls):
-    def go(func):
-        def wrapper(self, se):
-            a = func(self, se)
-            if hasattr(a, "__dict__") and hasattr(self, "linespan"):
-                a.linespan = self.linespan
-                a.lexspan = self.lexspan
-            return a
-        setattr(cls, "parse_semantics", wrapper)
-    return go
-
-def add_method_te_visit(cls):
-    def go(func):
-        def wrapper(self, *vargs, **kwargs):
-            tc = vargs[0]
-
-            a = func(self, *vargs, **kwargs)
-            if hasattr(a, "__dict__") and hasattr(self, "linespan"):
-                a.linespan = self.linespan
-                a.lexspan = self.lexspan
-            return a
-        setattr(cls, "te_visit", wrapper)
-    return go
-
-
-def add_method_to_list(target_list):
-    def go(func):
-        target_list.append(func)
-    return go
-
-
-def once_for_args(func):
-    @wraps(func)
-    def other(*vargs, **kwargs):
-        if not hasattr(func, _CALLED):
-            func._CALLED = set()
-        if func._CALLED[(vargs, kwargs.items())]:
-            return
-        else:
-            res = func(*vargs, **kwargs)
-    return other
-
-
