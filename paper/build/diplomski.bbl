@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{3}
 % this bibliography was produced with the style dinat.bst v2.5
 \makeatletter
 \newcommand{\dinatlabel}[1]%
@@ -6,6 +6,16 @@
 \makeatother
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax\def\url#1{\texttt{#1}}\fi
+
+\bibitem[Beazley({\natexlab{a}})]{c_ply_beazley}
+\dinatlabel{Beazley {\natexlab{a}}} \textsc{Beazley}, David:
+\newblock \emph{PLY (Python Lex-Yacc)}. --
+\newblock URL \url{http://www.dabeaz.com/ply/}
+
+\bibitem[Beazley({\natexlab{b}})]{c_ply_docs_beazley}
+\dinatlabel{Beazley {\natexlab{b}}} \textsc{Beazley}, David:
+\newblock \emph{PLY (Python Lex-Yacc) documentation}. --
+\newblock URL \url{https://ply.readthedocs.io/en/latest/index.html}
 
 \bibitem[Lattner und Adve(2004)]{c_llvm_lattner}
 \dinatlabel{Lattner und Adve 2004} \textsc{Lattner}, Chris~; \textsc{Adve},

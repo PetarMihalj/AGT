@@ -5,6 +5,8 @@
 \usepackage{xparse}
 \usepackage{listings}
 
+\renewcommand{\labelitemi}{$\bullet$}
+
 % environment setup
 \ExplSyntaxOn
 \NewDocumentCommand{\getenv}{om}
@@ -148,10 +150,149 @@ This will be possible if and only if the compiler can also infer the function ty
 function which can take ...
 The property of \texttt{outnl} function definition which allows it to be a source for inference
 of two distinct function types, given that it \textit{makes sense} for these types 
-(regarding the function body), is called \bf{parametric polymorphism}.
+(regarding the function body), is called \textbf{parametric polymorphism}.
 
 
+\section{In depth}
 
+AGT compilation process consists of 4 main phases: 
+
+\begin{enumerate}
+\item Lexical analysis - tokenization of input source code text
+\item Syntactical analysis - grouping of tokens in an abstract syntax tree
+\item Semantical analysis - transforming the syntax tree into a context aware semantical syntax tree
+\item Type inference - inferring the main function type and all other required types
+\end{enumerate}
+
+The process is successful if the type inference step successfully infers the main function type.
+
+We will now describe each phase in great detail, contrasting the newly defined terms
+against their use in other languages, since the subtlimities sometimes are different.
+
+\subsection{Lexical analysis}
+
+The AGT Lexical analysis phase is a standard regular grammar parsing process.
+Lexical analyzer is fed a stream of characters, which get grouped into tokens,
+according to regular expressions and ambiguity resolution rules.
+
+Lexical analyer tool used for the AGTC was PLY - Python Lex-Yacc \citep{c_ply_beazley}.
+Python Lex-Yacc is a tool which tries to bring the functionality of well know lexical and syntactical
+analyzers Lex and Yacc into Python. The main difference is that PLY does not \textit{generate} the 
+concrete lexer and parser. Instead, a PLY user defines the rules fed to PLY by specifying programming 
+constructs like functions that correspond to these rules. PLY then inspects these constructs using 
+reflective capabilities of python, and acts according to these rules
+when performing lexical or syntactical analysis.
+
+Lets check out some PLY lexer rules used in AGTC.
+
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/lexer.py}
+
+Rules for simple operators are given in a string form, in a form of 
+\texttt{t\_<TOKEN> = <REGEX>}.
+
+Rules for more complex tokens, like int literals or identifiers are defined
+using functions. Those same functions can alter the behaviour of the
+lexer when such a token is parsed. For example, whenever an identifier is parsed,
+the function \texttt{t\_ID} looks up whether the identifier is in a list of reserved
+words, and if it is, changes the tokens type. This neat trick greatly simplyfies the
+regular expressions \citep{c_ply_docs_beazley}.
+
+PLY documentation states that priority is given to regular expressions defined by functions, in the order they are given, and than to string defined rules, according to their length. 
+
+We also employ the \textit{state} feature of PLY, 
+which allows us to change the lexer's behaviour
+when it encounters, for example, a beginning of a multiline comment. 
+In that particular case, the lexer parses and caches every 
+symbol until it gets to the end of that comment, 
+The state feature is also used for string literals.
+
+An interested reader will find more details about the implementation in
+the source code supplied with this paper.
+
+This is a great place to introduce reader to special meaning of arithmetic operators.
+When an expression such as \texttt{a + 1} is evaluated, 
+the function call \texttt{\_\_add\_\_(a,1)} is evaluated instead.
+Same goes for all operators, so now we give their equivalent \textit{dunder} functions 
+(the name comes from the Python community). 
+
+Arithmetic operators and their correspondant functions methods are:
+
+\begin{itemize}
+    \item + : \_\_add\_\_
+    \item - : \_\_sub\_\_
+    \item * : \_\_mul\_\_
+    \item / : \_\_div\_\_
+    \item \% : \_\_mod\_\_
+\end{itemize}
+
+Comparison operators and their correspondant dunder functions are:
+
+\begin{itemize}
+    \item == : \_\_eq\_\_
+    \item != : \_\_ne\_\_
+    \item >! : \_\_gt\_\_
+    \item <! : \_\_lt\_\_
+    \item >= : \_\_ge\_\_
+    \item <= : \_\_le\_\_
+\end{itemize}
+
+The strict less or greater operators include the exclaimation mark in order to
+prevent some common ambiguities in lexing (which occur due to the presence of angle
+brackets).
+
+Finally, the last type of builtins are boolean operators.
+
+\begin{itemize}
+    \item \& : \_\_and\_\_
+    \item | : \_\_or\_\_
+    \item \char`\~ : \_\_not\_\_
+\end{itemize}
+
+Note that, even though we call the last group the \textit{boolean} operators,
+those operators can be evaluated on operands which are not booleans,
+as long as the corresponding dunder functions are defined in the program.
+The same goes for arithmetic and comparison operators; a programmer can use
+builtins functions for all integer types, but can define additional dunder functions
+for \texttt{rectangle} objects, for example.
+
+Both type of comments, \texttt{/*multiline comment*/} and \texttt{//singleline comment} are discarded
+after being parsed.
+
+String and character literals are given in double and single quotes, respectively.
+They can include escaped characters:  (\textbackslash 0, \textbackslash n, \textbackslash t, 
+\textbackslash ", \textbackslash \textquotesingle). 
+Character literal must consist of exactly one character or escaped character.
+
+Identifiers consist of a letter or an underscore, followed by any number of letters, underscores or digits.
+Reserved words are excluded from identifiers.
+
+Reserved words are:
+\begin{itemize}
+    \item 'fn', 'struct',
+    \item 'let', 'type',
+    \item 'if', 'else', 'break', 'for', 'while', 'return',
+    \item 'true', 'True', 'false','False',
+\end{itemize}
+
+Integer literals are characterized by both the value and the size of integer containing this value.
+Possible integer sizes are 8, 16, 32 and 64.
+
+Example integer literals are:
+\begin{itemize}
+    \item \texttt{5} (implicitly i32)
+    \item \texttt{5i32}
+    \item \texttt{516}
+    \item \texttt{5i8}
+    \item \texttt{5i64}
+    \item \texttt{324243} (implicitly i32)
+\end{itemize}
+
+
+\subsection{Syntactical analysis}
+
+\subsection{Semantic analysis}
+
+\subsection{Type inference}
 
 
 

@@ -391,7 +391,8 @@ class IntLiteral(ParserRule):
 
 
 class BoolLiteral(ParserRule):
-    '''BoolLiteral : BOOLL'''
+    '''BoolLiteral : TRUE
+                   | FALSE'''
 
     def __init__(self, r):
         self.value = r[0] in ('True', 'true')

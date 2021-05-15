@@ -1,5 +1,11 @@
 \contentsline {chapter}{\numberline {1}Introduction}{1}{}%
 \contentsline {section}{\numberline {1.1}Paper organization}{2}{}%
 \contentsline {chapter}{\numberline {2}The AGT Programming Language - a gentle introduction}{3}{}%
-\contentsline {chapter}{\numberline {3}Conclusion}{5}{}%
-\contentsline {chapter}{Bibliography}{6}{}%
+\contentsline {section}{\numberline {2.1}Hello world!}{3}{}%
+\contentsline {section}{\numberline {2.2}In depth}{5}{}%
+\contentsline {subsection}{\numberline {2.2.1}Lexical analysis}{5}{}%
+\contentsline {subsection}{\numberline {2.2.2}Syntactical analysis}{8}{}%
+\contentsline {subsection}{\numberline {2.2.3}Semantic analysis}{8}{}%
+\contentsline {subsection}{\numberline {2.2.4}Type inference}{8}{}%
+\contentsline {chapter}{\numberline {3}Conclusion}{9}{}%
+\contentsline {chapter}{Bibliography}{10}{}%

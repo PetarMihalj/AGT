@@ -16,8 +16,8 @@ mapping_int_binary = {
         "__ne__": (False, "ne"),
         '__gt__': (False, "sgt"),
         '__lt__': (False, "slt"),
-        '__le__': (False, "sle"),
         '__ge__': (False, "sge"),
+        '__le__': (False, "sle"),
 
         '__add__': (True, "add"),
         '__sub__': (True, "sub"),

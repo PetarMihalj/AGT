@@ -26,8 +26,9 @@ class Lexer():
     )
 
     tokens = (
-        'INTL', 'BOOLL',
+        'INTL', 
         'ID',
+        'TRUE', 'FALSE',
         'IF', 'ELSE', 'BREAK', 'FOR', 'WHILE', 'RETURN',
         'GE', 'LE', 'LT', 'GT', 'EQ', 'NE',
         'STRUCT',
@@ -82,11 +83,11 @@ class Lexer():
         'while': 'WHILE',
         'return': 'RETURN',
         'struct': 'STRUCT',
+        'true': 'TRUE',
+        'True': 'TRUE',
+        'false': 'FALSE',
+        'False': 'FALSE',
     }
-
-    def t_BOOLL(self, t):
-        r'true|false|True|False'
-        return t
 
     def t_ID(self, t):
         r'[a-zA-Z_][a-zA-Z_0-9]*'
@@ -94,7 +95,7 @@ class Lexer():
         return t
 
     def t_INTL(self, t):
-        r'(\d+)([i]{0,1})(\d+){0,1}'
+        r'(\d+)(|i8|i16|i32|i64)'
         return t
 
     # STRING STATE

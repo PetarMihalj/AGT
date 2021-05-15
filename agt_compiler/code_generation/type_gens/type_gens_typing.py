@@ -108,8 +108,6 @@ reducer = {
 '__div__':(lambda x,y:x//y),
 '__mod__':(lambda x,y:x%y),
 
- '__sand__':(lambda x,y:int(x!=0 and y!=0)),
- '__sor__':(lambda x,y:int(x!=0 or y!=0)),
  '__and__':(lambda x,y:int(x!=0 and y!=0)),
  '__or__':(lambda x,y:int(x!=0 and y!=0)),
 }
