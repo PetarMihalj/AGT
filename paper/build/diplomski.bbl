@@ -7,9 +7,11 @@
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax\def\url#1{\texttt{#1}}\fi
 
-\bibitem[Šime Ungar(2002)]{ungar2002uvod}
-\dinatlabel{Šime Ungar 2002} \textsc{Ungar} Šime:
-\newblock \emph{{Uvod u \TeX{} s naglaskom na \LaTeX 2$\epsilon$}}.
-\newblock Odjel za matematiku, Sveučilište J.J.\ Strossmayera u Osijeku, 2002
+\bibitem[Lattner und Adve(2004)]{c_llvm_lattner}
+\dinatlabel{Lattner und Adve 2004} \textsc{Lattner}, Chris~; \textsc{Adve},
+  Vikram:
+\newblock \emph{LLVM: A compilation framework for lifelong program analysis &
+  transformation}.
+\newblock 2004
 
 \end{thebibliography}

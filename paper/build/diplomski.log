@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  12 MAY 2021 07:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  15 MAY 2021 12:10
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -307,29 +307,54 @@ File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/l3packages/xparse/xparse-2020-1
 0-01.sty
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/l3packages/xparse/xparse-generi
-c.tex))) ()
-LaTeX Font Info:    Trying to load font information for T1+ptm on input line 26
+c.tex))) (/home/pmihalj/.miktex/texmfs/install/tex/latex/listings/listings.sty
+\lst@mode=\count285
+\lst@gtempboxa=\box53
+\lst@token=\toks28
+\lst@length=\count286
+\lst@currlwidth=\dimen187
+\lst@column=\count287
+\lst@pos=\count288
+\lst@lostspace=\dimen188
+\lst@width=\dimen189
+\lst@newlines=\count289
+\lst@lineno=\count290
+\lst@maxwidth=\dimen190
+
+(/home/pmihalj/.miktex/texmfs/install/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
+\c@lstnumber=\count291
+\lst@skipnumbers=\count292
+\lst@framebox=\box54
+)
+(/home/pmihalj/.miktex/texmfs/install/tex/latex/listings/listings.cfg
+File: listings.cfg 2020/03/24 1.8d listings configuration
+))
+Package: listings 2020/03/24 1.8d (Carsten Heinz)
+ ()
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 27
 .
- (/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/t1ptm.fd
+
+(/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 )
 (/home/pmihalj/agt/paper/build/diplomski.aux)
 \openout1 = `diplomski.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -367,17 +392,17 @@ LaTeX Font Info:    ... okay on input line 26.
 
 (/home/pmihalj/.miktex/texmfs/install/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count285
-\scratchdimen=\dimen187
-\scratchbox=\box53
-\nofMPsegments=\count286
-\nofMParguments=\count287
-\everyMPshowfont=\toks28
-\MPscratchCnt=\count288
-\MPscratchDim=\dimen188
-\MPnumerator=\count289
-\makeMPintoPDFobject=\count290
-\everyMPtoPDFconversion=\toks29
+\scratchcounter=\count293
+\scratchdimen=\dimen191
+\scratchbox=\box55
+\nofMPsegments=\count294
+\nofMParguments=\count295
+\everyMPshowfont=\toks29
+\MPscratchCnt=\count296
+\MPscratchDim=\dimen192
+\MPnumerator=\count297
+\makeMPintoPDFobject=\count298
+\everyMPtoPDFconversion=\toks30
 )
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -388,6 +413,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/pdflscape/pdflscape.sty
@@ -398,19 +424,20 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 33
+\c@lstlisting=\count299
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 34
 .
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 33.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 34.
 
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 33.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 34.
 
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/amsfonts/umsb.fd
@@ -422,44 +449,44 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf  used on input li
-ne 35.
+ne 36.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf  used on input li
-ne 35.
+ne 36.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf  used on input li
-ne 35.
+ne 36.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 </home/pmihalj/agt/paper/res/task.pdf, id=11, page=1, 597.23125pt x 845.1575pt>
 
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 1>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page1 used on i
-nput line 35.
+nput line 36.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 1>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page1 used on i
-nput line 35.
+nput line 36.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 1>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page1 used on i
-nput line 35.
+nput line 36.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 1>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page1 used on i
-nput line 35.
+nput line 36.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 1>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page1 used on i
-nput line 35.
+nput line 36.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
  [1 </home/pmihalj/agt/paper/res/task.pdf>]
 </home/pmihalj/agt/paper/res/task.pdf, id=30, page=2, 597.23125pt x 845.1575pt>
@@ -467,17 +494,17 @@ nput line 35.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 2>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page2 used on i
-nput line 35.
+nput line 36.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 2>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page2 used on i
-nput line 35.
+nput line 36.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 2>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page2 used on i
-nput line 35.
+nput line 36.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
  [2 </home/pmihalj/agt/paper/res/task.pdf>] [3]
 (/home/pmihalj/agt/paper/build/diplomski.toc)
@@ -488,36 +515,106 @@ nput line 35.
 
 ]
 Chapter 1.
+
+Overfull \hbox (11.82292pt too wide) in paragraph at lines 62--72
+\T1/ptm/m/n/12 because the goal of the thesis was to study the language from th
+e application programmers
+ []
+
+
+Overfull \hbox (1.76546pt too wide) in paragraph at lines 62--72
+\T1/ptm/m/n/12 AGT specification are meant to allow AGT to be compiled into lin
+kable files compatible
+ []
+
+
+Overfull \hbox (2.6884pt too wide) in paragraph at lines 73--78
+[]\T1/ptm/m/n/12 The compiler frontend is implemented using Python3 programming
+ language, while
+ []
+
 [1
 
 ]
+Overfull \hbox (9.32632pt too wide) in paragraph at lines 81--84
+\T1/ptm/m/n/12 This master thesis will gradually introduce the reader to AGT, s
+tarting from the simplified
+ []
+
+
+Overfull \hbox (26.55492pt too wide) in paragraph at lines 92--94
+[]\T1/ptm/m/n/12 In the last part, we will address the issues AGT has both on d
+efinition and implementation
+ []
+
+[2]
 Chapter 2.
-(/home/pmihalj/agt/paper/build/diplomski.bbl [2
+(/home/pmihalj/agt/paper/res/programs/intro.agt
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 6
+.
 
-]) [3
+(/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+))
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 10
+2.
 
-] [4]
-(/home/pmihalj/agt/paper/build/diplomski.aux) ) 
+(/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+Overfull \hbox (9.43134pt too wide) in paragraph at lines 105--109
+[]\T1/ptm/m/n/12 A \T1/pcr/m/n/12 let <x> = <y>; \T1/ptm/m/n/12 construct is \T
+1/ptm/m/it/12 initialization assignment \T1/ptm/m/n/12 statement. This roughly
+ []
+
+[3
+
+]
+Overfull \hbox (25.35991pt too wide) in paragraph at lines 124--128
+\T1/ptm/m/n/12 namely the abscence of types in the definition of function \T1/p
+cr/m/n/12 mul\T1/ptm/m/n/12 . While some \T1/pcr/m/n/12 dynamically
+ []
+
+[4]
+Chapter 3.
+(/home/pmihalj/agt/paper/build/diplomski.bbl [5
+
+]
+! Misplaced alignment tab character &.
+<argument> ...work for lifelong program analysis &
+                                                   transformation
+l.14   transformation}
+                      .
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+) [6
+
+] [7] (/home/pmihalj/agt/paper/build/diplomski.aux) ) 
 Here is how much of TeX's memory you used:
- 6974 strings out of 481257
- 104788 string characters out of 2908218
- 394188 words of memory out of 3000000
- 24053 multiletter control sequences out of 15000+600000
- 452042 words of font info for 82 fonts, out of 8000000 for 9000
+ 8644 strings out of 481257
+ 127058 string characters out of 2908218
+ 428161 words of memory out of 3000000
+ 25693 multiletter control sequences out of 15000+600000
+ 460138 words of font info for 90 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
- 83i,17n,88p,272b,428s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/home/pmihalj/.miktex/texmfs/in
-stall/fonts/enc/dvips/base/8r.enc}</home/pmihalj/.miktex/texmfs/install/fonts/t
-ype1/public/amsfonts/cm/cmmi12.pfb></home/pmihalj/.miktex/texmfs/install/fonts/
-type1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1
-/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/
-times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/ut
-mr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmri8a.pf
-b>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (9 pages, 90101 b
-ytes).
+ 83i,17n,88p,272b,1296s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/home/pmihalj/.miktex/tex
+mfs/install/fonts/enc/dvips/base/8r.enc}</home/pmihalj/.miktex/texmfs/install/f
+onts/type1/urw/courier/ucrr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/t
+ype1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/
+urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/t
+imes/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utm
+bi8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmr8a.pfb
+></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmri8a.pfb>
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (12 pages, 117595
+ bytes).
 PDF statistics:
- 78 PDF objects out of 1000 (max. 8388607)
+ 91 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

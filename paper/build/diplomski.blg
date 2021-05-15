@@ -12,42 +12,42 @@ Reallocating 'wiz_functions' (item size: 4) to 6000 items.
 Database file #1: literatura.bib
 You've used 1 entry,
             3552 wiz_defined-function locations,
-            800 strings with 6122 characters,
-and the built_in function-call counts, 518 in all, are:
-= -- 47
-> -- 7
-< -- 2
-+ -- 4
-- -- 3
-* -- 42
-:= -- 88
+            799 strings with 6105 characters,
+and the built_in function-call counts, 661 in all, are:
+= -- 76
+> -- 10
+< -- 16
++ -- 20
+- -- 6
+* -- 62
+:= -- 115
 add.period$ -- 1
 call.type$ -- 1
-change.case$ -- 4
+change.case$ -- 5
 chr.to.int$ -- 1
 cite$ -- 1
 duplicate$ -- 16
-empty$ -- 58
-format.name$ -- 6
-if$ -- 109
+empty$ -- 42
+format.name$ -- 13
+if$ -- 120
 int.to.chr$ -- 0
 int.to.str$ -- 1
-missing$ -- 2
+missing$ -- 0
 newline$ -- 15
 num.names$ -- 4
-pop$ -- 9
+pop$ -- 6
 preamble$ -- 1
-purify$ -- 4
+purify$ -- 5
 quote$ -- 0
-skip$ -- 17
+skip$ -- 26
 stack$ -- 0
-substring$ -- 43
-swap$ -- 2
-text.length$ -- 1
+substring$ -- 56
+swap$ -- 5
+text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 6
+type$ -- 11
 warning$ -- 0
-while$ -- 6
+while$ -- 7
 width$ -- 0
 write$ -- 17

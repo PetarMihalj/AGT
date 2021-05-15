@@ -1,0 +1,18 @@
+fn outnl(i){
+    out(i);
+    out('\n');
+}
+
+fn mul(a, b) -> a{
+    return a*b;
+}
+
+fn main()->i32{
+    let a = in<i32>();
+    let b = in<i8>();
+
+    let c = mul(a, cast<i32>(b));
+    outnl(a);
+    outnl(b);
+    outnl(c);
+}
