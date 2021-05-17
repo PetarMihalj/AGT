@@ -7,7 +7,7 @@ from .. import context
 from ..code_blocks import Primitive 
 from ..type_engine import TypingContext
 
-from . import func_methods, struct_methods, add_method_to_list
+from . import func_methods, concrete_methods, add_method_to_list
 
 # ---------------------------------------------------------------------
 
@@ -57,7 +57,7 @@ class TypeToValuePrimitive(Primitive):
 
 # ---------------------------------------------------------------------
 
-@add_method_to_list(struct_methods)
+@add_method_to_list(concrete_methods)
 def gen_int_type(
                 tc: TypingContext,
                 name: str,
@@ -79,7 +79,7 @@ def gen_int_type(
 
 # ---------------------------------------------------------------------
 
-@add_method_to_list(struct_methods)
+@add_method_to_list(concrete_methods)
 def gen_bool_type(
                 tc: TypingContext,
                 name: str,
@@ -109,10 +109,10 @@ reducer = {
 '__mod__':(lambda x,y:x%y),
 
  '__and__':(lambda x,y:int(x!=0 and y!=0)),
- '__or__':(lambda x,y:int(x!=0 and y!=0)),
+ '__or__':(lambda x,y:int(x!=0 or y!=0)),
 }
 
-@add_method_to_list(struct_methods)
+@add_method_to_list(concrete_methods)
 def gen_int_type_ops(
                 tc: TypingContext,
                 name: str,
@@ -136,7 +136,7 @@ def gen_int_type_ops(
 
     return ts.IntType(res)
 
-@add_method_to_list(struct_methods)
+@add_method_to_list(concrete_methods)
 def gen_int_type_not(
                 tc: TypingContext,
                 name: str,
@@ -159,7 +159,7 @@ def gen_int_type_not(
 
 # ---------------------------------------------------------------------
 
-@add_method_to_list(struct_methods)
+@add_method_to_list(concrete_methods)
 def gen_struct_type_ops(
                 tc: TypingContext,
                 name: str,

@@ -1,0 +1,29 @@
+fn outnl(i){
+    out(i);
+    out('\n');
+}
+
+struct is_int<T> -> R{
+    type R = (T==i64 | T==i32 | T==i16 | T==i8);
+}
+
+fn fib<T>(n) -> T{
+    type _ = enable_if<is_int<T>>;
+    type _ = enable_if<n == i32>;
+
+    if (n<=2){
+        return cast<T>(1);
+    }
+    else{
+        return fib<T>(n-1)+fib<T>(n-2);
+    }
+}
+
+fn main() -> i32{
+    let t = 12;
+    let f1 = fib<i8>(t);
+    let f2 = fib<i32>(t);
+    outnl(f1);
+    outnl(f2);
+    return 0;
+}

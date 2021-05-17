@@ -416,14 +416,14 @@ def _(self: sa.ReturnStatement, tc: TypingContext,
     # depending on type
     if self.expr is None:
         if fc.return_type != None:
-            raise ierr.InferenceError(f"type missmatch with return {self.linespan[0]}")
+            raise ierr.InferenceError(f"type missmatch with return at {self.linespan[0]}")
         dest()
         ir.put_jump_to_label("func_end", fc)
     else:
         e = self.expr.te_visit(tc, fc)
 
         if fc.types[e] != fc.return_type:
-            raise ierr.InferenceError(f"type missmatch with return {self.linespan[0]}")
+            raise ierr.InferenceError(f"type missmatch with return at {self.linespan[0]}")
 
         ir.put_stack_copy("return", e, fc)
         dest()
@@ -629,7 +629,7 @@ def _(self: sa.TypeAngleExpression, tc: TypingContext,
             return t_expr
 
     texprs = [te.te_visit(tc, sfc) for te in self.expr_list]
-    rt = tc.resolve_struct(self.name, tuple(texprs))
+    rt = tc.resolve_concrete(self.name, tuple(texprs))
 
     return rt
 
@@ -647,7 +647,7 @@ def _(self: sa.TypeIdExpression, tc: TypingContext,
             return sfc.types[mn]
 
     # if no local name, go for a struct
-    rt = tc.resolve_struct(self.name, ())
+    rt = tc.resolve_concrete(self.name, ())
     return rt
 
 @add_method_te_visit(sa.TypeDerefExpression)

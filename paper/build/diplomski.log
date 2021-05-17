@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  15 MAY 2021 20:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  17 MAY 2021 17:01
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -331,8 +331,22 @@ File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
 File: listings.cfg 2020/03/24 1.8d listings configuration
 ))
 Package: listings 2020/03/24 1.8d (Carsten Heinz)
+
+(/home/pmihalj/.miktex/texmfs/install/tex/latex/amscls/amsthm.sty
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks29
+\thm@bodyfont=\toks30
+\thm@headfont=\toks31
+\thm@notefont=\toks32
+\thm@headpunct=\toks33
+\thm@preskip=\skip58
+\thm@postskip=\skip59
+\thm@headsep=\skip60
+\dth@everypar=\toks34
+)
+\c@definition=\count293
  ()
-LaTeX Font Info:    Trying to load font information for T1+ptm on input line 29
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 33
 .
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/t1ptm.fd
@@ -341,20 +355,20 @@ File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 (/home/pmihalj/agt/paper/build/diplomski.aux)
 \openout1 = `diplomski.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -392,17 +406,17 @@ LaTeX Font Info:    ... okay on input line 29.
 
 (/home/pmihalj/.miktex/texmfs/install/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count293
+\scratchcounter=\count294
 \scratchdimen=\dimen191
 \scratchbox=\box55
-\nofMPsegments=\count294
-\nofMParguments=\count295
-\everyMPshowfont=\toks29
-\MPscratchCnt=\count296
+\nofMPsegments=\count295
+\nofMParguments=\count296
+\everyMPshowfont=\toks35
+\MPscratchCnt=\count297
 \MPscratchDim=\dimen192
-\MPnumerator=\count297
-\makeMPintoPDFobject=\count298
-\everyMPtoPDFconversion=\toks30
+\MPnumerator=\count298
+\makeMPintoPDFobject=\count299
+\everyMPtoPDFconversion=\toks36
 )
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -424,20 +438,20 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )
-\c@lstlisting=\count299
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 36
+\c@lstlisting=\count300
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 40
 .
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 36.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 40.
 
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 36.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 40.
 
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/amsfonts/umsb.fd
@@ -449,44 +463,44 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf  used on input li
-ne 38.
+ne 42.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf  used on input li
-ne 38.
+ne 42.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf  used on input li
-ne 38.
+ne 42.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 </home/pmihalj/agt/paper/res/task.pdf, id=11, page=1, 597.23125pt x 845.1575pt>
 
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 1>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page1 used on i
-nput line 38.
+nput line 42.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 1>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page1 used on i
-nput line 38.
+nput line 42.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 1>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page1 used on i
-nput line 38.
+nput line 42.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 1>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page1 used on i
-nput line 38.
+nput line 42.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 1>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page1 used on i
-nput line 38.
+nput line 42.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
  [1 </home/pmihalj/agt/paper/res/task.pdf>]
 </home/pmihalj/agt/paper/res/task.pdf, id=30, page=2, 597.23125pt x 845.1575pt>
@@ -494,17 +508,17 @@ nput line 38.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 2>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page2 used on i
-nput line 38.
+nput line 42.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 2>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page2 used on i
-nput line 38.
+nput line 42.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: /home/pmihalj/agt/paper/res/task.pdf Graphic file (type pdf)
 <use /home/pmihalj/agt/paper/res/task.pdf, page 2>
 Package pdftex.def Info: /home/pmihalj/agt/paper/res/task.pdf , page2 used on i
-nput line 38.
+nput line 42.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
  [2 </home/pmihalj/agt/paper/res/task.pdf>] [3]
 (/home/pmihalj/agt/paper/build/diplomski.toc)
@@ -516,19 +530,19 @@ nput line 38.
 ]
 Chapter 1.
 
-Overfull \hbox (11.82292pt too wide) in paragraph at lines 64--74
+Overfull \hbox (11.82292pt too wide) in paragraph at lines 68--78
 \T1/ptm/m/n/12 because the goal of the thesis was to study the language from th
 e application programmers
  []
 
 
-Overfull \hbox (1.76546pt too wide) in paragraph at lines 64--74
+Overfull \hbox (1.76546pt too wide) in paragraph at lines 68--78
 \T1/ptm/m/n/12 AGT specification are meant to allow AGT to be compiled into lin
 kable files compatible
  []
 
 
-Overfull \hbox (2.6884pt too wide) in paragraph at lines 75--80
+Overfull \hbox (2.6884pt too wide) in paragraph at lines 79--84
 []\T1/ptm/m/n/12 The compiler frontend is implemented using Python3 programming
  language, while
  []
@@ -536,13 +550,13 @@ Overfull \hbox (2.6884pt too wide) in paragraph at lines 75--80
 [1
 
 ]
-Overfull \hbox (9.32632pt too wide) in paragraph at lines 83--86
+Overfull \hbox (9.32632pt too wide) in paragraph at lines 87--90
 \T1/ptm/m/n/12 This master thesis will gradually introduce the reader to AGT, s
 tarting from the simplified
  []
 
 
-Overfull \hbox (26.55492pt too wide) in paragraph at lines 94--96
+Overfull \hbox (26.55492pt too wide) in paragraph at lines 98--100
 []\T1/ptm/m/n/12 In the last part, we will address the issues AGT has both on d
 efinition and implementation
  []
@@ -556,13 +570,13 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 6
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ))
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 10
-8.
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 11
+2.
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
-Overfull \hbox (9.43134pt too wide) in paragraph at lines 111--115
+Overfull \hbox (9.43134pt too wide) in paragraph at lines 115--119
 []\T1/ptm/m/n/12 A \T1/pcr/m/n/12 let <x> = <y>; \T1/ptm/m/n/12 construct is \T
 1/ptm/m/it/12 initialization assignment \T1/ptm/m/n/12 statement. This roughly
  []
@@ -570,50 +584,517 @@ Overfull \hbox (9.43134pt too wide) in paragraph at lines 111--115
 [3
 
 ]
-Overfull \hbox (25.35991pt too wide) in paragraph at lines 130--134
+Overfull \hbox (25.35991pt too wide) in paragraph at lines 134--138
 \T1/ptm/m/n/12 namely the abscence of types in the definition of function \T1/p
 cr/m/n/12 mul\T1/ptm/m/n/12 . While some \T1/pcr/m/n/12 dynamically
  []
 
 [4]
-Overfull \hbox (2.66528pt too wide) in paragraph at lines 163--164
+Chapter 3.
+
+Overfull \hbox (2.66528pt too wide) in paragraph at lines 167--168
 []\T1/ptm/m/n/12 Semantical analysis - transforming the syntax tree into a cont
 ext aware semantical
  []
 
 
-Overfull \hbox (3.85367pt too wide) in paragraph at lines 169--171
+Overfull \hbox (3.85367pt too wide) in paragraph at lines 173--175
 \T1/ptm/m/n/12 terms against their use in other languages, since the subtlimiti
 es sometimes are different. 
  []
 
 
-Overfull \hbox (1.86261pt too wide) in paragraph at lines 174--177
+Overfull \hbox (1.86261pt too wide) in paragraph at lines 178--181
 \T1/ptm/m/n/12 The AGT Lexical analysis phase is a standard regular grammar par
 sing process. Lexical
  []
 
-(/home/pmihalj/agt/paper/res/compiler/lexer.py [5]) [6]
-Overfull \hbox (5.69138pt too wide) in paragraph at lines 239--242
+(/home/pmihalj/agt/paper/res/compiler/lexer.py [5
+
+]) [6]
+Overfull \hbox (5.69138pt too wide) in paragraph at lines 243--246
 \T1/ptm/m/n/12 some common ambiguities in lexing (which occur due to the presen
 ce of angle brackets). 
  []
 
 
-Overfull \hbox (15.18346pt too wide) in paragraph at lines 251--257
+Overfull \hbox (15.18346pt too wide) in paragraph at lines 255--261
 \T1/ptm/m/n/12 dunder functions are defined in the program. The same goes for a
 rithmetic and comparison
  []
 
-
-Overfull \hbox (37.74272pt too wide) in paragraph at lines 258--260
+[7]
+Overfull \hbox (37.74272pt too wide) in paragraph at lines 262--264
 []\T1/ptm/m/n/12 Both type of comments, \T1/pcr/m/n/12 /*multiline comment*/ \T
 1/ptm/m/n/12 and \T1/pcr/m/n/12 //singleline comment
  []
 
-[7] [8]
-Chapter 3.
-(/home/pmihalj/agt/paper/build/diplomski.bbl [9
+
+Overfull \hbox (4.22414pt too wide) in paragraph at lines 299--303
+[]\T1/ptm/m/n/12 Tokens resulting from lexical analysis are fed into a stack ma
+chine which, depending
+ []
+
+[8] (/home/pmihalj/agt/paper/res/compiler/ast [9])
+(/home/pmihalj/agt/paper/res/compiler/rule.py) [10]
+(/home/pmihalj/agt/paper/res/compiler/ast [11])
+(/home/pmihalj/agt/paper/res/compiler/diff.py) [12]
+Overfull \hbox (9.1953pt too wide) in paragraph at lines 382--386
+\T1/ptm/m/n/12 definition whose name matches the supplied name, and whose numbe
+r of type parameters
+ []
+
+
+Overfull \hbox (0.50378pt too wide) in paragraph at lines 387--390
+[]\T1/ptm/m/n/12 Inference using struct definitions consists of evaluating the 
+body of struct definition,
+ []
+
+
+Overfull \hbox (2.90744pt too wide) in paragraph at lines 411--415
+\T1/ptm/m/n/12 some built-in functions, like copy functions of pointers, should
+ not copy their arguments
+ []
+
+
+Overfull \hbox (2.97995pt too wide) in paragraph at lines 411--415
+\T1/ptm/m/n/12 behaviour, and the flag which indicates whether to do so is also
+ a part of a FunctionType. 
+ []
+
+[13] (/home/pmihalj/agt/paper/res/compiler/inf1.agt)
+! Undefined control sequence.
+l.431 definition of \typett
+                           {power} function fits programmers intentions.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.436 Note that this behaviour is not a \critical
+                                                  error (the one which AGTC ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (17.18518pt too wide) in paragraph at lines 433--438
+[]\T1/ptm/m/n/12 On the other hand, consider the definition of \T1/pcr/m/n/12 p
+ower \T1/ptm/m/n/12 at line 9. In this line, \T1/pcr/m/n/12 enable_if
+ []
+
+[14]
+Overfull \hbox (11.27039pt too wide) in paragraph at lines 460--463
+\T1/ptm/m/n/12 copy the memory array, instead of shallow copying the pointer an
+d thus incidentally
+ []
+
+[15]
+! Missing $ inserted.
+<inserted text> 
+                $
+l.492 ... function whose name is \texttt{__init__}
+                                                  , and which has atleast on...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing { inserted.
+<to be read again> 
+                   _
+l.492 ... function whose name is \texttt{__init__}
+                                                  , and which has atleast on...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+! Missing { inserted.
+<to be read again> 
+                   _
+l.492 ... function whose name is \texttt{__init__}
+                                                  , and which has atleast on...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+! Missing { inserted.
+<to be read again> 
+                   \aftergroup 
+l.492 ... function whose name is \texttt{__init__}
+                                                  , and which has atleast on...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+
+! LaTeX Error: Command \end{definition} invalid in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.494 \end{definition}
+                      
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.494 \end{definition}
+                      
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.494 \end{definition}
+                      
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.494 \end{definition}
+                      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.494 \end{definition}
+                      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.494 \end{definition}
+                      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.494 \end{definition}
+                      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+Overfull \hbox (393.48265pt too wide) in paragraph at lines 492--495
+[]\T1/ptm/b/n/12 Definition 3 \T1/ptm/m/n/12 (Initializer)\T1/ptm/b/n/12 . []\T
+1/ptm/m/n/12 An initializer is a function whose name is $[]$ 
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.497 ... function whose name is \texttt{__copy__}
+                                                  , and which has two value ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing { inserted.
+<to be read again> 
+                   _
+l.497 ... function whose name is \texttt{__copy__}
+                                                  , and which has two value ...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+! Missing { inserted.
+<to be read again> 
+                   _
+l.497 ... function whose name is \texttt{__copy__}
+                                                  , and which has two value ...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+! Missing { inserted.
+<to be read again> 
+                   \aftergroup 
+l.497 ... function whose name is \texttt{__copy__}
+                                                  , and which has two value ...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+
+! LaTeX Error: Command \end{definition} invalid in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.499 \end{definition}
+                      
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.499 \end{definition}
+                      
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.499 \end{definition}
+                      
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.499 \end{definition}
+                      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.499 \end{definition}
+                      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.499 \end{definition}
+                      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.499 \end{definition}
+                      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+Overfull \hbox (391.89603pt too wide) in paragraph at lines 497--500
+[]\T1/ptm/b/n/12 Definition 4 \T1/ptm/m/n/12 (Copy function)\T1/ptm/b/n/12 . []
+\T1/ptm/m/n/12 An copy function is a function whose name is $[]$ 
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.502 ... function whose name is \texttt{__dest__}
+                                                  , and which has only one v...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing { inserted.
+<to be read again> 
+                   _
+l.502 ... function whose name is \texttt{__dest__}
+                                                  , and which has only one v...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+! Missing { inserted.
+<to be read again> 
+                   _
+l.502 ... function whose name is \texttt{__dest__}
+                                                  , and which has only one v...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+! Missing { inserted.
+<to be read again> 
+                   \aftergroup 
+l.502 ... function whose name is \texttt{__dest__}
+                                                  , and which has only one v...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+
+! LaTeX Error: Command \end{definition} invalid in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.504 \end{definition}
+                      
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.504 \end{definition}
+                      
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.504 \end{definition}
+                      
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.504 \end{definition}
+                      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.504 \end{definition}
+                      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.504 \end{definition}
+                      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.504 \end{definition}
+                      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+Overfull \hbox (168.14616pt too wide) in paragraph at lines 502--505
+[]\T1/ptm/b/n/12 Definition 5 \T1/ptm/m/n/12 (Destructor)\T1/ptm/b/n/12 . []\T1
+/ptm/m/n/12 An destructor is a function whose name is $[]$ 
+ []
+
+(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.agt [16])
+(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.out) [17]
+Chapter 4.
+(/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.agt [18
+
+])
+(/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.out)
+(/home/pmihalj/agt/paper/res/programs/fib_compile_time.agt)
+(/home/pmihalj/agt/paper/res/programs/fib_compile_time.out) [19]
+(/home/pmihalj/agt/paper/res/programs/shared_pointer.agt [20] [21])
+(/home/pmihalj/agt/paper/res/programs/shared_pointer.out)
+(/home/pmihalj/agt/paper/res/programs/memory_object.agt [22])
+(/home/pmihalj/agt/paper/res/programs/memory_alloc.agt
+Overfull \hbox (145.88954pt too wide) in paragraph at lines 18--19
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (172.16975pt too wide) in paragraph at lines 19--21
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+[23]) [24]
+Chapter 5.
+[25
+
+]
+Chapter 6.
+(/home/pmihalj/agt/paper/build/diplomski.bbl [26
 
 ]
 ! Misplaced alignment tab character &.
@@ -628,30 +1109,33 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-) [10
+) [27
 
-] [11] (/home/pmihalj/agt/paper/build/diplomski.aux) ) 
+] [28] (/home/pmihalj/agt/paper/build/diplomski.aux) ) 
 Here is how much of TeX's memory you used:
- 8654 strings out of 481257
- 127372 string characters out of 2908218
- 434209 words of memory out of 3000000
- 25700 multiletter control sequences out of 15000+600000
- 458719 words of font info for 90 fonts, out of 8000000 for 9000
+ 8785 strings out of 481257
+ 130737 string characters out of 2908218
+ 537457 words of memory out of 3000000
+ 25789 multiletter control sequences out of 15000+600000
+ 457612 words of font info for 89 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
- 83i,17n,88p,272b,1630s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 83i,17n,88p,272b,1650s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/home/pmihalj/.miktex/te
 xmfs/install/fonts/enc/dvips/base/8r.enc}</home/pmihalj/.miktex/texmfs/install/
-fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/pmihalj/.miktex/texmfs/install
-/fonts/type1/urw/courier/ucrr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts
-/type1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type
-1/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw
-/times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/u
-tmr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmri8a.p
-fb>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (16 pages, 130161
+fonts/type1/public/amsfonts/cm/cmmi6.pfb></home/pmihalj/.miktex/texmfs/install/
+fonts/type1/public/amsfonts/cm/cmmi8.pfb></home/pmihalj/.miktex/texmfs/install/
+fonts/type1/public/amsfonts/cm/cmr6.pfb></home/pmihalj/.miktex/texmfs/install/f
+onts/type1/public/amsfonts/cm/cmsy10.pfb></home/pmihalj/.miktex/texmfs/install/
+fonts/type1/urw/courier/ucrr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/
+type1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1
+/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/
+times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/ut
+mr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmri8a.pf
+b>
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (33 pages, 190771
  bytes).
 PDF statistics:
- 104 PDF objects out of 1000 (max. 8388607)
+ 170 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

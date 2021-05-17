@@ -95,7 +95,7 @@ class Lexer():
         return t
 
     def t_INTL(self, t):
-        r'(\d+)(|i8|i16|i32|i64)'
+        r'(\d+)(i8|i16|i32|i64|)'
         return t
 
     # STRING STATE

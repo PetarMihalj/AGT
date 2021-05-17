@@ -1,0 +1,18 @@
+struct fib<T> -> i1{
+    type _ = enable_if<T == i1>;
+}
+struct fib<T> -> i1{
+    type _ = enable_if<T == i2>;
+}
+
+struct fib<T> -> R{
+    type _ = enable_if<T != i1>;
+    type _ = enable_if<T != i2>;
+    type R = fib<T-i1>+fib<T-i2>;
+}
+
+fn main() -> i32{
+    let v = type_to_value<fib<i12>, i32>();
+    out(v);
+    return 0;
+}

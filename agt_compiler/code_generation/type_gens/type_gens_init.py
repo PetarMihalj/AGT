@@ -7,7 +7,7 @@ from .. import context
 from ..code_blocks import Primitive 
 from ..type_engine import TypingContext
 
-from . import func_methods, struct_methods, add_method_to_list
+from . import func_methods, concrete_methods, add_method_to_list
 
 # --------------------------------------------------------
 

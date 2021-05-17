@@ -1,0 +1,35 @@
+Statement(
+-  statement = InitStatement(
+-  -  name = Expression(
+-  -  -  expr = IdExpression(
+-  -  -  -  id = str(n)
+-  -  -  )
+-  -  )
+-  -  expr = Expression(
+-  -  -  expr = UnaryExpression(
+-  -  -  -  expr = ParenthesesCallExpression(
+-  -  -  -  -  expr = Expression(
+-  -  -  -  -  -  expr = UnaryExpression(
+-  -  -  -  -  -  -  expr = AngleCallExpression(
+-  -  -  -  -  -  -  -  expr = Expression(
+-  -  -  -  -  -  -  -  -  expr = IdExpression(
+-  -  -  -  -  -  -  -  -  -  id = str(in)
+-  -  -  -  -  -  -  -  -  )
+-  -  -  -  -  -  -  -  )
+-  -  -  -  -  -  -  -  expr_list = [
+-  -  -  -  -  -  -  -  -  Expression(
+-  -  -  -  -  -  -  -  -  -  expr = IdExpression(
+-  -  -  -  -  -  -  -  -  -  -  id = str(i32)
+-  -  -  -  -  -  -  -  -  -  )
+-  -  -  -  -  -  -  -  -  )
+-  -  -  -  -  -  -  -  ]
+-  -  -  -  -  -  -  )
+-  -  -  -  -  -  )
+-  -  -  -  -  )
+-  -  -  -  -  expr_list = [
+-  -  -  -  -  ]
+-  -  -  -  )
+-  -  -  )
+-  -  )
+-  )
+)

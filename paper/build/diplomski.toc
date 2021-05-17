@@ -2,10 +2,20 @@
 \contentsline {section}{\numberline {1.1}Paper organization}{2}{}%
 \contentsline {chapter}{\numberline {2}The AGT Programming Language - a gentle introduction}{3}{}%
 \contentsline {section}{\numberline {2.1}Hello world!}{3}{}%
-\contentsline {section}{\numberline {2.2}In depth}{5}{}%
-\contentsline {subsection}{\numberline {2.2.1}Lexical analysis}{5}{}%
-\contentsline {subsection}{\numberline {2.2.2}Syntactical analysis}{8}{}%
-\contentsline {subsection}{\numberline {2.2.3}Semantic analysis}{8}{}%
-\contentsline {subsection}{\numberline {2.2.4}Type inference}{8}{}%
-\contentsline {chapter}{\numberline {3}Conclusion}{9}{}%
-\contentsline {chapter}{Bibliography}{10}{}%
+\contentsline {chapter}{\numberline {3}The AGT Programming Language - in depth}{5}{}%
+\contentsline {section}{\numberline {3.1}Lexical analysis}{5}{}%
+\contentsline {section}{\numberline {3.2}Syntactical analysis}{8}{}%
+\contentsline {section}{\numberline {3.3}Semantic analysis}{11}{}%
+\contentsline {section}{\numberline {3.4}Type inference}{12}{}%
+\contentsline {section}{\numberline {3.5}Concrete type request}{12}{}%
+\contentsline {section}{\numberline {3.6}Function type request}{13}{}%
+\contentsline {section}{\numberline {3.7}Lifetime semantics}{14}{}%
+\contentsline {chapter}{\numberline {4}Examples}{18}{}%
+\contentsline {section}{\numberline {4.1}Limited parametric polymorphism}{18}{}%
+\contentsline {section}{\numberline {4.2}Compile time computation}{19}{}%
+\contentsline {section}{\numberline {4.3}Ownership semantics}{20}{}%
+\contentsline {section}{\numberline {4.4}Memory primitives}{22}{}%
+\contentsline {section}{\numberline {4.5}Memory allocation}{23}{}%
+\contentsline {chapter}{\numberline {5}Improvements}{25}{}%
+\contentsline {chapter}{\numberline {6}Conclusion}{26}{}%
+\contentsline {chapter}{Bibliography}{27}{}%

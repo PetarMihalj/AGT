@@ -17,7 +17,7 @@ class SyntaxParser:
 
         self.lexer = lexer
         self.tokens = lexer.tokens
-        self.parser = yacc.yacc(module=self, write_tables=False, **kwargs)
+        self.parser = yacc.yacc(module=self, write_tables=False, debug=False)
 
     def parse_syntax(self, data, **kvargs):
         return self.parser.parse(data, lexer=self.lexer,

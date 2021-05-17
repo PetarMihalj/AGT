@@ -17,7 +17,7 @@ class TypingContext:
         self.scope_man = GlobalScopeManager()
 
         self.function_type_container: Dict[Tuple, ts.FunctionType] = dict()
-        self.struct_type_container: Dict[Tuple, ts.Type] = dict()
+        self.concrete_type_container: Dict[Tuple, ts.Type] = dict()
         self.visited_resolve_methods: Set[Tuple] = set()
 
         self.code_blocks: List = []
@@ -104,10 +104,10 @@ class TypingContext:
             raise ierr.InferenceError(f"Can not infer function {desc} (too many candidates)!")
 
 
-    def resolve_struct(self, 
+    def resolve_concrete(self, 
                         name: str,
                         type_argument_types: Tuple[ts.Type],
-                        ) -> ts.StructType:
+                        ) -> ts.ConcreteType:
         from . import type_gens
         desc = (
             name, 
@@ -118,21 +118,21 @@ class TypingContext:
 
         # cache inspection and modificaiton
 
-        if desc in self.struct_type_container:
-            s = self.struct_type_container[desc]
+        if desc in self.concrete_type_container:
+            s = self.concrete_type_container[desc]
             self.recursive_logger.log(f"{desc} -> {s}")
             self.recursive_logger.go_out()
             return s
         elif desc in self.visited_resolve_methods:
             self.recursive_logger.go_out()
-            raise ierr.InferenceError(f"Can not infer struct {desc} (already tried)!")
+            raise ierr.InferenceError(f"Can not infer concrete type {desc} (already tried)!")
         self.visited_resolve_methods.add(desc)
 
-        # struct generators invocation
+        # concrete generators invocation
 
         candidates = []
 
-        for sm in type_gens.struct_methods:
+        for sm in type_gens.concrete_methods:
             try:
                 res = sm(self, name, type_argument_types)
                 candidates.append(res)
@@ -156,16 +156,16 @@ class TypingContext:
         # decision
 
         if len(candidates)==1:
-            self.struct_type_container[desc] = candidates[0]
+            self.concrete_type_container[desc] = candidates[0]
             self.recursive_logger.log(f"{desc} -> {candidates[0]}")
             self.recursive_logger.go_out()
             return candidates[0]
         elif len(candidates)==0:
             self.recursive_logger.go_out()
-            raise ierr.InferenceError(f"Can not infer struct {desc} (no candidates)!")
+            raise ierr.InferenceError(f"Can not infer concrete type {desc} (no candidates)!")
         else:
             self.recursive_logger.go_out()
-            raise ierr.InferenceError(f"Can not infer struct {desc} (too many candidates)!")
+            raise ierr.InferenceError(f"Can not infer concrete type {desc} (too many candidates)!")
 
 
 class TypingResult:

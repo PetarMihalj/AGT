@@ -85,7 +85,6 @@ class AssignmentStatement(FunctionStatement):
 
 @ dataclass
 class InitStatement(FunctionStatement):
-    "let a = valueexpr"
     name: str
     expr: ValueExpression
 
@@ -125,13 +124,11 @@ class BreakStatement(FunctionStatement):
 
 @ dataclass
 class MemberDeclarationStatement(StructStatement):
-    "let a = typeexpr"
     name: str
     type_expr: TypeExpression
 
 @ dataclass
 class TypeDeclarationStatementStruct(StructStatement):
-    "type a = typeexpr"
     name: str
     type_expr: TypeExpression
 

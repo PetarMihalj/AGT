@@ -1,0 +1,21 @@
+INIT
+Before B is initialized
+1
+15
+COPY
+After B is initialized
+2
+15
+2
+15
+After B is changed
+2
+13
+2
+13
+DEST
+After B is destructed
+1
+13
+DEST
+RELEASE

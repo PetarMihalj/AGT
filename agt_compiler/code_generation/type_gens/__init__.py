@@ -4,7 +4,7 @@ def add_method_to_list(target_list):
     return go
 
 func_methods = []
-struct_methods = []
+concrete_methods = []
 
 from . import type_gens_init
 from . import type_gens_io

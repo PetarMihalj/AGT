@@ -7,6 +7,10 @@
 
 \renewcommand{\labelitemi}{$\bullet$}
 
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[]
+
 % environment setup
 \ExplSyntaxOn
 \NewDocumentCommand{\getenv}{om}
@@ -153,7 +157,7 @@ of two distinct function types, given that it \textit{makes sense} for these typ
 (regarding the function body), is called \textbf{parametric polymorphism}.
 
 
-\section{In depth}
+\chapter{The AGT Programming Language - in depth}
 
 AGT compilation process consists of 4 main phases: 
 
@@ -169,7 +173,7 @@ The process is successful if the type inference step successfully infers the mai
 We will now describe each phase in great detail, contrasting the newly defined terms
 against their use in other languages, since the subtlimities sometimes are different.
 
-\subsection{Lexical analysis}
+\section{Lexical analysis}
 
 The AGT Lexical analysis phase is a standard regular grammar parsing process.
 Lexical analyzer is fed a stream of characters, which get grouped into tokens,
@@ -288,11 +292,279 @@ Example integer literals are:
 \end{itemize}
 
 
-\subsection{Syntactical analysis}
+\section{Syntactical analysis}
 
-\subsection{Semantic analysis}
+Syntactical analysis is achieved with a LALR parser implemented in PLY package. 
 
-\subsection{Type inference}
+Tokens resulting from lexical analysis are fed into a stack machine which,
+depending on the state of the top of the stack and next token in the list,
+either pushes the next token on top of the stack (\textit{shift}) or converts
+a number of tokens on the top of the stack to another token (\textit{reduce}).
+
+The grammar rule specifications are given in a different way than the
+one standard for PLY. PLY uses functions by default, while AGTC uses
+classes which have to adhere to certain structure. These class definitions
+are turned into functions (using reflective programming) and finally
+dynamically inserted into syntactical parser class definition.
+A reader who is interested in details can consult the source code.
+
+The output of a syntactical analysis phase is an abstract syntax tree - a tree structure
+which denotes applications of grammar rules to tokens. An example syntax tree, which
+results from the statement \texttt{let n = in<i32>();} is given:
+
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/ast}
+
+This tree consists of a single statement. We won't get into details of the semantics here,
+since there is a another step which will contextualize the syntax tree and resolve some ambiguities,
+which couldn't have been resolved with a LALR parser (which PLY uses).
+
+An example of a rule which is used to generate binary expression nodes is:
+
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/rule.py}
+
+The shift/reduce conflicts of arithmetic expressions are resolved by specifying
+a list of operator priorities.
+
+\section{Semantic analysis}
+
+The need for semantical analysis is caused by a fact that AGT's syntax is highly contextual,
+that is, expressions that appear in one place can have a radically different meaning
+than same expressions which appear in another place.
+
+For example, in the following code snippet, the expression \texttt{a} is used in two distinct contexts.
+
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/ast}
+
+In the ending of the first line, \texttt{a} is a type expression, that is, a compiler is required to produce
+a type (which the function returns). In the second line, \texttt{a} is a value expression,
+which means compiler is required to produce a value of that expression, rather than a type.
+We haven't yet specified what means to produce either a type or a value, but those implementation
+details will be dealt with in the next chapter.
+
+What is important for the understanding of AGT is that 
+
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/diff.py}
+
+
+
+
+
+\section{Type inference}
+
+Type inference is the most complex phase of AGT compilation process.
+Before we go heads first into it's description, we will lay down some definitions
+and motivate them. Type inference also includes LLVM-IR generation. 
+
+AGT's type inference engine works as a functional programming language,
+in a sense that it has to evaluate \textit{type requests}.
+This evaluation is \textit{pure}; repeated evaluations always yield the same result.
+In a sense, the type engine is a box which provides two evaluation functions.
+
+\section{Concrete type request}
+
+The first function is a \textit{Concrete type request} (CTR). This function maps
+a name and a list of concrete types (\textit{type arguments}) into a new concrete type. For example,
+
+\begin{enumerate}
+    \item CTR("char", []) -> CharType
+    \item CTR("i32", []) -> IntType(32)
+    \item CTR("rectangle", [i32]) -> RectangleType(with i32 side lengths)
+\end{enumerate}
+
+How does the type engine achieve this mapping? 
+
+One way is to use \texttt{concrete type generators}.
+They take CTR arguments and decide whether they can provide a type, for example,
+a bool type generator can check whether the name is equal to "bool" and whether 
+there are no supplied type arguments; if both conditions are satisfied,
+it can provide the concrete type.
+
+The other way is to iterate over user-supplied struct definitions.
+For every struct definition whose name matches the supplied name, 
+and whose number of type parameters matches the number of supplied type arguments,
+the inference is being done. Every sucessful inference is considered in a final decision.
+
+Inference using struct definitions consists of evaluating the body of struct definition,
+which might need recursive calls to type engine itself. We ensure that these
+recursions are taken care of; for example, recursive structure definitions will fail.
+
+When both of these methods finish, there has to be \textbf{exactly one} candidate type,
+otherwise, we have an ambiguity, which is an error.
+
+
+\section{Function type request}
+
+The second inference function is a \textit{Function type request} (FTR). This function maps
+a name and \textbf{two} lists of concrete types (\textit{type arguments} and \textit{value arguments}) 
+into a new concrete type. For example,
+
+\begin{enumerate}
+    \item FTR("main", [], []) -> FunctionType
+    \item FTR("fibonacci",[], [i32]) -> FunctionType
+    \item FTR("power", [fast], [i32, i32]) -> FunctionType
+    \item FTR("power", [slow], [i32, i32]) -> FunctionType
+\end{enumerate}
+
+A FunctionType is a rather complex type; it needs to have all information needed for code synthesis, 
+including LLVM code and return type. 
+
+By default, every function call is preceeded by copying of its arguments. However, some built-in functions,
+like copy functions of pointers, should not copy their arguments (because of infinite recursive loops).
+Only builtin functions can ignore this copying behaviour, and the flag which indicates
+whether to do so is also a part of a FunctionType.
+
+Let us take a look at the following code snippet, which demonstrates a sort of polymorphic behaviour.
+
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/inf1.agt}
+
+Suppose the type engine is invoked to fulfill a FTR("power", [slow], [i32, i32]).
+Since "power" is not in builtin functions, TE will resort to using function definitions.
+
+When TE starts to infer a type from the definition at line 4, it will immidiatelly encounter a special
+construct \texttt{enable\_if<...>} at line 5. This construct is the main driver of polymorphism in AGT.
+AGTC will first evaluate it's argument, \texttt{T==slow}, which will resolve to \texttt{i1} (equivalent of
+true when used in type context). Enable\_if will, since its argument represents truth, act as if didn't exist;
+it will just assign the type to variable on the left side. Since the variable is a \textit{discard token}
+(\texttt{\_}), the type won't be assigned, but rather discarded.
+
+The user has achieved polymorphic selection using enable\_if. He signalled the compiler that this
+definition of \typett{power} function fits programmers intentions.
+
+On the other hand, consider the definition of \texttt{power} at line 9.
+In this line, \texttt{enable\_if} argument will evaluate to \texttt{i0} (false in type context).
+This will cause the TE to abandon this function as a potential candidate for type resolution.
+Note that this behaviour is not a \critical error (the one which AGTC reports as a mistake),
+but rather a mechanism for polymorphic selection.
+
+\section{Lifetime semantics}
+
+Lifetime semantics is a broad term which rougly encompasses the following aspects of objects
+in programming languages:
+
+\begin{enumerate}
+    \item Objects exist in a specific context, which is dependant on their 
+        \subitem lexical environment (the scope)
+        \subitem runtime (the function invocation)
+
+        For example, parameters of the function exist and can be referenced throughout the function body,
+        but stop existing when that specific invocation of the function terminates. 
+
+    \item The context in which objects exist is called their \textit{lifetime}
+    \item Object's lifetime starts with \textit{initialization} (\textit{construction} in some sources).
+        \subitem Having precise control over construction can allow programmer
+                to restrict usage of the object or set up invariants
+    \item Object's lifetime ends with \textit{destruction}.
+        Having precise control over destruction allows programmer to
+        deconstruct complex inner workings of the object, without relying on programmer to do it manually.
+        For example, objects can \textit{release} their resources when they stop existing.
+    \item Transferring or duplicating object's contents to other memory location can also be controlled,
+        via \texttt{copy operation}. This allows us to, for example, deep copy the memory array, 
+        instead of shallow copying the pointer and thus incidentally creating unwanted memory aliases.
+\end{enumerate}
+
+Various other semantics can be implemented on top of lifetime model, we will check out an example called
+\texttt{Ownership semantics} in the last section. Now we will describe how lifetime semantics fit into
+definition of AGT. Before we get into the details though, we have to throughly define types of values.
+
+\begin{definition}[L-value]
+A value expression is said to a L-value, 
+if the value it evaluates to \textbf{can} be referred to from other context.
+\end{definition}
+
+\begin{definition}[R-value]
+A value expression is said to a R-value, if it is not L-value, that is
+if the value it evaluates to \textbf{can't} be referred to from other context.
+\end{definition}
+
+For example, every statement \texttt{let <v> = ...} creates a new memory location,
+so the expressions \texttt{<v>} following it and refering to same identifier \texttt{<v>} are lvalues.
+
+On the other hand, function call expressions such as \texttt{gcd(3,2)} are rvalues; their result
+(function return value) can't be refered to from any other place, apart from this one.
+
+The distinction between L-values and R-values is crucial when reasoning about copy operations.
+Since R-values can't be refered to from any other context, instead of copying their value, 
+we can \texttt{memory copy} their value. The crucial distinction is that \texttt{copying}
+involves calling the \texttt{copy} function (which might be very expensive, for example for vectors),
+and \textit{memory copying} does not copies only the literal memory contents.
+
+\begin{definition}[Initializer]
+An initializer is a function whose name is \texttt{__init__}, and which has atleast one value parameter;
+a pointer to type being initialized. Other value parameters are objects which are needed for initialization.
+\end{definition}
+
+\begin{definition}[Copy function]
+An copy function is a function whose name is \texttt{__copy__}, and which has two value parameters;
+first being a pointer to memory being copied to, and second one being a pointer to object copied from.
+\end{definition}
+
+\begin{definition}[Destructor]
+An destructor is a function whose name is \texttt{__dest__}, and which has only one value parameter;
+a pointer to object being destroyed.
+\end{definition}
+
+Check out the following program and it's output:
+
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/lifetime_ex.agt}
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/lifetime_ex.out}
+
+You can clearly see that we have used \texttt{enable\_if} construct in lifetime functions too.
+This is crucial to prevent multiple candidates for different concrete types.
+
+These were the basics of lifetime semantics, we will get to more details in examples section.
+
+
+
+\chapter{Examples}
+
+This section of the paper will introduce the reader to AGT by presenting, explaining and contemplating
+about example programs.
+
+\section{Limited parametric polymorphism}
+
+Parametric polymorphism is a possibility of function to be called with different sets of argument types.
+
+Check out the following example:
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/fib_runtime_recursion.agt}
+
+Output:
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/fib_runtime_recursion.out}
+
+
+\section{Compile time computation}
+
+Check out the following example:
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/fib_compile_time.agt}
+
+Output:
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/fib_compile_time.out}
+
+
+\section{Ownership semantics}
+
+Check out the following example:
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/shared_pointer.agt}
+
+Output:
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/shared_pointer.out}
+
+\section{Memory primitives}
+
+Check out the following example:
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/memory_object.agt}
+
+\section{Memory allocation}
+
+Check out the following example:
+\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/memory_alloc.agt}
+
+
+\chapter{Improvements}
+
+
+
+
+
 
 
 

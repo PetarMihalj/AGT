@@ -6,7 +6,10 @@ from enum import Enum
 class Type:
     pass
 
-class CharType(Type):
+class ConcreteType:
+    pass
+
+class CharType(ConcreteType):
     def __init__(self):
         self.mangled_name = "char"
 
@@ -19,7 +22,7 @@ class CharType(Type):
     def __repr__(self):
         return type(self).__name__
 
-class BoolType(Type):
+class BoolType(ConcreteType):
     def __init__(self):
         self.mangled_name = "bool"
 
@@ -33,7 +36,7 @@ class BoolType(Type):
     def __repr__(self):
         return type(self).__name__
 
-class IntType(Type):
+class IntType(ConcreteType):
     def __init__(self, size):
         self.mangled_name = f"i{size}"
         self.size = size
@@ -49,7 +52,20 @@ class IntType(Type):
     def __repr__(self):
         return f"{type(self).__name__}({self.size})"
 
-class StructType(Type):
+class PointerType(ConcreteType):
+    def __init__(self, pointed):
+        self.pointed: Type = pointed
+        self.mangled_name = f"{pointed.mangled_name}*"
+    def __eq__(self, other):
+        if not isinstance(other, PointerType):
+            return False
+        return self.pointed == other.pointed
+    def __hash__(self):
+        return hash(self.pointed)+1
+    def __repr__(self):
+        return f"PointerType({self.pointed})"
+
+class StructType(ConcreteType):
     def __init__(self, mangled_name, types: Dict[str,Type], members: List[str], return_type: Type):
         self.mangled_name: str = mangled_name
         self.types: Dict[str, Type] = types
@@ -65,19 +81,6 @@ class StructType(Type):
         return hash(self.mangled_name)
     def __repr__(self):
         return f"StructType({self.mangled_name})"
-
-class PointerType(Type):
-    def __init__(self, pointed):
-        self.pointed: Type = pointed
-        self.mangled_name = f"{pointed.mangled_name}*"
-    def __eq__(self, other):
-        if not isinstance(other, PointerType):
-            return False
-        return self.pointed == other.pointed
-    def __hash__(self):
-        return hash(self.pointed)+1
-    def __repr__(self):
-        return f"PointerType({self.pointed})"
 
 class FunctionType(Type):
     def __init__(self, name: str, retty: Type, do_not_copy_args: bool):

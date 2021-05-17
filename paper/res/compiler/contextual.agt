@@ -1,0 +1,8 @@
+fn zero(a) -> a{
+    return a-a;
+}
+
+fn main()->i32{
+    out(zero(3));
+    return 0;
+}
