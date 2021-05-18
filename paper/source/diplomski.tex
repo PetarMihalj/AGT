@@ -4,6 +4,8 @@
 \usepackage{catchfile}
 \usepackage{xparse}
 \usepackage{listings}
+\usepackage{nameref}
+
 
 \renewcommand{\labelitemi}{$\bullet$}
 
@@ -30,6 +32,25 @@
 \getenv[\resdir]{THESIS_RESDIR}
 % done
 
+\newcommand{\pythoncode}[3]{
+    \lstinputlisting[xleftmargin=20pt, basicstyle=\small, numbers=left, 
+    label=#2, caption=#3, language=Python]{#1}
+}
+
+\newcommand{\agtcode}[3]{
+    \lstinputlisting[xleftmargin=20pt, basicstyle=\small, numbers=left, 
+    label=#2, caption=#3, morekeywords={
+        if, else, break, for, while, return,
+        fn, struct, let, type,
+    }]{#1}
+}
+
+\newcommand{\textcode}[3]{
+    \lstinputlisting[xleftmargin=20pt, basicstyle=\small, numbers=left, 
+    label=#2, caption=#3,
+    ]{#1}
+}
+
 \begin{document}
 \thesisnumber{2568}
 
@@ -51,113 +72,152 @@ The programming language developed as a part of this thesis is called AGT.
 The name AGT stands for an unfortunate fact that the names of all precious stones
 are taken by other programming languages, hence "All Gems are Taken".
 
-AGT is a statically and strongly typed language, with a highly expressive type system.
+\textbf{The AGT programming language} is a statically and 
+strongly typed language, with a highly expressive type system.
 The type system is used for three main purposes:
 
 \begin{enumerate}
-    \item types determine the size of values in memory
-    \item types enable polymorphic behaviour (of both builtin and user-defined (struct) types)
-    \item types allow for compile-time computation
+    \item types determine the memory footprint of values 
+    \item types allow for polymorphic behaviour of operators and functions on all 
+        \textit{concrete types} (built-in or struct types)
+    \item type system lets the programmer perform compile-time computation
 \end{enumerate}
 
 The language also allows for implementation of object lifetime constructs, 
-such as those seen in languages like C++ or Rust; object creation, copying and destruction.
-These constructs can be used to implement various object ownership semantics, 
-which will be demonstrated in later chapters.
+such as those seen in languages as C++ or Rust; object creation, copying and destruction.
 
-The reference AGT compiler (AGTC) produces executable binaries only.
+\textbf{The reference AGT compiler (AGTC)} produces executable binaries only.
 This is in sharp contrast to some other languages, which can produce object files, 
 to later be linked into executables for a particular runtime, 
 or used to augument the runtime environment itself (kernel modules, for example). 
 This decision was made primarely because the goal of the thesis was to study the language 
-from the application programmers perspective. 
+from the application programmer's perspective. 
 This goal implies that AGT is running on a rich runtime environement, 
 where heap memory management and standard I/O are available.
 Future updates to AGT specification are meant to allow AGT to be compiled
 into linkable files compatible with various platform specific ABIs.
 
 The compiler frontend is implemented using Python3 programming language,
-while the backend uses LLVM \citep{c_llvm_lattner} compiler infrastructure.
+while the backend uses LLVM compiler infrastructure \citep{c_llvm_lattner}.
 Allowing for some simplification, AGT is first compiled into LLVM intermediate representation (LLVM-IR),
 and than is turned into executable by a chain of tools for compiling LLVM-IR and 
-linking the resultuing object files into executables.
+linking the resulting object files into executables.
 
-\section{Paper organization}
+\section{Example program}
 
-This master thesis will gradually introduce the reader to AGT, starting from the simplified introduction
-to syntax and semantics, with an emphasis on type system and inference. This introduction will be
-augumented with simple examples of AGT code. 
+Let us first check out an example AGT program in listing \ref{intro.agt}:
 
-After the surface-level exploration of the language, we will study the language in depth. 
-This part will have many references to the AGTC reference implementation, 
-rather than to a separate formal specification. Since AGT is still not a finalized product,
-formal specification does not exist, and it's functionality is determined by a reference compiler.
-We will mostly focus on the type system, since it is unorthodox and is the main contribution of the author.
-In this part, the author will justify the decisions which have been made on all levels of AGT design process.
+\agtcode{\resdir/programs/intro.agt}{intro.agt}{Example AGT program}
 
-In the last part, we will address the issues AGT has both on definition and implementation levels,
-and comment on the various features that can be improved or added to the language.
-
-\chapter{The AGT Programming Language - a gentle introduction}
-
-Before diving into
-
-\section{Hello world!}
-
-Let us first check out an example AGT program:
-
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/intro.agt}
-
-Every AGT program has to have a function called main, which returns a 32-bit-wide integer.
-Some functions, like \texttt{outnl}, don't return anything. It is important to note that you can't
+Every AGT program has to have a function definition named main, 
+which returns a 32-bit-wide integer,
+and has no parameters.
+Some functions, like \texttt{outnl}, don't return anything. 
+It is important to note that you can't
 specify that a function returns \texttt{void} like in C for example.
 
-A \texttt{let <x> = <y>;} construct is \textit{initialization assignment} statement.
-This roughly translates to an allocation of memory on a stack (which is allocated at the newly
-generated \textit{location} of <x>), and copying the value of expression <y>
+A \texttt{let <x> = <y>;} construct is an \textit{initialization assignment statement}.
+This roughly translates to an allocation of memory on the stack (which can be refered
+to as the \textit{location} of <x> from now on), and copying the value of expression <y>
 to the location of identifier <x>.
 
-Note that call of the function \texttt{in} is \textit{parametrized} by a \textit{type argument} \texttt{i32}.
-Type arguments are in contrast to the \textit{value arguments}, which carry value too, along with a type.
+Note that the function call \texttt{in} (line 11) is \textit{parametrized} 
+by a \textit{type argument} \texttt{i32}.
+Type arguments are used to pass types, but not values. 
+They are different than \textit{value arguments}, which carry value too, along with a type.
+Note that \textit{passing} of type parameters is purely a compile-time concept;
+types can't be refered to during runtime.
+
+
 The function \texttt{in} is a builtin, and the \texttt{i32} is used to signal the compiler
 that we want an instance of this function which returns an \texttt{i32}, 
-rather than a \texttt{char}, for example. 
+instead of a \texttt{bool}, for example. 
 Of course, user-defined functions can also have \textit{type parameters}, along with \textit{value parameters};
 we will get to these later.
 
 Notice that we used the \texttt{cast<i32>} builtin function to convert \texttt{b} to \texttt{i32}
 before passing it to function \texttt{mul}. If we didn't do that, the compiler would signal that it can't
 compute the expression \texttt{a*b}, since multiplication is predefined only for integer types of same size.
-Apart from the \texttt{i8} and \texttt{i32} we used in this example, \texttt{i16} and \texttt{i32} are also
+Apart from the \texttt{i8} and \texttt{i32} we used in this example, \texttt{i16} and \texttt{i64} are also
 available.
 
-There is a certain feature that you might have missed while inspecting the code; namely the abscence of
-types in the definition of function \texttt{mul}.
-While some \texttt{dynamically typed} languages (ex. Python) allow for object of any type to be passsed
+Also, line 6 is terminated by a \texttt{-> a}. This is a return type specification;
+it states that this function will return whatever is type of \textt{a}. 
+
+You might have noticed a certain feature while inspecting the code; 
+namely the abscence of explicitly stated types in the signature of function definition \texttt{mul}.
+While some \textit{dynamically typed} languages (ex. Python) allow for object of any type to be passsed
 to the function, AGT behaves quite differently. 
 
 Every time AGTC (AGT compiler) encounters a function call,
 it tries to infer a \textit{function type}. Function type is inferred from function definitions. 
-Consequently, you can think of the definitions in source code more as \texttt{templates} for synthesis
-of actual code, than the actual representation of code. 
+Consequently, you can think of the definitions in source code more as \textit{templates} for synthesis
+of actual code, than representation of code. 
 These definitions lack types, and can't be considered in isolation.
 In this example, the call of function \texttt{mul} causes the compiler to try to infer a function type.
+
+Parameters of this \texttt{mul} function definition (\textt{a, b}) can be fit with objects of
+any type; it is after this fitting that the compiler will determine that passed types can or can't
+be used (due to their incompatibility with a function definition body, for example).
 
 It is important to emphasize that one function definition can be a source of many function types.
 The \texttt{outnl} (output with newline) function is a prime example of this behaviour.
 It is called three times, with argument of types \texttt{i32}, \texttt{i8} and \texttt{i32}.
 Thus, the compiler has to infer two function types, 
 one which can be fed with an \texttt{i8}, and one with \texttt{i32}.
-The success of this inference corresponds with compilers ability to infer function body of
-the given function definition.
-This will be possible if and only if the compiler can also infer the function type \texttt{out} 
-function which can take ...
-The property of \texttt{outnl} function definition which allows it to be a source for inference
-of two distinct function types, given that it \textit{makes sense} for these types 
-(regarding the function body), is called \textbf{parametric polymorphism}.
+The success of this inference corresponds with compilers ability to infer functionality of 
+body of the given function definition.
+
+In this case, inference of function definition body will be possible if both function calls on lines
+2 and 3 can be inferred. Since \texttt{out} function is a built-in for both \textt{i32} and \textt{i8},
+line 2 won't be problematic for inference. Line 3 will be inferred correctly if AGTC suceeds to resolve
+function \texttt{out} which takes in an argument of type \texttt{char}. Since this is also a built-in,
+inference of function types for both version of \texttt{mul} suceeds.
+
+The property of AGT \textbf{function calls} which can make them refer to different function types, 
+when called with different sets of arguments, is called \textit{polymorphism}.
+Some sources label polymorphic the very \textbf{function definitions} which, when called upon, 
+can result in such behaviour.
+We will use these conventions interchangably, since the definition itself is non-rigorous.
+
+Function definition of \texttt{outnl} introduces a special type of polymorphism, 
+\textit{parametric polymorphism}. This polymorphic behaviour is said to be present if the
+function definition can be a source for potentially unlimited number of types, 
+as long as those types are compatible with function definition body.
+
+Python programming language exibits a superficially similar behaviour, but it's
+function body compatibility checks occur at runtime. 
+The programming style which utilizes this language capability is often called "Duck Typing" 
+\citep{c_py_duck_typing}.
 
 
-\chapter{The AGT Programming Language - in depth}
+\section{Paper organization}
+
+This master thesis will gradually introduce the reader to AGT. 
+
+Chapter 1 has already introduced the reader to basic syntax and semantics,
+using a simple example and emphasizing the surface-level properties of type system and inference. 
+
+After the surface-level exploration of the language, chapter 2 will provide an in-depth description of AGT.
+This chapter will have many references to the AGTC reference implementation, 
+rather than to a separate formal specification. Since AGT is still not a finalized product,
+formal specification does not exist, and it's functionality is determined by a reference compiler.
+We will mostly focus on the type system, since it is unorthodox and is the main contribution of the author.
+Author will justify the decisions which had been made on all levels of AGT design process.
+
+Chapter 3 will supplement the reader with plenty of examples of AGT code. These will
+further deepen reader's understanding of AGT. The examples describe impementation
+of common programming paradigms, constructs, patterns in AGT, with a detailed explaination
+of more esoteric parts of the source code.
+
+In chapter 4 we will address the issues AGT has both on definition and implementation levels,
+and discuss the various features that can be improved or added to the language.
+
+Chapter 5 will conclude the thesis and describe future work the author will undertake in order to
+improve the language.
+
+%\nameref{chap:main}
+\chapter{The AGT Programming Language}\label{chap:main}
 
 AGT compilation process consists of 4 main phases: 
 
@@ -189,7 +249,7 @@ when performing lexical or syntactical analysis.
 
 Lets check out some PLY lexer rules used in AGTC.
 
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/lexer.py}
+\pythoncode{\resdir/compiler/lexer.py}{}{heyy}
 
 Rules for simple operators are given in a string form, in a form of 
 \texttt{t\_<TOKEN> = <REGEX>}.
@@ -312,7 +372,7 @@ The output of a syntactical analysis phase is an abstract syntax tree - a tree s
 which denotes applications of grammar rules to tokens. An example syntax tree, which
 results from the statement \texttt{let n = in<i32>();} is given:
 
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/ast}
+\textcode{\resdir/compiler/ast}{}{a}
 
 This tree consists of a single statement. We won't get into details of the semantics here,
 since there is a another step which will contextualize the syntax tree and resolve some ambiguities,
@@ -320,7 +380,7 @@ which couldn't have been resolved with a LALR parser (which PLY uses).
 
 An example of a rule which is used to generate binary expression nodes is:
 
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/rule.py}
+\textcode{\resdir/compiler/rule.py}{}{a}
 
 The shift/reduce conflicts of arithmetic expressions are resolved by specifying
 a list of operator priorities.
@@ -333,7 +393,7 @@ than same expressions which appear in another place.
 
 For example, in the following code snippet, the expression \texttt{a} is used in two distinct contexts.
 
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/ast}
+\textcode{\resdir/compiler/ast}{}{a}
 
 In the ending of the first line, \texttt{a} is a type expression, that is, a compiler is required to produce
 a type (which the function returns). In the second line, \texttt{a} is a value expression,
@@ -343,7 +403,7 @@ details will be dealt with in the next chapter.
 
 What is important for the understanding of AGT is that 
 
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/diff.py}
+\textcode{\resdir/compiler/diff.py}{}{a}
 
 
 
@@ -415,7 +475,7 @@ whether to do so is also a part of a FunctionType.
 
 Let us take a look at the following code snippet, which demonstrates a sort of polymorphic behaviour.
 
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/inf1.agt}
+\textcode{\resdir/compiler/inf1.agt}{}{a}
 
 Suppose the type engine is invoked to fulfill a FTR("power", [slow], [i32, i32]).
 Since "power" is not in builtin functions, TE will resort to using function definitions.
@@ -505,8 +565,8 @@ a pointer to object being destroyed.
 
 Check out the following program and it's output:
 
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/lifetime_ex.agt}
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/compiler/lifetime_ex.out}
+\textcode{\resdir/compiler/lifetime_ex.agt}{}{a}
+\textcode{\resdir/compiler/lifetime_ex.out}{}{a}
 
 You can clearly see that we have used \texttt{enable\_if} construct in lifetime functions too.
 This is crucial to prevent multiple candidates for different concrete types.
@@ -515,7 +575,7 @@ These were the basics of lifetime semantics, we will get to more details in exam
 
 
 
-\chapter{Examples}
+\chapter{AGT program examples}
 
 This section of the paper will introduce the reader to AGT by presenting, explaining and contemplating
 about example programs.
@@ -525,46 +585,46 @@ about example programs.
 Parametric polymorphism is a possibility of function to be called with different sets of argument types.
 
 Check out the following example:
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/fib_runtime_recursion.agt}
+\textcode{\resdir/programs/fib_runtime_recursion.agt}{}{a}
 
 Output:
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/fib_runtime_recursion.out}
+\textcode{\resdir/programs/fib_runtime_recursion.out}{}{a}
 
 
 \section{Compile time computation}
 
 Check out the following example:
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/fib_compile_time.agt}
+\textcode{\resdir/programs/fib_compile_time.agt}{}{a}
 
 Output:
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/fib_compile_time.out}
+\textcode{\resdir/programs/fib_compile_time.out}{}{a}
 
 
 \section{Ownership semantics}
 
 Check out the following example:
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/shared_pointer.agt}
+\textcode{\resdir/programs/shared_pointer.agt}{}{a}
 
 Output:
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/shared_pointer.out}
+\textcode{\resdir/programs/shared_pointer.out}{}{a}
 
 \section{Memory primitives}
 
 Check out the following example:
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/memory_object.agt}
+\textcode{\resdir/programs/memory_object.agt}{}{a}
 
 \section{Memory allocation}
 
 Check out the following example:
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/memory_alloc.agt}
+\textcode{\resdir/programs/memory_alloc.agt}{}{a}
 
 \section{Object oriented example}
 
 Check out the following example:
-\lstinputlisting[basicstyle=\small, numbers=left]{\resdir/programs/string_mgmt.agt}
+\textcode{\resdir/programs/string_mgmt.agt}{}{a}
 
 
-\chapter{Improvements}
+\chapter{Future improvements}
 
 \section{References}
 

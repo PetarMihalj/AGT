@@ -1,26 +1,25 @@
 \contentsline {chapter}{\numberline {1}Introduction}{1}{}%
-\contentsline {section}{\numberline {1.1}Paper organization}{2}{}%
-\contentsline {chapter}{\numberline {2}The AGT Programming Language - a gentle introduction}{3}{}%
-\contentsline {section}{\numberline {2.1}Hello world!}{3}{}%
-\contentsline {chapter}{\numberline {3}The AGT Programming Language - in depth}{5}{}%
-\contentsline {section}{\numberline {3.1}Lexical analysis}{5}{}%
-\contentsline {section}{\numberline {3.2}Syntactical analysis}{8}{}%
-\contentsline {section}{\numberline {3.3}Semantic analysis}{11}{}%
-\contentsline {section}{\numberline {3.4}Type inference}{12}{}%
-\contentsline {section}{\numberline {3.5}Concrete type request}{12}{}%
-\contentsline {section}{\numberline {3.6}Function type request}{13}{}%
-\contentsline {section}{\numberline {3.7}Lifetime semantics}{14}{}%
-\contentsline {chapter}{\numberline {4}Examples}{18}{}%
-\contentsline {section}{\numberline {4.1}Limited parametric polymorphism}{18}{}%
-\contentsline {section}{\numberline {4.2}Compile time computation}{19}{}%
-\contentsline {section}{\numberline {4.3}Ownership semantics}{20}{}%
-\contentsline {section}{\numberline {4.4}Memory primitives}{22}{}%
-\contentsline {section}{\numberline {4.5}Memory allocation}{23}{}%
-\contentsline {section}{\numberline {4.6}Object oriented example}{24}{}%
-\contentsline {chapter}{\numberline {5}Improvements}{27}{}%
-\contentsline {section}{\numberline {5.1}References}{27}{}%
-\contentsline {section}{\numberline {5.2}Syntactic improvements}{27}{}%
-\contentsline {section}{\numberline {5.3}Multiple source file support}{27}{}%
-\contentsline {section}{\numberline {5.4}Portability}{27}{}%
-\contentsline {chapter}{\numberline {6}Conclusion}{28}{}%
-\contentsline {chapter}{Bibliography}{29}{}%
+\contentsline {section}{\numberline {1.1}Example program}{2}{}%
+\contentsline {section}{\numberline {1.2}Paper organization}{4}{}%
+\contentsline {chapter}{\numberline {2}The AGT Programming Language}{5}{}%
+\contentsline {section}{\numberline {2.1}Lexical analysis}{5}{}%
+\contentsline {section}{\numberline {2.2}Syntactical analysis}{8}{}%
+\contentsline {section}{\numberline {2.3}Semantic analysis}{11}{}%
+\contentsline {section}{\numberline {2.4}Type inference}{12}{}%
+\contentsline {section}{\numberline {2.5}Concrete type request}{13}{}%
+\contentsline {section}{\numberline {2.6}Function type request}{13}{}%
+\contentsline {section}{\numberline {2.7}Lifetime semantics}{15}{}%
+\contentsline {chapter}{\numberline {3}AGT program examples}{18}{}%
+\contentsline {section}{\numberline {3.1}Limited parametric polymorphism}{18}{}%
+\contentsline {section}{\numberline {3.2}Compile time computation}{19}{}%
+\contentsline {section}{\numberline {3.3}Ownership semantics}{20}{}%
+\contentsline {section}{\numberline {3.4}Memory primitives}{23}{}%
+\contentsline {section}{\numberline {3.5}Memory allocation}{23}{}%
+\contentsline {section}{\numberline {3.6}Object oriented example}{24}{}%
+\contentsline {chapter}{\numberline {4}Future improvements}{28}{}%
+\contentsline {section}{\numberline {4.1}References}{28}{}%
+\contentsline {section}{\numberline {4.2}Syntactic improvements}{28}{}%
+\contentsline {section}{\numberline {4.3}Multiple source file support}{28}{}%
+\contentsline {section}{\numberline {4.4}Portability}{28}{}%
+\contentsline {chapter}{\numberline {5}Conclusion}{29}{}%
+\contentsline {chapter}{Bibliography}{30}{}%

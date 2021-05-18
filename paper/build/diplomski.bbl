@@ -1,4 +1,4 @@
-\begin{thebibliography}{3}
+\begin{thebibliography}{4}
 % this bibliography was produced with the style dinat.bst v2.5
 \makeatletter
 \newcommand{\dinatlabel}[1]%
@@ -16,6 +16,11 @@
 \dinatlabel{Beazley {\natexlab{b}}} \textsc{Beazley}, David:
 \newblock \emph{PLY (Python Lex-Yacc) documentation}. --
 \newblock URL \url{https://ply.readthedocs.io/en/latest/index.html}
+
+\bibitem[Fred L. Drake~Jr.()]{c_py_duck_typing}
+\dinatlabel{Fred L. Drake~Jr. } \textsc{Fred L. Drake~Jr.}, others:
+\newblock \emph{Python3 documentation}. --
+\newblock URL \url{https://docs.python.org/3/glossary.html#term-duck-typing}
 
 \bibitem[Lattner und Adve(2004)]{c_llvm_lattner}
 \dinatlabel{Lattner und Adve 2004} \textsc{Lattner}, Chris~; \textsc{Adve},
