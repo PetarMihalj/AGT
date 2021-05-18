@@ -61,10 +61,15 @@ class FunctionDefinition(ParserRule):
 
 
 class Block(ParserRule):
-    "Block : LBRACE StatementList RBRACE"
+    """Block : LBRACE StatementList RBRACE
+             | LBRACE RBRACE 
+    """
 
     def __init__(self, r):
-        self.statementList = r[1].list
+        if len(r)==2:
+            self.statementList = []
+        else:
+            self.statementList = r[1].list
 
 
 ##

@@ -23,6 +23,11 @@ def gen_heap_object(
     if len(type_argument_types) != 1: raise ierr.TypeGenError()
     init_type = type_argument_types[0]
 
+    if isinstance(init_type, ts.StructType):
+        init_type: ts.StructType
+        if len(init_type.members) == 0:
+            raise ierr.InferenceError("Cant allocate a struct without memebers")
+
     try:
         fn_alloc_mn = tc.resolve_function("heap_alloc", (init_type,), (ts.IntType(32),)).mangled_name
         fn_init_mn = tc.resolve_function("__init__", (), 
@@ -84,6 +89,10 @@ def gen_stack_object(
     if len(type_argument_types) != 1: raise ierr.TypeGenError()
 
     init_type = type_argument_types[0]
+    if isinstance(init_type, ts.StructType):
+        init_type: ts.StructType
+        if len(init_type.members) == 0:
+            raise ierr.InferenceError("Cant allocate a struct without memebers")
 
     try:
         fn_init_mn = tc.resolve_function("__init__", (), 

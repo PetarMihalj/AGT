@@ -18,5 +18,9 @@
 \contentsline {section}{\numberline {4.5}Memory allocation}{23}{}%
 \contentsline {section}{\numberline {4.6}Object oriented example}{24}{}%
 \contentsline {chapter}{\numberline {5}Improvements}{27}{}%
+\contentsline {section}{\numberline {5.1}References}{27}{}%
+\contentsline {section}{\numberline {5.2}Syntactic improvements}{27}{}%
+\contentsline {section}{\numberline {5.3}Multiple source file support}{27}{}%
+\contentsline {section}{\numberline {5.4}Portability}{27}{}%
 \contentsline {chapter}{\numberline {6}Conclusion}{28}{}%
 \contentsline {chapter}{Bibliography}{29}{}%
