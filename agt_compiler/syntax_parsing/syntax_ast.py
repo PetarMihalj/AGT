@@ -18,6 +18,7 @@ class SyntaxParser:
         self.lexer = lexer
         self.tokens = lexer.tokens
         self.parser = yacc.yacc(module=self, write_tables=False, debug=False)
+        self.err_cnt = 0
 
     def parse_syntax(self, data, **kvargs):
         return self.parser.parse(data, lexer=self.lexer,
@@ -38,6 +39,7 @@ class SyntaxParser:
         pass
 
     def p_error(self, p):
+        self.err_cnt += 1
         print(f"ERROR: {p}")
 
     start = 'CompilationUnit'

@@ -19,6 +19,7 @@ for i in range(32, 126+1):
 class Lexer():
     def __init__(self, **kwargs):
         self.lexer = lex.lex(object=self, **kwargs)
+        self.err_cnt = 0
 
     states = (
         ('mlc', 'exclusive'),
@@ -209,16 +210,19 @@ class Lexer():
     def t_error(self, t):
         print(f"illegal token (main state) at line\
                 {t.lexer.lineno}: '{t.value}'")
+        self.err_cnt += 1
         self.lexer.skip(1)
 
     def t_mlc_error(self, t):
         print(f"illegal token (mlc state) at line\
               {t.lexer.lineno}: '{t.value}'")
+        self.err_cnt += 1
         self.lexer.skip(1)
 
     def t_strchar_error(self, t):
         print(f"illegal token (strchar state) at line\
               {t.lexer.lineno}: '{t.value}'")
+        self.err_cnt += 1
         self.lexer.skip(1)
 
 
