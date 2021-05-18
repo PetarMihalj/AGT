@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  17 MAY 2021 17:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  18 MAY 2021 08:48
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -1088,13 +1088,13 @@ Overfull \hbox (172.16975pt too wide) in paragraph at lines 19--21
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[23]) [24]
+[23]) (/home/pmihalj/agt/paper/res/programs/string_mgmt.agt [24] [25]) [26]
 Chapter 5.
-[25
+[27
 
 ]
 Chapter 6.
-(/home/pmihalj/agt/paper/build/diplomski.bbl [26
+(/home/pmihalj/agt/paper/build/diplomski.bbl [28
 
 ]
 ! Misplaced alignment tab character &.
@@ -1109,14 +1109,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-) [27
+) [29
 
-] [28] (/home/pmihalj/agt/paper/build/diplomski.aux) ) 
+] [30] (/home/pmihalj/agt/paper/build/diplomski.aux) ) 
 Here is how much of TeX's memory you used:
- 8785 strings out of 481257
- 130737 string characters out of 2908218
+ 8789 strings out of 481257
+ 130904 string characters out of 2908218
  537457 words of memory out of 3000000
- 25789 multiletter control sequences out of 15000+600000
+ 25790 multiletter control sequences out of 15000+600000
  457612 words of font info for 89 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
  83i,17n,88p,272b,1650s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1132,10 +1132,10 @@ type1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1
 times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/ut
 mr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmri8a.pf
 b>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (33 pages, 190771
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (35 pages, 193973
  bytes).
 PDF statistics:
- 170 PDF objects out of 1000 (max. 8388607)
+ 176 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

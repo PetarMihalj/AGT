@@ -317,7 +317,7 @@ def _(self: sa.WhileStatement, tc: TypingContext,
         s.te_visit(tc, fc) 
     ir.put_jump_to_label(lwc, fc)
 
-    ir.Label(lwe)
+    ir.put_label(lwe, fc)
     
     for td in fc.dest_stack[-1]:
         put_dest(self, fc, tc, td)

@@ -94,6 +94,21 @@ def gen_bool_type(
 
 # ---------------------------------------------------------------------
 
+@add_method_to_list(concrete_methods)
+def gen_char_type(
+                tc: TypingContext,
+                name: str,
+                type_argument_types: Tuple[ts.Type],
+            ):
+    if name!='char':
+        raise ierr.TypeGenError()
+    if len(type_argument_types)!=0:
+        raise ierr.TypeGenError()
+    
+    return ts.CharType()
+
+# ---------------------------------------------------------------------
+
 reducer = {
  '__eq__':(lambda x,y:x==y),
  '__ne__':(lambda x,y:x!=y),

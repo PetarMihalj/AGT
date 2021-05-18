@@ -28,8 +28,8 @@ def gen_heap_object(
         fn_init_mn = tc.resolve_function("__init__", (), 
             (ts.PointerType(init_type),) + argument_types
         ).mangled_name
-    except ierr.InferenceError:
-        raise ierr.TypeGenError()
+    except ierr.InferenceError as e:
+        raise e
 
     dname = tc.scope_man.new_func_name(f"heap_object_init")
     tc.code_blocks.append(HeapObjectPrimitive(
@@ -89,8 +89,8 @@ def gen_stack_object(
         fn_init_mn = tc.resolve_function("__init__", (), 
             (ts.PointerType(init_type),) + argument_types
         ).mangled_name
-    except ierr.InferenceError:
-        raise ierr.TypeGenError()
+    except ierr.InferenceError as e:
+        raise e
 
     dname = tc.scope_man.new_func_name(f"stack_object_init")
     tc.code_blocks.append(StackObjectPrimitive(

@@ -16,6 +16,7 @@
 \contentsline {section}{\numberline {4.3}Ownership semantics}{20}{}%
 \contentsline {section}{\numberline {4.4}Memory primitives}{22}{}%
 \contentsline {section}{\numberline {4.5}Memory allocation}{23}{}%
-\contentsline {chapter}{\numberline {5}Improvements}{25}{}%
-\contentsline {chapter}{\numberline {6}Conclusion}{26}{}%
-\contentsline {chapter}{Bibliography}{27}{}%
+\contentsline {section}{\numberline {4.6}Object oriented example}{24}{}%
+\contentsline {chapter}{\numberline {5}Improvements}{27}{}%
+\contentsline {chapter}{\numberline {6}Conclusion}{28}{}%
+\contentsline {chapter}{Bibliography}{29}{}%

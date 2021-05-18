@@ -86,11 +86,69 @@ class IntTypeOpPrimitive(Primitive):
             ]
 
 
-        c,opname = mapping_int_binary[self.op]
-        if c:
+        a,opname = mapping_int_binary[self.op]
+        if a:
             return arithmetic(opname)
         else:
             return comp(opname)
+
+# ---------------------------------------------------------------------
+
+mapping_char_binary = {
+        "__eq__": (False, "eq"),
+        "__ne__": (False, "ne"),
+}
+
+@add_method_to_list(func_methods)
+def gen_char_type_ops(
+                tc: TypingContext,
+                name: str,
+                type_argument_types: Tuple[ts.Type],
+                argument_types: Tuple[ts.Type],
+            ):
+    if name not in mapping_char_binary:
+        raise ierr.TypeGenError()
+    if len(type_argument_types) != 0:
+        raise ierr.TypeGenError()
+    if len(argument_types) != 2:
+        raise ierr.TypeGenError()
+
+    if not isinstance(argument_types[0], ts.CharType):
+        raise ierr.TypeGenError()
+    if not isinstance(argument_types[1], ts.CharType):
+        raise ierr.TypeGenError()
+
+    dname = tc.scope_man.new_func_name(f"dummy_func_{name}")
+    retty = ts.BoolType()
+
+    tc.code_blocks.append(CharTypeOpPrimitive(
+        dname,
+        name,
+    ))
+
+    ft = ts.FunctionType(
+        dname, 
+        retty,
+        do_not_copy_args = False,
+    )
+    return ft
+
+@dataclass
+class CharTypeOpPrimitive(Primitive):
+    mangled_name: str
+    op: str
+
+    def get_code(self):
+        def comp(opname):
+            return [
+                f"define dso_local i1 @{self.mangled_name}(i8 %0, i8 %1) {{",
+                f"\t%3 = icmp {opname} i8 %0, %1",
+                f"\tret i1 %3",
+                f"}}",
+            ]
+
+        a,opname = mapping_int_binary[self.op]
+        return comp(opname)
 
 # ---------------------------------------------------------------------
 
