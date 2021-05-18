@@ -1,6 +1,7 @@
 class InferenceError(Exception):
     pass
 
+# noncrashing errors
 
 class TypeGenError(InferenceError):
     """

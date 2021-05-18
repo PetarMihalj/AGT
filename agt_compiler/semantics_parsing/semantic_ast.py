@@ -488,6 +488,7 @@ def _(self: pr.ReturnStatement, se: SE):
 def _(self: pr.BreakStatement, se: SE):
     if not se.in_func:
         raise RuntimeError("Cant use break out of func!")
+    return BreakStatement(self.count)
 
 
 @add_method_parse_semantics(pr.Expression)

@@ -148,7 +148,7 @@ def get_member(src: str, member_name: str, fc: context.FunctionContext):
     ind = fc.types[src].members.index(member_name)
 
     fc.code.extend([ 
-        f"%{dest} = getelementptr inbounds %{stmn}, %{stmn}* %{src}, i32 0, i32 {ind}"
+        f"\t%{dest} = getelementptr inbounds %{stmn}, %{stmn}* %{src}, i32 0, i32 {ind}"
     ])
     return dest
 

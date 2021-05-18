@@ -434,10 +434,9 @@ def _(self: sa.ReturnStatement, tc: TypingContext,
 def _(self: sa.BreakStatement, tc: TypingContext,
         fc: context.FunctionContext):
     if self.no <= 0:
-        raise ierr.RuntimeExpressionError(f"break must be >0")
-    if self.no > len(f.break_label_stack):
-        raise ierr.RuntimeExpressionError(f"dont have enough \
-                loops to break out of")
+        raise ierr.RuntimeExpressionError(f"break count must be bigger than 0 at {self.linespan[0]}")
+    if self.no > len(fc.break_label_stack):
+        raise ierr.RuntimeExpressionError(f"dont have enough loops to break out of at {self.linespan[0]}")
 
     def dest(cnt):
         for dest_list in fc.dest_stack[-cnt:]:
@@ -446,8 +445,12 @@ def _(self: sa.BreakStatement, tc: TypingContext,
 
     # -1 because the last one is in front of the dest picking
     dest(self.no-1)
+    ir.put_comment(
+        "breaking",
+        fc
+    )
     ir.put_jump_to_label(
-        f.break_label_stack[len(f.break_label_stack)-self.no], 
+        fc.break_label_stack[len(fc.break_label_stack)-self.no], 
         fc
     )
 
