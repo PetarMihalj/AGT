@@ -5,6 +5,7 @@
 \usepackage{xparse}
 \usepackage{listings}
 \usepackage{nameref}
+\usepackage{float}
 
 
 \renewcommand{\labelitemi}{$\bullet$}
@@ -223,120 +224,72 @@ AGT compilation process consists of 4 main phases:
 
 \begin{enumerate}
 \item Lexical analysis - tokenization of input source code text
-\item Syntactical analysis - grouping of tokens in an abstract syntax tree
-\item Semantical analysis - transforming the syntax tree into a context aware semantical syntax tree
-\item Type inference - inferring the main function type and all other required types
+\item Syntactical analysis - rule-based grouping of tokens into an \textit{abstract syntax tree}
+\item Semantical analysis - transforming the syntax tree into a \textit{semantical tree}
+\item Code generation - inference of the \texttt{main} and code generation
 \end{enumerate}
 
-The process is successful if the type inference step successfully infers the main function type.
+The process is successful if all the steps suceede.
 
-We will now describe each phase in great detail, contrasting the newly defined terms
-against their use in other languages, since the subtlimities sometimes are different.
+In this chapter we will describe each phase in great detail, contrasting the
+newly defined terms against their use in other languages.
 
 \section{Lexical analysis}
 
-The AGT Lexical analysis phase is a standard regular grammar parsing process.
-Lexical analyzer is fed a stream of characters, which get grouped into tokens,
+The AGT Lexical analysis phase is a standard regular expression parsing process.
+Lexical analyzer is fed a stream of characters, which get groupted into tokens,
 according to regular expressions and ambiguity resolution rules.
 
-Lexical analyer tool used for the AGTC was PLY - Python Lex-Yacc \citep{c_ply_beazley}.
-Python Lex-Yacc is a tool which tries to bring the functionality of well know lexical and syntactical
-analyzers Lex and Yacc into Python. The main difference is that PLY does not \textit{generate} the 
-concrete lexer and parser. Instead, a PLY user defines the rules fed to PLY by specifying programming 
+Lexical analyer tool used for the AGTC is PLY - Python Lex-Yacc \citep{c_ply_beazley}.
+Python Lex-Yacc is a tool which tries to bring the functionality of well know
+lexical and syntactical analyzers Lex and Yacc into Python. The main difference
+is that PLY does not \textit{generate} the 
+concrete lexer and parser. Instead, PLY user defines the rules fed to PLY by
+specifying programming 
 constructs like functions that correspond to these rules. PLY then inspects these constructs using 
-reflective capabilities of python, and acts according to these rules
+reflective capabilities of Python, and acts according to these rules
 when performing lexical or syntactical analysis.
 
-Lets check out some PLY lexer rules used in AGTC.
+Let us check out the main lexing module of AGTC, which specifies rules, states and preceedence that
+PLY uses to perform lexical analysis for AGT. Some parts of the lexing module
+are left out, which is indicated with \texttt{\#...} in source code.
 
 \pythoncode{\resdir/compiler/lexer.py}{}{heyy}
 
-Rules for simple operators are given in a string form, in a form of 
-\texttt{t\_<TOKEN> = <REGEX>}.
+This lexer module has 3 states: \texttt{main} (implicit), \texttt{mlc} (for multiline comments) 
+and \texttt{strchar} (for \textit{char arrays} or \textt{char} literals).
 
-Rules for more complex tokens, like int literals or identifiers are defined
-using functions. Those same functions can alter the behaviour of the
+Rules for simple operators are given in a string form, 
+in a form of \texttt{t\_<TOKEN> = <REGEX>}.
+
+Rules for more tokens which are defined with more complex regular expressions, 
+like int literals or identifiers, are defined using functions. 
+Those functions can also alter the behaviour of the
 lexer when such a token is parsed. For example, whenever an identifier is parsed,
 the function \texttt{t\_ID} looks up whether the identifier is in a list of reserved
-words, and if it is, changes the tokens type. This neat trick greatly simplyfies the
-regular expressions \citep{c_ply_docs_beazley}.
+words, and if it is, changes the token's type. This neat trick greatly simplifies
+regular expressions, and is taken from official PLY documentation \citep{c_ply_docs_beazley}.
 
-PLY documentation states that priority is given to regular expressions defined by functions, in the order they are given, and than to string defined rules, according to their length. 
+PLY documentation states that priority is given to regular expressions defined by functions, 
+in the order in which they are given.
+After function-based rule definitions, 
+priority is given to string defined rules (the ones with greater regex length first).
 
-We also employ the \textit{state} feature of PLY, 
+We employ the \textit{state} feature of PLY lexing module, 
 which allows us to change the lexer's behaviour
 when it encounters, for example, a beginning of a multiline comment. 
-In that particular case, the lexer parses and caches every 
-symbol until it gets to the end of that comment, 
-The state feature is also used for string literals.
-
-An interested reader will find more details about the implementation in
-the source code supplied with this paper.
-
-This is a great place to introduce reader to special meaning of arithmetic operators.
-When an expression such as \texttt{a + 1} is evaluated, 
-the function call \texttt{\_\_add\_\_(a,1)} is evaluated instead.
-Same goes for all operators, so now we give their equivalent \textit{dunder} functions 
-(the name comes from the Python community). 
-
-Arithmetic operators and their correspondant functions methods are:
-
-\begin{itemize}
-    \item + : \_\_add\_\_
-    \item - : \_\_sub\_\_
-    \item * : \_\_mul\_\_
-    \item / : \_\_div\_\_
-    \item \% : \_\_mod\_\_
-\end{itemize}
-
-Comparison operators and their correspondant dunder functions are:
-
-\begin{itemize}
-    \item == : \_\_eq\_\_
-    \item != : \_\_ne\_\_
-    \item >! : \_\_gt\_\_
-    \item <! : \_\_lt\_\_
-    \item >= : \_\_ge\_\_
-    \item <= : \_\_le\_\_
-\end{itemize}
-
-The strict less or greater operators include the exclaimation mark in order to
-prevent some common ambiguities in lexing (which occur due to the presence of angle
-brackets).
-
-Finally, the last type of builtins are boolean operators.
-
-\begin{itemize}
-    \item \& : \_\_and\_\_
-    \item | : \_\_or\_\_
-    \item \char`\~ : \_\_not\_\_
-\end{itemize}
-
-Note that, even though we call the last group the \textit{boolean} operators,
-those operators can be evaluated on operands which are not booleans,
-as long as the corresponding dunder functions are defined in the program.
-The same goes for arithmetic and comparison operators; a programmer can use
-builtins functions for all integer types, but can define additional dunder functions
-for \texttt{rectangle} objects, for example.
-
+In that particular case, lexer goes into \texttt{mlc} state.
+When in \texttt{mlc} state, lexer parses and caches every 
+symbol until it gets to the end of the comment. 
 Both type of comments, \texttt{/*multiline comment*/} and \texttt{//singleline comment} are discarded
 after being parsed.
+
+\subsection{Literals}
 
 String and character literals are given in double and single quotes, respectively.
 They can include escaped characters:  (\textbackslash 0, \textbackslash n, \textbackslash t, 
 \textbackslash ", \textbackslash \textquotesingle). 
 Character literal must consist of exactly one character or escaped character.
-
-Identifiers consist of a letter or an underscore, followed by any number of letters, underscores or digits.
-Reserved words are excluded from identifiers.
-
-Reserved words are:
-\begin{itemize}
-    \item 'fn', 'struct',
-    \item 'let', 'type',
-    \item 'if', 'else', 'break', 'for', 'while', 'return',
-    \item 'true', 'True', 'false','False',
-\end{itemize}
 
 Integer literals are characterized by both the value and the size of integer containing this value.
 Possible integer sizes are 8, 16, 32 and 64.
@@ -350,6 +303,104 @@ Example integer literals are:
     \item \texttt{5i64}
     \item \texttt{324243} (implicitly i32)
 \end{itemize}
+
+Boolean literals are:
+
+\begin{itemize}
+    \item \texttt{true}
+    \item \texttt{True}
+    \item \texttt{false}
+    \item \texttt{False}
+\end{itemize}
+
+\subsection{Identifiers}
+
+Identifiers consist of a letter or an underscore, followed by any number of letters, underscores or digits.
+Reserved words are excluded from identifiers.
+
+Reserved words are:
+\begin{itemize}
+    \item 'fn', 'struct',
+    \item 'let', 'type',
+    \item 'if', 'else', 'break', 'for', 'while', 'return',
+\end{itemize}
+
+
+\subsection{Operators}
+
+We will now list the operator families, without discussing their semantics in detail, because
+
+\begin{itemize}
+    \item Built-in versions of these operators will be listed in later chapters, and the reader
+        can intuitively reason about which ones are available.
+    \item User-defined versions of these operators can adhere to a number of different semantics 
+        (which is not recommended, but is possible).
+    \item Operators can be applied on types during compile time (to produce other types). 
+        This discussing is better to be left to later chapters.
+\end{itemize}
+
+Apart from the operators themselves, we will list their special names. These names
+will be used to translate operator applications to function calls. For example, when 
+\texttt{+} is applied to value \texttt{3} and \texttt{5} (\texttt{3+5}), compiler
+will insert a call to \texttt{\_\_add\_\_(3,5)} instead. This method derived from operator's special name
+is an example of what we call a \textit{dunder} or \textit{magic} method (according to Python folklore).
+\textit{Dunder} comes from double-underscore which both preceeds and follows the special name.
+
+\begin{table}[H]
+\begin{tabular}{ccc}
+\textbf{Arithmetic operators} & \textbf{Comparison operators} & \textbf{Boolean operators} \\
++ (add)                       & == (eq)                       & \& (and)                   \\
+- (sub)                       & != (ne)                       & | (or)                     \\
+* (mul)                       & \textgreater{}! (gt)          & $\sim$(not)                \\
+/ (div)                       & \textless{}! (lt)             &                            \\
+\% (mod)                      & \textgreater{}= (ge)          &                            \\
+                              & \textless{}= (le)             &                           
+\end{tabular}
+\end{table}
+
+Note that, even though we call the last group the \textit{boolean} operators,
+those operators can be evaluated on operands which are not booleans,
+as long as the corresponding dunder functions are defined in the program.
+
+The same goes for arithmetic and comparison operators; a programmer can use
+builtins functions for all integer types, but can define additional dunder functions
+for \texttt{rectangle} objects, for example.
+
+\subsection{Special operators}
+
+Special operators can't be user-defined, and have a fixed meaning:
+
+\begin{itemize}
+    \item \textit{Address of operator} (\textt{@}) can be used on any L-value (explained
+        in later chapters), and evaluates to a pointer to that value. For
+        example, if \texttt{i} is an \texttt{i8}, then \texttt{@i} is a pointer
+    to \texttt{i8}. We can also denote this pointer as \texttt{@i8} - exactly the way it can be used in 
+    the context of a type. For example, if you want to check whether a function argument is of \texttt{@i8}
+    type (to get polymorphic behaviour), you would start this function with a line:
+    \texttt{type \_ = enable\_if<arg == @i8>;}.
+
+    \item Dereference operator (\texttt{!}) can be used on any pointer value, 
+        and evaluates to a value which is being pointed to.
+        For example, if \texttt{p} is an \texttt{@i8}, then \texttt{p!} is a value of type \texttt{i8}.
+    This operator can also be used in the context of a type.
+    For example, if you want to check whether a function argument is a pointer (to whatever type), 
+    and capture the pointed-to type, you would start this function with a line:
+    \texttt{type pointed\_to = enable\_if\_resolve<arg!>;}.
+    A new special type expression \texttt{enable\_if\_resolve<...>} exibits similar behaviour as
+    \texttt{enable\_if<...>}, in sense that it lets you create polymorphic behaviour. This one will
+    succeed if the argument is successfully evaluated (it doesn't have to evaluate to \texttt{i1}).
+    If it succeeds, it will also act as if it wasn't there. In this case, 
+
+
+    \item Index (bracket) operator must be used on a pointer, and be given any integrer type as an argument.
+        It will offset the pointer depending on the underlying type. For example, 
+        if \texttt{p} is a \texttt{char} pointer, \textt{p[5]} will evaluate to a pointer 
+        with a location $lp+5\cdot s$, where $lp$ is \texttt{p}'s value and $s$ is size of char type.
+\end{itemize}
+
+Precedence rules of operators will be stated in section 2.2. 
+An interested reader will find more details concrening the implementation in
+the source code supplied with this paper.
 
 
 \section{Syntactical analysis}

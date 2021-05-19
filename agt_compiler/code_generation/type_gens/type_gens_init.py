@@ -26,7 +26,7 @@ def gen_heap_object(
     if isinstance(init_type, ts.StructType):
         init_type: ts.StructType
         if len(init_type.members) == 0:
-            raise ierr.InferenceError("Cant allocate a struct without memebers")
+            raise ierr.InferenceError("Cant allocate a struct without members")
 
     try:
         fn_alloc_mn = tc.resolve_function("heap_alloc", (init_type,), (ts.IntType(32),)).mangled_name
