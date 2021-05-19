@@ -1,4 +1,4 @@
-\begin{thebibliography}{4}
+\begin{thebibliography}{5}
 % this bibliography was produced with the style dinat.bst v2.5
 \makeatletter
 \newcommand{\dinatlabel}[1]%
@@ -6,6 +6,13 @@
 \makeatother
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax\def\url#1{\texttt{#1}}\fi
+
+\bibitem[Aho u.\,a.(2007)Aho, Lam, Sethi und Ullman]{c_compilers_book}
+\dinatlabel{Aho u.\,a. 2007} \textsc{Aho}, Alfred~; \textsc{Lam}, Monica~;
+  \textsc{Sethi}, Ravi~; \textsc{Ullman}, Jeffrey:
+\newblock Compilers Principles, Techniques, & Tools‎.
+\newblock
+\newblock (2007), 01, S.~1009
 
 \bibitem[Beazley({\natexlab{a}})]{c_ply_beazley}
 \dinatlabel{Beazley {\natexlab{a}}} \textsc{Beazley}, David:

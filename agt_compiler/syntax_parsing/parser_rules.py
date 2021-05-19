@@ -140,7 +140,7 @@ class InitStatement(ParserRule):
     """
 
     def __init__(self, r):
-        self.name = r[1]
+        self.nameexpr = r[1]
         self.expr = r[3]
 
 
@@ -243,8 +243,7 @@ precedence = (
     ('left', 'LE', 'GE', 'LT', 'GT', 'EQ', 'NE'),
     ('left', 'DOT', 'DEREF', 'NOT'),
     ('right', 'ADDRESS'),
-    ('left', 'LPAREN', 'LBRACE'),
-    ('left', 'LANGLE', 'RANGLE'),
+    ('left', 'LPAREN', 'LBRACE', 'LANGLE'),
 )
 
 

@@ -7,12 +7,12 @@
 \contentsline {subsection}{\numberline {2.1.2}Identifiers}{8}{}%
 \contentsline {subsection}{\numberline {2.1.3}Operators}{8}{}%
 \contentsline {subsection}{\numberline {2.1.4}Special operators}{9}{}%
-\contentsline {section}{\numberline {2.2}Syntactical analysis}{10}{}%
-\contentsline {section}{\numberline {2.3}Semantic analysis}{12}{}%
-\contentsline {section}{\numberline {2.4}Type inference}{13}{}%
-\contentsline {section}{\numberline {2.5}Concrete type request}{14}{}%
-\contentsline {section}{\numberline {2.6}Function type request}{14}{}%
-\contentsline {section}{\numberline {2.7}Lifetime semantics}{16}{}%
+\contentsline {section}{\numberline {2.2}Syntactic analysis}{10}{}%
+\contentsline {section}{\numberline {2.3}Semantic analysis}{13}{}%
+\contentsline {section}{\numberline {2.4}Type inference}{14}{}%
+\contentsline {section}{\numberline {2.5}Concrete type request}{15}{}%
+\contentsline {section}{\numberline {2.6}Function type request}{15}{}%
+\contentsline {section}{\numberline {2.7}Lifetime semantics}{17}{}%
 \contentsline {chapter}{\numberline {3}AGT program examples}{20}{}%
 \contentsline {section}{\numberline {3.1}Limited parametric polymorphism}{20}{}%
 \contentsline {section}{\numberline {3.2}Compile time computation}{21}{}%

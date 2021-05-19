@@ -403,38 +403,61 @@ An interested reader will find more details concrening the implementation in
 the source code supplied with this paper.
 
 
-\section{Syntactical analysis}
+\section{Syntactic analysis}
 
-Syntactical analysis is achieved with a LALR parser implemented in PLY package. 
+Syntactic analysis (also called parsing in some sources) is \textit{"a process of 
+analyzing a string of symbols... conforming to the rules of a formal grammar"} \citep{c\_parsing\_def}. 
+
+Formal rules of AGT grammar are analyzed by an LALR parser supplied with PLY package, which tries
+to immitate functionality of well know Yacc tool. Analogous to the lexing part of PLY package, 
+parser will also use reflection to generate parsing tables, which are used to run the stack machine.
 
 Tokens resulting from lexical analysis are fed into a stack machine which,
 depending on the state of the top of the stack and next token in the list,
 either pushes the next token on top of the stack (\textit{shift}) or converts
-a number of tokens on the top of the stack to another token (\textit{reduce}).
+number of tokens on the top of the stack to another token (\textit{reduce}).
+A LALR parser can, without ambiguities, resolve only certain kinds of context-free grammars.
+This problem is taken care of by defining a conforming grammar and by using precedence rules.
 
-The grammar rule specifications are given in a different way than the
+\textcode{\resdir/compiler/prio}{prio}{Precedence rules}
+
+Precedence rules are similar to those found in C programming language.
+They specify the associativity (left or right) and priority (from lower to higher).
+
+We won't go into formal discussion of the syntactic analysis,
+an interested reader can find details in a standard reference book for
+compiler theory \citep{c_compilers_book}. 
+
+AGT contains a rule which goes as follows: 
+
+\begin{center}
+\texttt{InitStatement : LET Expression ASSIGNMENT Expression SEMICOLON}
+\end{center}
+
+Once the five tokens on the right side of the colon character in this rule end up being
+on top of the stack, parser can remove them, and substitute a new \texttt{InitStatement} in their stead.
+Parser has implicitly created a tree node of type \texttt{InitStatement}, which captures both expressions that
+this statement is made of (assigned-to expression, assigned-from expression).
+
+This process finishes when stack machine ends up having the starting symbol on top of the stack,
+and no more tokens to parse. 
+The output of a syntactic analysis phase is an abstract syntax tree - a tree structure
+which denotes applications of grammar rules to tokens. An example syntax tree, which
+results from the statement \texttt{let n = in<i32>();} is given in listing \ref{ast}.
+
+\textcode{\resdir/compiler/ast}{ast}{AST resulting from \texttt{let n = in<i32>();}}
+
+Concerning the implementation, grammar rules are given in a different way than the
 one standard for PLY. PLY uses functions by default, while AGTC uses
 classes which have to adhere to certain structure. These class definitions
 are turned into functions (using reflective programming) and finally
-dynamically inserted into syntactical parser class definition.
+dynamically injected into syntactical parser class definition.
 A reader who is interested in details can consult the source code.
 
-The output of a syntactical analysis phase is an abstract syntax tree - a tree structure
-which denotes applications of grammar rules to tokens. An example syntax tree, which
-results from the statement \texttt{let n = in<i32>();} is given:
+An example of an implementation of a rule for binary expressions is given in the listing \ref{rule}.
+\\
 
-\textcode{\resdir/compiler/ast}{}{a}
-
-This tree consists of a single statement. We won't get into details of the semantics here,
-since there is a another step which will contextualize the syntax tree and resolve some ambiguities,
-which couldn't have been resolved with a LALR parser (which PLY uses).
-
-An example of a rule which is used to generate binary expression nodes is:
-
-\textcode{\resdir/compiler/rule.py}{}{a}
-
-The shift/reduce conflicts of arithmetic expressions are resolved by specifying
-a list of operator priorities.
+\textcode{\resdir/compiler/rule.py}{rule}{Binary expression rule implementation}
 
 \section{Semantic analysis}
 

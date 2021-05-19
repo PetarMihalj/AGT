@@ -1,0 +1,12 @@
+precedence = (
+    ('left', 'COMMA'),
+    ('left', 'AND'),
+    ('left', 'OR'),
+    ('left', 'ADD', 'SUB'),
+    ('left', 'MUL', 'DIV', 'MOD'),
+    ('left', 'LE', 'GE', 'LT', 'GT', 'EQ', 'NE'),
+    ('left', 'DOT', 'DEREF', 'NOT'),
+    ('right', 'ADDRESS'),
+    ('left', 'LPAREN', 'LBRACE', 'LANGLE'),
+)
+

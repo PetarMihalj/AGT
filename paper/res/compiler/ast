@@ -1,6 +1,6 @@
 Statement(
 -  statement = InitStatement(
--  -  name = Expression(
+-  -  nameexpr = Expression(
 -  -  -  expr = IdExpression(
 -  -  -  -  id = str(n)
 -  -  -  )

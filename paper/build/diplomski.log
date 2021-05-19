@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  19 MAY 2021 12:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  19 MAY 2021 17:08
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -722,42 +722,59 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
+! Missing \endcsname inserted.
+<to be read again> 
+                   \protect 
+l.409 ... formal grammar"} \citep{c\_parsing\_def}
+                                                  .
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
+
+
+Package natbib Warning: Citation `c\T1\textunderscoreparsing\T1\textunderscored
+ef' on page 9 undefined on input line 409.
+
 [9]
-Overfull \hbox (4.22414pt too wide) in paragraph at lines 410--414
+Overfull \hbox (4.22414pt too wide) in paragraph at lines 415--421
 []\T1/ptm/m/n/12 Tokens resulting from lexical analysis are fed into a stack ma
 chine which, depending
  []
 
-(/home/pmihalj/agt/paper/res/compiler/ast [10])
-(/home/pmihalj/agt/paper/res/compiler/rule.py [11])
-(/home/pmihalj/agt/paper/res/compiler/ast [12])
-(/home/pmihalj/agt/paper/res/compiler/diff.py) [13]
-Overfull \hbox (9.1953pt too wide) in paragraph at lines 493--497
+(/home/pmihalj/agt/paper/res/compiler/prio) [10]
+(/home/pmihalj/agt/paper/res/compiler/ast [11])
+Underfull \hbox (badness 10000) in paragraph at lines 457--459
+
+ []
+
+(/home/pmihalj/agt/paper/res/compiler/rule.py) [12]
+(/home/pmihalj/agt/paper/res/compiler/ast [13])
+(/home/pmihalj/agt/paper/res/compiler/diff.py) [14]
+Overfull \hbox (9.1953pt too wide) in paragraph at lines 516--520
 \T1/ptm/m/n/12 definition whose name matches the supplied name, and whose numbe
 r of type parameters
  []
 
 
-Overfull \hbox (0.50378pt too wide) in paragraph at lines 498--501
+Overfull \hbox (0.50378pt too wide) in paragraph at lines 521--524
 []\T1/ptm/m/n/12 Inference using struct definitions consists of evaluating the 
 body of struct definition,
  []
 
-[14]
-Overfull \hbox (2.90744pt too wide) in paragraph at lines 522--526
+
+Overfull \hbox (2.90744pt too wide) in paragraph at lines 545--549
 \T1/ptm/m/n/12 some built-in functions, like copy functions of pointers, should
  not copy their arguments
  []
 
 
-Overfull \hbox (2.97995pt too wide) in paragraph at lines 522--526
+Overfull \hbox (2.97995pt too wide) in paragraph at lines 545--549
 \T1/ptm/m/n/12 behaviour, and the flag which indicates whether to do so is also
  a part of a FunctionType. 
  []
 
-(/home/pmihalj/agt/paper/res/compiler/inf1.agt)
+[15] (/home/pmihalj/agt/paper/res/compiler/inf1.agt)
 ! Undefined control sequence.
-l.542 definition of \typett
+l.565 definition of \typett
                            {power} function fits programmers intentions.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -766,7 +783,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.547 Note that this behaviour is not a \critical
+l.570 Note that this behaviour is not a \critical
                                                   error (the one which AGTC ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -775,22 +792,22 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (17.18518pt too wide) in paragraph at lines 544--549
+Overfull \hbox (17.18518pt too wide) in paragraph at lines 567--572
 []\T1/ptm/m/n/12 On the other hand, consider the definition of \T1/pcr/m/n/12 p
 ower \T1/ptm/m/n/12 at line 9. In this line, \T1/pcr/m/n/12 enable_if
  []
 
-[15]
-Overfull \hbox (11.27039pt too wide) in paragraph at lines 571--574
+[16]
+Overfull \hbox (11.27039pt too wide) in paragraph at lines 594--597
 \T1/ptm/m/n/12 copy the memory array, instead of shallow copying the pointer an
 d thus incidentally
  []
 
-[16]
+[17]
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.603 ... function whose name is \texttt{__init__}
+l.626 ... function whose name is \texttt{__init__}
                                                   , and which has atleast on...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
@@ -798,7 +815,7 @@ you left one out. Proceed, with fingers crossed.
 ! Missing { inserted.
 <to be read again> 
                    _
-l.603 ... function whose name is \texttt{__init__}
+l.626 ... function whose name is \texttt{__init__}
                                                   , and which has atleast on...
 A left brace was mandatory here, so I've put one in.
 You might want to delete and/or insert some corrections
@@ -808,7 +825,7 @@ so that I will find a matching right brace soon.
 ! Missing { inserted.
 <to be read again> 
                    _
-l.603 ... function whose name is \texttt{__init__}
+l.626 ... function whose name is \texttt{__init__}
                                                   , and which has atleast on...
 A left brace was mandatory here, so I've put one in.
 You might want to delete and/or insert some corrections
@@ -818,7 +835,7 @@ so that I will find a matching right brace soon.
 ! Missing { inserted.
 <to be read again> 
                    \aftergroup 
-l.603 ... function whose name is \texttt{__init__}
+l.626 ... function whose name is \texttt{__init__}
                                                   , and which has atleast on...
 A left brace was mandatory here, so I've put one in.
 You might want to delete and/or insert some corrections
@@ -832,7 +849,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.605 \end{definition}
+l.628 \end{definition}
                       
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -844,7 +861,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.605 \end{definition}
+l.628 \end{definition}
                       
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -856,7 +873,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.605 \end{definition}
+l.628 \end{definition}
                       
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -864,7 +881,7 @@ If that doesn't work, type  X <return>  to quit.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.605 \end{definition}
+l.628 \end{definition}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -875,7 +892,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.605 \end{definition}
+l.628 \end{definition}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -886,7 +903,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.605 \end{definition}
+l.628 \end{definition}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -897,7 +914,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.605 \end{definition}
+l.628 \end{definition}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -906,7 +923,7 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-Overfull \hbox (393.48265pt too wide) in paragraph at lines 603--606
+Overfull \hbox (393.48265pt too wide) in paragraph at lines 626--629
 []\T1/ptm/b/n/12 Definition 3 \T1/ptm/m/n/12 (Initializer)\T1/ptm/b/n/12 . []\T
 1/ptm/m/n/12 An initializer is a function whose name is $[]$ 
  []
@@ -914,7 +931,7 @@ Overfull \hbox (393.48265pt too wide) in paragraph at lines 603--606
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.608 ... function whose name is \texttt{__copy__}
+l.631 ... function whose name is \texttt{__copy__}
                                                   , and which has two value ...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
@@ -922,7 +939,7 @@ you left one out. Proceed, with fingers crossed.
 ! Missing { inserted.
 <to be read again> 
                    _
-l.608 ... function whose name is \texttt{__copy__}
+l.631 ... function whose name is \texttt{__copy__}
                                                   , and which has two value ...
 A left brace was mandatory here, so I've put one in.
 You might want to delete and/or insert some corrections
@@ -932,7 +949,7 @@ so that I will find a matching right brace soon.
 ! Missing { inserted.
 <to be read again> 
                    _
-l.608 ... function whose name is \texttt{__copy__}
+l.631 ... function whose name is \texttt{__copy__}
                                                   , and which has two value ...
 A left brace was mandatory here, so I've put one in.
 You might want to delete and/or insert some corrections
@@ -942,7 +959,7 @@ so that I will find a matching right brace soon.
 ! Missing { inserted.
 <to be read again> 
                    \aftergroup 
-l.608 ... function whose name is \texttt{__copy__}
+l.631 ... function whose name is \texttt{__copy__}
                                                   , and which has two value ...
 A left brace was mandatory here, so I've put one in.
 You might want to delete and/or insert some corrections
@@ -956,7 +973,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.610 \end{definition}
+l.633 \end{definition}
                       
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -968,7 +985,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.610 \end{definition}
+l.633 \end{definition}
                       
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -980,7 +997,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.610 \end{definition}
+l.633 \end{definition}
                       
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -988,7 +1005,7 @@ If that doesn't work, type  X <return>  to quit.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.610 \end{definition}
+l.633 \end{definition}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -999,7 +1016,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.610 \end{definition}
+l.633 \end{definition}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -1010,7 +1027,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.610 \end{definition}
+l.633 \end{definition}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -1021,7 +1038,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.610 \end{definition}
+l.633 \end{definition}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -1030,7 +1047,7 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-Overfull \hbox (391.89603pt too wide) in paragraph at lines 608--611
+Overfull \hbox (391.89603pt too wide) in paragraph at lines 631--634
 []\T1/ptm/b/n/12 Definition 4 \T1/ptm/m/n/12 (Copy function)\T1/ptm/b/n/12 . []
 \T1/ptm/m/n/12 An copy function is a function whose name is $[]$ 
  []
@@ -1038,7 +1055,7 @@ Overfull \hbox (391.89603pt too wide) in paragraph at lines 608--611
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.613 ... function whose name is \texttt{__dest__}
+l.636 ... function whose name is \texttt{__dest__}
                                                   , and which has only one v...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
@@ -1046,7 +1063,7 @@ you left one out. Proceed, with fingers crossed.
 ! Missing { inserted.
 <to be read again> 
                    _
-l.613 ... function whose name is \texttt{__dest__}
+l.636 ... function whose name is \texttt{__dest__}
                                                   , and which has only one v...
 A left brace was mandatory here, so I've put one in.
 You might want to delete and/or insert some corrections
@@ -1056,7 +1073,7 @@ so that I will find a matching right brace soon.
 ! Missing { inserted.
 <to be read again> 
                    _
-l.613 ... function whose name is \texttt{__dest__}
+l.636 ... function whose name is \texttt{__dest__}
                                                   , and which has only one v...
 A left brace was mandatory here, so I've put one in.
 You might want to delete and/or insert some corrections
@@ -1066,7 +1083,7 @@ so that I will find a matching right brace soon.
 ! Missing { inserted.
 <to be read again> 
                    \aftergroup 
-l.613 ... function whose name is \texttt{__dest__}
+l.636 ... function whose name is \texttt{__dest__}
                                                   , and which has only one v...
 A left brace was mandatory here, so I've put one in.
 You might want to delete and/or insert some corrections
@@ -1080,7 +1097,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.615 \end{definition}
+l.638 \end{definition}
                       
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1092,7 +1109,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.615 \end{definition}
+l.638 \end{definition}
                       
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1104,7 +1121,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.615 \end{definition}
+l.638 \end{definition}
                       
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1112,7 +1129,7 @@ If that doesn't work, type  X <return>  to quit.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.615 \end{definition}
+l.638 \end{definition}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -1123,7 +1140,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.615 \end{definition}
+l.638 \end{definition}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -1134,7 +1151,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.615 \end{definition}
+l.638 \end{definition}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -1145,7 +1162,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.615 \end{definition}
+l.638 \end{definition}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -1154,13 +1171,13 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-Overfull \hbox (168.14616pt too wide) in paragraph at lines 613--616
+Overfull \hbox (168.14616pt too wide) in paragraph at lines 636--639
 []\T1/ptm/b/n/12 Definition 5 \T1/ptm/m/n/12 (Destructor)\T1/ptm/b/n/12 . []\T1
 /ptm/m/n/12 An destructor is a function whose name is $[]$ 
  []
 
-(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.agt [17])
-(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.out) [18] [19]
+(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.agt [18])
+(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.out) [19]
 Chapter 3.
 (/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.agt [20
 
@@ -1191,7 +1208,31 @@ Chapter 5.
 (/home/pmihalj/agt/paper/build/diplomski.bbl [31
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 21--24
+! Misplaced alignment tab character &.
+l.13 \newblock Compilers Principles, Techniques, &
+                                                   Tools‎.
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+
+! Package inputenc Error: Unicode character ‎ (U+200E)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.13 ...mpilers Principles, Techniques, & Tools‎
+                                                  .
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--31
 \T1/ptm/m/n/12 --  URL $\T1/pcr/m/n/12 https : / / docs . python . org / 3 / gl
 ossary . html #
  []
@@ -1199,7 +1240,7 @@ ossary . html #
 ! Misplaced alignment tab character &.
 <argument> ...work for lifelong program analysis &
                                                    transformation
-l.29   transformation}
+l.36   transformation}
                       .
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1210,30 +1251,34 @@ might try typing `S' now just to see what is salvageable.
 
 ) [32
 
-] [33] (/home/pmihalj/agt/paper/build/diplomski.aux) ) 
+]
+
+Package natbib Warning: There were undefined citations.
+
+[33] (/home/pmihalj/agt/paper/build/diplomski.aux) ) 
 Here is how much of TeX's memory you used:
- 9558 strings out of 481257
- 141879 string characters out of 2908218
- 700986 words of memory out of 3000000
- 26528 multiletter control sequences out of 15000+600000
- 464370 words of font info for 94 fonts, out of 8000000 for 9000
+ 9581 strings out of 481257
+ 142232 string characters out of 2908218
+ 727184 words of memory out of 3000000
+ 26547 multiletter control sequences out of 15000+600000
+ 464991 words of font info for 96 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
  83i,17n,88p,272b,1899s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/home/pmihalj/.miktex/te
-xmfs/install/fonts/enc/dvips/base/8r.enc}</home/pmihalj/.miktex/texmfs/install/
-fonts/type1/public/amsfonts/cm/cmmi12.pfb></home/pmihalj/.miktex/texmfs/install
-/fonts/type1/public/amsfonts/cm/cmmi6.pfb></home/pmihalj/.miktex/texmfs/install
-/fonts/type1/public/amsfonts/cm/cmmi8.pfb></home/pmihalj/.miktex/texmfs/install
-/fonts/type1/public/amsfonts/cm/cmr12.pfb></home/pmihalj/.miktex/texmfs/install
-/fonts/type1/public/amsfonts/cm/cmr6.pfb></home/pmihalj/.miktex/texmfs/install/
-fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/pmihalj/.miktex/texmfs/install
-/fonts/type1/urw/courier/ucrr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts
-/type1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type
-1/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw
-/times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/u
-tmr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmri8a.p
-fb>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (39 pages, 220614
+{/home/pmihalj/.miktex/texm
+fs/install/fonts/enc/dvips/base/8r.enc}</home/pmihalj/.miktex/texmfs/install/fo
+nts/type1/public/amsfonts/cm/cmmi12.pfb></home/pmihalj/.miktex/texmfs/install/f
+onts/type1/public/amsfonts/cm/cmmi6.pfb></home/pmihalj/.miktex/texmfs/install/f
+onts/type1/public/amsfonts/cm/cmmi8.pfb></home/pmihalj/.miktex/texmfs/install/f
+onts/type1/public/amsfonts/cm/cmr12.pfb></home/pmihalj/.miktex/texmfs/install/f
+onts/type1/public/amsfonts/cm/cmr6.pfb></home/pmihalj/.miktex/texmfs/install/fo
+nts/type1/public/amsfonts/cm/cmsy10.pfb></home/pmihalj/.miktex/texmfs/install/f
+onts/type1/urw/courier/ucrr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/t
+ype1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/
+urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/t
+imes/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utm
+r8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmri8a.pfb
+>
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (39 pages, 224065
  bytes).
 PDF statistics:
  199 PDF objects out of 1000 (max. 8388607)
