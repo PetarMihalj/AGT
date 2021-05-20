@@ -461,23 +461,57 @@ An example of an implementation of a rule for binary expressions is given in the
 
 \section{Semantic analysis}
 
-The need for semantical analysis is caused by a fact that AGT's syntax is highly contextual,
+The need for semantic analysis is caused by a fact that AGT's syntax is highly contextual,
 that is, expressions that appear in one place can have a radically different meaning
 than same expressions which appear in another place.
 
-For example, in the following code snippet, the expression \texttt{a} is used in two distinct contexts.
+For example, in the code listing \ref{contt}, expression \texttt{a} is used in two distinct contexts.
 
-\textcode{\resdir/compiler/ast}{}{a}
+\textcode{\resdir/compiler/contextual.agt}{contt}{Contextuality of expression \texttt{a}}
 
-In the ending of the first line, \texttt{a} is a type expression, that is, a compiler is required to produce
-a type (which the function returns). In the second line, \texttt{a} is a value expression,
+In the ending of the first line, \texttt{a} is a type expression, that is, a
+compiler is required to produce a type which the function returns. In the
+second line, \texttt{a} is a value expression,
 which means compiler is required to produce a value of that expression, rather than a type.
-We haven't yet specified what means to produce either a type or a value, but those implementation
+We haven't yet specified what means to produce either a type or a value, but these implementation
 details will be dealt with in the next chapter.
 
-What is important for the understanding of AGT is that 
+A part of semantic analyzer is presented in listing \ref{semana}.
+In line 3, semantic analyzer checks whether it is currently in function (or struct) definition, 
+and acts accordingly. In case of function definiton, analyzer initializes type context (line 5),
+starts parsing the expression on the right side (line 6), 
+and strips type context at the end (line 7).
+In the case of struct definitions, analogous process takes place.
 
-\textcode{\resdir/compiler/diff.py}{}{a}
+\pythoncode{\resdir/compiler/initex.py}{semana}{a}
+
+Another example of contextual nature of syntactical elements is the \textt{let <x> = <y>;} statement.
+When stated in function definition body, this statement results in an allocation 
+of new memory on the stack,
+and copying of value of \texttt{<y>} to location of \texttt{<x>}.
+On the other hand, when stated in struct definition body, this indicates that
+struct will have a member named \texttt{<x>} of type \texttt{<y>}. 
+Thus, \texttt{<y>} will be interpreted in a type context.
+
+Another task which is being done in this part is substitution of operators with 
+\textit{dunder} functions or structs. In value context \texttt{5+a} gets
+substituted with a function call \texttt{\_\_add\_\_(5,a)}. 
+
+On the other hand,
+if analyzer is currently in type context, \texttt{i8+a} gets substituted with
+\textit{type angle expression} \texttt{\_\_add\_\_<i8, a>}. If \texttt{a} is of type \texttt{i3},
+than this type angle expression will evaluate to \texttt{i11}. AGT provides built-in operators
+on all integer types, like the \texttt{+} you have just seen, for all other arithmetic and
+comparison operators. Comparison operators \texttt{==} and \texttt{!=} are defined on all types, 
+even user-defines ones, and work as one would expect.
+
+Note that the programmer can specify all nonnegative-size 
+integers in type context, not just \texttt{i8, 16, i32, i64},
+for example \texttt{i3, i0, i342123}.
+This allows for powerful compile-time computation examples, 
+some of which will be discussed in chapter 3.
+
+
 
 
 
@@ -611,7 +645,7 @@ if the value it evaluates to \textbf{can't} be referred to from other context.
 \end{definition}
 
 For example, every statement \texttt{let <v> = ...} creates a new memory location,
-so the expressions \texttt{<v>} following it and refering to same identifier \texttt{<v>} are lvalues.
+so the expressions \texttt{<v>} following it and refering to same identifier \texttt{<v>} are L-values.
 
 On the other hand, function call expressions such as \texttt{gcd(3,2)} are rvalues; their result
 (function return value) can't be refered to from any other place, apart from this one.
