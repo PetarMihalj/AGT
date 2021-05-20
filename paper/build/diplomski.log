@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  20 MAY 2021 15:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  20 MAY 2021 19:49
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -763,33 +763,52 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
+
+Overfull \hbox (13.24777pt too wide) in paragraph at lines 527--532
+[]\T1/ptm/m/n/12 AGT's type inference engine (type engine, TE) can be modeled a
+s a pure mathematical
+ []
+
 [14]
-Overfull \hbox (9.1953pt too wide) in paragraph at lines 550--554
+Overfull \hbox (6.52617pt too wide) in paragraph at lines 546--548
+[]\T1/ptm/m/n/12 In the first part of a CTR request, TE collects \T1/ptm/m/it/1
+2 candidates\T1/ptm/m/n/12 . It can collect the candidates
+ []
+
+
+Overfull \hbox (9.1953pt too wide) in paragraph at lines 555--562
 \T1/ptm/m/n/12 definition whose name matches the supplied name, and whose numbe
 r of type parameters
  []
 
-
-Overfull \hbox (0.50378pt too wide) in paragraph at lines 555--558
-[]\T1/ptm/m/n/12 Inference using struct definitions consists of evaluating the 
-body of struct definition,
+[15]
+Overfull \hbox (15.1947pt too wide) in paragraph at lines 580--583
+\T1/ptm/m/n/12 for code synthesis, including LLVM code and return type. In our 
+concrete implementation,
  []
 
 
-Overfull \hbox (2.90744pt too wide) in paragraph at lines 579--583
+Overfull \hbox (2.90744pt too wide) in paragraph at lines 584--588
 \T1/ptm/m/n/12 some built-in functions, like copy functions of pointers, should
  not copy their arguments
  []
 
 
-Overfull \hbox (2.97995pt too wide) in paragraph at lines 579--583
+Overfull \hbox (2.97995pt too wide) in paragraph at lines 584--588
 \T1/ptm/m/n/12 behaviour, and the flag which indicates whether to do so is also
  a part of a FunctionType. 
  []
 
-[15] (/home/pmihalj/agt/paper/res/compiler/inf1.agt)
+(/home/pmihalj/agt/paper/res/compiler/inf1.agt)
+Overfull \hbox (13.347pt too wide) in paragraph at lines 597--607
+\T1/ptm/m/n/12 Since this is evaluated in the type context, operator \T1/pcr/m/
+n/12 == \T1/ptm/m/n/12 will evaluate to type \T1/pcr/m/n/12 i0 \T1/ptm/m/n/12 (
+falsehood)
+ []
+
+[16]
 ! Undefined control sequence.
-l.599 definition of \typett
+l.609 definition of \typett
                            {power} function fits programmers intentions.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -797,413 +816,38 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-! Undefined control sequence.
-l.604 Note that this behaviour is not a \critical
-                                                  error (the one which AGTC ...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
 
-
-Overfull \hbox (17.18518pt too wide) in paragraph at lines 601--606
+Overfull \hbox (17.18518pt too wide) in paragraph at lines 611--616
 []\T1/ptm/m/n/12 On the other hand, consider the definition of \T1/pcr/m/n/12 p
 ower \T1/ptm/m/n/12 at line 9. In this line, \T1/pcr/m/n/12 enable_if
  []
 
-[16]
-Overfull \hbox (11.27039pt too wide) in paragraph at lines 628--631
+
+Overfull \hbox (11.27039pt too wide) in paragraph at lines 638--641
 \T1/ptm/m/n/12 copy the memory array, instead of shallow copying the pointer an
 d thus incidentally
  []
 
 [17]
-! Missing $ inserted.
-<inserted text> 
-                $
-l.660 ... function whose name is \texttt{__init__}
-                                                  , and which has atleast on...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-! Missing { inserted.
-<to be read again> 
-                   _
-l.660 ... function whose name is \texttt{__init__}
-                                                  , and which has atleast on...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-! Missing { inserted.
-<to be read again> 
-                   _
-l.660 ... function whose name is \texttt{__init__}
-                                                  , and which has atleast on...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-! Missing { inserted.
-<to be read again> 
-                   \aftergroup 
-l.660 ... function whose name is \texttt{__init__}
-                                                  , and which has atleast on...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-
-! LaTeX Error: Command \end{definition} invalid in math mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.662 \end{definition}
-                      
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-! LaTeX Error: Something's wrong--perhaps a missing \item.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.662 \end{definition}
-                      
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-! LaTeX Error: Something's wrong--perhaps a missing \item.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.662 \end{definition}
-                      
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-! Missing } inserted.
-<inserted text> 
-                }
-l.662 \end{definition}
-                      
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-! Missing } inserted.
-<inserted text> 
-                }
-l.662 \end{definition}
-                      
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.662 \end{definition}
-                      
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-! Missing } inserted.
-<inserted text> 
-                }
-l.662 \end{definition}
-                      
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-
-Overfull \hbox (393.48265pt too wide) in paragraph at lines 660--663
-[]\T1/ptm/b/n/12 Definition 3 \T1/ptm/m/n/12 (Initializer)\T1/ptm/b/n/12 . []\T
-1/ptm/m/n/12 An initializer is a function whose name is $[]$ 
- []
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.665 ... function whose name is \texttt{__copy__}
-                                                  , and which has two value ...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-! Missing { inserted.
-<to be read again> 
-                   _
-l.665 ... function whose name is \texttt{__copy__}
-                                                  , and which has two value ...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-! Missing { inserted.
-<to be read again> 
-                   _
-l.665 ... function whose name is \texttt{__copy__}
-                                                  , and which has two value ...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-! Missing { inserted.
-<to be read again> 
-                   \aftergroup 
-l.665 ... function whose name is \texttt{__copy__}
-                                                  , and which has two value ...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-
-! LaTeX Error: Command \end{definition} invalid in math mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.667 \end{definition}
-                      
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-! LaTeX Error: Something's wrong--perhaps a missing \item.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.667 \end{definition}
-                      
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-! LaTeX Error: Something's wrong--perhaps a missing \item.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.667 \end{definition}
-                      
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-! Missing } inserted.
-<inserted text> 
-                }
-l.667 \end{definition}
-                      
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-! Missing } inserted.
-<inserted text> 
-                }
-l.667 \end{definition}
-                      
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.667 \end{definition}
-                      
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-! Missing } inserted.
-<inserted text> 
-                }
-l.667 \end{definition}
-                      
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-
-Overfull \hbox (391.89603pt too wide) in paragraph at lines 665--668
+Overfull \hbox (8.79228pt too wide) in paragraph at lines 675--677
 []\T1/ptm/b/n/12 Definition 4 \T1/ptm/m/n/12 (Copy function)\T1/ptm/b/n/12 . []
-\T1/ptm/m/n/12 An copy function is a function whose name is $[]$ 
+\T1/ptm/m/n/12 An copy function is a function whose name is \T1/pcr/m/n/12 __co
+py__\T1/ptm/m/n/12 ,
  []
 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.670 ... function whose name is \texttt{__dest__}
-                                                  , and which has only one v...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-! Missing { inserted.
-<to be read again> 
-                   _
-l.670 ... function whose name is \texttt{__dest__}
-                                                  , and which has only one v...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-! Missing { inserted.
-<to be read again> 
-                   _
-l.670 ... function whose name is \texttt{__dest__}
-                                                  , and which has only one v...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-! Missing { inserted.
-<to be read again> 
-                   \aftergroup 
-l.670 ... function whose name is \texttt{__dest__}
-                                                  , and which has only one v...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-
-! LaTeX Error: Command \end{definition} invalid in math mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.672 \end{definition}
-                      
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-! LaTeX Error: Something's wrong--perhaps a missing \item.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.672 \end{definition}
-                      
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-! LaTeX Error: Something's wrong--perhaps a missing \item.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.672 \end{definition}
-                      
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-! Missing } inserted.
-<inserted text> 
-                }
-l.672 \end{definition}
-                      
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-! Missing } inserted.
-<inserted text> 
-                }
-l.672 \end{definition}
-                      
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.672 \end{definition}
-                      
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-! Missing } inserted.
-<inserted text> 
-                }
-l.672 \end{definition}
-                      
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-
-Overfull \hbox (168.14616pt too wide) in paragraph at lines 670--673
-[]\T1/ptm/b/n/12 Definition 5 \T1/ptm/m/n/12 (Destructor)\T1/ptm/b/n/12 . []\T1
-/ptm/m/n/12 An destructor is a function whose name is $[]$ 
- []
-
-(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.agt [18])
-(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.out) [19]
+(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.agt [18]) [19]
+(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.out) [20]
 Chapter 3.
-(/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.agt [20
+(/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.agt [21
 
 ])
 (/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.out)
-(/home/pmihalj/agt/paper/res/programs/fib_compile_time.agt) [21]
+(/home/pmihalj/agt/paper/res/programs/fib_compile_time.agt) [22]
 (/home/pmihalj/agt/paper/res/programs/fib_compile_time.out)
-(/home/pmihalj/agt/paper/res/programs/shared_pointer.agt [22] [23])
-(/home/pmihalj/agt/paper/res/programs/shared_pointer.out) [24]
+(/home/pmihalj/agt/paper/res/programs/shared_pointer.agt [23] [24])
+(/home/pmihalj/agt/paper/res/programs/shared_pointer.out) [25]
 (/home/pmihalj/agt/paper/res/programs/memory_object.agt)
-(/home/pmihalj/agt/paper/res/programs/memory_alloc.agt [25]
+(/home/pmihalj/agt/paper/res/programs/memory_alloc.agt [26]
 Overfull \hbox (165.88954pt too wide) in paragraph at lines 18--19
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
@@ -1213,14 +857,14 @@ Overfull \hbox (192.16975pt too wide) in paragraph at lines 19--21
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-) (/home/pmihalj/agt/paper/res/programs/string_mgmt.agt [26] [27] [28])
-[29]
+) (/home/pmihalj/agt/paper/res/programs/string_mgmt.agt [27] [28] [29])
+[30]
 Chapter 4.
-[30
+[31
 
 ]
 Chapter 5.
-(/home/pmihalj/agt/paper/build/diplomski.bbl [31
+(/home/pmihalj/agt/paper/build/diplomski.bbl [32
 
 ]
 ! Misplaced alignment tab character &.
@@ -1264,39 +908,36 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-) [32
+) [33
 
 ]
 
 Package natbib Warning: There were undefined citations.
 
-[33] (/home/pmihalj/agt/paper/build/diplomski.aux) ) 
+[34] (/home/pmihalj/agt/paper/build/diplomski.aux) ) 
 Here is how much of TeX's memory you used:
- 9591 strings out of 481257
- 142375 string characters out of 2908218
- 724251 words of memory out of 3000000
- 26556 multiletter control sequences out of 15000+600000
+ 9592 strings out of 481257
+ 142381 string characters out of 2908218
+ 724285 words of memory out of 3000000
+ 26557 multiletter control sequences out of 15000+600000
  464991 words of font info for 96 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
  83i,17n,88p,272b,1899s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/home/pmihalj/.miktex/texm
 fs/install/fonts/enc/dvips/base/8r.enc}</home/pmihalj/.miktex/texmfs/install/fo
 nts/type1/public/amsfonts/cm/cmmi12.pfb></home/pmihalj/.miktex/texmfs/install/f
-onts/type1/public/amsfonts/cm/cmmi6.pfb></home/pmihalj/.miktex/texmfs/install/f
-onts/type1/public/amsfonts/cm/cmmi8.pfb></home/pmihalj/.miktex/texmfs/install/f
 onts/type1/public/amsfonts/cm/cmr12.pfb></home/pmihalj/.miktex/texmfs/install/f
-onts/type1/public/amsfonts/cm/cmr6.pfb></home/pmihalj/.miktex/texmfs/install/fo
-nts/type1/public/amsfonts/cm/cmsy10.pfb></home/pmihalj/.miktex/texmfs/install/f
-onts/type1/urw/courier/ucrr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/t
-ype1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/
-urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/t
-imes/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utm
-r8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmri8a.pfb
->
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (39 pages, 225841
+onts/type1/public/amsfonts/cm/cmsy10.pfb></home/pmihalj/.miktex/texmfs/install/
+fonts/type1/urw/courier/ucrr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/
+type1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1
+/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/
+times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/ut
+mr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmri8a.pf
+b>
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (40 pages, 196905
  bytes).
 PDF statistics:
- 199 PDF objects out of 1000 (max. 8388607)
+ 190 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -517,32 +517,37 @@ some of which will be discussed in chapter 3.
 
 
 
-\section{Type inference}
+\section{Code generation}
 
-Type inference is the most complex phase of AGT compilation process.
+Code generation is the most complex phase of AGT compilation process.
 Before we go heads first into it's description, we will lay down some definitions
-and motivate them. Type inference also includes LLVM-IR generation. 
+and motivate them. Code generation includes both type inference and LLVM intermediate representation
+generation. 
 
-AGT's type inference engine works as a functional programming language,
-in a sense that it has to evaluate \textit{type requests}.
-This evaluation is \textit{pure}; repeated evaluations always yield the same result.
-In a sense, the type engine is a box which provides two evaluation functions.
+AGT's type inference engine (type engine, TE) can be modeled as a 
+pure mathematical function, because it's main goal is to evaluate \textit{type requests}.
+This \textit{pureity} of evaluation means that repeated evaluations always yield the same result.
+In other words, TE can be thought of as a block box which provides two evaluation functions,
+\textit{concrete type request} and \textit{function type request}.
 
 \section{Concrete type request}
 
-The first function is a \textit{Concrete type request} (CTR). This function maps
+The first function which TE supplies is \textit{Concrete type request} (CTR). This function maps
 a name and a list of concrete types (\textit{type arguments}) into a new concrete type. For example,
 
 \begin{enumerate}
     \item CTR("char", []) -> CharType
     \item CTR("i32", []) -> IntType(32)
-    \item CTR("rectangle", [i32]) -> RectangleType(with i32 side lengths)
+    \item CTR("rectangle", [i32]) -> RectangleType(with \texttt{i32} side lengths)
 \end{enumerate}
 
-How does the type engine achieve this mapping? 
+How does the TE provide this mapping? 
 
-One way is to use \texttt{concrete type generators}.
-They take CTR arguments and decide whether they can provide a type, for example,
+In the first part of a CTR request, TE collects \textit{candidates}.
+It can collect the candidates by two means.
+
+First way to collect candidates is by \textit{concrete type generators}.
+They can be invoked with CTR arguments and decide whether they can provide a type, for example,
 a bool type generator can check whether the name is equal to "bool" and whether 
 there are no supplied type arguments; if both conditions are satisfied,
 it can provide the concrete type.
@@ -550,15 +555,14 @@ it can provide the concrete type.
 The other way is to iterate over user-supplied struct definitions.
 For every struct definition whose name matches the supplied name, 
 and whose number of type parameters matches the number of supplied type arguments,
-the inference is being done. Every sucessful inference is considered in a final decision.
-
-Inference using struct definitions consists of evaluating the body of struct definition,
+the inference is being done. Inference which is done by 
+using struct definitions consists of evaluating the body of struct definition,
 which might need recursive calls to type engine itself. We ensure that these
 recursions are taken care of; for example, recursive structure definitions will fail.
 
-When both of these methods finish, there has to be \textbf{exactly one} candidate type,
-otherwise, we have an ambiguity, which is an error.
-
+When both of these ways are done (without errors) there has to be \textbf{exactly one} candidate type,
+otherwise, we have an ambiguity, which is an error. This candidate type is returned as a result
+of a concrete type request.
 
 \section{Function type request}
 
@@ -574,25 +578,31 @@ into a new concrete type. For example,
 \end{enumerate}
 
 A FunctionType is a rather complex type; it needs to have all information needed for code synthesis, 
-including LLVM code and return type. 
+including LLVM code and return type. In our concrete implementation, LLVM code is not directly
+contained in the function type, but can be referenced via program-unique \textit{mangled function name}.
 
 By default, every function call is preceeded by copying of its arguments. However, some built-in functions,
 like copy functions of pointers, should not copy their arguments (because of infinite recursive loops).
-Only builtin functions can ignore this copying behaviour, and the flag which indicates
+Only built-in functions can ignore this copying behaviour, and the flag which indicates
 whether to do so is also a part of a FunctionType.
 
-Let us take a look at the following code snippet, which demonstrates a sort of polymorphic behaviour.
+Let us take a look at the code snippet in listing \ref{inf1}, 
+which demonstrates a sort of polymorphic behaviour.
 
-\textcode{\resdir/compiler/inf1.agt}{}{a}
+\textcode{\resdir/compiler/inf1.agt}{inf1}{enable\_if example}
 
-Suppose the type engine is invoked to fulfill a FTR("power", [slow], [i32, i32]).
-Since "power" is not in builtin functions, TE will resort to using function definitions.
+Suppose the type engine is invoked to compute an answer to a FTR("power", [slow], [i32, i32]).
+Since "power" is not in built-in functions, TE will only consider user-supplied function definitions.
 
 When TE starts to infer a type from the definition at line 4, it will immidiatelly encounter a special
 construct \texttt{enable\_if<...>} at line 5. This construct is the main driver of polymorphism in AGT.
-AGTC will first evaluate it's argument, \texttt{T==slow}, which will resolve to \texttt{i1} (equivalent of
-true when used in type context). Enable\_if will, since its argument represents truth, act as if didn't exist;
-it will just assign the type to variable on the left side. Since the variable is a \textit{discard token}
+AGTC will first evaluate it's argument, \texttt{T==slow}. Since this is evaluated in the type context,
+operator \texttt{==} will evaluate to type \texttt{i0} (falsehood) or \texttt{i1} (truth), depending on 
+whether the operands are the same.
+Since its argument represents truth, \texttt{enable\_if} will act as if didn't exist;
+it will evaluate to the type of its argument.
+Obviously, this type will then be assigned to a name on the left side. 
+Since this name is a \textit{discard token}
 (\texttt{\_}), the type won't be assigned, but rather discarded.
 
 The user has achieved polymorphic selection using enable\_if. He signalled the compiler that this
@@ -601,7 +611,7 @@ definition of \typett{power} function fits programmers intentions.
 On the other hand, consider the definition of \texttt{power} at line 9.
 In this line, \texttt{enable\_if} argument will evaluate to \texttt{i0} (false in type context).
 This will cause the TE to abandon this function as a potential candidate for type resolution.
-Note that this behaviour is not a \critical error (the one which AGTC reports as a mistake),
+Note that this behaviour is not a \textit{critical} error (the one which gets reported and crashes AGTC),
 but rather a mechanism for polymorphic selection.
 
 \section{Lifetime semantics}
@@ -657,17 +667,17 @@ involves calling the \texttt{copy} function (which might be very expensive, for 
 and \textit{memory copying} does not copies only the literal memory contents.
 
 \begin{definition}[Initializer]
-An initializer is a function whose name is \texttt{__init__}, and which has atleast one value parameter;
+An initializer is a function whose name is \texttt{\_\_init\_\_}, and which has atleast one value parameter;
 a pointer to type being initialized. Other value parameters are objects which are needed for initialization.
 \end{definition}
 
 \begin{definition}[Copy function]
-An copy function is a function whose name is \texttt{__copy__}, and which has two value parameters;
+An copy function is a function whose name is \texttt{\_\_copy\_\_}, and which has two value parameters;
 first being a pointer to memory being copied to, and second one being a pointer to object copied from.
 \end{definition}
 
 \begin{definition}[Destructor]
-An destructor is a function whose name is \texttt{__dest__}, and which has only one value parameter;
+An destructor is a function whose name is \texttt{\_\_dest\_\_}, and which has only one value parameter;
 a pointer to object being destroyed.
 \end{definition}
 
