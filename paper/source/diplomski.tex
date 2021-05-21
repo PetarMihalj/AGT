@@ -530,7 +530,7 @@ This \textit{pureity} of evaluation means that repeated evaluations always yield
 In other words, TE can be thought of as a block box which provides two evaluation functions,
 \textit{concrete type request} and \textit{function type request}.
 
-\section{Concrete type request}
+\subsection{Concrete type request}
 
 The first function which TE supplies is \textit{Concrete type request} (CTR). This function maps
 a name and a list of concrete types (\textit{type arguments}) into a new concrete type. For example,
@@ -564,7 +564,7 @@ When both of these ways are done (without errors) there has to be \textbf{exactl
 otherwise, we have an ambiguity, which is an error. This candidate type is returned as a result
 of a concrete type request.
 
-\section{Function type request}
+\subsection{Function type request}
 
 The second inference function is a \textit{Function type request} (FTR). This function maps
 a name and \textbf{two} lists of concrete types (\textit{type arguments} and \textit{value arguments}) 
@@ -614,7 +614,7 @@ This will cause the TE to abandon this function as a potential candidate for typ
 Note that this behaviour is not a \textit{critical} error (the one which gets reported and crashes AGTC),
 but rather a mechanism for polymorphic selection.
 
-\section{Lifetime semantics}
+\subsection{Lifetime semantics}
 
 Lifetime semantics is a broad term which rougly encompasses the following aspects of objects
 in programming languages:
@@ -681,15 +681,16 @@ An destructor is a function whose name is \texttt{\_\_dest\_\_}, and which has o
 a pointer to object being destroyed.
 \end{definition}
 
-Check out the following program and it's output:
+Check out the example of lifetime semantics in listing \ref{ltsem} and output in listing \ref{ltsemout}.
 
-\textcode{\resdir/compiler/lifetime_ex.agt}{}{a}
-\textcode{\resdir/compiler/lifetime_ex.out}{}{a}
+\textcode{\resdir/compiler/lifetime_ex.agt}{ltsem}{Lifetime semantics}
+\textcode{\resdir/compiler/lifetime_ex.out}{ltsemout}{Lifetime semantics - output}
 
 You can clearly see that we have used \texttt{enable\_if} construct in lifetime functions too.
 This is crucial to prevent multiple candidates for different concrete types.
 
-These were the basics of lifetime semantics, we will get to more details in examples section.
+These were the basics of lifetime semantics, we will introduce more use-cases in the next chapter.
+
 
 
 

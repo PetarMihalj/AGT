@@ -10,9 +10,9 @@
 \contentsline {section}{\numberline {2.2}Syntactic analysis}{10}{}%
 \contentsline {section}{\numberline {2.3}Semantic analysis}{13}{}%
 \contentsline {section}{\numberline {2.4}Code generation}{14}{}%
-\contentsline {section}{\numberline {2.5}Concrete type request}{15}{}%
-\contentsline {section}{\numberline {2.6}Function type request}{15}{}%
-\contentsline {section}{\numberline {2.7}Lifetime semantics}{17}{}%
+\contentsline {subsection}{\numberline {2.4.1}Concrete type request}{15}{}%
+\contentsline {subsection}{\numberline {2.4.2}Function type request}{15}{}%
+\contentsline {subsection}{\numberline {2.4.3}Lifetime semantics}{17}{}%
 \contentsline {chapter}{\numberline {3}AGT program examples}{21}{}%
 \contentsline {section}{\numberline {3.1}Limited parametric polymorphism}{21}{}%
 \contentsline {section}{\numberline {3.2}Compile time computation}{22}{}%
