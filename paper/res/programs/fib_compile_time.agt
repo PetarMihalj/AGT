@@ -1,3 +1,8 @@
+fn outnl(i){
+    out(i);
+    out('\n');
+}
+
 struct fib<T> -> i1{
     type _ = enable_if<T == i1>;
 }
@@ -12,7 +17,8 @@ struct fib<T> -> R{
 }
 
 fn main() -> i32{
-    let v = type_to_value<fib<i12>, i32>();
-    out(v);
+    outnl(type_to_value<i100, i32>());
+    outnl(type_to_value<fib<i12>, i32>());
+    outnl(type_to_value<fib<i12>, i8>());
     return 0;
 }

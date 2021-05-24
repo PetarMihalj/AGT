@@ -821,25 +821,108 @@ in chapter \ref{chap:examples}.
 This section of the paper will introduce the reader to AGT by presenting, explaining and contemplating
 about example programs.
 
-\section{Limited parametric polymorphism}
+\section{Parametric polymorphism}
 
-Parametric polymorphism is a possibility of function to be called with different sets of argument types.
+Parametric polymorphism is a phenomenon of function calls refering to different concrete functions 
+(or in AGT language - function types) when invoked with different sets of argument types.
 
-Check out the following example:
-\textcode{\resdir/programs/fib_runtime_recursion.agt}{}{a}
+In the example in listing \ref{runtime_rec}, we calculate n'th fibonacci number recursivly.
+
+\textcode{\resdir/programs/fib_runtime_recursion.agt}{runtime_rec}
+{Fibonacci with recursion, Parametric Polymorphism}
+
+The reader should first note the \texttt{outnl} function definition in line 1;
+this function takes a single argument, which is refered to as parameter named \texttt{i},
+and this parameter can take any type (since we haven't limited the function definition with enable\_if).
+Of course, if \texttt{out} in line 2 can't be called with that type, we will be
+reported a compilation error. This is an example of parametric polymorphism.
+
+The other example of polymorphic behaviour occurs in definition of function \texttt{fib} in line 10.
+Here we explicitly state that this function is to be considered as a candidate only if
+the first type argument (which is assigned to type parameter \texttt{T}) is an integer type.
+
+Integer selection behaviour is achieved by using \textit{supstituting struct definition}.
+Supstituting struct definition is a struct definition which has no members,
+and \textit{returns} a type (ending of line 6). When a struct type is inferred from such definition,
+it is supstituted with whatever is \textit{returned} from it (\texttt{R} here), 
+instead of being interpreted as an aggregate type, as ordinary structs are.
+
+Semantics of \texttt{T} represent the integer size in which fibonacci number is to be returned.
+Similarly, our \texttt{fib} function always expects \texttt{i32} as a specifier of \texttt{n}.
+
+Listing \ref{runtime_rec_out} shows the output of our program.
 
 Output:
-\textcode{\resdir/programs/fib_runtime_recursion.out}{}{a}
+\textcode{\resdir/programs/fib_runtime_recursion.out}{runtime_rec_out}{Fibonacci with recursion - output}
+
+As expected, \texttt{i8} can't hold a value of \texttt{144} and we notice an overflow (negative result).
 
 
 \section{Compile time computation}
 
+We will perform the same computation as in the last section, but now using compile-time 
+computation capabilities of AGT. Listing \ref{fib_ct} contains our demo.
+
+\textcode{\resdir/programs/fib_compile_time.agt}{fib_ct}{Compile-time Fibonacci}
+
+Check out the line 20; we output the result of a call to \texttt{type\_to\_value<A,B>()}.
+This is a special builtin function, which will, for any integer type specified as the first 
+type argument (\texttt{A}), return that integer's size in a value of type given as \texttt{B}.
+For example, in line 20, we will get an \texttt{i32} with value \textt{100} as a return value
+from \texttt{type\_to\_value} function. Fundamentally, this function allows you to \textit{transfer}
+your compile-time-computed value (in form of integer types) to runtime.
+
+Having access to \texttt{type\_to\_value} function, all we have to do is compute an integer
+type corresponding to n'th Fibonacci number. The reader should now study the \textit{supstituting
+struct definitions} on lines 6, 9 and 13. It is imporant to note that they are disjoint in the sense
+that only one is a candidate for type inference (achieved with \texttt{enable\_if}).
+
+\textcode{\resdir/programs/fib_compile_time.out}{fib_ct_out}{Compile-time Fibonacci - output}
+
+The same overflow problem happens in this example, due to request for a value of type \texttt{i8},
+which can't hold \texttt{144}.
+
+
+\section{Heap object allocation}
+
+We will now demonstrate object allocation and initialization on the heap. 
+
+\textcode{\resdir/programs/memory_object.agt}{memory_object}{Heap object allocation}
+\textcode{\resdir/programs/memory_object.in}{memory_object_in}{Heap object allocation - input}
+\textcode{\resdir/programs/memory_object.out}{memory_object_out}{Heap object allocation - output}
+
+In the listing \ref{memory_object}, we first introduce a struct definition at line 1.
+After loading in two \texttt{i32} values, we \textit{alias} \texttt{rect<i32>} as \texttt{irect},
+so we can refer to it with this name in the future.
+
+In line 16, we allocate an \texttt{irect} on the heap using a special method \texttt{heap\_object<T>(...)}.
+Similarly to \texttt{object<T>(...)}, this method allocates space for object of type \texttt{T} and
+initializes it with an appropriate \texttt{\_\_init\_\_} function. Unlike \texttt{object}, this method
+does allocation on the heap, instead of the stack.
+
+After allocating and displaying value of member \texttt{a}, 
+we \texttt{heap\_free} the allocated memory, and
+print out the member again. While this is a nondeterministic behaviour,
+we have kept an output where member is overwritten by different data to demonstrate
+unsafe nature of access to freed data.
+
+
+\section{Raw heap allocation}
+
+In the following example, we demonstrate the \texttt{heap\_alloc<T>(n)} function,
+which allocates memory for \texttt{n} consecutive objects of type \texttt{T},
+and returns a pointer to beginning of that memory.
+
+\textcode{\resdir/programs/memory_alloc.agt}{memory_alloc}{Raw heap allocation}
+\textcode{\resdir/programs/memory_alloc.out}{memory_alloc}{Raw heap allocation - output}
+
+Although the stack equivalent of this function is not yet available, there
+is no reason for it not to exist and can be implemented in AGT when needed.
+
+\section{Object oriented example}
+
 Check out the following example:
-\textcode{\resdir/programs/fib_compile_time.agt}{}{a}
-
-Output:
-\textcode{\resdir/programs/fib_compile_time.out}{}{a}
-
+\textcode{\resdir/programs/string_mgmt.agt}{}{a}
 
 \section{Ownership semantics}
 
@@ -848,21 +931,6 @@ Check out the following example:
 
 Output:
 \textcode{\resdir/programs/shared_pointer.out}{}{a}
-
-\section{Memory primitives}
-
-Check out the following example:
-\textcode{\resdir/programs/memory_object.agt}{}{a}
-
-\section{Memory allocation}
-
-Check out the following example:
-\textcode{\resdir/programs/memory_alloc.agt}{}{a}
-
-\section{Object oriented example}
-
-Check out the following example:
-\textcode{\resdir/programs/string_mgmt.agt}{}{a}
 
 
 \chapter{Future improvements}\label{chap:improv}

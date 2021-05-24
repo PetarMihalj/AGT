@@ -19,16 +19,16 @@
 \contentsline {subsection}{\numberline {3.4.2}Function type request}{19}{}%
 \contentsline {subsection}{\numberline {3.4.3}Lifetime semantics}{21}{}%
 \contentsline {chapter}{\numberline {4}AGT program examples}{25}{}%
-\contentsline {section}{\numberline {4.1}Limited parametric polymorphism}{25}{}%
-\contentsline {section}{\numberline {4.2}Compile time computation}{26}{}%
-\contentsline {section}{\numberline {4.3}Ownership semantics}{27}{}%
-\contentsline {section}{\numberline {4.4}Memory primitives}{30}{}%
-\contentsline {section}{\numberline {4.5}Memory allocation}{30}{}%
-\contentsline {section}{\numberline {4.6}Object oriented example}{31}{}%
-\contentsline {chapter}{\numberline {5}Future improvements}{35}{}%
-\contentsline {section}{\numberline {5.1}References}{35}{}%
-\contentsline {section}{\numberline {5.2}Syntactic improvements}{35}{}%
-\contentsline {section}{\numberline {5.3}Multiple source file support}{35}{}%
-\contentsline {section}{\numberline {5.4}Portability}{35}{}%
-\contentsline {chapter}{\numberline {6}Conclusion}{36}{}%
-\contentsline {chapter}{Bibliography}{37}{}%
+\contentsline {section}{\numberline {4.1}Parametric polymorphism}{25}{}%
+\contentsline {section}{\numberline {4.2}Compile time computation}{27}{}%
+\contentsline {section}{\numberline {4.3}Heap object allocation}{28}{}%
+\contentsline {section}{\numberline {4.4}Raw heap allocation}{29}{}%
+\contentsline {section}{\numberline {4.5}Object oriented example}{30}{}%
+\contentsline {section}{\numberline {4.6}Ownership semantics}{33}{}%
+\contentsline {chapter}{\numberline {5}Future improvements}{36}{}%
+\contentsline {section}{\numberline {5.1}References}{36}{}%
+\contentsline {section}{\numberline {5.2}Syntactic improvements}{36}{}%
+\contentsline {section}{\numberline {5.3}Multiple source file support}{36}{}%
+\contentsline {section}{\numberline {5.4}Portability}{36}{}%
+\contentsline {chapter}{\numberline {6}Conclusion}{37}{}%
+\contentsline {chapter}{Bibliography}{38}{}%

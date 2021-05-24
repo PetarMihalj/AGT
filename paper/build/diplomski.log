@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  24 MAY 2021 11:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  24 MAY 2021 14:01
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -379,7 +379,11 @@ LaTeX Font Info:    Trying to load font information for T1+ptm on input line 55
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 )
-(/home/pmihalj/agt/paper/build/diplomski.aux)
+(/home/pmihalj/agt/paper/build/diplomski.aux
+
+LaTeX Warning: Label `memory_alloc' multiply defined.
+
+)
 \openout1 = `diplomski.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 55.
@@ -899,33 +903,95 @@ py__\T1/ptm/m/n/12 ,
 (/home/pmihalj/agt/paper/res/compiler/lifetime_ex.agt [22]) [23]
 (/home/pmihalj/agt/paper/res/compiler/lifetime_ex.out) [24]
 Chapter 4.
+
+Overfull \hbox (10.61093pt too wide) in paragraph at lines 826--828
+\T1/ptm/m/n/12 Parametric polymorphism is a phenomenon of function calls referi
+ng to different concrete
+ []
+
+
+! Package keyval Error: Parametric Polymorphism undefined.
+
+See the keyval package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.832 ... with recursion, Parametric Polymorphism}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! Package keyval Error: Parametric Polymorphism undefined.
+
+See the keyval package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.832 ... with recursion, Parametric Polymorphism}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 (/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.agt [25
 
 ])
-(/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.out)
-(/home/pmihalj/agt/paper/res/programs/fib_compile_time.agt) [26]
-(/home/pmihalj/agt/paper/res/programs/fib_compile_time.out)
-(/home/pmihalj/agt/paper/res/programs/shared_pointer.agt [27] [28])
-(/home/pmihalj/agt/paper/res/programs/shared_pointer.out) [29]
-(/home/pmihalj/agt/paper/res/programs/memory_object.agt)
-(/home/pmihalj/agt/paper/res/programs/memory_alloc.agt [30]
-Overfull \hbox (165.88954pt too wide) in paragraph at lines 18--19
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+Overfull \hbox (31.15138pt too wide) in paragraph at lines 844--849
+[]\T1/ptm/m/n/12 Integer selection behaviour is achieved by using \T1/ptm/m/it/
+12 supstituting struct definition\T1/ptm/m/n/12 . Supstituting
  []
 
 
-Overfull \hbox (192.16975pt too wide) in paragraph at lines 19--21
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+Overfull \hbox (4.9194pt too wide) in paragraph at lines 850--852
+[]\T1/ptm/m/n/12 Semantics of \T1/pcr/m/n/12 T \T1/ptm/m/n/12 represent the int
+eger size in which fibonacci number is to be returned.
  []
 
-) (/home/pmihalj/agt/paper/res/programs/string_mgmt.agt [31] [32] [33])
-[34]
+(/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.out) [26]
+(/home/pmihalj/agt/paper/res/programs/fib_compile_time.agt)
+! Undefined control sequence.
+l.871 ...ill get an \texttt{i32} with value \textt
+                                                  {100} as a return value
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (3.91347pt too wide) in paragraph at lines 868--874
+[]\T1/ptm/m/n/12 Check out the line 20; we output the result of a call to \T1/p
+cr/m/n/12 type_to_value<A,B>()\T1/ptm/m/n/12 .
+ []
+
+[27] (/home/pmihalj/agt/paper/res/programs/fib_compile_time.out)
+(/home/pmihalj/agt/paper/res/programs/memory_object.agt) [28]
+(/home/pmihalj/agt/paper/res/programs/memory_object.in)
+(/home/pmihalj/agt/paper/res/programs/memory_object.out)
+Overfull \hbox (68.53339pt too wide) in paragraph at lines 898--902
+[]\T1/ptm/m/n/12 In line 16, we allocate an \T1/pcr/m/n/12 irect \T1/ptm/m/n/12
+ on the heap using a special method \T1/pcr/m/n/12 heap_object<T>(...)\T1/ptm/m
+/n/12 .
+ []
+
+
+Overfull \hbox (0.68764pt too wide) in paragraph at lines 912--915
+\T1/ptm/m/n/12 allocates memory for \T1/pcr/m/n/12 n \T1/ptm/m/n/12 consecutive
+ objects of type \T1/pcr/m/n/12 T\T1/ptm/m/n/12 , and returns a pointer to begi
+nning
+ []
+
+(/home/pmihalj/agt/paper/res/programs/memory_alloc.agt [29])
+(/home/pmihalj/agt/paper/res/programs/memory_alloc.out)
+(/home/pmihalj/agt/paper/res/programs/string_mgmt.agt [30] [31] [32])
+(/home/pmihalj/agt/paper/res/programs/shared_pointer.agt [33] [34])
+(/home/pmihalj/agt/paper/res/programs/shared_pointer.out) [35]
 Chapter 5.
-[35
+[36
 
 ]
 Chapter 6.
-(/home/pmihalj/agt/paper/build/diplomski.bbl [36
+(/home/pmihalj/agt/paper/build/diplomski.bbl [37
 
 ]
 ! Misplaced alignment tab character &.
@@ -975,36 +1041,39 @@ Underfull \hbox (badness 10000) in paragraph at lines 46--53
 08$\T1/ptm/m/n/12 . --
  []
 
-) [37
+) [38
 
 ]
 
 Package natbib Warning: There were undefined citations.
 
-[38] (/home/pmihalj/agt/paper/build/diplomski.aux) ) 
+[39] (/home/pmihalj/agt/paper/build/diplomski.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 9606 strings out of 481257
- 142582 string characters out of 2908218
- 724615 words of memory out of 3000000
- 26571 multiletter control sequences out of 15000+600000
+ 9605 strings out of 481257
+ 143004 string characters out of 2908218
+ 725011 words of memory out of 3000000
+ 26563 multiletter control sequences out of 15000+600000
  464991 words of font info for 96 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
  83i,17n,88p,272b,1899s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/home/pmihalj/.miktex/texm
-fs/install/fonts/enc/dvips/base/8r.enc}</home/pmihalj/.miktex/texmfs/install/fo
-nts/type1/public/amsfonts/cm/cmmi12.pfb></home/pmihalj/.miktex/texmfs/install/f
-onts/type1/public/amsfonts/cm/cmr12.pfb></home/pmihalj/.miktex/texmfs/install/f
-onts/type1/public/amsfonts/cm/cmsy10.pfb></home/pmihalj/.miktex/texmfs/install/
-fonts/type1/urw/courier/ucrr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/
-type1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1
-/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/
-times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/ut
-mr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmri8a.pf
-b>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (44 pages, 207354
+{/home/pmihalj/.miktex/texmfs/install/fonts/enc/dvips/base/8r.enc}</home/pmih
+alj/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi12.pfb></home/pmi
+halj/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr12.pfb></home/pmi
+halj/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/pm
+ihalj/.miktex/texmfs/install/fonts/type1/urw/courier/ucrr8a.pfb></home/pmihalj/
+.miktex/texmfs/install/fonts/type1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.mikt
+ex/texmfs/install/fonts/type1/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/te
+xmfs/install/fonts/type1/urw/times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/ins
+tall/fonts/type1/urw/times/utmr8a.pfb></home/pmihalj/.miktex/texmfs/install/fon
+ts/type1/urw/times/utmri8a.pfb>
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (45 pages, 213142
  bytes).
 PDF statistics:
- 203 PDF objects out of 1000 (max. 8388607)
+ 206 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
