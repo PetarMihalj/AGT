@@ -1,4 +1,4 @@
-\begin{thebibliography}{5}
+\begin{thebibliography}{7}
 % this bibliography was produced with the style dinat.bst v2.5
 \makeatletter
 \newcommand{\dinatlabel}[1]%
@@ -35,5 +35,20 @@
 \newblock \emph{LLVM: A compilation framework for lifelong program analysis &
   transformation}.
 \newblock 2004
+
+\bibitem[Peters(2004)]{c_zen}
+\dinatlabel{Peters 2004} \textsc{Peters}, Tim:
+\newblock \emph{The Zen of Python}.
+\newblock 08 2004. --
+\newblock URL \url{https://www.python.org/dev/peps/pep-0020/}
+
+\bibitem[{Wikipedia contributors}(2021)]{c_type_system}
+\dinatlabel{{Wikipedia contributors} 2021} \textsc{{Wikipedia contributors}}:
+\newblock \emph{Type system --- {Wikipedia}{,} The Free Encyclopedia}.
+\newblock 2021. --
+\newblock URL
+  \url{https://en.wikipedia.org/w/index.php?title=Type_system&oldid=1024380108}.
+  --
+\newblock [Online; accessed 24-May-2021]
 
 \end{thebibliography}

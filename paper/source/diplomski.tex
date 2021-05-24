@@ -67,7 +67,7 @@
 
 \tableofcontents
 
-\chapter{Introduction}
+\chapter{Introduction}\label{chap:intro}
 
 The programming language developed as a part of this thesis is called AGT.
 The name AGT stands for an unfortunate fact that the names of all precious stones
@@ -196,29 +196,120 @@ The programming style which utilizes this language capability is often called "D
 
 This master thesis will gradually introduce the reader to AGT. 
 
-Chapter 1 has already introduced the reader to basic syntax and semantics,
+Chapter \ref{chap:intro} has already introduced the reader to basic syntax and semantics,
 using a simple example and emphasizing the surface-level properties of type system and inference. 
 
-After the surface-level exploration of the language, chapter 2 will provide an in-depth description of AGT.
+The following chapter \ref{chap:design} will lay out and justify author's
+language design decisions. The discussion includes many diverse topics,
+ranging from syntactical desisions, to suptle semantic onces.
+
+After the surface-level exploration of the language, chapter \ref{chap:indepth}
+will provide an in-depth description of AGT.
 This chapter will have many references to the AGTC reference implementation, 
 rather than to a separate formal specification. Since AGT is still not a finalized product,
 formal specification does not exist, and it's functionality is determined by a reference compiler.
-We will mostly focus on the type system, since it is unorthodox and is the main contribution of the author.
-Author will justify the decisions which had been made on all levels of AGT design process.
+We will mostly focus on the type system, since it is unorthodox and is the main
+contribution of the author.  Author will justify the decisions which had been
+made on all levels of AGT design process.
 
-Chapter 3 will supplement the reader with plenty of examples of AGT code. These will
+Chapter \ref{chap:examples} will supplement the reader with plenty of examples of AGT code. These will
 further deepen reader's understanding of AGT. The examples describe impementation
-of common programming paradigms, constructs, patterns in AGT, with a detailed explaination
-of more esoteric parts of the source code.
+of common programming paradigms, constructs, patterns in AGT, with a detailed
+explaination of more esoteric parts of the source code.
 
-In chapter 4 we will address the issues AGT has both on definition and implementation levels,
-and discuss the various features that can be improved or added to the language.
+In chapter \ref{chap:improv} we will address the issues AGT has both on
+definition and implementation levels, and discuss the various features that can
+be improved or added to the language.
 
-Chapter 5 will conclude the thesis and describe future work the author will undertake in order to
-improve the language.
+Chapter \ref{chap:concl} will conclude the thesis and describe future work the
+author will undertake in order to improve the language.
 
-%\nameref{chap:main}
-\chapter{The AGT Programming Language}\label{chap:main}
+\chapter{Design decisions}\label{chap:design}
+
+In this chapter we will describe and justify the main design decisions concerning AGT,
+weighing their pros and cons against one another.
+
+\section{Syntax}
+
+Main inspiration for AGT's syntax have been well known languages C and C++.
+Since most programmers are familiar with these, it is only logical not to diverge from their syntax,
+whenever possible.
+Of course, AGT is way more implicit in typing than both C and C++, that is, types have to be specified
+only when necessary (for example, when parametrizing functions by types).
+Implicit typing allows the programmer to focus on logic instead of typing redundant type annotations
+(such as in C), or keywords that signal the compiler to perform automatic type
+inference (\texttt{auto} in C++).
+
+On the other hand, the abscence of explicit type specification can make the program more unreadable,
+due to the lack of hints these types provide. 
+
+The author would argue that such problems are
+rooted in more suptle problems, such as poorly designed function interface.
+If the function definition is named \texttt{square}, 
+it is only natural to assume that a supplied argument can be multiplied by itself.
+Function definitions that are more convoluted than square can explicitly state their requirements
+in the beginning of function definition body, thus giving the programmer a hint for their usage. 
+
+The Rust Programming Language has had a significant impact on AGT's syntactical features too.
+Mainly, it's use of clear function definition syntax and \texttt{let} statement syntax is
+embedded deeply into AGT.
+
+The Zen of Python \citep{c_zen} is a set of guidelines for writing clean, \textit{pythonic} code. 
+One of these guidelines - \textit{Explicit is better than implicit}, has had a huge impact on AGT.
+Starting from clean function definition syntax, to explicitly named operator (\textit{dunder}) methods
+(\texttt{\_\_add\_\_, \_\_init\_\_, ...}), AGT places explicitness over surface-level practicality.
+The author would argue that explicit code is more readable, maintainable and safe over long term,
+which is a big win over a small expense of writing a few more characters.
+Object creation is also as explicit as can be, whether on the stack or the heap.
+
+Another guideline from The Zen of Python is 
+\textit{There should be one and preferably only one obvious way to do it}. 
+AGT tries to inhibit programmer's choice in a fundamentally non-limiting way, for example, by
+having only one syntax for initializing objects. This does not decrease the 
+language's expressiveness, but helps avoid confusion and errors.
+
+\section{Type System}
+
+Before going into decisions regarding the AGT type system, we will first state common
+definitions of what \texit{type system} actually is, and what we refer to when discussing it.
+
+There are many definitions, but the one which captures the essence most precisely is the following:
+
+\texit{A type system is a logical system comprising a set of rules that 
+    assigns a property called a type to the various constructs of a computer program, 
+such as variables, expressions, functions or modules ... }\citep{c_type_system}.
+
+AGT's type system serves multiple purposes. One is to allow compile time computation.
+The most important one is to ensure the correctness of programs, both on compile time and run time.
+
+AGT's type system is \textit{static}, that is, all values have types which can be, and are, determined
+at compile time. Furthermore, all polymorphic behaviour is resolved in compile time, unlike in C++,
+where the programmer can use \textit{dynamic polymorphism} - a run-time dynamic lookup of functions.
+This makes AGT even more type-safe, by preventing common mistakes which happen when utilizing
+dynamic polymorphism. The author argues that object oriented principles which heavily rely on
+dynamic polymorphism (such as inheritance), can mostly be eliminated by better program design.
+
+Another feature of AGT's type system is that it is \textit{strongly typed}. Most definitions consider
+a language to be strongly typed if it rarely or never implicitly converts
+types, which leads to more compile-time errors, but at the same time provides
+more safety. AGT never converts types implicitly,
+which can, to someone coming from languages such as C, appear tiresome to deal with. On the other hand,
+explicitly stating type conversions will have greater benefits for the
+programmer in the long run.
+
+Type inference engine which supports AGT's type system can appear difficult to get used to,
+but in fact is, atleast on the theoretical level, rather simple. There are no complex inference rules;
+every time an inference has to be done, all the inputs required to perform the process must be available.
+For example, function's return type is a type expression. This type expression is evaluated
+just before the first runtime statement in function definition body, which ensures that the function's
+return type is known in case the function is recursive (directly or not).
+
+
+\section{Reflection}
+
+\section{Programming paradigm}
+
+\chapter{The AGT Programming Language}\label{chap:indepth}
 
 AGT compilation process consists of 4 main phases: 
 
@@ -474,7 +565,7 @@ compiler is required to produce a type which the function returns. In the
 second line, \texttt{a} is a value expression,
 which means compiler is required to produce a value of that expression, rather than a type.
 We haven't yet specified what means to produce either a type or a value, but these implementation
-details will be dealt with in the next chapter.
+details will be dealt with in section \ref{sect:codegen}.
 
 A part of semantic analyzer is presented in listing \ref{semana}.
 In line 3, semantic analyzer checks whether it is currently in function (or struct) definition, 
@@ -509,15 +600,10 @@ Note that the programmer can specify all nonnegative-size
 integers in type context, not just \texttt{i8, 16, i32, i64},
 for example \texttt{i3, i0, i342123}.
 This allows for powerful compile-time computation examples, 
-some of which will be discussed in chapter 3.
+some of which will be discussed in chapter \ref{chap:examples}.
 
 
-
-
-
-
-
-\section{Code generation}
+\section{Code generation}\label{sect:codegen}
 
 Code generation is the most complex phase of AGT compilation process.
 Before we go heads first into it's description, we will lay down some definitions
@@ -689,12 +775,13 @@ Check out the example of lifetime semantics in listing \ref{ltsem} and output in
 You can clearly see that we have used \texttt{enable\_if} construct in lifetime functions too.
 This is crucial to prevent multiple candidates for different concrete types.
 
-These were the basics of lifetime semantics, we will introduce more use-cases in the next chapter.
+These were the basics of lifetime semantics, we will introduce more use-cases
+in chapter \ref{chap:examples}.
 
 
 
 
-\chapter{AGT program examples}
+\chapter{AGT program examples}\label{chap:examples}
 
 This section of the paper will introduce the reader to AGT by presenting, explaining and contemplating
 about example programs.
@@ -743,7 +830,7 @@ Check out the following example:
 \textcode{\resdir/programs/string_mgmt.agt}{}{a}
 
 
-\chapter{Future improvements}
+\chapter{Future improvements}\label{chap:improv}
 
 \section{References}
 
@@ -757,7 +844,7 @@ Check out the following example:
 
 
 
-\chapter{Conclusion}
+\chapter{Conclusion}\label{chap:concl}
 Zaključak.
 
 \bibliographystyle{dinat}

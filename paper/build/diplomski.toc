@@ -1,29 +1,34 @@
 \contentsline {chapter}{\numberline {1}Introduction}{1}{}%
 \contentsline {section}{\numberline {1.1}Example program}{2}{}%
 \contentsline {section}{\numberline {1.2}Paper organization}{4}{}%
-\contentsline {chapter}{\numberline {2}The AGT Programming Language}{5}{}%
-\contentsline {section}{\numberline {2.1}Lexical analysis}{5}{}%
-\contentsline {subsection}{\numberline {2.1.1}Literals}{7}{}%
-\contentsline {subsection}{\numberline {2.1.2}Identifiers}{8}{}%
-\contentsline {subsection}{\numberline {2.1.3}Operators}{8}{}%
-\contentsline {subsection}{\numberline {2.1.4}Special operators}{9}{}%
-\contentsline {section}{\numberline {2.2}Syntactic analysis}{10}{}%
-\contentsline {section}{\numberline {2.3}Semantic analysis}{13}{}%
-\contentsline {section}{\numberline {2.4}Code generation}{14}{}%
-\contentsline {subsection}{\numberline {2.4.1}Concrete type request}{15}{}%
-\contentsline {subsection}{\numberline {2.4.2}Function type request}{15}{}%
-\contentsline {subsection}{\numberline {2.4.3}Lifetime semantics}{17}{}%
-\contentsline {chapter}{\numberline {3}AGT program examples}{21}{}%
-\contentsline {section}{\numberline {3.1}Limited parametric polymorphism}{21}{}%
-\contentsline {section}{\numberline {3.2}Compile time computation}{22}{}%
-\contentsline {section}{\numberline {3.3}Ownership semantics}{23}{}%
-\contentsline {section}{\numberline {3.4}Memory primitives}{26}{}%
-\contentsline {section}{\numberline {3.5}Memory allocation}{26}{}%
-\contentsline {section}{\numberline {3.6}Object oriented example}{27}{}%
-\contentsline {chapter}{\numberline {4}Future improvements}{31}{}%
-\contentsline {section}{\numberline {4.1}References}{31}{}%
-\contentsline {section}{\numberline {4.2}Syntactic improvements}{31}{}%
-\contentsline {section}{\numberline {4.3}Multiple source file support}{31}{}%
-\contentsline {section}{\numberline {4.4}Portability}{31}{}%
-\contentsline {chapter}{\numberline {5}Conclusion}{32}{}%
-\contentsline {chapter}{Bibliography}{33}{}%
+\contentsline {chapter}{\numberline {2}Design decisions}{5}{}%
+\contentsline {section}{\numberline {2.1}Syntax}{5}{}%
+\contentsline {section}{\numberline {2.2}Type System}{6}{}%
+\contentsline {section}{\numberline {2.3}Reflection}{7}{}%
+\contentsline {section}{\numberline {2.4}Programming paradigm}{7}{}%
+\contentsline {chapter}{\numberline {3}The AGT Programming Language}{8}{}%
+\contentsline {section}{\numberline {3.1}Lexical analysis}{8}{}%
+\contentsline {subsection}{\numberline {3.1.1}Literals}{10}{}%
+\contentsline {subsection}{\numberline {3.1.2}Identifiers}{11}{}%
+\contentsline {subsection}{\numberline {3.1.3}Operators}{11}{}%
+\contentsline {subsection}{\numberline {3.1.4}Special operators}{12}{}%
+\contentsline {section}{\numberline {3.2}Syntactic analysis}{13}{}%
+\contentsline {section}{\numberline {3.3}Semantic analysis}{16}{}%
+\contentsline {section}{\numberline {3.4}Code generation}{17}{}%
+\contentsline {subsection}{\numberline {3.4.1}Concrete type request}{18}{}%
+\contentsline {subsection}{\numberline {3.4.2}Function type request}{18}{}%
+\contentsline {subsection}{\numberline {3.4.3}Lifetime semantics}{20}{}%
+\contentsline {chapter}{\numberline {4}AGT program examples}{24}{}%
+\contentsline {section}{\numberline {4.1}Limited parametric polymorphism}{24}{}%
+\contentsline {section}{\numberline {4.2}Compile time computation}{25}{}%
+\contentsline {section}{\numberline {4.3}Ownership semantics}{26}{}%
+\contentsline {section}{\numberline {4.4}Memory primitives}{29}{}%
+\contentsline {section}{\numberline {4.5}Memory allocation}{29}{}%
+\contentsline {section}{\numberline {4.6}Object oriented example}{30}{}%
+\contentsline {chapter}{\numberline {5}Future improvements}{34}{}%
+\contentsline {section}{\numberline {5.1}References}{34}{}%
+\contentsline {section}{\numberline {5.2}Syntactic improvements}{34}{}%
+\contentsline {section}{\numberline {5.3}Multiple source file support}{34}{}%
+\contentsline {section}{\numberline {5.4}Portability}{34}{}%
+\contentsline {chapter}{\numberline {6}Conclusion}{35}{}%
+\contentsline {chapter}{Bibliography}{36}{}%
