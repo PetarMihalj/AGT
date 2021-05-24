@@ -275,7 +275,7 @@ definitions of what \texit{type system} actually is, and what we refer to when d
 
 There are many definitions, but the one which captures the essence most precisely is the following:
 
-\texit{A type system is a logical system comprising a set of rules that 
+\textit{A type system is a logical system comprising a set of rules that 
     assigns a property called a type to the various constructs of a computer program, 
 such as variables, expressions, functions or modules ... }\citep{c_type_system}.
 
@@ -297,17 +297,52 @@ which can, to someone coming from languages such as C, appear tiresome to deal w
 explicitly stating type conversions will have greater benefits for the
 programmer in the long run.
 
-Type inference engine which supports AGT's type system can appear difficult to get used to,
-but in fact is, atleast on the theoretical level, rather simple. There are no complex inference rules;
+Type inference engine which supports AGT's type system can appear difficult to
+get used to, but in fact is, atleast on the theoretical level, rather simple.
+There are no complex inference rules;
 every time an inference has to be done, all the inputs required to perform the process must be available.
-For example, function's return type is a type expression. This type expression is evaluated
-just before the first runtime statement in function definition body, which ensures that the function's
-return type is known in case the function is recursive (directly or not).
+For example, function's return type is inferred from the return type expression. 
+This type expression is evaluated
+just before the first runtime statement in function definition body, which
+ensures that the function's return type is known in case the function is
+recursive (directly or not).
 
+\section{Memory management}
 
-\section{Reflection}
+AGT aims to be as performant as possible, which rules out having a dedicated \textit{garbage collector},
+present in languages such as Java and Python. AGT's storage is split into two main parts,
+stack allocated and heap allocated storage. 
 
-\section{Programming paradigm}
+The stack storage is used to support function
+execution, and is managed implicitly - allocated on function call, deallocated on function return.
+While this storage type is highly efficient, it prevents the use of a number of programming patterns.
+To remedy this situation, languages such as C use heap storage. 
+
+Heap storage is an on-demand storage. Having this storage can allow the programmer to define
+objects which outlive the functions they are defined in, using pointers as references to this storage,
+rather than implicitly refering to storage location through the use of names.
+While heap storage allows for many useful design patterns, it can bring many difficult-to-diagnose
+problems to the table, namely:
+
+\begin{itemize}
+    \item Memory leaks - programmer forgets to free unused memory
+    \item Double free - programmer free's unused memory multiple times
+    \item Dangling pointers - programmer uses a pointer which refers to already freed memory
+\end{itemize}
+
+These problems have been a major source of headache for programmers over the years and can't be solved
+without certain effort on programmer's part. A typical attempt to remedy these is the use of 
+smart pointers in languages such as C++. We will explore and implement this approach in 
+chapter \ref{chap:examples}.
+
+\section{Compiler implementation}
+
+The reader should be aware that AGT is not yet a complete project, but rather an experiment, 
+a work in progress. This state of affairs had author decide to use Python3 as a compiler implementation
+language. Rapid prototyping features of Python, along with numerous easy-to-use and available libraries
+make it a sound choice for the implementation language. Since Python is slow compared to compiled
+languages, a reasonable direction to go in, after AGT matures, would be to switch from Python
+to one of the compiled languages, such as C++.
 
 \chapter{The AGT Programming Language}\label{chap:indepth}
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  24 MAY 2021 11:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  24 MAY 2021 11:35
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -705,15 +705,6 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-! Undefined control sequence.
-l.278 \texit
-            {A type system is a logical system comprising a set of rules that
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 
 Overfull \hbox (21.97148pt too wide) in paragraph at lines 282--284
 []\T1/ptm/m/n/12 AGT's type system serves multiple purposes. One is to allow co
@@ -726,10 +717,28 @@ Overfull \hbox (35.6071pt too wide) in paragraph at lines 285--291
 rely on dynamic polymorphism
  []
 
-[6] [7]
+[6]
+Overfull \hbox (8.65222pt too wide) in paragraph at lines 321--326
+[]\T1/ptm/m/n/12 Heap storage is an on-demand storage. Having this storage can 
+allow the programmer
+ []
+
+
+Overfull \hbox (41.66626pt too wide) in paragraph at lines 340--346
+\T1/ptm/m/n/12 with numerous easy-to-use and available libraries make it a soun
+d choice for the implementation
+ []
+
+
+Overfull \hbox (2.82315pt too wide) in paragraph at lines 340--346
+\T1/ptm/m/n/12 language. Since Python is slow compared to compiled languages, a
+ reasonable direction
+ []
+
+[7] [8]
 Chapter 3.
 
-Overfull \hbox (2.94322pt too wide) in paragraph at lines 330--333
+Overfull \hbox (2.94322pt too wide) in paragraph at lines 365--368
 \T1/ptm/m/n/12 Lexical analyzer is fed a stream of characters, which get groupt
 ed into tokens, according
  []
@@ -737,11 +746,11 @@ ed into tokens, according
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
-(/home/pmihalj/agt/paper/res/compiler/lexer.py [8
+(/home/pmihalj/agt/paper/res/compiler/lexer.py [9
 
 ])
 ! Undefined control sequence.
-l.351 ...char} (for \textit{char arrays} or \textt
+l.386 ...char} (for \textit{char arrays} or \textt
                                                   {char} literals).
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -749,9 +758,9 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[9] [10] [11]
+[10] [11] [12]
 ! Undefined control sequence.
-l.465 ...item \textit{Address of operator} (\textt
+l.500 ...item \textit{Address of operator} (\textt
                                                   {@}) can be used on any L-...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -760,13 +769,13 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (5.2695pt too wide) in paragraph at lines 465--472
+Overfull \hbox (5.2695pt too wide) in paragraph at lines 500--507
 []\T1/ptm/m/it/12 Address of operator \T1/ptm/m/n/12 (@) can be used on any L-v
 alue (explained in later chapters),
  []
 
 ! Undefined control sequence.
-l.488 ...ttt{p} is a \texttt{char} pointer, \textt
+l.523 ...ttt{p} is a \texttt{char} pointer, \textt
                                                   {p[5]} will evaluate to a ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -777,37 +786,37 @@ and I'll forget about whatever was undefined.
 ! Missing \endcsname inserted.
 <to be read again> 
                    \protect 
-l.500 ... formal grammar"} \citep{c\_parsing\_def}
+l.535 ... formal grammar"} \citep{c\_parsing\_def}
                                                   .
 The control sequence marked <to be read again> should
 not appear between \csname and \endcsname.
 
 
 Package natbib Warning: Citation `c\T1\textunderscoreparsing\T1\textunderscored
-ef' on page 12 undefined on input line 500.
+ef' on page 13 undefined on input line 535.
 
-[12]
-Overfull \hbox (4.22414pt too wide) in paragraph at lines 506--512
+[13]
+Overfull \hbox (4.22414pt too wide) in paragraph at lines 541--547
 []\T1/ptm/m/n/12 Tokens resulting from lexical analysis are fed into a stack ma
 chine which, depending
  []
 
-(/home/pmihalj/agt/paper/res/compiler/prio) [13]
-(/home/pmihalj/agt/paper/res/compiler/ast [14])
-Underfull \hbox (badness 10000) in paragraph at lines 548--550
+(/home/pmihalj/agt/paper/res/compiler/prio) [14]
+(/home/pmihalj/agt/paper/res/compiler/ast [15])
+Underfull \hbox (badness 10000) in paragraph at lines 583--585
 
  []
 
 (/home/pmihalj/agt/paper/res/compiler/rule.py)
-Overfull \hbox (7.11916pt too wide) in paragraph at lines 555--558
+Overfull \hbox (7.11916pt too wide) in paragraph at lines 590--593
 \T1/ptm/m/n/12 The need for semantic analysis is caused by a fact that AGT's sy
 ntax is highly contextual,
  []
 
-[15] (/home/pmihalj/agt/paper/res/compiler/contextual.agt)
-(/home/pmihalj/agt/paper/res/compiler/initex.py [16])
+[16] (/home/pmihalj/agt/paper/res/compiler/contextual.agt)
+(/home/pmihalj/agt/paper/res/compiler/initex.py [17])
 ! Undefined control sequence.
-l.579 ...ure of syntactical elements is the \textt
+l.614 ...ure of syntactical elements is the \textt
                                                   {let <x> = <y>;} statement.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -816,51 +825,51 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (13.24777pt too wide) in paragraph at lines 613--618
+Overfull \hbox (13.24777pt too wide) in paragraph at lines 648--653
 []\T1/ptm/m/n/12 AGT's type inference engine (type engine, TE) can be modeled a
 s a pure mathematical
  []
 
-[17]
-Overfull \hbox (6.52617pt too wide) in paragraph at lines 632--634
+[18]
+Overfull \hbox (6.52617pt too wide) in paragraph at lines 667--669
 []\T1/ptm/m/n/12 In the first part of a CTR request, TE collects \T1/ptm/m/it/1
 2 candidates\T1/ptm/m/n/12 . It can collect the candidates
  []
 
 
-Overfull \hbox (9.1953pt too wide) in paragraph at lines 641--648
+Overfull \hbox (9.1953pt too wide) in paragraph at lines 676--683
 \T1/ptm/m/n/12 definition whose name matches the supplied name, and whose numbe
 r of type parameters
  []
 
-[18]
-Overfull \hbox (15.1947pt too wide) in paragraph at lines 666--669
+[19]
+Overfull \hbox (15.1947pt too wide) in paragraph at lines 701--704
 \T1/ptm/m/n/12 for code synthesis, including LLVM code and return type. In our 
 concrete implementation,
  []
 
 
-Overfull \hbox (2.90744pt too wide) in paragraph at lines 670--674
+Overfull \hbox (2.90744pt too wide) in paragraph at lines 705--709
 \T1/ptm/m/n/12 some built-in functions, like copy functions of pointers, should
  not copy their arguments
  []
 
 
-Overfull \hbox (2.97995pt too wide) in paragraph at lines 670--674
+Overfull \hbox (2.97995pt too wide) in paragraph at lines 705--709
 \T1/ptm/m/n/12 behaviour, and the flag which indicates whether to do so is also
  a part of a FunctionType. 
  []
 
 (/home/pmihalj/agt/paper/res/compiler/inf1.agt)
-Overfull \hbox (13.347pt too wide) in paragraph at lines 683--693
+Overfull \hbox (13.347pt too wide) in paragraph at lines 718--728
 \T1/ptm/m/n/12 Since this is evaluated in the type context, operator \T1/pcr/m/
 n/12 == \T1/ptm/m/n/12 will evaluate to type \T1/pcr/m/n/12 i0 \T1/ptm/m/n/12 (
 falsehood)
  []
 
-[19]
+[20]
 ! Undefined control sequence.
-l.695 definition of \typett
+l.730 definition of \typett
                            {power} function fits programmers intentions.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -869,37 +878,37 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (17.18518pt too wide) in paragraph at lines 697--702
+Overfull \hbox (17.18518pt too wide) in paragraph at lines 732--737
 []\T1/ptm/m/n/12 On the other hand, consider the definition of \T1/pcr/m/n/12 p
 ower \T1/ptm/m/n/12 at line 9. In this line, \T1/pcr/m/n/12 enable_if
  []
 
 
-Overfull \hbox (11.27039pt too wide) in paragraph at lines 724--727
+Overfull \hbox (11.27039pt too wide) in paragraph at lines 759--762
 \T1/ptm/m/n/12 copy the memory array, instead of shallow copying the pointer an
 d thus incidentally
  []
 
-[20]
-Overfull \hbox (8.79228pt too wide) in paragraph at lines 761--763
+[21]
+Overfull \hbox (8.79228pt too wide) in paragraph at lines 796--798
 []\T1/ptm/b/n/12 Definition 4 \T1/ptm/m/n/12 (Copy function)\T1/ptm/b/n/12 . []
 \T1/ptm/m/n/12 An copy function is a function whose name is \T1/pcr/m/n/12 __co
 py__\T1/ptm/m/n/12 ,
  []
 
-(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.agt [21]) [22]
-(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.out) [23]
+(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.agt [22]) [23]
+(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.out) [24]
 Chapter 4.
-(/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.agt [24
+(/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.agt [25
 
 ])
 (/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.out)
-(/home/pmihalj/agt/paper/res/programs/fib_compile_time.agt) [25]
+(/home/pmihalj/agt/paper/res/programs/fib_compile_time.agt) [26]
 (/home/pmihalj/agt/paper/res/programs/fib_compile_time.out)
-(/home/pmihalj/agt/paper/res/programs/shared_pointer.agt [26] [27])
-(/home/pmihalj/agt/paper/res/programs/shared_pointer.out) [28]
+(/home/pmihalj/agt/paper/res/programs/shared_pointer.agt [27] [28])
+(/home/pmihalj/agt/paper/res/programs/shared_pointer.out) [29]
 (/home/pmihalj/agt/paper/res/programs/memory_object.agt)
-(/home/pmihalj/agt/paper/res/programs/memory_alloc.agt [29]
+(/home/pmihalj/agt/paper/res/programs/memory_alloc.agt [30]
 Overfull \hbox (165.88954pt too wide) in paragraph at lines 18--19
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
@@ -909,14 +918,14 @@ Overfull \hbox (192.16975pt too wide) in paragraph at lines 19--21
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-) (/home/pmihalj/agt/paper/res/programs/string_mgmt.agt [30] [31] [32])
-[33]
+) (/home/pmihalj/agt/paper/res/programs/string_mgmt.agt [31] [32] [33])
+[34]
 Chapter 5.
-[34
+[35
 
 ]
 Chapter 6.
-(/home/pmihalj/agt/paper/build/diplomski.bbl [35
+(/home/pmihalj/agt/paper/build/diplomski.bbl [36
 
 ]
 ! Misplaced alignment tab character &.
@@ -966,13 +975,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 46--53
 08$\T1/ptm/m/n/12 . --
  []
 
-) [36
+) [37
 
 ]
 
 Package natbib Warning: There were undefined citations.
 
-[37] (/home/pmihalj/agt/paper/build/diplomski.aux) ) 
+[38] (/home/pmihalj/agt/paper/build/diplomski.aux) ) 
 Here is how much of TeX's memory you used:
  9606 strings out of 481257
  142582 string characters out of 2908218
@@ -992,10 +1001,10 @@ type1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1
 times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/ut
 mr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmri8a.pf
 b>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (43 pages, 205402
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (44 pages, 207354
  bytes).
 PDF statistics:
- 200 PDF objects out of 1000 (max. 8388607)
+ 203 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
