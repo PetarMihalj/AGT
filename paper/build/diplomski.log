@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  24 MAY 2021 14:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  25 MAY 2021 19:45
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -984,14 +984,45 @@ nning
 (/home/pmihalj/agt/paper/res/programs/memory_alloc.agt [29])
 (/home/pmihalj/agt/paper/res/programs/memory_alloc.out)
 (/home/pmihalj/agt/paper/res/programs/string_mgmt.agt [30] [31] [32])
+(/home/pmihalj/agt/paper/res/programs/string_mgmt.out)
 (/home/pmihalj/agt/paper/res/programs/shared_pointer.agt [33] [34])
-(/home/pmihalj/agt/paper/res/programs/shared_pointer.out) [35]
+(/home/pmihalj/agt/paper/res/programs/shared_pointer.out [35]) [36]
 Chapter 5.
-[36
+
+Overfull \hbox (3.4553pt too wide) in paragraph at lines 959--962
+[]\T1/ptm/m/n/12 A \T1/ptm/m/it/12 pass-by-reference \T1/ptm/m/n/12 is a contra
+sting method to pass-by-value. When a programming
+ []
+
+[37
 
 ]
+Overfull \hbox (1.6555pt too wide) in paragraph at lines 989--995
+[]\T1/ptm/m/n/12 For first, a common problem with multiple source files is othe
+r languages is multiple
+ []
+
+
+Overfull \hbox (8.49863pt too wide) in paragraph at lines 989--995
+\T1/ptm/m/n/12 inclusion and multiple definition problems which occur with it. 
+In AGT this phenomenon
+ []
+
+
+Overfull \hbox (18.54259pt too wide) in paragraph at lines 1012--1015
+\T1/ptm/m/n/12 we want to support and whether to split the language into minima
+l and full implementations
+ []
+
+[38]
 Chapter 6.
-(/home/pmihalj/agt/paper/build/diplomski.bbl [37
+
+Overfull \hbox (24.71133pt too wide) in paragraph at lines 1032--1035
+\T1/ptm/m/n/12 shown to be useful and functional when applied to common tasks a
+n application programmer
+ []
+
+(/home/pmihalj/agt/paper/build/diplomski.bbl [39
 
 ]
 ! Misplaced alignment tab character &.
@@ -1041,22 +1072,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 46--53
 08$\T1/ptm/m/n/12 . --
  []
 
-) [38
+) [40
 
 ]
 
 Package natbib Warning: There were undefined citations.
 
-[39] (/home/pmihalj/agt/paper/build/diplomski.aux)
+[41] (/home/pmihalj/agt/paper/build/diplomski.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 9605 strings out of 481257
- 143004 string characters out of 2908218
- 725011 words of memory out of 3000000
- 26563 multiletter control sequences out of 15000+600000
+ 9612 strings out of 481257
+ 143202 string characters out of 2908218
+ 725080 words of memory out of 3000000
+ 26568 multiletter control sequences out of 15000+600000
  464991 words of font info for 96 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
  83i,17n,88p,272b,1899s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1070,10 +1101,10 @@ ex/texmfs/install/fonts/type1/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/te
 xmfs/install/fonts/type1/urw/times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/ins
 tall/fonts/type1/urw/times/utmr8a.pfb></home/pmihalj/.miktex/texmfs/install/fon
 ts/type1/urw/times/utmri8a.pfb>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (45 pages, 213142
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (47 pages, 218674
  bytes).
 PDF statistics:
- 206 PDF objects out of 1000 (max. 8388607)
+ 212 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

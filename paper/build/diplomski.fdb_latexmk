@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex /home/pmihalj/agt/paper/build/diplomski"] 1621857546 "/home/pmihalj/agt/paper/build/diplomski.aux" "/home/pmihalj/agt/paper/build/diplomski.bbl" "/home/pmihalj/agt/paper/build/diplomski" 1621857710
+["bibtex /home/pmihalj/agt/paper/build/diplomski"] 1621963612 "/home/pmihalj/agt/paper/build/diplomski.aux" "/home/pmihalj/agt/paper/build/diplomski.bbl" "/home/pmihalj/agt/paper/build/diplomski" 1621964727
   "/home/pmihalj/.miktex/texmfs/install/bibtex/bst/dinat/dinat.bst" 1620470944 44478 8171722d387d8657f0397923511dcd08 ""
-  "/home/pmihalj/agt/paper/build/diplomski.aux" 1621857707 8931 6946a647235b10445a262e6e29bcd89a "pdflatex"
+  "/home/pmihalj/agt/paper/build/diplomski.aux" 1621964725 9205 0c79399d14ab564b8f45f309b94e03cc "pdflatex"
   "literatura.bib" 1621845934 1585 aba6c57a4c2a0b957f71e6c380d924fe ""
   (generated)
   "/home/pmihalj/agt/paper/build/diplomski.blg"
   "/home/pmihalj/agt/paper/build/diplomski.bbl"
-["pdflatex"] 1621857705 "diplomski.tex" "/home/pmihalj/agt/paper/build/diplomski.pdf" "diplomski" 1621857710
+["pdflatex"] 1621964724 "diplomski.tex" "/home/pmihalj/agt/paper/build/diplomski.pdf" "diplomski" 1621964727
   "/home/pmihalj/.miktex/texmfs/data/miktex/data/le/pdftex/pdflatex.fmt" 1620465971 6307435 11e134229a3c07aee0caa62223f63c64 ""
   "/home/pmihalj/.miktex/texmfs/data/pdftex/config/pdftex.map" 1621419844 31708 5634200c3c1d72d7de7b4c8dc3633c6c ""
   "/home/pmihalj/.miktex/texmfs/install/fonts/enc/dvips/base/8r.enc" 1620460547 4993 1194fb36dfcb11d9ae9802f2b00b60a3 ""
@@ -126,9 +126,9 @@
   "/home/pmihalj/.miktex/texmfs/install/tex/latex/tocbibind/tocbibind.sty" 1620460295 8927 46f54e33fc9cef24f78ab3bc811cb63f ""
   "/home/pmihalj/.miktex/texmfs/install/tex/latex/url/url.sty" 1620460293 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "/home/pmihalj/.miktex/texmfs/install/tex/latex/xcolor/xcolor.sty" 1620462866 57049 74963e80d77be39a0b7442967b27c75b ""
-  "/home/pmihalj/agt/paper/build/diplomski.aux" 1621857707 8931 6946a647235b10445a262e6e29bcd89a "pdflatex"
-  "/home/pmihalj/agt/paper/build/diplomski.bbl" 1621857546 2159 fb2892064740461a011b625db2d3b9da "bibtex /home/pmihalj/agt/paper/build/diplomski"
-  "/home/pmihalj/agt/paper/build/diplomski.toc" 1621857707 2275 b04b6096f24a885e59bddf75d8eeb24e "pdflatex"
+  "/home/pmihalj/agt/paper/build/diplomski.aux" 1621964725 9205 0c79399d14ab564b8f45f309b94e03cc "pdflatex"
+  "/home/pmihalj/agt/paper/build/diplomski.bbl" 1621963612 2159 fb2892064740461a011b625db2d3b9da "bibtex /home/pmihalj/agt/paper/build/diplomski"
+  "/home/pmihalj/agt/paper/build/diplomski.toc" 1621964725 2307 212b2baebd45f995058eb9f2621eac4f "pdflatex"
   "/home/pmihalj/agt/paper/res/compiler/ast" 1621435267 969 29f96d60d183fd47a9d1e5d1883e13c0 ""
   "/home/pmihalj/agt/paper/res/compiler/contextual.agt" 1621171955 86 a38ff6cbf4e2e6026391cc5ac7ce626d ""
   "/home/pmihalj/agt/paper/res/compiler/inf1.agt" 1621240796 156 46a4e3d63b12adb4f113ecc3da42a436 ""
@@ -151,11 +151,12 @@
   "/home/pmihalj/agt/paper/res/programs/shared_pointer.agt" 1621263256 1851 8ea7d54b6a50158c01a93bb4ba7f5f3c ""
   "/home/pmihalj/agt/paper/res/programs/shared_pointer.out" 1621320011 146 075e08b8876fa734b58d3134b7bbaece ""
   "/home/pmihalj/agt/paper/res/programs/string_mgmt.agt" 1621320475 1517 621673f3f9aaa8a0444c01d817c6653d ""
+  "/home/pmihalj/agt/paper/res/programs/string_mgmt.out" 1621320485 54 ba37261e3995e04905f62af5e433a412 ""
   "/home/pmihalj/agt/paper/res/task.pdf" 1620459931 19638 db4b1c130724843a0391785de582b650 ""
-  "diplomski.tex" 1621857704 48508 0e53c06e8d14f35e9f329406c96aaad6 ""
+  "diplomski.tex" 1621964723 54054 5b262bfe77abbcc2e0c415beccd20601 ""
   "fer.cls" 1620797150 9983 4f6f9ecd45aea0b27c23f645a6ab6c66 ""
   (generated)
-  "/home/pmihalj/agt/paper/build/diplomski.pdf"
   "/home/pmihalj/agt/paper/build/diplomski.toc"
-  "/home/pmihalj/agt/paper/build/diplomski.aux"
   "/home/pmihalj/agt/paper/build/diplomski.log"
+  "/home/pmihalj/agt/paper/build/diplomski.aux"
+  "/home/pmihalj/agt/paper/build/diplomski.pdf"

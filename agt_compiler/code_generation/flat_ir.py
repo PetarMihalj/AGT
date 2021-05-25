@@ -9,9 +9,9 @@ def put_stack_allocate(dest: str, ty: ts.Type, fc: context.FunctionContext):
     Dest becomes an stack symbolic register with a value of type s.
     """
     fc.types[dest] = ty
-    fc.code.extend([
+    fc.code = [
         f"\t%{dest} = alloca %{ty.mangled_name}",
-    ])
+    ] + fc.code
 
 def get_stack_allocate_tmp(desc: str, ty: ts.Type, fc: context.FunctionContext):
     """
@@ -20,9 +20,9 @@ def get_stack_allocate_tmp(desc: str, ty: ts.Type, fc: context.FunctionContext):
     dest = fc.scope_man.new_tmp_var_name(desc)
     fc.types[dest] = ty
 
-    fc.code.extend([
+    fc.code = [
         f"\t%{dest} = alloca %{ty.mangled_name}",
-    ])
+    ] + fc.code
     return dest
 
 def put_stack_copy(dest: str, src: str, fc: context.FunctionContext):
@@ -49,10 +49,11 @@ def put_param_to_stack_store(desc: str, ty: ts.Type, fc: context.FunctionContext
     fc.parameter_names_ordered.append(pp)
 
     fc.types[mn] = ty
-    fc.code.extend([
+    fc.code = [
         f"\t%{mn} = alloca %{ty.mangled_name}",
+    ] + fc.code + [
         f"\tstore %{ty.mangled_name} %{pp}, %{ty.mangled_name}* %{mn}",
-    ])
+    ]
 
 # functional
 
@@ -90,10 +91,11 @@ def get_address_of(src: str, fc: context.FunctionContext):
     stmn = fc.types[src].mangled_name
     dtmn = fc.types[dest].mangled_name
 
-    fc.code.extend([
+    fc.code = [
         f"\t%{dest} = alloca %{dtmn}",
+    ] + fc.code + [
         f"\tstore %{stmn}* %{src}, %{dtmn}* %{dest}"
-    ])
+    ]
     return dest
 
 # pointer control
@@ -120,9 +122,9 @@ def get_pointer_offset(src: str, offset: str, fc: context.FunctionContext):
     tmp_ptr = fc.scope_man.new_tmp_var_name()
     tmp_newptr = fc.scope_man.new_tmp_var_name()
 
-    fc.code.extend([
+    fc.code = [
         f"\t%{dest} = alloca %{ptmn}",
-
+    ] + fc.code + [
         f"\t%{tmp_val} = load i{size}, i{size}* %{offset}",
         f"\t%{tmp_ext_val} = sext i{size} %{tmp_val} to i64",
 
@@ -130,7 +132,7 @@ def get_pointer_offset(src: str, offset: str, fc: context.FunctionContext):
         f"\t%{tmp_newptr} = getelementptr inbounds %{itmn}, %{ptmn} %{tmp_ptr}, i64 %{tmp_ext_val}",
 
         f"\tstore %{ptmn} %{tmp_newptr}, %{ptmn}* %{dest}",
-    ])
+    ]
     return dest
 
 #1
@@ -160,10 +162,11 @@ def get_int_value(value: str, size: int, fc: context.FunctionContext):
     dest = fc.scope_man.new_tmp_var_name("intval")
     fc.types[dest] = ts.IntType(size)
 
-    fc.code.extend([
+    fc.code = [
         f"\t%{dest} = alloca i{size}",
+    ] + fc.code + [
         f"\tstore %i{size} {value}, %i{size}* %{dest}"
-    ])
+    ]
     return dest
 
 #1
@@ -176,10 +179,11 @@ def get_bool_value(value: bool, fc: context.FunctionContext):
 
     value = 1 if value else 0
 
-    fc.code.extend([
+    fc.code = [
         f"\t%{dest} = alloca i1",
+    ] + fc.code + [
         f"\tstore i1 {value}, i1* %{dest}"
-    ])
+    ]
     return dest
 
 #1
@@ -190,10 +194,11 @@ def get_char_value(value: str, fc: context.FunctionContext):
     dest = fc.scope_man.new_tmp_var_name("charval")
     fc.types[dest] = ts.CharType()
 
-    fc.code.extend([
+    fc.code = [
         f"\t%{dest} = alloca %char",
+    ] + fc.code + [
         f"\tstore %char {value}, %char* %{dest}"
-    ])
+    ]
     return dest
 
 #1
@@ -206,9 +211,9 @@ def get_chars_ptr(chars: str, fc: context.FunctionContext):
     arr = fc.scope_man.new_tmp_var_name("chararrarr")
     fc.types[ptr] = ts.PointerType(ts.CharType())
 
-    fc.code.extend([
+    fc.code = [
         f"\t%{arr} = alloca [{len(chars)} x i8], align 1",
-    ])
+    ] + fc.code
     for i,d in enumerate(chars):
         tmpptr = fc.scope_man.new_tmp_var_name("tmpptr")
         fc.code.extend([
@@ -216,11 +221,12 @@ def get_chars_ptr(chars: str, fc: context.FunctionContext):
             f"\tstore i8 {d}, i8* %{tmpptr}, align 1",
         ])
 
-    fc.code.extend([
-        f"\t%{ptr0} = getelementptr inbounds [{len(chars)} x i8], [{len(chars)} x i8]* %{arr}, i64 0, i64 0",
+    fc.code = [
         f"\t%{ptr} = alloca i8*",
+    ] + fc.code + [
+        f"\t%{ptr0} = getelementptr inbounds [{len(chars)} x i8], [{len(chars)} x i8]* %{arr}, i64 0, i64 0",
         f"\tstore i8* %{ptr0}, i8** %{ptr}"
-    ])
+    ]
     return ptr
 
 
@@ -235,7 +241,7 @@ def get_function_call(fn_to_call: ts.FunctionType, argument_names: List[str], fc
     """
     if fn_to_call.return_type is not None:
         dest = fc.scope_man.new_tmp_var_name("funcres")
-        fc.code.append(f"%{dest} = alloca %{fn_to_call.return_type.mangled_name}")
+        fc.code = [f"%{dest} = alloca %{fn_to_call.return_type.mangled_name}"] + fc.code
         fc.types[dest] = fn_to_call.return_type
 
     tmps = [fc.scope_man.new_tmp_var_name() for an in argument_names]

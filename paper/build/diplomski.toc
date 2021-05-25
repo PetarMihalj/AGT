@@ -23,12 +23,12 @@
 \contentsline {section}{\numberline {4.2}Compile time computation}{27}{}%
 \contentsline {section}{\numberline {4.3}Heap object allocation}{28}{}%
 \contentsline {section}{\numberline {4.4}Raw heap allocation}{29}{}%
-\contentsline {section}{\numberline {4.5}Object oriented example}{30}{}%
+\contentsline {section}{\numberline {4.5}A simple string class}{30}{}%
 \contentsline {section}{\numberline {4.6}Ownership semantics}{33}{}%
-\contentsline {chapter}{\numberline {5}Future improvements}{36}{}%
-\contentsline {section}{\numberline {5.1}References}{36}{}%
-\contentsline {section}{\numberline {5.2}Syntactic improvements}{36}{}%
-\contentsline {section}{\numberline {5.3}Multiple source file support}{36}{}%
-\contentsline {section}{\numberline {5.4}Portability}{36}{}%
-\contentsline {chapter}{\numberline {6}Conclusion}{37}{}%
-\contentsline {chapter}{Bibliography}{38}{}%
+\contentsline {chapter}{\numberline {5}Future improvements}{37}{}%
+\contentsline {section}{\numberline {5.1}Pass-by-reference}{37}{}%
+\contentsline {section}{\numberline {5.2}Syntactic and lexical improvements}{37}{}%
+\contentsline {section}{\numberline {5.3}Multiple source file support and namespaces}{38}{}%
+\contentsline {section}{\numberline {5.4}Portability}{38}{}%
+\contentsline {chapter}{\numberline {6}Conclusion}{39}{}%
+\contentsline {chapter}{Bibliography}{40}{}%

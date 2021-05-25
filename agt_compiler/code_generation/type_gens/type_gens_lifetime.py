@@ -161,7 +161,7 @@ class DefaultBuiltinDestPrimitive(Primitive):
 
 
         return [
-                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable",
+                f"; Function Attrs: nofree norecurse nounwind",
                 f"define dso_local void @{self.fn_mn}({args}) local_unnamed_addr #0 {{",
                 f"  ret void",
                 f"}}",
@@ -223,7 +223,7 @@ class DefaultStructInitPrimitive(Primitive):
             copies.append(f"  store %{self.types_mn[i]} %t_{i+1}, %{self.types_mn[i]}* %t_{n+i+1}")
 
         return [
-                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable writeonly",
+                f"; Function Attrs: nofree norecurse nounwind",
                 f"define dso_local void @{self.fn_mn}(%{self.type_struct_mn}* nocapture %0, {args}) local_unnamed_addr #0 {{",
             ] + copies + [ 
                 f"  ret void",
@@ -302,7 +302,7 @@ class DefaultStructCopyPrimitive(Primitive):
             calls.append(f"call void @{self.copy_calls_mn[i]}(%{self.types_mn[i]}* %t_{2*i}, %{self.types_mn[i]}* %t_{2*i+1})")
 
         return [
-                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable",
+                f"; Function Attrs: nofree norecurse nounwind",
                 f"define dso_local void @{self.fn_mn}(%{self.type_struct_mn}* nocapture %dst, %{self.type_struct_mn}* nocapture %src) local_unnamed_addr #0 {{",
             ] + calls + [ 
                 f"  ret void",
@@ -375,7 +375,7 @@ class DefaultStructDestPrimitive(Primitive):
             calls.append(f"call void @{self.dest_calls_mn[i]}(%{self.types_mn[i]}* %t_{i})")
 
         return [
-                f"; Function Attrs: nofree norecurse nounwind sspstrong uwtable",
+                f"; Function Attrs: nofree norecurse nounwind",
                 f"define dso_local void @{self.fn_mn}(%{self.type_struct_mn}* nocapture %todest) local_unnamed_addr #0 {{",
             ] + calls + [ 
                 f"  ret void",

@@ -919,10 +919,20 @@ and returns a pointer to beginning of that memory.
 Although the stack equivalent of this function is not yet available, there
 is no reason for it not to exist and can be implemented in AGT when needed.
 
-\section{Object oriented example}
+\section{A simple string class}
 
-Check out the following example:
-\textcode{\resdir/programs/string_mgmt.agt}{}{a}
+The value of a string literal is a pointer to a character array
+which is allocated on the stack. Thus, you can't, for example, return
+a \texttt{char} pointer which you get from string literal;
+since the underlying memory will be overwritten.
+
+If we want to use strings as they are used in other programming languages,
+we should write a struct which can be initialized with a string literal.
+The initializer should allocate more memory on the heap,
+which will be copied to from the initial string literal.
+
+\textcode{\resdir/programs/string_mgmt.agt}{string_cl}{String class}
+\textcode{\resdir/programs/string_mgmt.out}{string_cl_out}{String class - output}
 
 \section{Ownership semantics}
 
@@ -935,20 +945,95 @@ Output:
 
 \chapter{Future improvements}\label{chap:improv}
 
-\section{References}
+Since AGT is a new project, it has not yet matured to be used in complex applications.
+The author list main features that have to be implemented and issues to be addressed
+in order to turn AGT into a practical language for widespread use.
 
-\section{Syntactic improvements}
+\section{Pass-by-reference}
 
-\section{Multiple source file support}
+AGT is, by default, a \textit{pass-by-value} language; when a programing construct 
+refers to a parameter from inside the function, it refers to a copy which is localized to that function,
+and not to an original object which was passed to function on function call.
+Of course, this copying can be bypassed if the argument is an R-value.
+
+A \textit{pass-by-reference} is a contrasting method to pass-by-value. When a programming construct 
+refers to a parameter which is passed-by-reference, it refers to argument which was passed on
+function call.
+
+Some language (like C++) support passing-by-reference. Others, like Java, use it by default 
+(atleast it appears so to the programmer).
+
+AGT would greatly benefit from having this feature. The main use case would be
+lifetime functions like \texttt{\_\_init\_\_}. Instead of requiring the first argument to be a pointer,
+they would allow for references. This would increase the ease-of-use on a syntactical level.
+
+\section{Syntactic and lexical improvements}
+
+The syntax of AGT has evolved rather organically; when a new feature was needed,
+the syntax was modified accordingly. Even though there were general plans for syntax rules
+at the beginning of the project, we have evolved it beyond initial expectations,
+and syntax had to change accordingly.
+
+The same argument stands for lexical improvements; many have been defined in a rather unusual way
+(\texttt{<!}) to simplify the design process.
+
+These improvements are one of the first thing to consider going forward;
+a clear syntactic and lexic rules will ease the building of a fully mature language later on.
+
+\section{Multiple source file support and namespaces}
+
+The reader may have noticed that we have repeated some common function definitions
+(\texttt{outnl} for example) quite often. This is because AGT doesn't have a multiple source file
+support. There are few problems which need to be adressed before implementing it.
+
+For first, a common problem with multiple source files is other languages is multiple inclusion
+and multiple definition problems which occur with it. In AGT this phenomenon would manifest
+as a presence of multiple candidates for type inference. A quick fix for this problem would be
+to ignore function definitions which come from the same lexical location (source file).
+An alternative is to ignore all function definitions which are \textit{the same}, that is,
+equivalent on either a lexical or a syntactial level.
+
+Secondly, a convention regarding file search paths must be adopted. Although there are many
+examples of this being done quite sucessfully, implications must be considered throughly,
+and thus we have decided to postpone the implementation to a later update of AGT.
+
+Finally, multiple source file support, and growth of codebases accompanied by it would require
+AGT to have some sort of name separation policies. These are often called namespaces.
+Their implementation would most likely accompany multiple source file support.
 
 \section{Portability}
 
+We haven't discussed the interaction of AGTC with a backend compiler via generation of LLVM-IR.
+Since the goal of this thesis was the explore of an idea, rather than a fully mature system,
+we haven't taken portability into account. This means that AGTC likely won't run on systems
+other than those with Linux kernel and an accompanying set of software (gcc, llvm, Python3),
+with accompanying libraries (PLY).
 
-
-
+Further development of AGT would require us to precisely define which platforms we want to support and
+whether to split the language into minimal and full implementations (to allow for embedded support).
+These are challenging decisions, and they have been postponed until further development.
 
 \chapter{Conclusion}\label{chap:concl}
-Zaključak.
+
+The goal of this master thesis was to design a programming language with foundation
+on a strong type system. Learning from other examples, the author was to select a number
+of desirable properties, and combine them to produce a functional language.
+
+The developed language, AGT, was shown to be expressive, yet safe. 
+AGT's syntax is particulary strict, which prevents the programmer from making hard-to-find mistakes.
+The type system and inference process is a novel concept which, at least to the author's knowledge,
+has not been realized in this way before. AGT's type system allows programmer to use
+highly expressive polymorphic constructs, which greatly simplifies the program design process,
+reduces errors, and increases safety. AGT is a compiled language, which makes it 
+
+The author has provided many examples of AGT use, ranging from simple syntactic guides,
+to implementations of complex design patterns such as smart pointers.
+
+Since 
+
+The author concludes that AGT's design, implementation, and principles have shown to be
+functional and practical when applied to common tasks an application programmer performs. 
+Thus, the goal of this thesis has been sucessfully accomplished.
 
 \bibliographystyle{dinat}
 \bibliography{literatura}
