@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  26 MAY 2021 15:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  26 MAY 2021 16:28
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -674,45 +674,30 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-! Missing \endcsname inserted.
-<to be read again> 
-                   \protect 
-l.552 ... formal grammar"} \citep{c\_parsing\_def}
-                                                  .
-The control sequence marked <to be read again> should
-not appear between \csname and \endcsname.
-
-
-Package natbib Warning: Citation `c\T1\textunderscoreparsing\T1\textunderscored
-ef' on page 14 undefined on input line 552.
-
 [14] (/home/pmihalj/agt/paper/res/compiler/prio) [15]
 (/home/pmihalj/agt/paper/res/compiler/ast [16])
-Underfull \hbox (badness 10000) in paragraph at lines 600--602
+Underfull \hbox (badness 10000) in paragraph at lines 599--601
 
  []
 
 (/home/pmihalj/agt/paper/res/compiler/rule.py) [17]
 (/home/pmihalj/agt/paper/res/compiler/contextual.agt)
-(/home/pmihalj/agt/paper/res/compiler/initex.py [18])
+(/home/pmihalj/agt/paper/res/compiler/initex.py [18]) [19] [20]
+(/home/pmihalj/agt/paper/res/compiler/inf1.agt) [21]
 ! Undefined control sequence.
-l.631 ...ure of syntactical elements is the \textt
-                                                  {let <x> = <y>;} statement.
+l.746 definition of \typett
+                           {power} function fits the programmer's intentions.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[19] [20] (/home/pmihalj/agt/paper/res/compiler/inf1.agt) [21]
-! Undefined control sequence.
-l.747 definition of \typett
-                           {power} function fits programmers intentions.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+
+Underfull \hbox (badness 1117) in paragraph at lines 768--771
+[]\T1/ptm/m/n/12 Object's lifetime starts with \T1/ptm/m/it/12 initialization \
+T1/ptm/m/n/12 (\T1/ptm/m/it/12 construction \T1/ptm/m/n/12 in some sources).
+ []
 
 [22]
 Underfull \hbox (badness 1019) in paragraph at lines 813--815
@@ -730,7 +715,7 @@ See the keyval package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.849 ... with recursion, Parametric Polymorphism}
+l.850 ... with recursion, Parametric Polymorphism}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -742,7 +727,7 @@ See the keyval package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.849 ... with recursion, Parametric Polymorphism}
+l.850 ... with recursion, Parametric Polymorphism}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -753,7 +738,7 @@ If that doesn't work, type  X <return>  to quit.
 (/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.out) [27]
 (/home/pmihalj/agt/paper/res/programs/fib_compile_time.agt)
 ! Undefined control sequence.
-l.888 ...ill get an \texttt{i32} with value \textt
+l.890 ...ill get an \texttt{i32} with value \textt
                                                   {100} as a return value
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -762,12 +747,12 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 885--891
+Underfull \hbox (badness 10000) in paragraph at lines 887--893
 []\T1/ptm/m/n/12 Check out the line 20; we output the result of a call to
  []
 
 
-Underfull \hbox (badness 1331) in paragraph at lines 885--891
+Underfull \hbox (badness 1331) in paragraph at lines 887--893
 \T1/pcr/m/n/12 type_to_value<A,B>()\T1/ptm/m/n/12 . This is a special built-in 
 function, which will,
  []
@@ -776,7 +761,7 @@ function, which will,
 (/home/pmihalj/agt/paper/res/programs/memory_object.agt [29])
 (/home/pmihalj/agt/paper/res/programs/memory_object.in)
 (/home/pmihalj/agt/paper/res/programs/memory_object.out)
-Underfull \hbox (badness 1960) in paragraph at lines 915--919
+Underfull \hbox (badness 1960) in paragraph at lines 917--921
 []\T1/ptm/m/n/12 In line 16, we allocate an \T1/pcr/m/n/12 irect \T1/ptm/m/n/12
  on the heap using a special method
  []
@@ -789,7 +774,7 @@ Underfull \hbox (badness 1960) in paragraph at lines 915--919
 (/home/pmihalj/agt/paper/res/programs/shared_pointer.out) [37] [38]
 Chapter 5.
 
-Underfull \hbox (badness 2529) in paragraph at lines 1016--1019
+Underfull \hbox (badness 2529) in paragraph at lines 1020--1023
 []\T1/ptm/m/n/12 A \T1/ptm/m/it/12 pass-by-reference \T1/ptm/m/n/12 is a contra
 sting method to pass-by-value. When a
  []
@@ -797,20 +782,20 @@ sting method to pass-by-value. When a
 [39
 
 ]
-Underfull \hbox (badness 1253) in paragraph at lines 1069--1072
+Underfull \hbox (badness 1253) in paragraph at lines 1073--1076
 \T1/ptm/m/n/12 we want to support and whether to split the language into minima
 l and full
  []
 
-[40]
+[40] [41]
 Chapter 6.
 
-Underfull \hbox (badness 2205) in paragraph at lines 1090--1093
+Underfull \hbox (badness 2205) in paragraph at lines 1094--1097
 \T1/ptm/m/n/12 programmer performs. Thus, the goal of this thesis has been succ
 essfully
  []
 
-(/home/pmihalj/agt/paper/build/diplomski.bbl [41
+(/home/pmihalj/agt/paper/build/diplomski.bbl [42
 
 ]
 ! Misplaced alignment tab character &.
@@ -837,13 +822,13 @@ You may provide a definition with
 \DeclareUnicodeCharacter 
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 42--47
+Underfull \hbox (badness 10000) in paragraph at lines 48--53
 []\T1/ptm/m/n/12 [CppReference contributors 2021]  \T1/ptm/m/sc/12 CppReference
  contributors\T1/ptm/m/n/12 :
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 49--52
+Underfull \hbox (badness 10000) in paragraph at lines 55--58
 \T1/ptm/m/n/12 --  URL $\T1/pcr/m/n/12 https : / / docs . python . org / 3 / gl
 ossary . html #
  []
@@ -851,7 +836,7 @@ ossary . html #
 ! Misplaced alignment tab character &.
 <argument> ...work for lifelong program analysis &
                                                    transformation
-l.57   transformation}
+l.63   transformation}
                       .
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -860,70 +845,72 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
+[43
 
-Underfull \hbox (badness 10000) in paragraph at lines 67--75
+]
+Underfull \hbox (badness 10000) in paragraph at lines 73--81
 \T1/pcr/m/n/12 org / w / index . php ? title = Dynamic _ dispatch & oldid = 102
 4898159$\T1/ptm/m/n/12 .
  []
 
-[42
 
-]
-Underfull \hbox (badness 10000) in paragraph at lines 77--86
+Underfull \hbox (badness 2119) in paragraph at lines 83--90
+[]\T1/ptm/m/n/12 [Wikipedia contributors 2021b]  \T1/ptm/m/sc/12 Wikipedia cont
+ributors\T1/ptm/m/n/12 :  \T1/ptm/m/it/12 Parsing ---
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--101
 \T1/pcr/m/n/12 / / en . wikipedia . org / w / index . php ? title = Polymorphis
 m _
  []
 
 
-Underfull \hbox (badness 1320) in paragraph at lines 77--86
+Underfull \hbox (badness 1320) in paragraph at lines 92--101
 \T1/pcr/m/n/12 (computer _ science ) &oldid = 1024134632$\T1/ptm/m/n/12 . --  [
 Online; accessed 26-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 88--97
-[]\T1/ptm/m/n/12 [Wikipedia contributors 2021c]  \T1/ptm/m/sc/12 Wikipedia cont
+Underfull \hbox (badness 10000) in paragraph at lines 103--112
+[]\T1/ptm/m/n/12 [Wikipedia contributors 2021d]  \T1/ptm/m/sc/12 Wikipedia cont
 ributors\T1/ptm/m/n/12 :  \T1/ptm/m/it/12 Strong
  []
 
 
-Underfull \hbox (badness 1783) in paragraph at lines 88--97
+Underfull \hbox (badness 1783) in paragraph at lines 103--112
 \T1/ptm/m/it/12 and weak typing --- Wikipedia, The Free Encyclopedia\T1/ptm/m/n
 /12 .  2021. --  URL
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 88--97
+Underfull \hbox (badness 10000) in paragraph at lines 103--112
 \T1/pcr/m/n/12 https : / / en . wikipedia . org / w / index . php ? title = Str
 ong _ and _
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 99--107
+Underfull \hbox (badness 10000) in paragraph at lines 114--122
 \T1/pcr/m/n/12 org / w / index . php ? title = Type _ system & oldid = 10243801
 08$\T1/ptm/m/n/12 . --
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 109--117
+Underfull \hbox (badness 10000) in paragraph at lines 124--132
 \T1/pcr/m/n/12 org / w / index . php ? title = Type _ system & oldid = 10243801
 08$\T1/ptm/m/n/12 . --
  []
 
-) [43]
-
-Package natbib Warning: There were undefined citations.
-
-[44] (/home/pmihalj/agt/paper/build/diplomski.aux)
+) [44] [45] (/home/pmihalj/agt/paper/build/diplomski.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 9636 strings out of 481257
- 143662 string characters out of 2908218
- 725701 words of memory out of 3000000
- 26592 multiletter control sequences out of 15000+600000
+ 9642 strings out of 481257
+ 143785 string characters out of 2908218
+ 722817 words of memory out of 3000000
+ 26598 multiletter control sequences out of 15000+600000
  464991 words of font info for 96 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
  83i,17n,88p,272b,1901s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -937,10 +924,10 @@ ex/texmfs/install/fonts/type1/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/te
 xmfs/install/fonts/type1/urw/times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/ins
 tall/fonts/type1/urw/times/utmr8a.pfb></home/pmihalj/.miktex/texmfs/install/fon
 ts/type1/urw/times/utmri8a.pfb>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (50 pages, 228217
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (51 pages, 228574
  bytes).
 PDF statistics:
- 222 PDF objects out of 1000 (max. 8388607)
+ 225 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

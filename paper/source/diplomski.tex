@@ -263,7 +263,7 @@ embedded deeply into AGT.
 
 The Zen of Python \citep{c_zen} is a set of guidelines for writing clean, \textit{pythonic} code. 
 One of these guidelines - \textit{Explicit is better than implicit}, has had a huge impact on AGT.
-Starting from clean function definition syntax, to explicitly named operator (\textit{dunder}) methods
+Starting from clean function definition syntax, to explicitly named operator (\textit{dunder}) functions
 (\texttt{\_\_add\_\_, \_\_init\_\_, ...}), AGT places explicitness over surface-level practicality.
 The author would argue that explicit code is more readable, maintainable and safe over long term,
 which is a big win over a small expense of writing a few more characters.
@@ -548,11 +548,11 @@ the source code supplied with this paper.
 \section{Syntactic analysis}
 
 Syntactic analysis (also called parsing in some sources) is \textit{"a process of 
-analyzing a string of symbols... conforming to the rules of a formal grammar"} \citep{c\_parsing\_def}. 
+analyzing a string of symbols... conforming to the rules of a formal grammar"} \citep{c_parsing_def}. 
 
-Formal rules of AGT grammar are analyzed by an LALR parser supplied with PLY package, which tries
-to imitate functionality of well know Yacc tool. Analogous to the lexing part of PLY package, 
-parser will also use reflection to generate parsing tables, which are used to run the stack machine.
+Formal rules of AGT grammar are analyzed by an LALR parser supplied with PLY package, which attempts
+to imitate the functionality of well known tool called Yacc. Analogous to the lexing part of PLY package, 
+the parser will also use reflection to generate parsing tables, which are used to run the stack machine.
 
 Tokens resulting from lexical analysis are fed into a stack machine which,
 depending on the state of the top of the stack and next token in the list,
@@ -585,7 +585,7 @@ This process finishes when stack machine ends up having the starting symbol on t
 and no more tokens to parse. 
 The output of a syntactic analysis phase is an abstract syntax tree - a tree structure
 which denotes applications of grammar rules to tokens. An example syntax tree, which
-results from the statement \texttt{let n = in<i32>();} is given in listing \ref{ast}.
+results from the syntax analysis of the statement \texttt{let n = in<i32>();} is given in listing \ref{ast}.
 
 \textcode{\resdir/compiler/ast}{ast}{AST resulting from \texttt{let n = in<i32>();}}
 
@@ -605,7 +605,7 @@ An example of an implementation of a rule for binary expressions is given in the
 
 The need for semantic analysis is caused by a fact that AGT's syntax is highly contextual,
 that is, expressions that appear in one place can have a radically different meaning
-than same expressions which appear in another place.
+than the same expressions which appear in another place.
 
 For example, in the code listing \ref{contt}, expression \texttt{a} is used in two distinct contexts.
 
@@ -625,19 +625,15 @@ starts parsing the expression on the right side (line 6),
 and strips type context at the end (line 7).
 In the case of struct definitions, analogous process takes place.
 
-\pythoncode{\resdir/compiler/initex.py}{semana}{a}
+\pythoncode{\resdir/compiler/initex.py}{semana}{Semantic analysis rule example}
 
-Another example of contextual nature of syntactical elements is the \textt{let <x> = <y>;} statement.
+Another example of contextual nature of syntactical elements is the \texttt{let <x> = <y>;} statement.
 When stated in function definition body, this statement results in an allocation 
 of new memory on the stack,
 and copying of value of \texttt{<y>} to location of \texttt{<x>}.
 On the other hand, when stated in struct definition body, this indicates that
 struct will have a member named \texttt{<x>} of type \texttt{<y>}. 
 Thus, \texttt{<y>} will be interpreted in a type context.
-
-Another task which is being done in this part is substitution of operators with 
-\textit{dunder} functions or structs. In value context \texttt{5+a} gets
-substituted with a function call \texttt{\_\_add\_\_(5,a)}. 
 
 On the other hand,
 if analyzer is currently in type context, \texttt{i8+a} gets substituted with
@@ -653,11 +649,15 @@ for example \texttt{i3, i0, i342123}.
 This allows for powerful compile-time computation examples, 
 some of which will be discussed in chapter \ref{chap:examples}.
 
+Another task which is being done in semantic analysis phase is the substitution of operators with 
+\textit{dunder} functions or structs. In value context \texttt{5+a} gets
+substituted with a function call \texttt{\_\_add\_\_(5,a)}. 
+
 
 \section{Code generation}\label{sect:codegen}
 
 Code generation is the most complex phase of AGT compilation process.
-Before we go heads first into it's description, we will lay down some definitions
+Before we go head-first into its description, we will lay down some definitions
 and motivate them. Code generation includes both type inference and LLVM intermediate representation
 generation. 
 
@@ -719,7 +719,7 @@ including LLVM code and return type. In our concrete implementation, LLVM code i
 contained in the function type, but can be referenced via program-unique \textit{mangled function name}.
 
 By default, every function call is preceded by copying of its arguments. However, some built-in functions,
-like copy functions of pointers, should not copy their arguments (because of infinite recursive loops).
+like copy functions of pointers, should not copy their arguments (because of infinite recursion).
 Only built-in functions can ignore this copying behaviour, and the flag which indicates
 whether to do so is also a part of a FunctionType.
 
@@ -743,10 +743,10 @@ Since this name is a \textit{discard token}
 (\texttt{\_}), the type won't be assigned, but rather discarded.
 
 The user has achieved polymorphic selection using enable\_if. He signalled the compiler that this
-definition of \typett{power} function fits programmers intentions.
+definition of \typett{power} function fits the programmer's intentions.
 
 On the other hand, consider the definition of \texttt{power} at line 9.
-In this line, \texttt{enable\_if} argument will evaluate to \texttt{i0} (false in type context).
+In this case, \texttt{enable\_if} argument will evaluate to \texttt{i0} (false in type context).
 This will cause the TE to abandon this function as a potential candidate for type resolution.
 Note that this behaviour is not a \textit{critical} error (the one which gets reported and crashes AGTC),
 but rather a mechanism for polymorphic selection.
@@ -758,16 +758,16 @@ in programming languages:
 
 \begin{enumerate}
     \item Objects exist in a specific context, which is dependant on their 
-        \subitem lexical environment (the scope)
-        \subitem runtime (the function invocation)
+        \subitem - lexical environment (the scope)
+        \subitem - runtime (the function invocation)
 
         For example, parameters of the function exist and can be referenced throughout the function body,
         but stop existing when that specific invocation of the function terminates. 
 
     \item The context in which objects exist is called their \textit{lifetime}
     \item Object's lifetime starts with \textit{initialization} (\textit{construction} in some sources).
-        \subitem Having precise control over construction can allow programmer
-                to restrict usage of the object or set up invariants
+        Having precise control over construction can allow programmer
+                to restrict usage of the object or set up invariants.
     \item Object's lifetime ends with \textit{destruction}.
         Having precise control over destruction allows programmer to
         deconstruct complex inner workings of the object, without relying on programmer to do it manually.
@@ -777,17 +777,18 @@ in programming languages:
         instead of shallow copying the pointer and thus incidentally creating unwanted memory aliases.
 \end{enumerate}
 
-Various other semantics can be implemented on top of lifetime model, we will check out an example called
-\texttt{Ownership semantics} in the last section. Now we will describe how lifetime semantics fit into
+Various other semantics can be implemented on top of the lifetime model; we will check out an example called
+\textit{Ownership semantics} in chapter \ref{chap:examples}. 
+Now we will describe how lifetime semantics fit into
 definition of AGT. Before we get into the details though, we have to throughly define types of values.
 
 \begin{definition}[L-value]
-A value expression is said to a L-value, 
+A value expression is said to an L-value, 
 if the value it evaluates to \textbf{can} be referred to from other context.
 \end{definition}
 
 \begin{definition}[R-value]
-A value expression is said to a R-value, if it is not L-value, that is
+A value expression is said to an R-value, if it is not L-value, that is
 if the value it evaluates to \textbf{can't} be referred to from other context.
 \end{definition}
 
@@ -799,9 +800,9 @@ On the other hand, function call expressions such as \texttt{gcd(3,2)} are R-val
 
 The distinction between L-values and R-values is crucial when reasoning about copy operations.
 Since R-values can't be referred to from any other context, instead of copying their value, 
-we can \texttt{memory copy} their value. The crucial distinction is that \texttt{copying}
-involves calling the \texttt{copy} function (which might be very expensive, for example for vectors),
-and \textit{memory copying} does not copies only the literal memory contents.
+we can \textit{memory copy} their value. The crucial distinction is that \textit{copying}
+involves calling the \texttt{\_\_copy\_\_} function (which might be very expensive, for example for vectors),
+and \textit{memory copying} copies only the literal memory contents.
 
 \begin{definition}[Initializer]
 An initializer is a function whose name is \texttt{\_\_init\_\_}, and which has at least one value parameter;
@@ -842,14 +843,16 @@ about example programs.
 Parametric polymorphism is a phenomenon of function calls referring to different concrete functions 
 (or in AGT language - function types) when invoked with different sets of argument types.
 
-In the example in listing \ref{runtime_rec}, we calculate nth Fibonacci number recursively.
+In order to demonstrate the limiting of polymorphic behaviour to certain types, we provide
+an example in listing \ref{runtime_rec}, in which we calculate nth Fibonacci number recursively.
 
 \textcode{\resdir/programs/fib_runtime_recursion.agt}{runtime_rec}
 {Fibonacci with recursion, Parametric Polymorphism}
 
 The reader should first note the \texttt{outnl} function definition in line 1;
 this function takes a single argument, which is referred to as parameter named \texttt{i},
-and this parameter can take any type (since we haven't limited the function definition with enable\_if).
+and this parameter can take any type (since we haven't limited the function definition 
+with \texttt{enable\_if}).
 Of course, if \texttt{out} in line 2 can't be called with that type, we will be
 reported a compilation error. This is an example of parametric polymorphism.
 
@@ -864,7 +867,7 @@ it is substituted with whatever is \textit{returned} from it (\texttt{R} here),
 instead of being interpreted as an aggregate type, as ordinary structs are.
 
 Semantics of \texttt{T} represent the integer size in which Fibonacci number is to be returned.
-Similarly, our \texttt{fib} function always expects \texttt{i32} as a specifier of \texttt{n}.
+Similarly, our \texttt{fib} function always expects \texttt{i32} as a type of \texttt{n}.
 
 Listing \ref{runtime_rec_out} shows the output of our program.
 
@@ -889,8 +892,8 @@ from \texttt{type\_to\_value} function. Fundamentally, this function allows you 
 your compile-time-computed value (in form of integer types) to runtime.
 
 Having access to \texttt{type\_to\_value} function, all we have to do is compute an integer
-type corresponding to n'th Fibonacci number. The reader should now study the \textit{substituting
-struct definitions} on lines 6, 9 and 13. It is important to note that they are disjoint in the sense
+type corresponding to nth Fibonacci number. The reader should now study the substituting
+struct definitions in lines 6, 9 and 13. It is important to note that they are disjoint in the sense
 that only one is a candidate for type inference (achieved with \texttt{enable\_if}).
 
 \textcode{\resdir/programs/fib_compile_time.out}{fib_ct_out}{Compile-time Fibonacci - output}
@@ -919,7 +922,7 @@ does allocation on the heap, instead of the stack.
 After allocating and displaying value of member \texttt{a}, 
 we \texttt{heap\_free} the allocated memory, and
 print out the member again. While this is a nondeterministic behaviour,
-we have kept an output where member is overwritten by different data to demonstrate
+we have kept an output where member is overwritten by different data, to demonstrate
 unsafe nature of access to freed data.
 
 
@@ -937,21 +940,21 @@ is no reason for it not to exist and can be implemented in AGT when needed.
 
 \section{A simple string class}
 
-The value of a string literal is a pointer to a character array
+The value of a char array literal is a pointer to a character array
 which is allocated on the stack. Thus, you can't, for example, return
-a \texttt{char} pointer which you get from string literal;
+a \texttt{char} pointer which you get from char array literal;
 since the underlying memory will be overwritten.
 
 If we want to use strings as they are used in other programming languages,
 we should write a \textit{class} for string management.
-By class, we mean a struct which holds the required data, along with necessary methods for its use.
+By class, we mean a struct which holds the required data, along with necessary functions for its use.
 
-String struct should be initialized with a string literal.
+String struct should be initialized with a char array literal.
 The initializer should allocate more memory, this time on the heap,
-which will be copied to from the initial string literal.
+which will be copied to from the initial char array literal.
 The copy method should perform a deep-copy, since these strings are meant to be mutable.
 
-Finally, special methods should be constructed to allow for controlled getting and setting of
+Finally, special functions should be constructed to allow for controlled getting and setting of
 string characters and also for printing the string out.
 
 We have implemented all of these in the following example, and urge the reader
@@ -960,16 +963,18 @@ to study it throughly.
 \textcode{\resdir/programs/string_mgmt.agt}{string_cl}{String class}
 \textcode{\resdir/programs/string_mgmt.out}{string_cl_out}{String class - output}
 
-\section{Ownership semantics and shared pointer}
+\section{Ownership semantics and shared pointers}
 
-A recurring problem in all languages without automatic garbage collection are memory related issues.
-\textit{Smart pointers} are an approach which is widely used in languages such as C++.
-A \textit{shared pointer} is a struct which holds a non-exclusive ownership of an underlying resource.
-Holding ownership implies that this struct could be responsible for releasing the resource after it
-is no longer used. Non-exclusivity of ownership means that other objects could also be responsible
-for its release. By limiting the owning objects to shared pointers only, and using them in a
-well-defined way, we prevent almost all of these memory issues (we will mention a problem with this approach
-at the end of the chapter).
+A recurring problem in all languages without automatic garbage collection are
+memory related issues.  \textit{Smart pointers} are an approach which is widely
+used in languages such as C++.  A \textit{shared pointer} \citep{c_shared_ptr}
+is a struct which holds a non-exclusive ownership of an underlying resource.
+Holding ownership implies that this struct could be responsible for releasing
+the resource after it is no longer used. Non-exclusivity of ownership means
+that other objects could also be responsible for its release. By limiting the
+owning objects to shared pointers only, and using them in a well-defined way,
+we prevent almost all of these memory issues (we will mention a problem with
+this approach at the end of the section).
 
 A shared pointer will copy the pointer which is passed to it, and free the memory when needed. 
 Freeing the memory will be done when no other shared pointers have access to same pointer,
@@ -980,7 +985,7 @@ and decremented when destructing them.
 Finally, the last shared pointer which gets destructed (the check at line 27) will release
 the ownership (in this case, free the memory).
 
-The reader should study the listing \ref{own_sem} and program output.
+The reader should study the listing \ref{own_sem} and program output in listing \ref{own_sem_out}.
 
 \textcode{\resdir/programs/shared_pointer.agt}{own_sem}{Shared pointers - out}
 
@@ -990,7 +995,7 @@ Output:
 We have added messages to signal when certain lifetime operations get executed.
 The main thing to notice is that variable \texttt{b} has a lifetime which ends
 at line 69, the closing of a block. This is the exact time when its destructor is called.
-One can thus notice that the \texttt{count} gets decreased from 2 to 1 after destruction
+One can thus notice that the \texttt{count} gets decreased from 2 to 1 after destruction.
 Finally, at the end of the \texttt{main} function, lifetime of \texttt{a} ends too,
 and the resource is released.
 
@@ -1001,8 +1006,8 @@ an interested reader can find more about this phenomenon in various sources on t
 
 \chapter{Future improvements}\label{chap:improv}
 
-Since AGT is a new project, it has not yet matured to be used in complex applications.
-The author list main features that have to be implemented and issues to be addressed
+Since AGT is a new project, it has not yet matured enough to be used in complex applications.
+The author lists main features that have to be implemented and issues to be addressed
 in order to turn AGT into a practical language for widespread use.
 
 \section{Pass-by-reference}
@@ -1021,7 +1026,7 @@ Some language (like C++) support passing-by-reference. Others, like Java, use it
 
 AGT would greatly benefit from having this feature. The main use case would be
 lifetime functions like \texttt{\_\_init\_\_}. Instead of requiring the first argument to be a pointer,
-they would allow for references. This would increase the ease-of-use on a syntactical level.
+AGT would allow for references. This would benefit the ease-of-use on a syntactical level.
 
 \section{Syntactic and lexical improvements}
 
@@ -1039,13 +1044,13 @@ a clear syntactic and lexical rules will ease the building of a fully mature lan
 \section{Multiple source file support and namespaces}
 
 The reader may have noticed that we have repeated some common function definitions
-(\texttt{outnl} for example) quite often. This is because AGT doesn't have a multiple source file
+(\texttt{outnl}, for example) quite often. This is because AGT doesn't have a multiple source file
 support. There are few problems which need to be addressed before implementing it.
 
 For first, a common problem with multiple source files is other languages is multiple inclusion
-and multiple definition problems which occur with it. In AGT this phenomenon would manifest
+and multiple definition problems which come with it. In AGT this phenomenon would manifest
 as a presence of multiple candidates for type inference. A quick fix for this problem would be
-to ignore function definitions which come from the same lexical location (source file).
+to ignore function definitions which come from the same lexical location (source file and line).
 An alternative is to ignore all function definitions which are \textit{the same}, that is,
 equivalent on either a lexical or a syntactic level.
 
@@ -1055,15 +1060,15 @@ and thus we have decided to postpone the implementation to a later update of AGT
 
 Finally, multiple source file support, and growth of code bases accompanied by it would require
 AGT to have some sort of name separation policies. These are often called namespaces.
-Their implementation would most likely accompany multiple source file support.
+Implementation of namespace would most likely accompany multiple source file support.
 
 \section{Portability}
 
 We haven't discussed the interaction of AGTC with a backend compiler via generation of LLVM-IR.
-Since the goal of this thesis was the explore of an idea, rather than a fully mature system,
+Since the goal of this thesis was the explore of an idea, rather than develop a fully mature system,
 we haven't taken portability into account. This means that AGTC likely won't run on systems
-other than those with Linux kernel and an accompanying set of software (gcc, llvm, Python3),
-with accompanying libraries (PLY).
+other than those with Linux kernel and an accompanying set of software (gcc, llvm),
+with Python3 and accompanying libraries (PLY).
 
 Further development of AGT would require us to precisely define which platforms we want to support and
 whether to split the language into minimal and full implementations (to allow for embedded support).
@@ -1073,11 +1078,11 @@ These are challenging decisions, and they have been postponed until further deve
 
 The goal of this master thesis was to design a programming language with foundation
 on a strong type system. Learning from other examples, the author was to select a number
-of desirable properties, and combine them to produce a functional language.
+of desirable properties, and combine them to produce usable programming language.
 
 The developed language, AGT, was shown to be expressive, yet safe. 
 AGT's syntax is particularly strict, which prevents the programmer from making hard-to-find mistakes.
-The type system and inference process, realized in this way, is a novel concept which 
+The type system and inference process with this flavour, is a novel concept which 
 has not been realized in this way before. AGT's type system allows programmer to use
 highly expressive polymorphic constructs, which greatly simplifies the program design process,
 reduces errors, and increases safety. AGT is a compiled language and is a candidate

@@ -1,4 +1,4 @@
-\begin{thebibliography}{14}
+\begin{thebibliography}{16}
 % this bibliography was produced with the style dinat.bst v2.5
 \makeatletter
 \newcommand{\dinatlabel}[1]%
@@ -38,6 +38,12 @@
 \newblock URL \url{https://en.cppreference.com/w/cpp/language/auto}. --
 \newblock [Online; accessed 26-May-2021]
 
+\bibitem[{CppReference contributors}({\natexlab{c}})]{c_shared_ptr}
+\dinatlabel{{CppReference contributors} {\natexlab{c}}} \textsc{{CppReference
+  contributors}}:
+\newblock \emph{CppReference - Lifetime}. --
+\newblock URL \url{https://www.cplusplus.com/reference/memory/shared_ptr/}
+
 \bibitem[{CppReference contributors}(2021)]{c_enable_if}
 \dinatlabel{{CppReference contributors} 2021} \textsc{{CppReference
   contributors}}:
@@ -73,8 +79,17 @@
   --
 \newblock [Online; accessed 26-May-2021]
 
-\bibitem[{Wikipedia contributors}(2021{\natexlab{b}})]{c_polymorphism}
+\bibitem[{Wikipedia contributors}(2021{\natexlab{b}})]{c_parsing_def}
 \dinatlabel{{Wikipedia contributors} 2021{\natexlab{b}}} \textsc{{Wikipedia
+  contributors}}:
+\newblock \emph{Parsing --- {Wikipedia}{,} The Free Encyclopedia}.
+\newblock 2021. --
+\newblock URL
+  \url{https://en.wikipedia.org/w/index.php?title=Parsing&oldid=1023402152}. --
+\newblock [Online; accessed 19-May-2021]
+
+\bibitem[{Wikipedia contributors}(2021{\natexlab{c}})]{c_polymorphism}
+\dinatlabel{{Wikipedia contributors} 2021{\natexlab{c}}} \textsc{{Wikipedia
   contributors}}:
 \newblock \emph{Polymorphism (computer science) --- {Wikipedia}{,} The Free
   Encyclopedia}.
@@ -84,8 +99,8 @@
   --
 \newblock [Online; accessed 26-May-2021]
 
-\bibitem[{Wikipedia contributors}(2021{\natexlab{c}})]{c_strong_typing}
-\dinatlabel{{Wikipedia contributors} 2021{\natexlab{c}}} \textsc{{Wikipedia
+\bibitem[{Wikipedia contributors}(2021{\natexlab{d}})]{c_strong_typing}
+\dinatlabel{{Wikipedia contributors} 2021{\natexlab{d}}} \textsc{{Wikipedia
   contributors}}:
 \newblock \emph{Strong and weak typing --- {Wikipedia}{,} The Free
   Encyclopedia}.
@@ -95,8 +110,8 @@
   --
 \newblock [Online; accessed 26-May-2021]
 
-\bibitem[{Wikipedia contributors}(2021{\natexlab{d}})]{c_static_typing}
-\dinatlabel{{Wikipedia contributors} 2021{\natexlab{d}}} \textsc{{Wikipedia
+\bibitem[{Wikipedia contributors}(2021{\natexlab{e}})]{c_static_typing}
+\dinatlabel{{Wikipedia contributors} 2021{\natexlab{e}}} \textsc{{Wikipedia
   contributors}}:
 \newblock \emph{Type system --- {Wikipedia}{,} The Free Encyclopedia}.
 \newblock 2021. --
@@ -105,8 +120,8 @@
   --
 \newblock [Online; accessed 26-May-2021]
 
-\bibitem[{Wikipedia contributors}(2021{\natexlab{e}})]{c_type_system}
-\dinatlabel{{Wikipedia contributors} 2021{\natexlab{e}}} \textsc{{Wikipedia
+\bibitem[{Wikipedia contributors}(2021{\natexlab{f}})]{c_type_system}
+\dinatlabel{{Wikipedia contributors} 2021{\natexlab{f}}} \textsc{{Wikipedia
   contributors}}:
 \newblock \emph{Type system --- {Wikipedia}{,} The Free Encyclopedia}.
 \newblock 2021. --

@@ -12,8 +12,6 @@ fn len(cptr) -> i32{
     return cl;
 }
 
-//
-
 struct string{
     let arr = @char;
     let len = i32;
@@ -53,8 +51,6 @@ fn __dest__(sptr){
 
     heap_free(sptr!.arr);
 }
-
-//
 
 fn get(sptr, i) -> char{
     type _ = enable_if<sptr == @string>;

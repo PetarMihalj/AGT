@@ -1,10 +1,6 @@
 This is BibTeX, Version 0.99d
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: diplomski.aux
-White space in argument---line 43 of file diplomski.aux
- : \citation{c\protect
- :                     \T1\textunderscore parsing\protect \T1\textunderscore def}
-I'm skipping whatever remains of this command
 Reallocating 'name_of_file' (item size: 1) to 6 items.
 The style file: dinat.bst
 Reallocating 'name_of_file' (item size: 1) to 11 items.
@@ -19,45 +15,50 @@ I was expecting a `,' or a `}'---line 62 of file literatura.bib
  :     note = "[Online; accessed 26-May-2021]"
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-You've used 14 entries,
+I was expecting a `,' or a `}'---line 114 of file literatura.bib
+ :     
+ :     note = "[Online; accessed 26-May-2021]"
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You've used 16 entries,
             3552 wiz_defined-function locations,
-            847 strings with 7587 characters,
-and the built_in function-call counts, 7056 in all, are:
-= -- 854
-> -- 110
-< -- 94
-+ -- 138
-- -- 54
-* -- 644
-:= -- 1243
-add.period$ -- 9
-call.type$ -- 14
-change.case$ -- 67
+            853 strings with 7811 characters,
+and the built_in function-call counts, 7913 in all, are:
+= -- 956
+> -- 124
+< -- 98
++ -- 148
+- -- 60
+* -- 725
+:= -- 1396
+add.period$ -- 10
+call.type$ -- 16
+change.case$ -- 76
 chr.to.int$ -- 8
-cite$ -- 14
-duplicate$ -- 208
-empty$ -- 553
-format.name$ -- 106
-if$ -- 1436
-int.to.chr$ -- 6
+cite$ -- 16
+duplicate$ -- 236
+empty$ -- 627
+format.name$ -- 118
+if$ -- 1616
+int.to.chr$ -- 8
 int.to.str$ -- 1
 missing$ -- 2
-newline$ -- 95
-num.names$ -- 56
-pop$ -- 91
+newline$ -- 107
+num.names$ -- 64
+pop$ -- 104
 preamble$ -- 1
-purify$ -- 60
+purify$ -- 68
 quote$ -- 0
-skip$ -- 216
+skip$ -- 237
 stack$ -- 0
-substring$ -- 529
-swap$ -- 35
-text.length$ -- 18
+substring$ -- 584
+swap$ -- 39
+text.length$ -- 20
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 154
+type$ -- 176
 warning$ -- 0
-while$ -- 89
+while$ -- 101
 width$ -- 0
-write$ -- 151
+write$ -- 171
 (There were 2 error messages)

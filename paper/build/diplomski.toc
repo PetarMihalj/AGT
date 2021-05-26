@@ -24,11 +24,11 @@
 \contentsline {section}{\numberline {4.3}Heap object allocation}{29}{}%
 \contentsline {section}{\numberline {4.4}Raw heap allocation}{30}{}%
 \contentsline {section}{\numberline {4.5}A simple string class}{31}{}%
-\contentsline {section}{\numberline {4.6}Ownership semantics and shared pointer}{34}{}%
+\contentsline {section}{\numberline {4.6}Ownership semantics and shared pointers}{34}{}%
 \contentsline {chapter}{\numberline {5}Future improvements}{39}{}%
 \contentsline {section}{\numberline {5.1}Pass-by-reference}{39}{}%
 \contentsline {section}{\numberline {5.2}Syntactic and lexical improvements}{39}{}%
 \contentsline {section}{\numberline {5.3}Multiple source file support and namespaces}{40}{}%
 \contentsline {section}{\numberline {5.4}Portability}{40}{}%
-\contentsline {chapter}{\numberline {6}Conclusion}{41}{}%
-\contentsline {chapter}{Bibliography}{42}{}%
+\contentsline {chapter}{\numberline {6}Conclusion}{42}{}%
+\contentsline {chapter}{Bibliography}{43}{}%
