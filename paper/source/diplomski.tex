@@ -1081,18 +1081,40 @@ Thus, the goal of this thesis has been successfully accomplished.
 \bibliographystyle{dinat}
 \bibliography{literatura}
 
-\begin{sazetak}
-Sažetak na hrvatskom jeziku.
+\newpage
 
-\kljucnerijeci{Ključne riječi, odvojene zarezima.}
+\hrtitle{Oblikovanje strogo tipiziranog programskog jezika}
+\engtitle{Design of a strongly-typed programming language}
+
+\begin{sazetak}
+Cilj ovog diplomskog rada razvoj je novog programskog jezika,
+kombinirajući poželjna svojstva drugih često korištenih jezika.
+Definirali smo AGT programski jezik, prevođeni, statički i jako tipiziran jezik
+s snažnim sustavom tipova, sposobnim izvesti izračune u vremenu prevođenja,
+koji podržava različite oblike statičkog polimorfizma.
+Razvili smo prevoditelj za AGT u programskom jeziku Python,
+koristeći LLVM infrastrukturu prevoditelja za pozadinsko prevođenje.
+U radu opisujemo sintaksu i semantiku AGT programskog jezika, 
+a dani su i brojni primjeri efikasnog korištenja AGT-a u čestim programerskim situacijama.
+Diplomski rad završili smo planovima za budući razvoj AGT-a.
+
+\kljucnerijeci{Programski jezici, Prevoditelji, Polimorfizam}
 \end{sazetak}
 
-% TODO: Navedite naslov na engleskom jeziku.
-\engtitle{Title}
 \begin{abstract}
-Abstract.
+The goal of this thesis is to develop a new programming language by combining
+desirable properties of other widely used ones. We have defined the AGT
+programming language, a compiled, statically and strongly typed language which
+has a powerful
+type system, capable of performing compile-time computation and providing 
+different forms of static polymorphism. We have implemented a Python based AGT compiler,
+which uses LLVM compiler infrastructure as a compiler backend. 
 
-\keywords{Keywords.}
+We describe the AGT programming language syntax and semantics, and 
+also provide numerous examples of effective AGT use in common programming scenarios.
+The thesis is concluded with plans for the future development of AGT.
+
+\keywords{Programming languages, Compilers, Polymorphism}
 \end{abstract}
 
 \end{document}

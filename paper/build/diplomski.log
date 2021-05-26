@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  26 MAY 2021 08:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  26 MAY 2021 10:31
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -209,8 +209,20 @@ LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count273
 )
 \listindentation=\dimen166
-)
-(/home/pmihalj/.miktex/texmfs/install/tex/latex/booktabs/booktabs.sty
+
+
+! LaTeX Error: Environment sazetak undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.334 \renewenvironment{sazetak}
+                                
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+) (/home/pmihalj/.miktex/texmfs/install/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \heavyrulewidth=\dimen167
 \lightrulewidth=\dimen168
@@ -661,9 +673,9 @@ Overfull \hbox (7.50313pt too wide) in paragraph at lines 206--214
  []
 
 
-Overfull \hbox (13.58734pt too wide) in paragraph at lines 215--219
+Overfull \hbox (16.92322pt too wide) in paragraph at lines 215--219
 \T1/ptm/m/n/12 will further deepen reader's understanding of AGT. The examples 
-describe impementation
+describe implementation
  []
 
 
@@ -741,12 +753,6 @@ Overfull \hbox (2.82315pt too wide) in paragraph at lines 344--350
 
 [7] [8]
 Chapter 3.
-
-Overfull \hbox (2.94322pt too wide) in paragraph at lines 369--372
-\T1/ptm/m/n/12 Lexical analyzer is fed a stream of characters, which get groupt
-ed into tokens, according
- []
-
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
@@ -754,7 +760,7 @@ File: lstlang1.sty 2020/03/24 1.8d listings language file
 
 ])
 ! Undefined control sequence.
-l.390 ...char} (for \textit{char arrays} or \textt
+l.390 ...or \textit{char array literals} or \textt
                                                   {char} literals).
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -904,12 +910,6 @@ py__\T1/ptm/m/n/12 ,
 (/home/pmihalj/agt/paper/res/compiler/lifetime_ex.out) [24]
 Chapter 4.
 
-Overfull \hbox (10.61093pt too wide) in paragraph at lines 830--832
-\T1/ptm/m/n/12 Parametric polymorphism is a phenomenon of function calls referi
-ng to different concrete
- []
-
-
 ! Package keyval Error: Parametric Polymorphism undefined.
 
 See the keyval package documentation for explanation.
@@ -938,13 +938,7 @@ If that doesn't work, type  X <return>  to quit.
 ])
 Overfull \hbox (31.15138pt too wide) in paragraph at lines 848--853
 []\T1/ptm/m/n/12 Integer selection behaviour is achieved by using \T1/ptm/m/it/
-12 supstituting struct definition\T1/ptm/m/n/12 . Supstituting
- []
-
-
-Overfull \hbox (4.9194pt too wide) in paragraph at lines 854--856
-[]\T1/ptm/m/n/12 Semantics of \T1/pcr/m/n/12 T \T1/ptm/m/n/12 represent the int
-eger size in which fibonacci number is to be returned.
+12 substituting struct definition\T1/ptm/m/n/12 . Substituting
  []
 
 (/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.out) [26]
@@ -1025,6 +1019,12 @@ Chapter 6.
 Overfull \hbox (3.53159pt too wide) in paragraph at lines 1066--1073
 \T1/ptm/m/n/12 language and is a candidate for use in low-level applications wh
 ich require low overhead
+ []
+
+
+Overfull \hbox (2.7868pt too wide) in paragraph at lines 1077--1080
+\T1/ptm/m/n/12 programmer performs. Thus, the goal of this thesis has been succ
+essfully accomplished. 
  []
 
 (/home/pmihalj/agt/paper/build/diplomski.bbl [40
@@ -1308,6 +1308,17 @@ Things are pretty mixed up, but I think the worst is over.
 ) [41
 
 ]
+Overfull \hbox (32.48557pt too wide) in paragraph at lines 1090--1100
+\T1/ptm/m/n/12 Razvili smo prevoditelj za AGT u programskom jeziku Python, kori
+ste¢i LLVM infrastrukturu
+ []
+
+
+Overfull \hbox (5.58005pt too wide) in paragraph at lines 1113--1116
+[]\T1/ptm/m/n/12 We describe the AGT programming language syntax and semantics,
+ and also provide
+ []
+
 
 Package natbib Warning: There were undefined citations.
 
@@ -1317,10 +1328,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 9618 strings out of 481257
- 143297 string characters out of 2908218
- 725201 words of memory out of 3000000
- 26573 multiletter control sequences out of 15000+600000
+ 9620 strings out of 481257
+ 143312 string characters out of 2908218
+ 725270 words of memory out of 3000000
+ 26575 multiletter control sequences out of 15000+600000
  465366 words of font info for 97 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
  83i,17n,88p,272b,1899s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1335,7 +1346,7 @@ ex/texmfs/install/fonts/type1/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/te
 xmfs/install/fonts/type1/urw/times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/ins
 tall/fonts/type1/urw/times/utmr8a.pfb></home/pmihalj/.miktex/texmfs/install/fon
 ts/type1/urw/times/utmri8a.pfb>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (48 pages, 232416
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (48 pages, 234283
  bytes).
 PDF statistics:
  219 PDF objects out of 1000 (max. 8388607)
