@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  26 MAY 2021 16:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  26 MAY 2021 16:37
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -700,9 +700,9 @@ T1/ptm/m/n/12 (\T1/ptm/m/it/12 construction \T1/ptm/m/n/12 in some sources).
  []
 
 [22]
-Underfull \hbox (badness 1019) in paragraph at lines 813--815
+Underfull \hbox (badness 1484) in paragraph at lines 813--815
 []\T1/ptm/b/n/12 Definition 4 \T1/ptm/m/n/12 (Copy function)\T1/ptm/b/n/12 . []
-\T1/ptm/m/n/12 An copy function is a function whose name is
+\T1/ptm/m/n/12 A copy function is a function whose name is
  []
 
 (/home/pmihalj/agt/paper/res/compiler/lifetime_ex.agt [23]) [24]
@@ -924,7 +924,7 @@ ex/texmfs/install/fonts/type1/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/te
 xmfs/install/fonts/type1/urw/times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/ins
 tall/fonts/type1/urw/times/utmr8a.pfb></home/pmihalj/.miktex/texmfs/install/fon
 ts/type1/urw/times/utmri8a.pfb>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (51 pages, 228574
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (51 pages, 228571
  bytes).
 PDF statistics:
  225 PDF objects out of 1000 (max. 8388607)

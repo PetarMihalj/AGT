@@ -164,7 +164,7 @@ These definitions lack types, and can't be considered in isolation.
 In this example, it is the call of function \texttt{mul} which causes
 the compiler to try to infer a function type.
 Parameters of \texttt{mul} function definition (\texttt{a, b}) can be fit with objects of
-any type; it is after this fitting that the compiler will determine that passed types can or can't
+any type; it is after this fitting that the compiler will determine that passed types either can or can't
 be used (due to their incompatibility with a function definition body, for example).
 
 It is important to emphasize that one function definition can be a source of many function types.
@@ -216,7 +216,7 @@ This chapter will have many references to the AGTC reference implementation,
 rather than to a separate formal specification. Since AGT is still not a finalized product,
 formal specification does not exist, and it's functionality is determined by a reference compiler.
 We will mostly focus on the type system, since it is unorthodox and is the main
-contribution of the author.  Author will justify the decisions which had been
+contribution of the author.  The author will justify the decisions which had been
 made on all levels of AGT design process.
 
 Chapter \ref{chap:examples} will supplement the reader with plenty of examples of AGT code. These will
@@ -284,7 +284,7 @@ but the one which captures the essence most precisely is the following:
 
 \textit{A type system is a logical system comprising a set of rules that 
     assigns a property called a type to the various constructs of a computer program, 
-such as variables, expressions, functions or modules ... }\citep{c_type_system}.
+such as variables, expressions, functions or modules... }\citep{c_type_system}.
 
 AGT's type system serves multiple purposes. One is to allow compile time computation.
 The most important purpose is to ensure the correctness of programs, both on compile time and run time.
@@ -810,12 +810,12 @@ a pointer to type being initialized. Other value parameters are objects which ar
 \end{definition}
 
 \begin{definition}[Copy function]
-An copy function is a function whose name is \texttt{\_\_copy\_\_}, and which has two value parameters;
+A copy function is a function whose name is \texttt{\_\_copy\_\_}, and which has two value parameters;
 first being a pointer to memory being copied to, and second one being a pointer to object copied from.
 \end{definition}
 
 \begin{definition}[Destructor]
-An destructor is a function whose name is \texttt{\_\_dest\_\_}, and which has only one value parameter;
+A destructor is a function whose name is \texttt{\_\_dest\_\_}, and which has only one value parameter;
 a pointer to object being destroyed.
 \end{definition}
 
