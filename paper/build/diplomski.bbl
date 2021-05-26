@@ -1,4 +1,4 @@
-\begin{thebibliography}{8}
+\begin{thebibliography}{14}
 % this bibliography was produced with the style dinat.bst v2.5
 \makeatletter
 \newcommand{\dinatlabel}[1]%
@@ -24,12 +24,26 @@
 \newblock \emph{PLY (Python Lex-Yacc) documentation}. --
 \newblock URL \url{https://ply.readthedocs.io/en/latest/index.html}
 
+\bibitem[{CppReference contributors}({\natexlab{a}})]{c_cpp_lifetime}
+\dinatlabel{{CppReference contributors} {\natexlab{a}}} \textsc{{CppReference
+  contributors}}:
+\newblock \emph{CppReference - Lifetime}. --
+\newblock URL \url{https://en.cppreference.com/w/cpp/language/lifetime}. --
+\newblock [Online; accessed 26-May-2021]
+
+\bibitem[{CppReference contributors}({\natexlab{b}})]{c_auto}
+\dinatlabel{{CppReference contributors} {\natexlab{b}}} \textsc{{CppReference
+  contributors}}:
+\newblock \emph{CppReference - Lifetime}. --
+\newblock URL \url{https://en.cppreference.com/w/cpp/language/auto}. --
+\newblock [Online; accessed 26-May-2021]
+
 \bibitem[{CppReference contributors}(2021)]{c_enable_if}
 \dinatlabel{{CppReference contributors} 2021} \textsc{{CppReference
   contributors}}:
-\newblock \emph{CppReference - std::enable_if}.
+\newblock \emph{CppReference - std::enable\_if}.
 \newblock 2021. --
-\newblock URL \url{https://en.cppreference.com/w/cpp/types/enable_if}
+\newblock URL \url{https://en.cppreference.com/w/cpp/types/enable\_if}
 
 \bibitem[Fred L. Drake~Jr.()]{c_py_duck_typing}
 \dinatlabel{Fred L. Drake~Jr. } \textsc{Fred L. Drake~Jr.}, others:
@@ -49,8 +63,51 @@
 \newblock 08 2004. --
 \newblock URL \url{https://www.python.org/dev/peps/pep-0020/}
 
-\bibitem[{Wikipedia contributors}(2021)]{c_type_system}
-\dinatlabel{{Wikipedia contributors} 2021} \textsc{{Wikipedia contributors}}:
+\bibitem[{Wikipedia contributors}(2021{\natexlab{a}})]{c_dyn_dispatch}
+\dinatlabel{{Wikipedia contributors} 2021{\natexlab{a}}} \textsc{{Wikipedia
+  contributors}}:
+\newblock \emph{Dynamic dispatch --- {Wikipedia}{,} The Free Encyclopedia}.
+\newblock 2021. --
+\newblock URL
+  \url{https://en.wikipedia.org/w/index.php?title=Dynamic_dispatch&oldid=1024898159}.
+  --
+\newblock [Online; accessed 26-May-2021]
+
+\bibitem[{Wikipedia contributors}(2021{\natexlab{b}})]{c_polymorphism}
+\dinatlabel{{Wikipedia contributors} 2021{\natexlab{b}}} \textsc{{Wikipedia
+  contributors}}:
+\newblock \emph{Polymorphism (computer science) --- {Wikipedia}{,} The Free
+  Encyclopedia}.
+\newblock 2021. --
+\newblock URL
+  \url{https://en.wikipedia.org/w/index.php?title=Polymorphism_(computer_science)&oldid=1024134632}.
+  --
+\newblock [Online; accessed 26-May-2021]
+
+\bibitem[{Wikipedia contributors}(2021{\natexlab{c}})]{c_strong_typing}
+\dinatlabel{{Wikipedia contributors} 2021{\natexlab{c}}} \textsc{{Wikipedia
+  contributors}}:
+\newblock \emph{Strong and weak typing --- {Wikipedia}{,} The Free
+  Encyclopedia}.
+\newblock 2021. --
+\newblock URL
+  \url{https://en.wikipedia.org/w/index.php?title=Strong_and_weak_typing&oldid=1025048488}.
+  --
+\newblock [Online; accessed 26-May-2021]
+
+\bibitem[{Wikipedia contributors}(2021{\natexlab{d}})]{c_static_typing}
+\dinatlabel{{Wikipedia contributors} 2021{\natexlab{d}}} \textsc{{Wikipedia
+  contributors}}:
+\newblock \emph{Type system --- {Wikipedia}{,} The Free Encyclopedia}.
+\newblock 2021. --
+\newblock URL
+  \url{https://en.wikipedia.org/w/index.php?title=Type_system&oldid=1024380108}.
+  --
+\newblock [Online; accessed 26-May-2021]
+
+\bibitem[{Wikipedia contributors}(2021{\natexlab{e}})]{c_type_system}
+\dinatlabel{{Wikipedia contributors} 2021{\natexlab{e}}} \textsc{{Wikipedia
+  contributors}}:
 \newblock \emph{Type system --- {Wikipedia}{,} The Free Encyclopedia}.
 \newblock 2021. --
 \newblock URL

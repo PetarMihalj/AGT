@@ -1,4 +1,7 @@
 \relax 
+\citation{c_static_typing}
+\citation{c_strong_typing}
+\citation{c_cpp_lifetime}
 \citation{c_llvm_lattner}
 \@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{1}{}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
@@ -7,113 +10,125 @@
 \@writefile{toc}{\contentsline {section}{\numberline {1.1}Example program}{2}{}\protected@file@percent }
 \newlabel{intro.agt}{{1.1}{2}{Example AGT program}{}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {1.1}Example AGT program}{2}{}\protected@file@percent }
+\citation{c_polymorphism}
 \citation{c_py_duck_typing}
 \@writefile{toc}{\contentsline {section}{\numberline {1.2}Paper organization}{4}{}\protected@file@percent }
+\citation{c_auto}
 \citation{c_zen}
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}Design decisions}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Design decisions}{6}{}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:design}{{2}{5}{Design decisions}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.1}Syntax}{5}{}\protected@file@percent }
+\newlabel{chap:design}{{2}{6}{Design decisions}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Syntax}{6}{}\protected@file@percent }
 \citation{c_type_system}
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}Type System}{6}{}\protected@file@percent }
+\citation{c_static_typing}
+\citation{c_dyn_dispatch}
+\citation{c_strong_typing}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Type System}{7}{}\protected@file@percent }
 \citation{c_enable_if}
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Memory management}{7}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.4}Compiler implementation}{8}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Memory management}{8}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Compiler implementation}{9}{}\protected@file@percent }
 \citation{c_ply_beazley}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}The AGT Programming Language}{9}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}The AGT Programming Language}{10}{}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:indepth}{{3}{9}{The AGT Programming Language}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Lexical analysis}{9}{}\protected@file@percent }
+\newlabel{chap:indepth}{{3}{10}{The AGT Programming Language}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Lexical analysis}{10}{}\protected@file@percent }
 \citation{c_ply_docs_beazley}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.1}heyy}{10}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Literals}{11}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Identifiers}{12}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.3}Operators}{12}{}\protected@file@percent }
+\newlabel{lexer}{{3.1}{11}{Lexing module}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.1}Lexing module}{11}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Literals}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Identifiers}{13}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.3}Operators}{13}{}\protected@file@percent }
 \citation{c\protect \T1\textunderscore parsing\protect \T1\textunderscore def}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.4}Special operators}{13}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.4}Special operators}{14}{}\protected@file@percent }
 \citation{c_compilers_book}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Syntactic analysis}{14}{}\protected@file@percent }
-\newlabel{prio}{{3.2}{14}{Precedence rules}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.2}Precedence rules}{14}{}\protected@file@percent }
-\newlabel{ast}{{3.3}{15}{AST resulting from \texttt {let n = in<i32>();}}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.3}AST resulting from \texttt  {let n = in<i32>();}}{15}{}\protected@file@percent }
-\newlabel{rule}{{3.4}{16}{Binary expression rule implementation}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.4}Binary expression rule implementation}{16}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Semantic analysis}{17}{}\protected@file@percent }
-\newlabel{contt}{{3.5}{17}{Contextuality of expression \texttt {a}}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.5}Contextuality of expression \texttt  {a}}{17}{}\protected@file@percent }
-\newlabel{semana}{{3.6}{17}{a}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.6}a}{17}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Code generation}{18}{}\protected@file@percent }
-\newlabel{sect:codegen}{{3.4}{18}{Code generation}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Concrete type request}{19}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Function type request}{19}{}\protected@file@percent }
-\newlabel{inf1}{{3.7}{20}{enable\_if example}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.7}enable\_if example}{20}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.3}Lifetime semantics}{21}{}\protected@file@percent }
-\newlabel{ltsem}{{3.8}{22}{Lifetime semantics}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.8}Lifetime semantics}{22}{}\protected@file@percent }
-\newlabel{ltsemout}{{3.9}{24}{Lifetime semantics - output}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.9}Lifetime semantics - output}{24}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}AGT program examples}{25}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Syntactic analysis}{15}{}\protected@file@percent }
+\newlabel{prio}{{3.2}{15}{Precedence rules}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.2}Precedence rules}{15}{}\protected@file@percent }
+\newlabel{ast}{{3.3}{16}{AST resulting from \texttt {let n = in<i32>();}}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.3}AST resulting from \texttt  {let n = in<i32>();}}{16}{}\protected@file@percent }
+\newlabel{rule}{{3.4}{17}{Binary expression rule implementation}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.4}Binary expression rule implementation}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Semantic analysis}{18}{}\protected@file@percent }
+\newlabel{contt}{{3.5}{18}{Contextuality of expression \texttt {a}}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.5}Contextuality of expression \texttt  {a}}{18}{}\protected@file@percent }
+\newlabel{semana}{{3.6}{18}{a}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.6}a}{18}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Code generation}{19}{}\protected@file@percent }
+\newlabel{sect:codegen}{{3.4}{19}{Code generation}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Concrete type request}{20}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Function type request}{20}{}\protected@file@percent }
+\newlabel{inf1}{{3.7}{21}{enable\_if example}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.7}enable\_if example}{21}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.3}Lifetime semantics}{22}{}\protected@file@percent }
+\newlabel{ltsem}{{3.8}{23}{Lifetime semantics}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.8}Lifetime semantics}{23}{}\protected@file@percent }
+\newlabel{ltsemout}{{3.9}{25}{Lifetime semantics - output}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.9}Lifetime semantics - output}{25}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}AGT program examples}{26}{}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:examples}{{4}{25}{AGT program examples}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Parametric polymorphism}{25}{}\protected@file@percent }
-\newlabel{runtime_rec}{{4.1}{25}{Fibonacci with recursion}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.1}Fibonacci with recursion}{25}{}\protected@file@percent }
-\newlabel{runtime_rec_out}{{4.2}{26}{Fibonacci with recursion - output}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.2}Fibonacci with recursion - output}{26}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Compile time computation}{27}{}\protected@file@percent }
-\newlabel{fib_ct}{{4.3}{27}{Compile-time Fibonacci}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.3}Compile-time Fibonacci}{27}{}\protected@file@percent }
-\newlabel{fib_ct_out}{{4.4}{28}{Compile-time Fibonacci - output}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.4}Compile-time Fibonacci - output}{28}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Heap object allocation}{28}{}\protected@file@percent }
-\newlabel{memory_object}{{4.5}{28}{Heap object allocation}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.5}Heap object allocation}{28}{}\protected@file@percent }
-\newlabel{memory_object_in}{{4.6}{29}{Heap object allocation - input}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.6}Heap object allocation - input}{29}{}\protected@file@percent }
-\newlabel{memory_object_out}{{4.7}{29}{Heap object allocation - output}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.7}Heap object allocation - output}{29}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Raw heap allocation}{29}{}\protected@file@percent }
-\newlabel{memory_alloc}{{4.8}{29}{Raw heap allocation}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.8}Raw heap allocation}{29}{}\protected@file@percent }
-\newlabel{memory_alloc}{{4.9}{30}{Raw heap allocation - output}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.9}Raw heap allocation - output}{30}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}A simple string class}{30}{}\protected@file@percent }
-\newlabel{string_cl}{{4.10}{31}{String class}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.10}String class}{31}{}\protected@file@percent }
-\newlabel{string_cl_out}{{4.11}{33}{String class - output}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.11}String class - output}{33}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.6}Ownership semantics and shared pointer}{33}{}\protected@file@percent }
-\newlabel{own_sem}{{4.12}{34}{Shared pointers - out}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.12}Shared pointers - out}{34}{}\protected@file@percent }
-\newlabel{own_sem_out}{{4.13}{36}{Shared pointer - out}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.13}Shared pointer - out}{36}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Future improvements}{38}{}\protected@file@percent }
+\newlabel{chap:examples}{{4}{26}{AGT program examples}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Parametric polymorphism}{26}{}\protected@file@percent }
+\newlabel{runtime_rec}{{4.1}{26}{Fibonacci with recursion}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.1}Fibonacci with recursion}{26}{}\protected@file@percent }
+\newlabel{runtime_rec_out}{{4.2}{27}{Fibonacci with recursion - output}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.2}Fibonacci with recursion - output}{27}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Compile time computation}{28}{}\protected@file@percent }
+\newlabel{fib_ct}{{4.3}{28}{Compile-time Fibonacci}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.3}Compile-time Fibonacci}{28}{}\protected@file@percent }
+\newlabel{fib_ct_out}{{4.4}{29}{Compile-time Fibonacci - output}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.4}Compile-time Fibonacci - output}{29}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Heap object allocation}{29}{}\protected@file@percent }
+\newlabel{memory_object}{{4.5}{29}{Heap object allocation}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.5}Heap object allocation}{29}{}\protected@file@percent }
+\newlabel{memory_object_in}{{4.6}{30}{Heap object allocation - input}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.6}Heap object allocation - input}{30}{}\protected@file@percent }
+\newlabel{memory_object_out}{{4.7}{30}{Heap object allocation - output}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.7}Heap object allocation - output}{30}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Raw heap allocation}{30}{}\protected@file@percent }
+\newlabel{memory_alloc}{{4.8}{30}{Raw heap allocation}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.8}Raw heap allocation}{30}{}\protected@file@percent }
+\newlabel{memory_alloc}{{4.9}{31}{Raw heap allocation - output}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.9}Raw heap allocation - output}{31}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}A simple string class}{31}{}\protected@file@percent }
+\newlabel{string_cl}{{4.10}{32}{String class}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.10}String class}{32}{}\protected@file@percent }
+\newlabel{string_cl_out}{{4.11}{34}{String class - output}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.11}String class - output}{34}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Ownership semantics and shared pointer}{34}{}\protected@file@percent }
+\newlabel{own_sem}{{4.12}{35}{Shared pointers - out}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.12}Shared pointers - out}{35}{}\protected@file@percent }
+\newlabel{own_sem_out}{{4.13}{37}{Shared pointer - out}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.13}Shared pointer - out}{37}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Future improvements}{39}{}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:improv}{{5}{38}{Future improvements}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Pass-by-reference}{38}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Syntactic and lexical improvements}{38}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Multiple source file support and namespaces}{39}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Portability}{39}{}\protected@file@percent }
+\newlabel{chap:improv}{{5}{39}{Future improvements}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Pass-by-reference}{39}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Syntactic and lexical improvements}{39}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Multiple source file support and namespaces}{40}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Portability}{40}{}\protected@file@percent }
 \bibstyle{dinat}
 \bibdata{literatura}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{40}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{41}{}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:concl}{{6}{40}{Conclusion}{}{}}
+\newlabel{chap:concl}{{6}{41}{Conclusion}{}{}}
 \bibcite{c_compilers_book}{{1}{2007}{{Aho u.\,a.}}{{Aho, Lam, Sethi und Ullman}}}
 \bibcite{c_ply_beazley}{{2}{a}{{Beazley}}{{}}}
 \bibcite{c_ply_docs_beazley}{{3}{b}{{Beazley}}{{}}}
-\bibcite{c_enable_if}{{4}{2021}{{CppReference contributors}}{{}}}
-\bibcite{c_py_duck_typing}{{5}{}{{Fred L. Drake~Jr.}}{{}}}
-\bibcite{c_llvm_lattner}{{6}{2004}{{Lattner und Adve}}{{}}}
-\bibcite{c_zen}{{7}{2004}{{Peters}}{{}}}
-\bibcite{c_type_system}{{8}{2021}{{Wikipedia contributors}}{{}}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{41}{}\protected@file@percent }
-\gdef \@abspage@last{48}
+\bibcite{c_cpp_lifetime}{{4}{a}{{CppReference contributors}}{{}}}
+\bibcite{c_auto}{{5}{b}{{CppReference contributors}}{{}}}
+\bibcite{c_enable_if}{{6}{2021}{{CppReference contributors}}{{}}}
+\bibcite{c_py_duck_typing}{{7}{}{{Fred L. Drake~Jr.}}{{}}}
+\bibcite{c_llvm_lattner}{{8}{2004}{{Lattner und Adve}}{{}}}
+\bibcite{c_zen}{{9}{2004}{{Peters}}{{}}}
+\bibcite{c_dyn_dispatch}{{10}{2021{a}}{{Wikipedia contributors}}{{}}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{42}{}\protected@file@percent }
+\bibcite{c_polymorphism}{{11}{2021{b}}{{Wikipedia contributors}}{{}}}
+\bibcite{c_strong_typing}{{12}{2021{c}}{{Wikipedia contributors}}{{}}}
+\bibcite{c_static_typing}{{13}{2021{d}}{{Wikipedia contributors}}{{}}}
+\bibcite{c_type_system}{{14}{2021{e}}{{Wikipedia contributors}}{{}}}
+\gdef \@abspage@last{50}

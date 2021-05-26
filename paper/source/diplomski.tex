@@ -53,6 +53,7 @@
 }
 
 \begin{document}
+\sloppy
 \thesisnumber{2568}
 
 \title{Design of a strongly-typed programming language}
@@ -73,8 +74,8 @@ The programming language developed as a part of this thesis is called AGT.
 The name AGT stands for an unfortunate fact that the names of all precious stones
 are taken by other programming languages, hence "All Gems are Taken".
 
-\textbf{The AGT programming language} is a statically and 
-strongly typed language, with a highly expressive type system.
+\textbf{The AGT programming language} is a statically \citep{c_static_typing} and 
+strongly \citep{c_strong_typing} typed language, with a highly expressive type system.
 The type system is used for three main purposes:
 
 \begin{enumerate}
@@ -85,7 +86,8 @@ The type system is used for three main purposes:
 \end{enumerate}
 
 The language also allows for implementation of object lifetime constructs, 
-such as those seen in languages as C++ or Rust; object creation, copying and destruction.
+such as those seen in languages such as C++ \citep{c_cpp_lifetime}; 
+object creation, copying and destruction.
 
 \textbf{The reference AGT compiler (AGTC)} produces executable binaries only.
 This is in sharp contrast to some other languages, which can produce object files, 
@@ -93,12 +95,13 @@ to later be linked into executables for a particular runtime,
 or used to augment the runtime environment itself (kernel modules, for example). 
 This decision was made primarily because the goal of the thesis was to study the language 
 from the application programmer's perspective. 
-This goal implies that AGT is running on a rich runtime environment, 
+This goal requires that AGT is running on a rich runtime environment, 
 where heap memory management and standard I/O are available.
 Future updates to AGT specification are meant to allow AGT to be compiled
 into linkable files compatible with various platform specific ABIs.
 
-The compiler frontend is implemented using Python3 programming language,
+The compiler frontend is implemented using Python3 programming language version 3.9.5 (but should work
+on all versions starting from 3.7),
 while the backend uses LLVM compiler infrastructure \citep{c_llvm_lattner}.
 Allowing for some simplification, AGT is first compiled into LLVM intermediate representation (LLVM-IR),
 and than is turned into executable by a chain of tools for compiling LLVM-IR and 
@@ -110,12 +113,12 @@ Let us first check out an example AGT program in listing \ref{intro.agt}:
 
 \agtcode{\resdir/programs/intro.agt}{intro.agt}{Example AGT program}
 
-Every AGT program has to have a function definition named main, 
+Every AGT program has to have a function definition named \texttt{main}, 
 which returns a 32-bit-wide integer,
 and has no parameters.
 Some functions, like \texttt{outnl}, don't return anything. 
-It is important to note that you can't
-specify that a function returns \texttt{void} like in C for example.
+There is no \texttt{void} type for functions that don't return a value;
+just skip specifying the return type to achieve this behaviour.
 
 A \texttt{let <x> = <y>;} construct is an \textit{initialization assignment statement}.
 This roughly translates to an allocation of memory on the stack (which can be referred
@@ -124,9 +127,9 @@ to the location of identifier <x>.
 
 Note that the function call \texttt{in} (line 11) is \textit{parametrized} 
 by a \textit{type argument} \texttt{i32}.
-Type arguments are used to pass types, but not values. 
+Type arguments are used to pass types, but not values, to functions. 
 They are different than \textit{value arguments}, which carry value too, along with a type.
-Note that \textit{passing} of type parameters is purely a compile-time concept;
+The \textit{passing} of type parameters is purely a compile-time concept;
 types can't be referred to during runtime.
 
 
@@ -142,22 +145,25 @@ compute the expression \texttt{a*b}, since multiplication is predefined only for
 Apart from the \texttt{i8} and \texttt{i32} we used in this example, \texttt{i16} and \texttt{i64} are also
 available.
 
-Also, line 6 is terminated by a \texttt{-> a}. This is a return type specification;
-it states that this function will return whatever is type of \textt{a}. 
+Also, notice that line 6 is terminated by \texttt{-> a}. This is a \textit{return type specification};
+it states that this function will return a value with a type being equal to whatever is type of \texttt{a}. 
 
 You might have noticed a certain feature while inspecting the code; 
 namely the absence of explicitly stated types in the signature of function definition \texttt{mul}.
-While some \textit{dynamically typed} languages (ex. Python) allow for object of any type to be passed
+While some \textit{dynamically typed} languages (for example Python) allow for object of any type to be passed
 to the function, AGT behaves quite differently. 
 
 Every time AGTC (AGT compiler) encounters a function call,
-it tries to infer a \textit{function type}. Function type is inferred from function definitions. 
-Consequently, you can think of the definitions in source code more as \textit{templates} for synthesis
-of actual code, than representation of code. 
-These definitions lack types, and can't be considered in isolation.
-In this example, the call of function \texttt{mul} causes the compiler to try to infer a function type.
+it tries to infer a \textit{function type}. Function type is inferred either from user-supplied function 
+definitions, or from built-in function type generators (more on the this later).
+Consequently, you can think of the definitions in source code as \textit{templates} for synthesis
+of actual code. In other words, for each function definition there might be more than one
+function type inferred from it.
 
-Parameters of this \texttt{mul} function definition (\textt{a, b}) can be fit with objects of
+These definitions lack types, and can't be considered in isolation.
+In this example, it is the call of function \texttt{mul} which causes
+the compiler to try to infer a function type.
+Parameters of \texttt{mul} function definition (\texttt{a, b}) can be fit with objects of
 any type; it is after this fitting that the compiler will determine that passed types can or can't
 be used (due to their incompatibility with a function definition body, for example).
 
@@ -166,17 +172,18 @@ The \texttt{outnl} (output with newline) function is a prime example of this beh
 It is called three times, with argument of types \texttt{i32}, \texttt{i8} and \texttt{i32}.
 Thus, the compiler has to infer two function types, 
 one which can be fed with an \texttt{i8}, and one with \texttt{i32}.
-The success of this inference corresponds with compilers ability to infer functionality of 
+The success of this inference is mainly to do with compilers ability to infer functionality of 
 body of the given function definition.
 
 In this case, inference of function definition body will be possible if both function calls on lines
 2 and 3 can be inferred. Since \texttt{out} function is a built-in for both \textt{i32} and \textt{i8},
 line 2 won't be problematic for inference. Line 3 will be inferred correctly if AGTC succeeds to resolve
-function \texttt{out} which takes in an argument of type \texttt{char}. Since this is also a built-in,
-inference of function types for both version of \texttt{mul} succeeds.
+function type \texttt{out} which takes in a value argument of type \texttt{char}. 
+Since this \textit{version} of \texttt{out} also a built-in,
+inference of function types for both versions of \texttt{mul} succeeds.
 
 The property of AGT \textbf{function calls} which can make them refer to different function types, 
-when called with different sets of arguments, is called \textit{polymorphism}.
+when called with different sets of arguments, is called \textit{polymorphism} \citep{c_polymorphism}.
 Some sources label polymorphic the very \textbf{function definitions} which, when called upon, 
 can result in such behaviour.
 We will use these conventions interchangeably, since the definition itself is non-rigorous.
@@ -186,10 +193,10 @@ Function definition of \texttt{outnl} introduces a special type of polymorphism,
 function definition can be a source for potentially unlimited number of types, 
 as long as those types are compatible with function definition body.
 
-Python programming language exhibits a superficially similar behaviour, but it's
+Python programming language exhibits a superficially similar behaviour, but its
 function body compatibility checks occur at runtime. 
 The programming style which utilizes this language capability is often called "Duck Typing" 
-\citep{c_py_duck_typing}.
+\citep{c_py_duck_typing} in dynamically typed languages.
 
 
 \section{Paper organization}
@@ -214,12 +221,12 @@ made on all levels of AGT design process.
 
 Chapter \ref{chap:examples} will supplement the reader with plenty of examples of AGT code. These will
 further deepen reader's understanding of AGT. The examples describe implementation
-of common programming paradigms, constructs, patterns in AGT, with a detailed
+of common programming paradigms, constructs and patterns in AGT, with a detailed
 explanation of more esoteric parts of the source code.
 
 In chapter \ref{chap:improv} we will address the issues AGT has both on
 definition and implementation levels, and discuss the various features that can
-be improved or added to the language.
+be improved upon or added to the language.
 
 Chapter \ref{chap:concl} will conclude the thesis and describe future work the
 author will undertake in order to improve the language.
@@ -227,27 +234,27 @@ author will undertake in order to improve the language.
 \chapter{Design decisions}\label{chap:design}
 
 In this chapter we will describe and justify the main design decisions concerning AGT,
-weighing their pros and cons against one another.
+weighing their positive and negative sides against one another.
 
 \section{Syntax}
 
-Main inspiration for AGT's syntax have been well known languages C and C++.
+Main inspiration for AGT's syntax have been well-known languages C and C++.
 Since most programmers are familiar with these, it is only logical not to diverge from their syntax,
 whenever possible.
 Of course, AGT is way more implicit in typing than both C and C++, that is, types have to be specified
-only when necessary (for example, when parametrizing functions by types).
-Implicit typing allows the programmer to focus on logic instead of typing redundant type annotations
+only when necessary (for example, when limiting function polymorphism according to types).
+Implicit typing allows the programmer to focus on logic instead of specifying redundant type annotations
 (such as in C), or keywords that signal the compiler to perform automatic type
-inference (\texttt{auto} in C++).
+inference, such as \texttt{auto} in C++ \citep{c_auto}.
 
 On the other hand, the absence of explicit type specification can make the program more unreadable,
 due to the lack of hints these types provide. 
 
 The author would argue that such problems are
-rooted in more subtle problems, such as poorly designed function interface.
+rooted in more subtle problems, such as poorly designed function interfaces.
 If the function definition is named \texttt{square}, 
 it is only natural to assume that a supplied argument can be multiplied by itself.
-Function definitions that are more convoluted than square can explicitly state their requirements
+Function definitions that are more convoluted than \texttt{square} can explicitly state their requirements
 in the beginning of function definition body, thus giving the programmer a hint for their usage. 
 
 The Rust Programming Language has had a significant impact on AGT's syntactical features too.
@@ -270,26 +277,29 @@ language's expressiveness, but helps avoid confusion and errors.
 
 \section{Type System}
 
-Before going into decisions regarding the AGT type system, we will first state common
-definitions of what \texit{type system} actually is, and what we refer to when discussing it.
-
-There are many definitions, but the one which captures the essence most precisely is the following:
+Before going into decisions regarding the AGT type system, we will first state a common
+definition of what \texit{type system} actually is, and what we refer to when discussing it.
+There are many definitions of type system, 
+but the one which captures the essence most precisely is the following:
 
 \textit{A type system is a logical system comprising a set of rules that 
     assigns a property called a type to the various constructs of a computer program, 
 such as variables, expressions, functions or modules ... }\citep{c_type_system}.
 
 AGT's type system serves multiple purposes. One is to allow compile time computation.
-The most important one is to ensure the correctness of programs, both on compile time and run time.
+The most important purpose is to ensure the correctness of programs, both on compile time and run time.
 
-AGT's type system is \textit{static}, that is, all values have types which can be, and are, determined
+AGT's type system is \textit{static} \citep{c_static_typing}, that is, 
+all values have types which can be, and are, determined
 at compile time. Furthermore, all polymorphic behaviour is resolved in compile time, unlike in C++,
-where the programmer can use \textit{dynamic polymorphism} - a run-time dynamic lookup of functions.
+where the programmer can use \textit{dynamic dispatch and polymorphism} \citep{c_dyn_dispatch} 
+- a run-time dynamic lookup of functions.
 This makes AGT even more type-safe, by preventing common mistakes which happen when utilizing
 dynamic polymorphism. The author argues that object oriented principles which heavily rely on
 dynamic polymorphism (such as inheritance), can mostly be eliminated by better program design.
 
-Another feature of AGT's type system is that it is \textit{strongly typed}. Most definitions consider
+Another feature of AGT is that it is \textit{strongly typed} \citep{c_strong_typing}. 
+Most definitions consider
 a language to be strongly typed if it rarely or never implicitly converts
 types, which leads to more compile-time errors, but at the same time provides
 more safety. AGT never converts types implicitly,
@@ -318,7 +328,7 @@ present in languages such as Java and Python. AGT's storage is split into two ma
 stack allocated and heap allocated storage. 
 
 The stack storage is used to support function
-execution, and is managed implicitly - allocated on function call, deallocated on function return.
+execution, and is managed implicitly - allocated on function call, deallocated on function ending.
 While this storage type is highly efficient, it prevents the use of a number of programming patterns.
 To remedy this situation, languages such as C use heap storage. 
 
@@ -355,8 +365,8 @@ AGT compilation process consists of 4 main phases:
 \begin{enumerate}
 \item Lexical analysis - tokenization of input source code text
 \item Syntactical analysis - rule-based grouping of tokens into an \textit{abstract syntax tree}
-\item Semantical analysis - transforming the syntax tree into a \textit{semantical tree}
-\item Code generation - inference of the \texttt{main} and code generation
+\item Semantical analysis - transformation of the syntax tree into a \textit{semantical tree}
+\item Code generation - inference of the \texttt{main} function type, and code generation
 \end{enumerate}
 
 The process is successful if all the steps succeed.
@@ -366,25 +376,27 @@ newly defined terms against their use in other languages.
 
 \section{Lexical analysis}
 
-The AGT Lexical analysis phase is a standard regular expression parsing process.
+The AGT lexical analysis phase is a standard regular expression parsing process.
 Lexical analyzer is fed a stream of characters, which get grouped into tokens,
 according to regular expressions and ambiguity resolution rules.
 
 Lexical analyzer tool used for the AGTC is PLY - Python Lex-Yacc \citep{c_ply_beazley}.
-Python Lex-Yacc is a tool which tries to bring the functionality of well know
+Python Lex-Yacc is a tool which attempts to port the functionality of well know
 lexical and syntactical analyzers Lex and Yacc into Python. The main difference
 is that PLY does not \textit{generate} the 
-concrete lexer and parser. Instead, PLY user defines the rules fed to PLY by
+concrete lexer and parser. Instead, the PLY user defines the rules fed to PLY by
 specifying programming 
-constructs like functions that correspond to these rules. PLY then inspects these constructs using 
+constructs (functions, for example) that correspond to these rules. 
+PLY then inspects these constructs using 
 reflective capabilities of Python, and acts according to these rules
 when performing lexical or syntactical analysis.
 
-Let us check out the main lexing module of AGTC, which specifies rules, states and precedence that
+Let us check out the main lexing module of AGTC in listing \ref{lexer}, 
+which specifies rules, states and precedence that
 PLY uses to perform lexical analysis for AGT. Some parts of the lexing module
-are left out, which is indicated with \texttt{\#...} in source code.
+are left out, which is indicated by \texttt{\#...} in source code.
 
-\pythoncode{\resdir/compiler/lexer.py}{}{heyy}
+\pythoncode{\resdir/compiler/lexer.py}{lexer}{Lexing module}
 
 This lexer module has 3 states: \texttt{main} (implicit), \texttt{mlc} (for multi-line comments) 
 and \texttt{strchar} (for \textit{char array literals} or \textt{char} literals).
@@ -392,8 +404,8 @@ and \texttt{strchar} (for \textit{char array literals} or \textt{char} literals)
 Rules for simple operators are given in a string form, 
 in a form of \texttt{t\_<TOKEN> = <REGEX>}.
 
-Rules for more tokens which are defined with more complex regular expressions, 
-like int literals or identifiers, are defined using functions. 
+Rules for tokens which are defined with more complex regular expressions, 
+like integer literals or identifiers, are defined using functions. 
 Those functions can also alter the behaviour of the
 lexer when such a token is parsed. For example, whenever an identifier is parsed,
 the function \texttt{t\_ID} looks up whether the identifier is in a list of reserved
@@ -411,12 +423,12 @@ when it encounters, for example, a beginning of a multi-line comment.
 In that particular case, lexer goes into \texttt{mlc} state.
 When in \texttt{mlc} state, lexer parses and caches every 
 symbol until it gets to the end of the comment. 
-Both type of comments, \texttt{/*multi-line comment*/} and \texttt{//single-line comment} are discarded
+Both types of comments, \texttt{/*multi-line comment*/} and \texttt{//single-line comment} are discarded
 after being parsed.
 
 \subsection{Literals}
 
-String and character literals are given in double and single quotes, respectively.
+Char array literals and char literals are given in double and single quotes, respectively.
 They can include escaped characters:  (\textbackslash 0, \textbackslash n, \textbackslash t, 
 \textbackslash ", \textbackslash \textquotesingle). 
 Character literal must consist of exactly one character or escaped character.
@@ -426,12 +438,12 @@ Possible integer sizes are 8, 16, 32 and 64.
 
 Example integer literals are:
 \begin{itemize}
-    \item \texttt{5} (implicitly i32)
+    \item \texttt{5} (implicitly \texttt{i32})
     \item \texttt{5i32}
     \item \texttt{516}
     \item \texttt{5i8}
     \item \texttt{5i64}
-    \item \texttt{324243} (implicitly i32)
+    \item \texttt{324243} (implicitly \texttt{i32})
 \end{itemize}
 
 Boolean literals are:
@@ -466,14 +478,14 @@ We will now list the operator families, without discussing their semantics in de
     \item User-defined versions of these operators can adhere to a number of different semantics 
         (which is not recommended, but is possible).
     \item Operators can be applied on types during compile time (to produce other types). 
-        This discussing is better to be left to later chapters.
+        The discussion about this feature is better delayed to later chapters.
 \end{itemize}
 
 Apart from the operators themselves, we will list their special names. These names
 will be used to translate operator applications to function calls. For example, when 
 \texttt{+} is applied to value \texttt{3} and \texttt{5} (\texttt{3+5}), compiler
-will insert a call to \texttt{\_\_add\_\_(3,5)} instead. This method derived from operator's special name
-is an example of what we call a \textit{dunder} or \textit{magic} method (according to Python folklore).
+will insert a call to \texttt{\_\_add\_\_(3,5)} instead. This function, derived from operator's special name,
+is an example of what we call a \textit{dunder} or \textit{magic} function (according to Python folklore).
 \textit{Dunder} comes from double-underscore which both precedes and follows the special name.
 
 \begin{table}[H]
@@ -501,7 +513,7 @@ for \texttt{rectangle} objects, for example.
 Special operators can't be user-defined, and have a fixed meaning:
 
 \begin{itemize}
-    \item \textit{Address of operator} (\textt{@}) can be used on any L-value (explained
+    \item \textit{Address of operator} (\textt{@}) can be used on any \textit{L-value} (explained
         in later chapters), and evaluates to a pointer to that value. For
         example, if \texttt{i} is an \texttt{i8}, then \texttt{@i} is a pointer
     to \texttt{i8}. We can also denote this pointer as \texttt{@i8} - exactly the way it can be used in 
@@ -519,19 +531,19 @@ Special operators can't be user-defined, and have a fixed meaning:
     A new special type expression \texttt{enable\_if\_resolve<...>} exhibits similar behaviour as
     \texttt{enable\_if<...>}, in sense that it lets you create polymorphic behaviour. This one will
     succeed if the argument is successfully evaluated (it doesn't have to evaluate to \texttt{i1}).
-    If it succeeds, it will also act as if it wasn't there. In this case, 
+    If it succeeds, it will also act as if it wasn't there.
 
 
     \item Index (bracket) operator must be used on a pointer, and be given any integer type as an argument.
         It will offset the pointer depending on the underlying type. For example, 
         if \texttt{p} is a \texttt{char} pointer, \textt{p[5]} will evaluate to a pointer 
-        with a location $lp+5\cdot s$, where $lp$ is \texttt{p}'s value and $s$ is size of char type.
+        with a location $lp+5\cdot s$, where $lp$ is \texttt{p}'s value and $s$ is the size 
+        of the \texttt{char} type.
 \end{itemize}
 
 Precedence rules of operators will be stated in section 2.2. 
 An interested reader will find more details concerning the implementation in
 the source code supplied with this paper.
-
 
 \section{Syntactic analysis}
 
