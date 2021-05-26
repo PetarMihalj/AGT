@@ -5,7 +5,7 @@
 \contentsline {section}{\numberline {2.1}Syntax}{5}{}%
 \contentsline {section}{\numberline {2.2}Type System}{6}{}%
 \contentsline {section}{\numberline {2.3}Memory management}{7}{}%
-\contentsline {section}{\numberline {2.4}Compiler implementation}{7}{}%
+\contentsline {section}{\numberline {2.4}Compiler implementation}{8}{}%
 \contentsline {chapter}{\numberline {3}The AGT Programming Language}{9}{}%
 \contentsline {section}{\numberline {3.1}Lexical analysis}{9}{}%
 \contentsline {subsection}{\numberline {3.1.1}Literals}{11}{}%
@@ -24,11 +24,11 @@
 \contentsline {section}{\numberline {4.3}Heap object allocation}{28}{}%
 \contentsline {section}{\numberline {4.4}Raw heap allocation}{29}{}%
 \contentsline {section}{\numberline {4.5}A simple string class}{30}{}%
-\contentsline {section}{\numberline {4.6}Ownership semantics}{33}{}%
-\contentsline {chapter}{\numberline {5}Future improvements}{37}{}%
-\contentsline {section}{\numberline {5.1}Pass-by-reference}{37}{}%
-\contentsline {section}{\numberline {5.2}Syntactic and lexical improvements}{37}{}%
-\contentsline {section}{\numberline {5.3}Multiple source file support and namespaces}{38}{}%
-\contentsline {section}{\numberline {5.4}Portability}{38}{}%
-\contentsline {chapter}{\numberline {6}Conclusion}{39}{}%
-\contentsline {chapter}{Bibliography}{40}{}%
+\contentsline {section}{\numberline {4.6}Ownership semantics and shared pointer}{33}{}%
+\contentsline {chapter}{\numberline {5}Future improvements}{38}{}%
+\contentsline {section}{\numberline {5.1}Pass-by-reference}{38}{}%
+\contentsline {section}{\numberline {5.2}Syntactic and lexical improvements}{38}{}%
+\contentsline {section}{\numberline {5.3}Multiple source file support and namespaces}{39}{}%
+\contentsline {section}{\numberline {5.4}Portability}{39}{}%
+\contentsline {chapter}{\numberline {6}Conclusion}{40}{}%
+\contentsline {chapter}{Bibliography}{41}{}%

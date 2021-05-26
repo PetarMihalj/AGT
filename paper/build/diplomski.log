@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  25 MAY 2021 19:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  26 MAY 2021 08:40
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -722,19 +722,19 @@ rely on dynamic polymorphism
  []
 
 [6]
-Overfull \hbox (8.65222pt too wide) in paragraph at lines 321--326
+Overfull \hbox (8.65222pt too wide) in paragraph at lines 325--330
 []\T1/ptm/m/n/12 Heap storage is an on-demand storage. Having this storage can 
 allow the programmer
  []
 
 
-Overfull \hbox (41.66626pt too wide) in paragraph at lines 340--346
+Overfull \hbox (41.66626pt too wide) in paragraph at lines 344--350
 \T1/ptm/m/n/12 with numerous easy-to-use and available libraries make it a soun
 d choice for the implementation
  []
 
 
-Overfull \hbox (2.82315pt too wide) in paragraph at lines 340--346
+Overfull \hbox (2.82315pt too wide) in paragraph at lines 344--350
 \T1/ptm/m/n/12 language. Since Python is slow compared to compiled languages, a
  reasonable direction
  []
@@ -742,7 +742,7 @@ Overfull \hbox (2.82315pt too wide) in paragraph at lines 340--346
 [7] [8]
 Chapter 3.
 
-Overfull \hbox (2.94322pt too wide) in paragraph at lines 365--368
+Overfull \hbox (2.94322pt too wide) in paragraph at lines 369--372
 \T1/ptm/m/n/12 Lexical analyzer is fed a stream of characters, which get groupt
 ed into tokens, according
  []
@@ -754,7 +754,7 @@ File: lstlang1.sty 2020/03/24 1.8d listings language file
 
 ])
 ! Undefined control sequence.
-l.386 ...char} (for \textit{char arrays} or \textt
+l.390 ...char} (for \textit{char arrays} or \textt
                                                   {char} literals).
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -764,7 +764,7 @@ and I'll forget about whatever was undefined.
 
 [10] [11] [12]
 ! Undefined control sequence.
-l.500 ...item \textit{Address of operator} (\textt
+l.504 ...item \textit{Address of operator} (\textt
                                                   {@}) can be used on any L-...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -773,13 +773,13 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (5.2695pt too wide) in paragraph at lines 500--507
+Overfull \hbox (5.2695pt too wide) in paragraph at lines 504--511
 []\T1/ptm/m/it/12 Address of operator \T1/ptm/m/n/12 (@) can be used on any L-v
 alue (explained in later chapters),
  []
 
 ! Undefined control sequence.
-l.523 ...ttt{p} is a \texttt{char} pointer, \textt
+l.527 ...ttt{p} is a \texttt{char} pointer, \textt
                                                   {p[5]} will evaluate to a ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -790,29 +790,29 @@ and I'll forget about whatever was undefined.
 ! Missing \endcsname inserted.
 <to be read again> 
                    \protect 
-l.535 ... formal grammar"} \citep{c\_parsing\_def}
+l.539 ... formal grammar"} \citep{c\_parsing\_def}
                                                   .
 The control sequence marked <to be read again> should
 not appear between \csname and \endcsname.
 
 
 Package natbib Warning: Citation `c\T1\textunderscoreparsing\T1\textunderscored
-ef' on page 13 undefined on input line 535.
+ef' on page 13 undefined on input line 539.
 
 [13]
-Overfull \hbox (4.22414pt too wide) in paragraph at lines 541--547
+Overfull \hbox (4.22414pt too wide) in paragraph at lines 545--551
 []\T1/ptm/m/n/12 Tokens resulting from lexical analysis are fed into a stack ma
 chine which, depending
  []
 
 (/home/pmihalj/agt/paper/res/compiler/prio) [14]
 (/home/pmihalj/agt/paper/res/compiler/ast [15])
-Underfull \hbox (badness 10000) in paragraph at lines 583--585
+Underfull \hbox (badness 10000) in paragraph at lines 587--589
 
  []
 
 (/home/pmihalj/agt/paper/res/compiler/rule.py)
-Overfull \hbox (7.11916pt too wide) in paragraph at lines 590--593
+Overfull \hbox (7.11916pt too wide) in paragraph at lines 594--597
 \T1/ptm/m/n/12 The need for semantic analysis is caused by a fact that AGT's sy
 ntax is highly contextual,
  []
@@ -820,7 +820,7 @@ ntax is highly contextual,
 [16] (/home/pmihalj/agt/paper/res/compiler/contextual.agt)
 (/home/pmihalj/agt/paper/res/compiler/initex.py [17])
 ! Undefined control sequence.
-l.614 ...ure of syntactical elements is the \textt
+l.618 ...ure of syntactical elements is the \textt
                                                   {let <x> = <y>;} statement.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -829,43 +829,43 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (13.24777pt too wide) in paragraph at lines 648--653
+Overfull \hbox (13.24777pt too wide) in paragraph at lines 652--657
 []\T1/ptm/m/n/12 AGT's type inference engine (type engine, TE) can be modeled a
 s a pure mathematical
  []
 
 [18]
-Overfull \hbox (6.52617pt too wide) in paragraph at lines 667--669
+Overfull \hbox (6.52617pt too wide) in paragraph at lines 671--673
 []\T1/ptm/m/n/12 In the first part of a CTR request, TE collects \T1/ptm/m/it/1
 2 candidates\T1/ptm/m/n/12 . It can collect the candidates
  []
 
 
-Overfull \hbox (9.1953pt too wide) in paragraph at lines 676--683
+Overfull \hbox (9.1953pt too wide) in paragraph at lines 680--687
 \T1/ptm/m/n/12 definition whose name matches the supplied name, and whose numbe
 r of type parameters
  []
 
 [19]
-Overfull \hbox (15.1947pt too wide) in paragraph at lines 701--704
+Overfull \hbox (15.1947pt too wide) in paragraph at lines 705--708
 \T1/ptm/m/n/12 for code synthesis, including LLVM code and return type. In our 
 concrete implementation,
  []
 
 
-Overfull \hbox (2.90744pt too wide) in paragraph at lines 705--709
+Overfull \hbox (2.90744pt too wide) in paragraph at lines 709--713
 \T1/ptm/m/n/12 some built-in functions, like copy functions of pointers, should
  not copy their arguments
  []
 
 
-Overfull \hbox (2.97995pt too wide) in paragraph at lines 705--709
+Overfull \hbox (2.97995pt too wide) in paragraph at lines 709--713
 \T1/ptm/m/n/12 behaviour, and the flag which indicates whether to do so is also
  a part of a FunctionType. 
  []
 
 (/home/pmihalj/agt/paper/res/compiler/inf1.agt)
-Overfull \hbox (13.347pt too wide) in paragraph at lines 718--728
+Overfull \hbox (13.347pt too wide) in paragraph at lines 722--732
 \T1/ptm/m/n/12 Since this is evaluated in the type context, operator \T1/pcr/m/
 n/12 == \T1/ptm/m/n/12 will evaluate to type \T1/pcr/m/n/12 i0 \T1/ptm/m/n/12 (
 falsehood)
@@ -873,7 +873,7 @@ falsehood)
 
 [20]
 ! Undefined control sequence.
-l.730 definition of \typett
+l.734 definition of \typett
                            {power} function fits programmers intentions.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -882,19 +882,19 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (17.18518pt too wide) in paragraph at lines 732--737
+Overfull \hbox (17.18518pt too wide) in paragraph at lines 736--741
 []\T1/ptm/m/n/12 On the other hand, consider the definition of \T1/pcr/m/n/12 p
 ower \T1/ptm/m/n/12 at line 9. In this line, \T1/pcr/m/n/12 enable_if
  []
 
 
-Overfull \hbox (11.27039pt too wide) in paragraph at lines 759--762
+Overfull \hbox (11.27039pt too wide) in paragraph at lines 763--766
 \T1/ptm/m/n/12 copy the memory array, instead of shallow copying the pointer an
 d thus incidentally
  []
 
 [21]
-Overfull \hbox (8.79228pt too wide) in paragraph at lines 796--798
+Overfull \hbox (8.79228pt too wide) in paragraph at lines 800--802
 []\T1/ptm/b/n/12 Definition 4 \T1/ptm/m/n/12 (Copy function)\T1/ptm/b/n/12 . []
 \T1/ptm/m/n/12 An copy function is a function whose name is \T1/pcr/m/n/12 __co
 py__\T1/ptm/m/n/12 ,
@@ -904,7 +904,7 @@ py__\T1/ptm/m/n/12 ,
 (/home/pmihalj/agt/paper/res/compiler/lifetime_ex.out) [24]
 Chapter 4.
 
-Overfull \hbox (10.61093pt too wide) in paragraph at lines 826--828
+Overfull \hbox (10.61093pt too wide) in paragraph at lines 830--832
 \T1/ptm/m/n/12 Parametric polymorphism is a phenomenon of function calls referi
 ng to different concrete
  []
@@ -916,7 +916,7 @@ See the keyval package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.832 ... with recursion, Parametric Polymorphism}
+l.836 ... with recursion, Parametric Polymorphism}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -928,7 +928,7 @@ See the keyval package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.832 ... with recursion, Parametric Polymorphism}
+l.836 ... with recursion, Parametric Polymorphism}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -936,13 +936,13 @@ If that doesn't work, type  X <return>  to quit.
 (/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.agt [25
 
 ])
-Overfull \hbox (31.15138pt too wide) in paragraph at lines 844--849
+Overfull \hbox (31.15138pt too wide) in paragraph at lines 848--853
 []\T1/ptm/m/n/12 Integer selection behaviour is achieved by using \T1/ptm/m/it/
 12 supstituting struct definition\T1/ptm/m/n/12 . Supstituting
  []
 
 
-Overfull \hbox (4.9194pt too wide) in paragraph at lines 850--852
+Overfull \hbox (4.9194pt too wide) in paragraph at lines 854--856
 []\T1/ptm/m/n/12 Semantics of \T1/pcr/m/n/12 T \T1/ptm/m/n/12 represent the int
 eger size in which fibonacci number is to be returned.
  []
@@ -950,7 +950,7 @@ eger size in which fibonacci number is to be returned.
 (/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.out) [26]
 (/home/pmihalj/agt/paper/res/programs/fib_compile_time.agt)
 ! Undefined control sequence.
-l.871 ...ill get an \texttt{i32} with value \textt
+l.875 ...ill get an \texttt{i32} with value \textt
                                                   {100} as a return value
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -959,7 +959,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (3.91347pt too wide) in paragraph at lines 868--874
+Overfull \hbox (3.91347pt too wide) in paragraph at lines 872--878
 []\T1/ptm/m/n/12 Check out the line 20; we output the result of a call to \T1/p
 cr/m/n/12 type_to_value<A,B>()\T1/ptm/m/n/12 .
  []
@@ -968,61 +968,66 @@ cr/m/n/12 type_to_value<A,B>()\T1/ptm/m/n/12 .
 (/home/pmihalj/agt/paper/res/programs/memory_object.agt) [28]
 (/home/pmihalj/agt/paper/res/programs/memory_object.in)
 (/home/pmihalj/agt/paper/res/programs/memory_object.out)
-Overfull \hbox (68.53339pt too wide) in paragraph at lines 898--902
+Overfull \hbox (68.53339pt too wide) in paragraph at lines 902--906
 []\T1/ptm/m/n/12 In line 16, we allocate an \T1/pcr/m/n/12 irect \T1/ptm/m/n/12
  on the heap using a special method \T1/pcr/m/n/12 heap_object<T>(...)\T1/ptm/m
 /n/12 .
  []
 
 
-Overfull \hbox (0.68764pt too wide) in paragraph at lines 912--915
+Overfull \hbox (0.68764pt too wide) in paragraph at lines 916--919
 \T1/ptm/m/n/12 allocates memory for \T1/pcr/m/n/12 n \T1/ptm/m/n/12 consecutive
  objects of type \T1/pcr/m/n/12 T\T1/ptm/m/n/12 , and returns a pointer to begi
 nning
  []
 
 (/home/pmihalj/agt/paper/res/programs/memory_alloc.agt [29])
-(/home/pmihalj/agt/paper/res/programs/memory_alloc.out)
-(/home/pmihalj/agt/paper/res/programs/string_mgmt.agt [30] [31] [32])
+(/home/pmihalj/agt/paper/res/programs/memory_alloc.out) [30]
+(/home/pmihalj/agt/paper/res/programs/string_mgmt.agt [31] [32])
 (/home/pmihalj/agt/paper/res/programs/string_mgmt.out)
-(/home/pmihalj/agt/paper/res/programs/shared_pointer.agt [33] [34])
-(/home/pmihalj/agt/paper/res/programs/shared_pointer.out [35]) [36]
+Overfull \hbox (6.1586pt too wide) in paragraph at lines 953--961
+\T1/ptm/m/n/12 prevent almost all of these memory issues (we will mention a pro
+blem with this approach
+ []
+
+[33] (/home/pmihalj/agt/paper/res/programs/shared_pointer.agt [34] [35])
+(/home/pmihalj/agt/paper/res/programs/shared_pointer.out) [36] [37]
 Chapter 5.
 
-Overfull \hbox (3.4553pt too wide) in paragraph at lines 959--962
+Overfull \hbox (3.4553pt too wide) in paragraph at lines 1003--1006
 []\T1/ptm/m/n/12 A \T1/ptm/m/it/12 pass-by-reference \T1/ptm/m/n/12 is a contra
 sting method to pass-by-value. When a programming
  []
 
-[37
+[38
 
 ]
-Overfull \hbox (1.6555pt too wide) in paragraph at lines 989--995
+Overfull \hbox (1.6555pt too wide) in paragraph at lines 1033--1039
 []\T1/ptm/m/n/12 For first, a common problem with multiple source files is othe
 r languages is multiple
  []
 
 
-Overfull \hbox (8.49863pt too wide) in paragraph at lines 989--995
+Overfull \hbox (8.49863pt too wide) in paragraph at lines 1033--1039
 \T1/ptm/m/n/12 inclusion and multiple definition problems which occur with it. 
 In AGT this phenomenon
  []
 
 
-Overfull \hbox (18.54259pt too wide) in paragraph at lines 1012--1015
+Overfull \hbox (18.54259pt too wide) in paragraph at lines 1056--1059
 \T1/ptm/m/n/12 we want to support and whether to split the language into minima
 l and full implementations
  []
 
-[38]
+[39]
 Chapter 6.
 
-Overfull \hbox (24.71133pt too wide) in paragraph at lines 1032--1035
-\T1/ptm/m/n/12 shown to be useful and functional when applied to common tasks a
-n application programmer
+Overfull \hbox (3.53159pt too wide) in paragraph at lines 1066--1073
+\T1/ptm/m/n/12 language and is a candidate for use in low-level applications wh
+ich require low overhead
  []
 
-(/home/pmihalj/agt/paper/build/diplomski.bbl [39
+(/home/pmihalj/agt/paper/build/diplomski.bbl [40
 
 ]
 ! Misplaced alignment tab character &.
@@ -1048,16 +1053,172 @@ l.13 ...mpilers Principles, Techniques, & Tools‎
 You may provide a definition with
 \DeclareUnicodeCharacter 
 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.30 ...block \emph{CppReference - std::enable_if}
+                                                  .
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
 
-Underfull \hbox (badness 10000) in paragraph at lines 28--31
-\T1/ptm/m/n/12 --  URL $\T1/pcr/m/n/12 https : / / docs . python . org / 3 / gl
-ossary . html #
+! Extra }, or forgotten $.
+<recently read> \egroup 
+                        
+l.30 ...block \emph{CppReference - std::enable_if}
+                                                  .
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+! LaTeX Error: Command $ invalid in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.32 \newblock URL \url
+                       {https://en.cppreference.com/w/cpp/types/enable_if}
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Command \ttfamily invalid in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.32 ...en.cppreference.com/w/cpp/types/enable_if}
+                                                  
+Please use the math alphabet \mathtt instead of the \ttfamily command. 
+
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <12> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 32.
+! Missing } inserted.
+<inserted text> 
+                }
+l.32 ...en.cppreference.com/w/cpp/types/enable_if}
+                                                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.32 ...en.cppreference.com/w/cpp/types/enable_if}
+                                                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Undefined control sequence.
+\Url@FormatString ...ndafter \UrlLeft \Url@String 
+                                                  \UrlRight \m@th $
+l.32 ...en.cppreference.com/w/cpp/types/enable_if}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Extra }, or forgotten $.
+<recently read> }
+                 
+l.32 ...en.cppreference.com/w/cpp/types/enable_if}
+                                                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.32 ...en.cppreference.com/w/cpp/types/enable_if}
+                                                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.32 ...en.cppreference.com/w/cpp/types/enable_if}
+                                                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.34 ...tem[Fred L. Drake~Jr.()]{c_py_duck_typing}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 10000) detected at line 34
+[][]
  []
+
+! Undefined control sequence.
+l.35 \dinatlabel
+                {Fred L. Drake~Jr. } \textsc{Fred L. Drake~Jr.}, others:
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.39 ...em[Lattner und Adve(2004)]{c_llvm_lattner}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 10000) detected at line 39
+[][]
+ []
+
+! Undefined control sequence.
+l.40 \dinatlabel
+                {Lattner und Adve 2004} \textsc{Lattner}, Chris~; \textsc{Ad...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
 ! Misplaced alignment tab character &.
 <argument> ...work for lifelong program analysis &
                                                    transformation
-l.36   transformation}
+l.43   transformation}
                       .
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1067,32 +1228,105 @@ you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 46--53
-\T1/pcr/m/n/12 org / w / index . php ? title = Type _ system & oldid = 10243801
-08$\T1/ptm/m/n/12 . --
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.46 \bibitem[Peters(2004)]{c_zen}
+                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 10000) detected at line 46
+[][]
  []
 
-) [40
+! Undefined control sequence.
+l.47 \dinatlabel
+                {Peters 2004} \textsc{Peters}, Tim:
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.52 ...ipedia contributors}(2021)]{c_type_system}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 10000) detected at line 52
+[][]
+ []
+
+! Undefined control sequence.
+l.53 \dinatlabel
+                {{Wikipedia contributors} 2021} \textsc{{Wikipedia contribut...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (3.9657pt too wide) in paragraph at lines 53--60
+\T1/pcr/m/n/12 index . php ? title = Type _ system & oldid = 1024380108$\T1/ptm
+/m/n/12 . --  [Online; accessed
+ []
+
+
+! LaTeX Error: \begin{document} ended by \end{thebibliography}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.61 \end{thebibliography}
+                          
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Extra \endgroup.
+<recently read> \endgroup 
+                          
+l.61 \end{thebibliography}
+                          
+Things are pretty mixed up, but I think the worst is over.
+
+) [41
 
 ]
 
 Package natbib Warning: There were undefined citations.
 
-[41] (/home/pmihalj/agt/paper/build/diplomski.aux)
+[42] (/home/pmihalj/agt/paper/build/diplomski.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 9612 strings out of 481257
- 143202 string characters out of 2908218
- 725080 words of memory out of 3000000
- 26568 multiletter control sequences out of 15000+600000
- 464991 words of font info for 96 fonts, out of 8000000 for 9000
+ 9618 strings out of 481257
+ 143297 string characters out of 2908218
+ 725201 words of memory out of 3000000
+ 26573 multiletter control sequences out of 15000+600000
+ 465366 words of font info for 97 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
  83i,17n,88p,272b,1899s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/home/pmihalj/.miktex/texmfs/install/fonts/enc/dvips/base/8r.enc}</home/pmih
 alj/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi12.pfb></home/pmi
+halj/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi8.pfb></home/pmi
 halj/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr12.pfb></home/pmi
 halj/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/pm
 ihalj/.miktex/texmfs/install/fonts/type1/urw/courier/ucrr8a.pfb></home/pmihalj/
@@ -1101,10 +1335,10 @@ ex/texmfs/install/fonts/type1/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/te
 xmfs/install/fonts/type1/urw/times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/ins
 tall/fonts/type1/urw/times/utmr8a.pfb></home/pmihalj/.miktex/texmfs/install/fon
 ts/type1/urw/times/utmri8a.pfb>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (47 pages, 218674
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (48 pages, 232416
  bytes).
 PDF statistics:
- 212 PDF objects out of 1000 (max. 8388607)
+ 219 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

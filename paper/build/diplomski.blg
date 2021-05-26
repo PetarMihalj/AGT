@@ -1,7 +1,7 @@
 This is BibTeX, Version 0.99d
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: diplomski.aux
-White space in argument---line 33 of file diplomski.aux
+White space in argument---line 34 of file diplomski.aux
  : \citation{c\protect
  :                     \T1\textunderscore parsing\protect \T1\textunderscore def}
 I'm skipping whatever remains of this command
@@ -14,45 +14,50 @@ Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'wiz_functions' (item size: 4) to 6000 items.
 Database file #1: literatura.bib
-You've used 7 entries,
+I was expecting a `,' or a `}'---line 62 of file literatura.bib
+ :     
+ :     note = "[Online; accessed 26-May-2021]"
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You've used 8 entries,
             3552 wiz_defined-function locations,
-            827 strings with 6799 characters,
-and the built_in function-call counts, 3816 in all, are:
-= -- 454
-> -- 61
-< -- 80
-+ -- 105
-- -- 33
-* -- 346
-:= -- 680
-add.period$ -- 4
-call.type$ -- 7
-change.case$ -- 33
-chr.to.int$ -- 6
-cite$ -- 7
-duplicate$ -- 105
-empty$ -- 272
-format.name$ -- 64
-if$ -- 741
+            831 strings with 6915 characters,
+and the built_in function-call counts, 4276 in all, are:
+= -- 510
+> -- 68
+< -- 82
++ -- 109
+- -- 36
+* -- 388
+:= -- 760
+add.period$ -- 5
+call.type$ -- 8
+change.case$ -- 37
+chr.to.int$ -- 7
+cite$ -- 8
+duplicate$ -- 118
+empty$ -- 311
+format.name$ -- 70
+if$ -- 838
 int.to.chr$ -- 1
 int.to.str$ -- 1
 missing$ -- 2
-newline$ -- 49
-num.names$ -- 28
-pop$ -- 49
+newline$ -- 55
+num.names$ -- 32
+pop$ -- 53
 preamble$ -- 1
-purify$ -- 32
+purify$ -- 36
 quote$ -- 0
-skip$ -- 140
+skip$ -- 152
 stack$ -- 0
-substring$ -- 286
-swap$ -- 21
-text.length$ -- 11
+substring$ -- 329
+swap$ -- 23
+text.length$ -- 12
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 77
+type$ -- 88
 warning$ -- 0
-while$ -- 47
+while$ -- 53
 width$ -- 0
-write$ -- 73
-(There was 1 error message)
+write$ -- 83
+(There were 2 error messages)

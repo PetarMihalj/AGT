@@ -48,8 +48,6 @@ fn make_shared(item_ptr) -> shared_ptr<inner>{
     return object<shared_ptr<inner>>(item_ptr);
 }
 
-// actual use
-
 fn main() -> i32{
     let a = make_shared(heap_object<i8>(15i8));
     outnl("Before B is initialized");

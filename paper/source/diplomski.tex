@@ -307,6 +307,10 @@ just before the first runtime statement in function definition body, which
 ensures that the function's return type is known in case the function is
 recursive (directly or not).
 
+AGT's main polimorphism driver, \texttt{enable\_if}, is motivated by a similar C++ construct
+\citep{c_enable_if}. This construct is, unlike in C++, integral driver of type system,
+rather than a clever trick to remove functions from overload resolution.
+
 \section{Memory management}
 
 AGT aims to be as performant as possible, which rules out having a dedicated \textit{garbage collector},
@@ -927,20 +931,60 @@ a \texttt{char} pointer which you get from string literal;
 since the underlying memory will be overwritten.
 
 If we want to use strings as they are used in other programming languages,
-we should write a struct which can be initialized with a string literal.
-The initializer should allocate more memory on the heap,
+we should write a \textit{class} for string management.
+By class, we mean a struct which holds the required data, along with necessary methods for its use.
+
+String struct should be initialized with a string literal.
+The initializer should allocate more memory, this time on the heap,
 which will be copied to from the initial string literal.
+The copy method should perform a deep-copy, since these strings are meant to be mutable.
+
+Finally, special methods should be constructed to allow for controlled getting and setting of
+string characters and also for printing the string out.
+
+We have implemented all of these in the following example, and urge the reader
+to study it throughly.
 
 \textcode{\resdir/programs/string_mgmt.agt}{string_cl}{String class}
 \textcode{\resdir/programs/string_mgmt.out}{string_cl_out}{String class - output}
 
-\section{Ownership semantics}
+\section{Ownership semantics and shared pointer}
 
-Check out the following example:
-\textcode{\resdir/programs/shared_pointer.agt}{}{a}
+A recurring problem in all languages without automatic garbage collection are memory related issues.
+\textit{Smart pointers} are an approach which is widely used in languages such as C++.
+A \textit{shared pointer} is a struct which holds a non-exclusive ownership of an underlying resource.
+Holding ownership implies that this struct could be responsible for releasing the resource after it
+is no longer used. Non-exclusivity of ownership means that other objects could also be responsible
+for its release. By limiting the owning objects to shared pointers only, and using them in a
+well-defined way, we prevent almost all of these memory issues (we will mention a problem with this approach
+at the end of the chapter).
+
+A shared pointer will copy the pointer which is passed to it, and free the memory when needed. 
+Freeing the memory will be done when no other shared pointers have access to same pointer,
+and the one performing the check is being destructed.
+This will be achieved by using a shared counter (see line 8 in listing \ref{own_sem}).
+The counter will be incremented when making copies of the shared pointer,
+and decremented when destructing them.
+Finally, the last shared pointer which gets destructed (the check at line 27) will release
+the ownership (in this case, free the memory).
+
+The reader should study the listing \ref{own_sem} and program output.
+
+\textcode{\resdir/programs/shared_pointer.agt}{own_sem}{Shared pointers - out}
 
 Output:
-\textcode{\resdir/programs/shared_pointer.out}{}{a}
+\textcode{\resdir/programs/shared_pointer.out}{own_sem_out}{Shared pointer - out}
+
+We have added messages to signal when certain lifetime operations get executed.
+The main thing to notice is that variable \texttt{b} has a lifetime which ends
+at line 69, the closing of a block. This is the exact time when its destructor is called.
+One can thus notice that the \texttt{count} gets decreased from 2 to 1 after destruction
+Finally, at the end of the \texttt{main} function, lifetime of \texttt{a} ends too,
+and the resource is released.
+
+This approach resolves most of the memory issues, but as mentioned earlier, can result
+in a memory leak nonetheless. This can occur only in presence of \textit{circular references} -
+an interested reader can find more about this phenomenon in various sources on the web.
 
 
 \chapter{Future improvements}\label{chap:improv}
@@ -1021,15 +1065,14 @@ of desirable properties, and combine them to produce a functional language.
 
 The developed language, AGT, was shown to be expressive, yet safe. 
 AGT's syntax is particulary strict, which prevents the programmer from making hard-to-find mistakes.
-The type system and inference process is a novel concept which, at least to the author's knowledge,
+The type system and inference process, realized in this way, is a novel concept which 
 has not been realized in this way before. AGT's type system allows programmer to use
 highly expressive polymorphic constructs, which greatly simplifies the program design process,
-reduces errors, and increases safety. AGT is a compiled language, which makes it 
+reduces errors, and increases safety. AGT is a compiled language and is a candidate
+for use in low-level applications which require low overhead or primitive runtime environment.
 
 The author has provided many examples of AGT use, ranging from simple syntactic guides,
 to implementations of complex design patterns such as smart pointers.
-
-Since 
 
 The author concludes that AGT's design, implementation, and principles have shown to be
 functional and practical when applied to common tasks an application programmer performs. 

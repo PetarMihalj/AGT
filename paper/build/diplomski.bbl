@@ -1,4 +1,4 @@
-\begin{thebibliography}{7}
+\begin{thebibliography}{8}
 % this bibliography was produced with the style dinat.bst v2.5
 \makeatletter
 \newcommand{\dinatlabel}[1]%
@@ -23,6 +23,13 @@
 \dinatlabel{Beazley {\natexlab{b}}} \textsc{Beazley}, David:
 \newblock \emph{PLY (Python Lex-Yacc) documentation}. --
 \newblock URL \url{https://ply.readthedocs.io/en/latest/index.html}
+
+\bibitem[{CppReference contributors}(2021)]{c_enable_if}
+\dinatlabel{{CppReference contributors} 2021} \textsc{{CppReference
+  contributors}}:
+\newblock \emph{CppReference - std::enable_if}.
+\newblock 2021. --
+\newblock URL \url{https://en.cppreference.com/w/cpp/types/enable_if}
 
 \bibitem[Fred L. Drake~Jr.()]{c_py_duck_typing}
 \dinatlabel{Fred L. Drake~Jr. } \textsc{Fred L. Drake~Jr.}, others:

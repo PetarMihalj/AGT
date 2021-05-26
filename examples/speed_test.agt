@@ -1,5 +1,5 @@
 fn main() -> i32{
-    let a = 10000000i32;
+    let a = 100000000i32;
     while (a >= 0){
         a = a-1;
     }
