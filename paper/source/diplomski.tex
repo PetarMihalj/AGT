@@ -107,9 +107,8 @@ Allowing for some simplification, AGT is first compiled into LLVM intermediate r
 and then is turned into executable by a chain of tools for compiling LLVM-IR and 
 linking the resulting object files into executables.
 
-The thesis and the accompanying source code will be available at:
+The installation and use guide, thesis and the accompanying source code will be available at:
 GITHUB
-The future releases will also be.
 
 \section{Example program}
 
@@ -845,12 +844,12 @@ in chapter \ref{chap:examples}.
 
 \chapter{AGT program examples}\label{chap:examples}
 
-This section of the paper will introduce the reader to AGT by presenting, explaining and contemplating
-about example programs.
+This section of the thesis will introduce the reader to AGT by presenting, explaining and discussing
+example programs.
 
-\section{Parametric polymorphism}
+\section{Limiting polymorphic behaviour}
 
-Parametric polymorphism is a phenomenon of function calls referring to different functions 
+Polymorphism is a phenomenon of function calls referring to different functions 
 (or in AGT language - function types) when invoked with different sets of argument types.
 
 In order to demonstrate the limiting of polymorphic behaviour to certain types, we provide
@@ -881,7 +880,6 @@ Similarly, our \texttt{fib} function always expects \texttt{i32} as a type of \t
 
 Listing \ref{runtime_rec_out} shows the output of our program.
 
-Output:
 \textcode{\resdir/programs/fib_runtime_recursion.out}{runtime_rec_out}{Fibonacci with recursion - output}
 
 As expected, \texttt{i8} can't hold a value of \texttt{144} and we notice an overflow (negative result).
@@ -929,10 +927,10 @@ Similarly to \texttt{object<T>(...)}, this method allocates space for object of 
 initializes it with an appropriate \texttt{\_\_init\_\_} function. Unlike \texttt{object}, this method
 does allocation on the heap, instead of the stack.
 
-After allocating and displaying value of member \texttt{a}, 
+After allocating and displaying value of members \texttt{a} and \texttt{b}, 
 we \texttt{heap\_free} the allocated memory, and
-print out the member again. While this is a nondeterministic behaviour,
-we have kept an output where member is overwritten by different data, to demonstrate
+print out the members again. While this is a nondeterministic behaviour,
+we have kept an output where members are overwritten by different data, to demonstrate
 unsafe nature of access to freed data.
 
 
@@ -952,7 +950,7 @@ is no reason for it not to exist and can be implemented in AGT when needed.
 
 The value of a char array literal is a pointer to a character array
 which is allocated on the stack. Thus, you can't, for example, return
-a \texttt{char} pointer which you get from char array literal;
+a \texttt{char} pointer which you get from char array literal,
 since the underlying memory will be overwritten.
 
 If we want to use strings as they are used in other programming languages,
@@ -962,7 +960,7 @@ By class, we mean a struct which holds the required data, along with necessary f
 String struct should be initialized with a char array literal.
 The initializer should allocate more memory, this time on the heap,
 which will be copied to from the initial char array literal.
-The copy method should perform a deep-copy, since these strings are meant to be mutable.
+The copy method should perform a deep copy, since these strings are meant to be mutable.
 
 Finally, special functions should be constructed to allow for controlled getting and setting of
 string characters and also for printing the string out.
@@ -1053,11 +1051,11 @@ a clear syntactic and lexical rules will ease the building of a fully mature lan
 
 \section{Multiple source file support and namespaces}
 
-The reader may have noticed that we have repeated some common function definitions
+The reader may have noticed that we repeated some common function definitions
 (\texttt{outnl}, for example) quite often. This is because AGT doesn't have a multiple source file
-support. There are few problems which need to be addressed before implementing it.
+support. There are problems which need to be addressed before implementing it.
 
-For first, a common problem with multiple source files is other languages is multiple inclusion
+For first, a common problem with multiple source files in other languages is multiple inclusion
 and multiple definition problems which come with it. In AGT this phenomenon would manifest
 as a presence of multiple candidates for type inference. A quick fix for this problem would be
 to ignore function definitions which come from the same lexical location (source file and line).
@@ -1088,17 +1086,17 @@ These are challenging decisions, and they have been postponed until further deve
 
 The goal of this master thesis was to design a programming language with foundation
 on a strong type system. Learning from other examples, the author was to select a number
-of desirable properties, and combine them to produce usable programming language.
+of desirable properties, and combine them to produce a usable programming language.
 
 The developed language, AGT, was shown to be expressive, yet safe. 
 AGT's syntax is particularly strict, which prevents the programmer from making hard-to-find mistakes.
-The type system and inference process with this flavour, is a novel concept which 
+The type system and inference process, with this flavour, are a novel concept which 
 has not been realized in this way before. AGT's type system allows programmer to use
 highly expressive polymorphic constructs, which greatly simplifies the program design process,
 reduces errors, and increases safety. AGT is a compiled language and is a candidate
 for use in low-level applications which require low overhead or primitive runtime environment.
 
-The author has provided many examples of AGT use, ranging from simple syntactic guides,
+We have provided many examples of AGT use, ranging from simple syntactic guides,
 to implementations of complex design patterns such as smart pointers.
 
 The author concludes that AGT's design, implementation, and principles have shown to be
