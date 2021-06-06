@@ -10,55 +10,66 @@ Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'wiz_functions' (item size: 4) to 6000 items.
 Database file #1: literatura.bib
-I was expecting a `,' or a `}'---line 62 of file literatura.bib
+I was expecting a `,' or a `}'---line 11 of file literatura.bib
  :     
- :     note = "[Online; accessed 26-May-2021]"
+ :     note = "[Online; accessed 6-June-2021]"
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 114 of file literatura.bib
+I was expecting a `,' or a `}'---line 18 of file literatura.bib
  :     
- :     note = "[Online; accessed 26-May-2021]"
+ :     note = "[Online; accessed 6-June-2021]"
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-You've used 16 entries,
+I was expecting a `,' or a `}'---line 25 of file literatura.bib
+ :     
+ :     note = "[Online; accessed 6-June-2021]"
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 48 of file literatura.bib
+ :     
+ :     note = "[Online; accessed 6-June-2021]"
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "c_static_typing"
+You've used 13 entries,
             3552 wiz_defined-function locations,
-            853 strings with 7811 characters,
-and the built_in function-call counts, 7913 in all, are:
-= -- 956
-> -- 124
-< -- 98
-+ -- 148
-- -- 60
-* -- 725
-:= -- 1396
-add.period$ -- 10
-call.type$ -- 16
-change.case$ -- 76
-chr.to.int$ -- 8
-cite$ -- 16
-duplicate$ -- 236
-empty$ -- 627
-format.name$ -- 118
-if$ -- 1616
-int.to.chr$ -- 8
+            847 strings with 7034 characters,
+and the built_in function-call counts, 7494 in all, are:
+= -- 870
+> -- 103
+< -- 147
++ -- 191
+- -- 53
+* -- 634
+:= -- 1261
+add.period$ -- 9
+call.type$ -- 13
+change.case$ -- 57
+chr.to.int$ -- 9
+cite$ -- 13
+duplicate$ -- 196
+empty$ -- 630
+format.name$ -- 100
+if$ -- 1525
+int.to.chr$ -- 4
 int.to.str$ -- 1
-missing$ -- 2
-newline$ -- 107
-num.names$ -- 64
-pop$ -- 104
+missing$ -- 15
+newline$ -- 83
+num.names$ -- 52
+pop$ -- 93
 preamble$ -- 1
-purify$ -- 68
+purify$ -- 56
 quote$ -- 0
-skip$ -- 237
+skip$ -- 294
 stack$ -- 0
-substring$ -- 584
-swap$ -- 39
-text.length$ -- 20
+substring$ -- 701
+swap$ -- 32
+text.length$ -- 17
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 176
+type$ -- 113
 warning$ -- 0
-while$ -- 101
+while$ -- 92
 width$ -- 0
-write$ -- 171
-(There were 2 error messages)
+write$ -- 129
+(There were 4 error messages)

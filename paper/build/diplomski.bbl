@@ -1,4 +1,4 @@
-\begin{thebibliography}{16}
+\begin{thebibliography}{13}
 % this bibliography was produced with the style dinat.bst v2.5
 \makeatletter
 \newcommand{\dinatlabel}[1]%
@@ -10,9 +10,14 @@
 \bibitem[Aho u.\,a.(2007)Aho, Lam, Sethi und Ullman]{c_compilers_book}
 \dinatlabel{Aho u.\,a. 2007} \textsc{Aho}, Alfred~; \textsc{Lam}, Monica~;
   \textsc{Sethi}, Ravi~; \textsc{Ullman}, Jeffrey:
-\newblock Compilers Principles, Techniques, & Tools‎.
+\newblock \emph{Compilers Principles, Techniques, \& Tools}.
+\newblock 01 2007
+
+\bibitem[Barbara~Liskov(1974)]{c_strong_typing}
+\dinatlabel{Barbara~Liskov 1974} \textsc{Barbara~Liskov}, Stephen~Z.:
+\newblock Programming with Abstract Data Types.
 \newblock
-\newblock (2007), 01, S.~1009
+\newblock (1974), S.~56--57
 
 \bibitem[Beazley({\natexlab{a}})]{c_ply_beazley}
 \dinatlabel{Beazley {\natexlab{a}}} \textsc{Beazley}, David:
@@ -24,32 +29,11 @@
 \newblock \emph{PLY (Python Lex-Yacc) documentation}. --
 \newblock URL \url{https://ply.readthedocs.io/en/latest/index.html}
 
-\bibitem[{CppReference contributors}({\natexlab{a}})]{c_cpp_lifetime}
-\dinatlabel{{CppReference contributors} {\natexlab{a}}} \textsc{{CppReference
-  contributors}}:
-\newblock \emph{CppReference - Lifetime}. --
-\newblock URL \url{https://en.cppreference.com/w/cpp/language/lifetime}. --
-\newblock [Online; accessed 26-May-2021]
-
-\bibitem[{CppReference contributors}({\natexlab{b}})]{c_auto}
-\dinatlabel{{CppReference contributors} {\natexlab{b}}} \textsc{{CppReference
-  contributors}}:
-\newblock \emph{CppReference - Lifetime}. --
-\newblock URL \url{https://en.cppreference.com/w/cpp/language/auto}. --
-\newblock [Online; accessed 26-May-2021]
-
-\bibitem[{CppReference contributors}({\natexlab{c}})]{c_shared_ptr}
-\dinatlabel{{CppReference contributors} {\natexlab{c}}} \textsc{{CppReference
-  contributors}}:
-\newblock \emph{CppReference - Lifetime}. --
-\newblock URL \url{https://www.cplusplus.com/reference/memory/shared_ptr/}
-
-\bibitem[{CppReference contributors}(2021)]{c_enable_if}
-\dinatlabel{{CppReference contributors} 2021} \textsc{{CppReference
-  contributors}}:
-\newblock \emph{CppReference - std::enable\_if}.
-\newblock 2021. --
-\newblock URL \url{https://en.cppreference.com/w/cpp/types/enable\_if}
+\bibitem[{Dictionary.com authors}()]{c_parsing_def}
+\dinatlabel{{Dictionary.com authors} } \textsc{{Dictionary.com authors}}:
+\newblock \emph{Parsing - definition}. --
+\newblock URL \url{https://www.dictionary.com/browse/parse}. --
+\newblock [Online; accessed 6-June-2021]
 
 \bibitem[Fred L. Drake~Jr.()]{c_py_duck_typing}
 \dinatlabel{Fred L. Drake~Jr. } \textsc{Fred L. Drake~Jr.}, others:
@@ -59,9 +43,10 @@
 \bibitem[Lattner und Adve(2004)]{c_llvm_lattner}
 \dinatlabel{Lattner und Adve 2004} \textsc{Lattner}, Chris~; \textsc{Adve},
   Vikram:
-\newblock \emph{LLVM: A compilation framework for lifelong program analysis &
-  transformation}.
-\newblock 2004
+\newblock LLVM: A compilation framework for lifelong program analysis \&
+  transformation.
+\newblock
+\newblock (2004)
 
 \bibitem[Peters(2004)]{c_zen}
 \dinatlabel{Peters 2004} \textsc{Peters}, Tim:
@@ -69,65 +54,33 @@
 \newblock 08 2004. --
 \newblock URL \url{https://www.python.org/dev/peps/pep-0020/}
 
-\bibitem[{Wikipedia contributors}(2021{\natexlab{a}})]{c_dyn_dispatch}
-\dinatlabel{{Wikipedia contributors} 2021{\natexlab{a}}} \textsc{{Wikipedia
-  contributors}}:
-\newblock \emph{Dynamic dispatch --- {Wikipedia}{,} The Free Encyclopedia}.
-\newblock 2021. --
-\newblock URL
-  \url{https://en.wikipedia.org/w/index.php?title=Dynamic_dispatch&oldid=1024898159}.
-  --
-\newblock [Online; accessed 26-May-2021]
+\bibitem[Pierce(2002)]{c_type_system}
+\dinatlabel{Pierce 2002} \textsc{Pierce}, Benjamin~C.:
+\newblock \emph{Types and Programming Languages}.
+\newblock 01 2002
 
-\bibitem[{Wikipedia contributors}(2021{\natexlab{b}})]{c_parsing_def}
-\dinatlabel{{Wikipedia contributors} 2021{\natexlab{b}}} \textsc{{Wikipedia
-  contributors}}:
-\newblock \emph{Parsing --- {Wikipedia}{,} The Free Encyclopedia}.
-\newblock 2021. --
-\newblock URL
-  \url{https://en.wikipedia.org/w/index.php?title=Parsing&oldid=1023402152}. --
-\newblock [Online; accessed 19-May-2021]
+\bibitem[Stroustrup(2013{\natexlab{a}})]{c_cpp_lifetime}
+\dinatlabel{Stroustrup 2013{\natexlab{a}}} \textsc{Stroustrup}, Bjarne:
+\newblock \emph{The C++ Programming Language, 4th Edition}.
+\newblock 05 2013. --
+\newblock 481--526~S
 
-\bibitem[{Wikipedia contributors}(2021{\natexlab{c}})]{c_polymorphism}
-\dinatlabel{{Wikipedia contributors} 2021{\natexlab{c}}} \textsc{{Wikipedia
-  contributors}}:
-\newblock \emph{Polymorphism (computer science) --- {Wikipedia}{,} The Free
-  Encyclopedia}.
-\newblock 2021. --
-\newblock URL
-  \url{https://en.wikipedia.org/w/index.php?title=Polymorphism_(computer_science)&oldid=1024134632}.
-  --
-\newblock [Online; accessed 26-May-2021]
+\bibitem[Stroustrup(2013{\natexlab{b}})]{c_auto}
+\dinatlabel{Stroustrup 2013{\natexlab{b}}} \textsc{Stroustrup}, Bjarne:
+\newblock \emph{The C++ Programming Language, 4th Edition}.
+\newblock 05 2013. --
+\newblock 163--164~S
 
-\bibitem[{Wikipedia contributors}(2021{\natexlab{d}})]{c_strong_typing}
-\dinatlabel{{Wikipedia contributors} 2021{\natexlab{d}}} \textsc{{Wikipedia
-  contributors}}:
-\newblock \emph{Strong and weak typing --- {Wikipedia}{,} The Free
-  Encyclopedia}.
-\newblock 2021. --
-\newblock URL
-  \url{https://en.wikipedia.org/w/index.php?title=Strong_and_weak_typing&oldid=1025048488}.
-  --
-\newblock [Online; accessed 26-May-2021]
+\bibitem[Stroustrup(2013{\natexlab{c}})]{c_virtual}
+\dinatlabel{Stroustrup 2013{\natexlab{c}}} \textsc{Stroustrup}, Bjarne:
+\newblock \emph{The C++ Programming Language, 4th Edition}.
+\newblock 05 2013. --
+\newblock 585--588~S
 
-\bibitem[{Wikipedia contributors}(2021{\natexlab{e}})]{c_static_typing}
-\dinatlabel{{Wikipedia contributors} 2021{\natexlab{e}}} \textsc{{Wikipedia
-  contributors}}:
-\newblock \emph{Type system --- {Wikipedia}{,} The Free Encyclopedia}.
-\newblock 2021. --
-\newblock URL
-  \url{https://en.wikipedia.org/w/index.php?title=Type_system&oldid=1024380108}.
-  --
-\newblock [Online; accessed 26-May-2021]
-
-\bibitem[{Wikipedia contributors}(2021{\natexlab{f}})]{c_type_system}
-\dinatlabel{{Wikipedia contributors} 2021{\natexlab{f}}} \textsc{{Wikipedia
-  contributors}}:
-\newblock \emph{Type system --- {Wikipedia}{,} The Free Encyclopedia}.
-\newblock 2021. --
-\newblock URL
-  \url{https://en.wikipedia.org/w/index.php?title=Type_system&oldid=1024380108}.
-  --
-\newblock [Online; accessed 24-May-2021]
+\bibitem[Stroustrup(2013{\natexlab{d}})]{c_enable_if}
+\dinatlabel{Stroustrup 2013{\natexlab{d}}} \textsc{Stroustrup}, Bjarne:
+\newblock \emph{The C++ Programming Language, 4th Edition}.
+\newblock 05 2013. --
+\newblock 795--802~S
 
 \end{thebibliography}
