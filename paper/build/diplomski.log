@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  6 JUN 2021 17:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  6 JUN 2021 19:32
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -391,11 +391,7 @@ LaTeX Font Info:    Trying to load font information for T1+ptm on input line 55
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 )
-(/home/pmihalj/agt/paper/build/diplomski.aux
-
-LaTeX Warning: Label `memory_alloc' multiply defined.
-
-)
+(/home/pmihalj/agt/paper/build/diplomski.aux)
 \openout1 = `diplomski.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 55.
@@ -573,10 +569,6 @@ nput line 65.
 
  [5]
 Chapter 1.
-
-Package natbib Warning: Citation `c_static_typing' on page 1 undefined on input
- line 77.
-
 [1
 
 ] (/home/pmihalj/agt/paper/res/programs/intro.agt
@@ -586,14 +578,14 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 6
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ))
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 11
-6.
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 12
+0.
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-) [2]
+) [2] [3]
 ! Undefined control sequence.
-l.179 ...t} function is a built-in for both \textt
+l.183 ...t} function is a built-in for both \textt
                                                   {i32} and \textt{i8},
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -602,7 +594,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.179 ... built-in for both \textt{i32} and \textt
+l.183 ... built-in for both \textt{i32} and \textt
                                                   {i8},
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -610,31 +602,25 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[3]
-Underfull \hbox (badness 1609) in paragraph at lines 191--195
+
+Underfull \hbox (badness 1609) in paragraph at lines 195--199
 []\T1/ptm/m/n/12 Function definition of \T1/pcr/m/n/12 outnl \T1/ptm/m/n/12 int
 roduces a special type of polymorphism,
  []
 
 [4]
-Underfull \hbox (badness 1354) in paragraph at lines 227--230
+Underfull \hbox (badness 1354) in paragraph at lines 231--234
 []\T1/ptm/m/n/12 In chapter 5[] we will address the issues AGT has both on defi
 nition and
  []
 
 [5]
 Chapter 2.
-
-Underfull \hbox (badness 1609) in paragraph at lines 260--263
-[]\T1/ptm/m/n/12 The Rust Programming Language has had a significant impact on 
-AGT's
- []
-
 [6
 
 ]
 ! Undefined control sequence.
-l.281 definition of what \texit
+l.285 definition of what \texit
                                {type system} actually is, and what we refer ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -649,19 +635,9 @@ File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
 (/home/pmihalj/agt/paper/res/compiler/lexer.py [10
 
-])
+]) [11] [12] [13]
 ! Undefined control sequence.
-l.409 ...or \textit{char array literals} or \textt
-                                                  {char} literals).
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-[11] [12] [13]
-! Undefined control sequence.
-l.523 ...item \textit{Address of operator} (\textt
+l.527 ...item \textit{Address of operator} (\textt
                                                   {@}) can be used on any \t...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -670,7 +646,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.546 ...ttt{p} is a \texttt{char} pointer, \textt
+l.543 ...ttt{p} is a \texttt{char} pointer, \textt
                                                   {p[5]} will evaluate to a ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -686,10 +662,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 610--612
 
 (/home/pmihalj/agt/paper/res/compiler/rule.py) [17]
 (/home/pmihalj/agt/paper/res/compiler/contextual.agt)
-(/home/pmihalj/agt/paper/res/compiler/initex.py [18]) [19] [20]
-(/home/pmihalj/agt/paper/res/compiler/inf1.agt) [21]
+(/home/pmihalj/agt/paper/res/compiler/initex.py) [18] [19] [20]
+(/home/pmihalj/agt/paper/res/compiler/inf1.agt)
 ! Undefined control sequence.
-l.757 definition of \typett
+l.756 definition of \typett
                            {power} function fits the programmer's intentions.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -697,20 +673,20 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-
-Underfull \hbox (badness 1117) in paragraph at lines 779--782
+[21]
+Underfull \hbox (badness 1117) in paragraph at lines 778--781
 []\T1/ptm/m/n/12 Object's lifetime starts with \T1/ptm/m/it/12 initialization \
 T1/ptm/m/n/12 (\T1/ptm/m/it/12 construction \T1/ptm/m/n/12 in some sources).
  []
 
 [22]
-Underfull \hbox (badness 1484) in paragraph at lines 824--826
+Underfull \hbox (badness 1484) in paragraph at lines 823--825
 []\T1/ptm/b/n/12 Definition 4 \T1/ptm/m/n/12 (Copy function)\T1/ptm/b/n/12 . []
 \T1/ptm/m/n/12 A copy function is a function whose name is
  []
 
-(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.agt [23] [24])
-(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.out) [25]
+(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.agt [23])
+(/home/pmihalj/agt/paper/res/compiler/lifetime_ex.out [24]) [25]
 Chapter 4.
 
 ! Package keyval Error: Parametric Polymorphism undefined.
@@ -719,7 +695,7 @@ See the keyval package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.861 ... with recursion, Parametric Polymorphism}
+l.860 ... with recursion, Parametric Polymorphism}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -731,7 +707,7 @@ See the keyval package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.861 ... with recursion, Parametric Polymorphism}
+l.860 ... with recursion, Parametric Polymorphism}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -742,7 +718,7 @@ If that doesn't work, type  X <return>  to quit.
 (/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.out) [27]
 (/home/pmihalj/agt/paper/res/programs/fib_compile_time.agt)
 ! Undefined control sequence.
-l.901 ...ill get an \texttt{i32} with value \textt
+l.900 ...ill get an \texttt{i32} with value \textt
                                                   {100} as a return value
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -751,12 +727,12 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 898--904
+Underfull \hbox (badness 10000) in paragraph at lines 897--903
 []\T1/ptm/m/n/12 Check out the line 20; we output the result of a call to
  []
 
 
-Underfull \hbox (badness 1331) in paragraph at lines 898--904
+Underfull \hbox (badness 1331) in paragraph at lines 897--903
 \T1/pcr/m/n/12 type_to_value<A,B>()\T1/ptm/m/n/12 . This is a special built-in 
 function, which will,
  []
@@ -765,7 +741,7 @@ function, which will,
 (/home/pmihalj/agt/paper/res/programs/memory_object.agt [29])
 (/home/pmihalj/agt/paper/res/programs/memory_object.in)
 (/home/pmihalj/agt/paper/res/programs/memory_object.out)
-Underfull \hbox (badness 1960) in paragraph at lines 928--932
+Underfull \hbox (badness 1960) in paragraph at lines 927--931
 []\T1/ptm/m/n/12 In line 16, we allocate an \T1/pcr/m/n/12 irect \T1/ptm/m/n/12
  on the heap using a special method
  []
@@ -778,7 +754,7 @@ Underfull \hbox (badness 1960) in paragraph at lines 928--932
 (/home/pmihalj/agt/paper/res/programs/shared_pointer.out) [37] [38]
 Chapter 5.
 
-Underfull \hbox (badness 2529) in paragraph at lines 1031--1034
+Underfull \hbox (badness 2529) in paragraph at lines 1030--1033
 []\T1/ptm/m/n/12 A \T1/ptm/m/it/12 pass-by-reference \T1/ptm/m/n/12 is a contra
 sting method to pass-by-value. When a
  []
@@ -786,7 +762,7 @@ sting method to pass-by-value. When a
 [39
 
 ]
-Underfull \hbox (badness 1253) in paragraph at lines 1084--1087
+Underfull \hbox (badness 1253) in paragraph at lines 1083--1086
 \T1/ptm/m/n/12 we want to support and whether to split the language into minima
 l and full
  []
@@ -794,7 +770,7 @@ l and full
 [40] [41]
 Chapter 6.
 
-Underfull \hbox (badness 2205) in paragraph at lines 1105--1108
+Underfull \hbox (badness 2205) in paragraph at lines 1104--1107
 \T1/ptm/m/n/12 programmer performs. Thus, the goal of this thesis has been succ
 essfully
  []
@@ -809,34 +785,27 @@ ossary . html #
 
 [43
 
-]) [44]
-
-Package natbib Warning: There were undefined citations.
-
-[45] (/home/pmihalj/agt/paper/build/diplomski.aux)
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+]) [44] [45] (/home/pmihalj/agt/paper/build/diplomski.aux) ) 
 Here is how much of TeX's memory you used:
- 9632 strings out of 481257
- 143569 string characters out of 2908218
- 719649 words of memory out of 3000000
- 26588 multiletter control sequences out of 15000+600000
+ 9633 strings out of 481257
+ 143587 string characters out of 2908218
+ 736595 words of memory out of 3000000
+ 26589 multiletter control sequences out of 15000+600000
  464991 words of font info for 96 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
  83i,17n,88p,272b,1901s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/home/pmihalj/.miktex/texmfs/install/fonts/enc/dvips/base/8r.enc}</home/pmih
-alj/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi12.pfb></home/pmi
-halj/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr12.pfb></home/pmi
-halj/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/pm
-ihalj/.miktex/texmfs/install/fonts/type1/urw/courier/ucrr8a.pfb></home/pmihalj/
-.miktex/texmfs/install/fonts/type1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.mikt
-ex/texmfs/install/fonts/type1/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/te
-xmfs/install/fonts/type1/urw/times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/ins
-tall/fonts/type1/urw/times/utmr8a.pfb></home/pmihalj/.miktex/texmfs/install/fon
-ts/type1/urw/times/utmri8a.pfb>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (51 pages, 227929
+{/home/pmihalj/.mik
+tex/texmfs/install/fonts/enc/dvips/base/8r.enc}</home/pmihalj/.miktex/texmfs/in
+stall/fonts/type1/public/amsfonts/cm/cmmi12.pfb></home/pmihalj/.miktex/texmfs/i
+nstall/fonts/type1/public/amsfonts/cm/cmr12.pfb></home/pmihalj/.miktex/texmfs/i
+nstall/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/pmihalj/.miktex/texmfs/
+install/fonts/type1/urw/courier/ucrr8a.pfb></home/pmihalj/.miktex/texmfs/instal
+l/fonts/type1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fon
+ts/type1/urw/helvetic/uhvr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/ty
+pe1/urw/times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/
+times/utmr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/ut
+mri8a.pfb>
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (51 pages, 226971
  bytes).
 PDF statistics:
  225 PDF objects out of 1000 (max. 8388607)

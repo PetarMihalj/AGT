@@ -30,10 +30,9 @@ I was expecting a `,' or a `}'---line 48 of file literatura.bib
  :     note = "[Online; accessed 6-June-2021]"
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-Warning--I didn't find a database entry for "c_static_typing"
 You've used 13 entries,
             3552 wiz_defined-function locations,
-            847 strings with 7034 characters,
+            846 strings with 7019 characters,
 and the built_in function-call counts, 7494 in all, are:
 = -- 870
 > -- 103

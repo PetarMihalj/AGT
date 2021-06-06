@@ -74,7 +74,7 @@ The programming language developed as a part of this thesis is called AGT.
 The name AGT stands for an unfortunate fact that the names of all precious stones
 are taken by other programming languages, hence "All Gems are Taken".
 
-\textbf{The AGT programming language} is a statically \citep{c_static_typing} and 
+\textbf{The AGT programming language} is a statically and 
 strongly \citep{c_strong_typing} typed language, with a highly expressive type system.
 The type system is used for three main purposes:
 
@@ -104,8 +104,12 @@ The compiler frontend is implemented using Python3 programming language version 
 on all versions starting from 3.7),
 while the backend uses LLVM compiler infrastructure \citep{c_llvm_lattner}.
 Allowing for some simplification, AGT is first compiled into LLVM intermediate representation (LLVM-IR),
-and than is turned into executable by a chain of tools for compiling LLVM-IR and 
+and then is turned into executable by a chain of tools for compiling LLVM-IR and 
 linking the resulting object files into executables.
+
+The thesis and the accompanying source code will be available at:
+GITHUB
+The future releases will also be.
 
 \section{Example program}
 
@@ -150,8 +154,8 @@ it states that this function will return a value with a type being equal to what
 
 You might have noticed a certain feature while inspecting the code; 
 namely the absence of explicitly stated types in the signature of function definition \texttt{mul}.
-While some \textit{dynamically typed} languages (for example Python) allow for object of any type to be passed
-to the function, AGT behaves quite differently. 
+While some \textit{dynamically typed} languages (for example Python) allow for objects of any 
+type to be passed to the function, AGT behaves quite differently. 
 
 Every time AGTC (AGT compiler) encounters a function call,
 it tries to infer a \textit{function type}. Function type is inferred either from user-supplied function 
@@ -195,7 +199,7 @@ as long as those types are compatible with function definition body.
 
 Python programming language exhibits a superficially similar behaviour, but its
 function body compatibility checks occur at runtime. 
-The programming style which utilizes this language capability is often called "Duck Typing" 
+The programming style which utilizes this language capability is often called \textit{Duck Typing}
 \citep{c_py_duck_typing} in dynamically typed languages.
 
 
@@ -208,7 +212,7 @@ using a simple example and emphasizing the surface-level properties of type syst
 
 The following chapter \ref{chap:design} will lay out and justify author's
 language design decisions. The discussion includes many diverse topics,
-ranging from syntactical decisions, to subtle semantic onces.
+ranging from syntactic decisions, to subtle semantic ones.
 
 After the surface-level exploration of the language, chapter \ref{chap:indepth}
 will provide an in-depth description of AGT.
@@ -257,14 +261,14 @@ it is only natural to assume that a supplied argument can be multiplied by itsel
 Function definitions that are more convoluted than \texttt{square} can explicitly state their requirements
 in the beginning of function definition body, thus giving the programmer a hint for their usage. 
 
-The Rust Programming Language has had a significant impact on AGT's syntactical features too.
+The Rust Programming Language has had a significant impact on AGT's syntactic features too.
 Mainly, it's use of clear function definition syntax and \texttt{let} statement syntax is
 embedded deeply into AGT.
 
 The Zen of Python \citep{c_zen} is a set of guidelines for writing clean, \textit{pythonic} code. 
 One of these guidelines - \textit{Explicit is better than implicit}, has had a huge impact on AGT.
 Starting from clean function definition syntax, to explicitly named operator (\textit{dunder}) functions
-(\texttt{\_\_add\_\_, \_\_init\_\_, ...}), AGT places explicitness over surface-level practicality.
+(\texttt{\_\_add\_\_, \_\_init\_\_, ...}), We prefer explicitness over surface-level practicality.
 The author would argue that explicit code is more readable, maintainable and safe over long term,
 which is a big win over a small expense of writing a few more characters.
 Object creation is also as explicit as can be, whether on the stack or the heap.
@@ -371,9 +375,9 @@ AGT compilation process consists of 4 main phases:
 
 \begin{enumerate}
 \item Lexical analysis - tokenization of input source code text
-\item Syntactical analysis - rule-based grouping of tokens into an \textit{abstract syntax tree}
-\item Semantical analysis - transformation of the syntax tree into a \textit{semantical tree}
-\item Code generation - inference of the \texttt{main} function type, and code generation
+\item Syntactic analysis - rule-based grouping of tokens into an \textit{abstract syntax tree}
+\item Semantic analysis - transformation of the syntax tree into a \textit{semantic tree}
+\item Code generation - inference of the \texttt{main} function type and LLVM-IR generation
 \end{enumerate}
 
 The process is successful if all the steps succeed.
@@ -389,14 +393,14 @@ according to regular expressions and ambiguity resolution rules.
 
 Lexical analyzer tool used for the AGTC is PLY - Python Lex-Yacc \citep{c_ply_beazley}.
 Python Lex-Yacc is a tool which attempts to port the functionality of well know
-lexical and syntactical analyzers Lex and Yacc into Python. The main difference
+lexical and syntactic analyzers Lex and Yacc into Python. The main difference
 is that PLY does not \textit{generate} the 
 concrete lexer and parser. Instead, the PLY user defines the rules fed to PLY by
 specifying programming 
 constructs (functions, for example) that correspond to these rules. 
 PLY then inspects these constructs using 
 reflective capabilities of Python, and acts according to these rules
-when performing lexical or syntactical analysis.
+when performing lexical or syntactic analysis.
 
 Let us check out the main lexing module of AGTC in listing \ref{lexer}, 
 which specifies rules, states and precedence that
@@ -406,7 +410,7 @@ are left out, which is indicated by \texttt{\#...} in source code.
 \pythoncode{\resdir/compiler/lexer.py}{lexer}{Lexing module}
 
 This lexer module has 3 states: \texttt{main} (implicit), \texttt{mlc} (for multi-line comments) 
-and \texttt{strchar} (for \textit{char array literals} or \textt{char} literals).
+and \texttt{strchar} (for \textit{char array literals} or \textit{char literals}).
 
 Rules for simple operators are given in a string form, 
 in a form of \texttt{t\_<TOKEN> = <REGEX>}.
@@ -524,22 +528,15 @@ Special operators can't be user-defined, and have a fixed meaning:
         in later chapters), and evaluates to a pointer to that value. For
         example, if \texttt{i} is an \texttt{i8}, then \texttt{@i} is a pointer
     to \texttt{i8}. We can also denote this pointer as \texttt{@i8} - exactly the way it can be used in 
-    the context of a type. For example, if you want to check whether a function argument is of \texttt{@i8}
-    type (to get polymorphic behaviour), you would start this function with a line:
-    \texttt{type \_ = enable\_if<arg == @i8>;}.
+    the context of a type. For example, \texttt{arg == @i8} will evaluate to \texttt{i1} (truth),
+    only when arg is a pointer to \texttt{i8}.
 
     \item Dereference operator (\texttt{!}) can be used on any pointer value, 
         and evaluates to a value which is being pointed to.
         For example, if \texttt{p} is an \texttt{@i8}, then \texttt{p!} is a value of type \texttt{i8}.
     This operator can also be used in the context of a type.
-    For example, if you want to check whether a function argument is a pointer (to whatever type), 
-    and capture the pointed-to type, you would start this function with a line:
-    \texttt{type pointed\_to = enable\_if\_resolve<arg!>;}.
-    A new special type expression \texttt{enable\_if\_resolve<...>} exhibits similar behaviour as
-    \texttt{enable\_if<...>}, in sense that it lets you create polymorphic behaviour. This one will
-    succeed if the argument is successfully evaluated (it doesn't have to evaluate to \texttt{i1}).
-    If it succeeds, it will also act as if it wasn't there.
-
+    the context of a type. For example, \texttt{arg!} applied to type \texttt{@i8},
+    will evaluate to \texttt{i8}.
 
     \item Index (bracket) operator must be used on a pointer, and be given any integer type as an argument.
         It will offset the pointer depending on the underlying type. For example, 
@@ -550,16 +547,19 @@ Special operators can't be user-defined, and have a fixed meaning:
 
 Precedence rules of operators will be stated in section 2.2. 
 An interested reader will find more details concerning the implementation in
-the source code supplied with this paper.
+the source code supplied as an addition to the thesis.
 
 \section{Syntactic analysis}
 
-Parsing is a process of 
-\textit{"analyzing (a string of characters) in order to associate groups of
+\textit{Parsing} is a process of 
+\begin{center}
+\textit{analyzing (a string of characters) in order to associate groups of
 characters with the syntactic units of the underlying grammar."} \citep{c_parsing_def}. 
+\end{center}
+
 In programming language literature, parsing is often refered to as \textit{syntactic analysis},
 \textit{characters} in the above definition are commonly called
-\textit{tokens}, while \textit{strings of characters} are \textit{streams of tokens}.
+\textit{tokens}, while \textit{string of characters} is a \textit{stream of tokens}.
 
 Formal rules of AGT grammar are analyzed by an LALR parser supplied with PLY package, which attempts
 to imitate the functionality of well known tool called Yacc. Analogous to the lexing part of PLY package, 
@@ -604,7 +604,7 @@ Concerning the implementation, grammar rules are given in a different way than t
 one standard for PLY. PLY uses functions by default, while AGTC uses
 classes which have to adhere to certain structure. These class definitions
 are turned into functions (using reflective programming) and finally
-dynamically injected into syntactical parser class definition.
+dynamically injected into syntactic parser class definition.
 A reader who is interested in details can consult the source code.
 
 An example of an implementation of a rule for binary expressions is given in the listing \ref{rule}.
@@ -638,7 +638,7 @@ In the case of struct definitions, analogous process takes place.
 
 \pythoncode{\resdir/compiler/initex.py}{semana}{Semantic analysis rule example}
 
-Another example of contextual nature of syntactical elements is the \texttt{let <x> = <y>;} statement.
+Another example of contextual nature of syntactic elements is the \texttt{let <x> = <y>;} statement.
 When stated in function definition body, this statement results in an allocation 
 of new memory on the stack,
 and copying of value of \texttt{<y>} to location of \texttt{<x>}.
@@ -646,16 +646,14 @@ On the other hand, when stated in struct definition body, this indicates that
 struct will have a member named \texttt{<x>} of type \texttt{<y>}. 
 Thus, \texttt{<y>} will be interpreted in a type context.
 
-On the other hand,
-if analyzer is currently in type context, \texttt{i8+a} gets substituted with
+If the analyzer is currently in type context, \texttt{i8+a} gets substituted with
 \textit{type angle expression} \texttt{\_\_add\_\_<i8, a>}. If \texttt{a} is of type \texttt{i3},
 than this type angle expression will evaluate to \texttt{i11}. AGT provides built-in operators
 on all integer types, like the \texttt{+} you have just seen, for all other arithmetic and
 comparison operators. Comparison operators \texttt{==} and \texttt{!=} are defined on all types, 
 even user-defines ones, and work as one would expect.
-
 Note that the programmer can specify all nonnegative-size 
-integers in type context, not just \texttt{i8, 16, i32, i64},
+integers in type context, not just \texttt{i8, 16, i32, i64} - 
 for example \texttt{i3, i0, i342123}.
 This allows for powerful compile-time computation examples, 
 some of which will be discussed in chapter \ref{chap:examples}.
@@ -753,7 +751,8 @@ Obviously, this type will then be assigned to a name on the left side.
 Since this name is a \textit{discard token}
 (\texttt{\_}), the type won't be assigned, but rather discarded.
 
-The user has achieved polymorphic selection using enable\_if. He signalled the compiler that this
+The user has achieved polymorphic selection using \texttt{enable\_if}. 
+He signalled the compiler that this
 definition of \typett{power} function fits the programmer's intentions.
 
 On the other hand, consider the definition of \texttt{power} at line 9.
@@ -784,7 +783,7 @@ in programming languages:
         deconstruct complex inner workings of the object, without relying on programmer to do it manually.
         For example, objects can \textit{release} their resources when they stop existing.
     \item Transferring or duplicating object's contents to other memory location can also be controlled,
-        via \texttt{copy operation}. This allows us to, for example, deep copy the memory array, 
+        via \textit{copy operation}. This allows us to, for example, deep copy the memory array, 
         instead of shallow copying the pointer and thus incidentally creating unwanted memory aliases.
 \end{enumerate}
 
@@ -851,7 +850,7 @@ about example programs.
 
 \section{Parametric polymorphism}
 
-Parametric polymorphism is a phenomenon of function calls referring to different concrete functions 
+Parametric polymorphism is a phenomenon of function calls referring to different functions 
 (or in AGT language - function types) when invoked with different sets of argument types.
 
 In order to demonstrate the limiting of polymorphic behaviour to certain types, we provide
@@ -944,7 +943,7 @@ which allocates memory for \texttt{n} consecutive objects of type \texttt{T},
 and returns a pointer to beginning of that memory.
 
 \textcode{\resdir/programs/memory_alloc.agt}{memory_alloc}{Raw heap allocation}
-\textcode{\resdir/programs/memory_alloc.out}{memory_alloc}{Raw heap allocation - output}
+\textcode{\resdir/programs/memory_alloc.out}{memory_alloc_out}{Raw heap allocation - output}
 
 Although the stack equivalent of this function is not yet available, there
 is no reason for it not to exist and can be implemented in AGT when needed.
@@ -1037,7 +1036,7 @@ Some language (like C++) support passing-by-reference. Others, like Java, use it
 
 AGT would greatly benefit from having this feature. The main use case would be
 lifetime functions like \texttt{\_\_init\_\_}. Instead of requiring the first argument to be a pointer,
-AGT would allow for references. This would benefit the ease-of-use on a syntactical level.
+AGT would allow for references. This would benefit the ease-of-use on a syntactic level.
 
 \section{Syntactic and lexical improvements}
 

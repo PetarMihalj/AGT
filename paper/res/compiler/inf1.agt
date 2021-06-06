@@ -1,12 +1,12 @@
-struct slow{;}
-struct fast{;}
+struct slow{}
+struct fast{}
 
 fn power<T>(b, p){
     type _ = enable_if<T==slow>;
-    ...
+    #...
 }
 
 fn power<T>(b, p){
     type _ = enable_if<T==fast>;
-    ...
+    #...
 }
