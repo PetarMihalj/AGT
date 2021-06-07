@@ -236,8 +236,8 @@ class ExpressionList(ParserRule):
 # https://en.cppreference.com/w/c/language/operator_precedence
 precedence = (
     ('left', 'COMMA'),
-    ('left', 'AND'),
     ('left', 'OR'),
+    ('left', 'AND'),
     ('left', 'ADD', 'SUB'),
     ('left', 'MUL', 'DIV', 'MOD'),
     ('left', 'LE', 'GE', 'LT', 'GT', 'EQ', 'NE'),

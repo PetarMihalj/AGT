@@ -13,9 +13,9 @@
 \contentsline {subsection}{\numberline {3.1.3}Operators}{13}{}%
 \contentsline {subsection}{\numberline {3.1.4}Special operators}{14}{}%
 \contentsline {section}{\numberline {3.2}Syntactic analysis}{14}{}%
-\contentsline {section}{\numberline {3.3}Semantic analysis}{17}{}%
+\contentsline {section}{\numberline {3.3}Semantic analysis}{18}{}%
 \contentsline {section}{\numberline {3.4}Code generation}{19}{}%
-\contentsline {subsection}{\numberline {3.4.1}Concrete type request}{19}{}%
+\contentsline {subsection}{\numberline {3.4.1}Concrete type request}{20}{}%
 \contentsline {subsection}{\numberline {3.4.2}Function type request}{20}{}%
 \contentsline {subsection}{\numberline {3.4.3}Lifetime semantics}{22}{}%
 \contentsline {chapter}{\numberline {4}AGT program examples}{26}{}%

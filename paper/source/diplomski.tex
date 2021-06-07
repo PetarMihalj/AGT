@@ -64,7 +64,13 @@
 
 \includepdf[pages={1,2}]{\resdir/task.pdf}
 
-\zahvala{I thank everybody...}
+\zahvala{
+I thank my mentor Ante Đerek for continous assistance and help during
+the process of writing this thesis.
+
+I thank my family and friends, whose support and understanding 
+has meant a great deal to me.
+}
 
 \tableofcontents
 
@@ -179,10 +185,10 @@ The success of this inference is mainly to do with compilers ability to infer fu
 body of the given function definition.
 
 In this case, inference of function definition body will be possible if both function calls on lines
-2 and 3 can be inferred. Since \texttt{out} function is a built-in for both \textt{i32} and \textt{i8},
+2 and 3 can be inferred. Since \texttt{out} function is a built-in for both \texttt{i32} and \texttt{i8},
 line 2 won't be problematic for inference. Line 3 will be inferred correctly if AGTC succeeds to resolve
 function type \texttt{out} which takes in a value argument of type \texttt{char}. 
-Since this \textit{version} of \texttt{out} also a built-in,
+Since this version of \texttt{out} is also a built-in,
 inference of function types for both versions of \texttt{mul} succeeds.
 
 The property of AGT \textbf{function calls} which can make them refer to different function types, 
@@ -222,7 +228,7 @@ We will mostly focus on the type system, since it is unorthodox and is the main
 contribution of the author.  The author will justify the decisions which had been
 made on all levels of AGT design process.
 
-Chapter \ref{chap:examples} will supplement the reader with plenty of examples of AGT code. These will
+Chapter \ref{chap:examples} will supplement the reader with plenty of AGT code examples. These will
 further deepen reader's understanding of AGT. The examples describe implementation
 of common programming paradigms, constructs and patterns in AGT, with a detailed
 explanation of more esoteric parts of the source code.
@@ -267,7 +273,7 @@ embedded deeply into AGT.
 The Zen of Python \citep{c_zen} is a set of guidelines for writing clean, \textit{pythonic} code. 
 One of these guidelines - \textit{Explicit is better than implicit}, has had a huge impact on AGT.
 Starting from clean function definition syntax, to explicitly named operator (\textit{dunder}) functions
-(\texttt{\_\_add\_\_, \_\_init\_\_, ...}), We prefer explicitness over surface-level practicality.
+(\texttt{\_\_add\_\_, \_\_init\_\_, ...}). We prefer explicitness over surface-level practicality.
 The author would argue that explicit code is more readable, maintainable and safe over long term,
 which is a big win over a small expense of writing a few more characters.
 Object creation is also as explicit as can be, whether on the stack or the heap.
@@ -287,10 +293,10 @@ but the one which captures the essence most precisely is the following:
 
 \textit{
 A type system is a tractable syntactic method for proving the absence of certain program 
-behaviors by classifying phrases according to the kinds of values they compute.
+behaviors by classifying phrases according to the kinds of values they compute
 }\citep{c_type_system}.
 
-AGT's type system serves multiple purposes. One is to allow compile time computation.
+AGT's type system serves multiple purposes. One is to allow for compile time computation.
 The most important purpose is to ensure the correctness of programs, both on compile time and run time.
 
 AGT's type system is \textit{static}, that is, 
@@ -310,8 +316,8 @@ Strongly typed language, in most definitions, is a language with a following pro
     the type declared in the called function.}\citep{c_strong_typing}. 
 \end{center}
 
-Thus, a language to be strongly typed if it rarely or never implicitly converts
-types, which leads to more compile-time errors, and thus provides
+Thus, a language is strongly typed if it rarely or never implicitly converts
+types - this behaviour elicits more compile-time errors, and thus provides
 more safety. AGT never converts types implicitly,
 which can, to someone coming from languages such as C, appear tiresome to deal with. On the other hand,
 explicitly stating type conversions will have greater benefits for the
@@ -339,7 +345,7 @@ stack allocated and heap allocated storage.
 
 The stack storage is used to support function
 execution, and is managed implicitly - allocated on function call, deallocated on function ending.
-While this storage type is highly efficient, it prevents the use of a number of programming patterns.
+While this storage type is highly efficient, it prevents the use of numerous programming patterns.
 To remedy this situation, languages such as C use heap storage. 
 
 Heap storage is an on-demand storage. Having this storage can allow the programmer to define
@@ -523,7 +529,7 @@ for \texttt{rectangle} objects, for example.
 Special operators can't be user-defined, and have a fixed meaning:
 
 \begin{itemize}
-    \item \textit{Address of operator} (\textt{@}) can be used on any \textit{L-value} (explained
+    \item \textit{Address of operator} (\texttt{@}) can be used on any \textit{L-value} (explained
         in later chapters), and evaluates to a pointer to that value. For
         example, if \texttt{i} is an \texttt{i8}, then \texttt{@i} is a pointer
     to \texttt{i8}. We can also denote this pointer as \texttt{@i8} - exactly the way it can be used in 
@@ -534,12 +540,12 @@ Special operators can't be user-defined, and have a fixed meaning:
         and evaluates to a value which is being pointed to.
         For example, if \texttt{p} is an \texttt{@i8}, then \texttt{p!} is a value of type \texttt{i8}.
     This operator can also be used in the context of a type.
-    the context of a type. For example, \texttt{arg!} applied to type \texttt{@i8},
+    the context of a type. For example, dereference operator applied to type \texttt{@i8}
     will evaluate to \texttt{i8}.
 
     \item Index (bracket) operator must be used on a pointer, and be given any integer type as an argument.
         It will offset the pointer depending on the underlying type. For example, 
-        if \texttt{p} is a \texttt{char} pointer, \textt{p[5]} will evaluate to a pointer 
+        if \texttt{p} is a \texttt{char} pointer, \texttt{p[5]} will evaluate to a pointer 
         with a location $lp+5\cdot s$, where $lp$ is \texttt{p}'s value and $s$ is the size 
         of the \texttt{char} type.
 \end{itemize}
@@ -637,7 +643,8 @@ In the case of struct definitions, analogous process takes place.
 
 \pythoncode{\resdir/compiler/initex.py}{semana}{Semantic analysis rule example}
 
-Another example of contextual nature of syntactic elements is the \texttt{let <x> = <y>;} statement.
+The part of semantic analyzer we have just seen corresponds to the
+contextual nature of syntactic elements in the \texttt{let <x> = <y>;} statement.
 When stated in function definition body, this statement results in an allocation 
 of new memory on the stack,
 and copying of value of \texttt{<y>} to location of \texttt{<x>}.
@@ -645,7 +652,8 @@ On the other hand, when stated in struct definition body, this indicates that
 struct will have a member named \texttt{<x>} of type \texttt{<y>}. 
 Thus, \texttt{<y>} will be interpreted in a type context.
 
-If the analyzer is currently in type context, \texttt{i8+a} gets substituted with
+Semantic analysis also handles type expression substitutions in type context; 
+\texttt{i8+a} gets substituted with
 \textit{type angle expression} \texttt{\_\_add\_\_<i8, a>}. If \texttt{a} is of type \texttt{i3},
 than this type angle expression will evaluate to \texttt{i11}. AGT provides built-in operators
 on all integer types, like the \texttt{+} you have just seen, for all other arithmetic and
@@ -683,7 +691,7 @@ a name and a list of concrete types (\textit{type arguments}) into a new concret
 \begin{enumerate}
     \item CTR("char", []) -> CharType
     \item CTR("i32", []) -> IntType(32)
-    \item CTR("rectangle", [i32]) -> RectangleType(with \texttt{i32} side lengths)
+    \item CTR("rectangle", ["i32"]) -> RectangleType(with \texttt{i32} side lengths)
 \end{enumerate}
 
 How does the TE provide this mapping? 
@@ -844,7 +852,7 @@ in chapter \ref{chap:examples}.
 
 \chapter{AGT program examples}\label{chap:examples}
 
-This section of the thesis will introduce the reader to AGT by presenting, explaining and discussing
+In this chapter we will introduce the reader to AGT by presenting, explaining and discussing
 example programs.
 
 \section{Limiting polymorphic behaviour}
@@ -895,7 +903,7 @@ computation capabilities of AGT. Listing \ref{fib_ct} contains our demo.
 Check out the line 20; we output the result of a call to \texttt{type\_to\_value<A,B>()}.
 This is a special built-in function, which will, for any integer type specified as the first 
 type argument (\texttt{A}), return that integer's size in a value of type given as \texttt{B}.
-For example, in line 20, we will get an \texttt{i32} with value \textt{100} as a return value
+For example, in line 20, we will get an \texttt{i32} with value \texttt{100} as a return value
 from \texttt{type\_to\_value} function. Fundamentally, this function allows you to \textit{transfer}
 your compile-time-computed value (in form of integer types) to runtime.
 

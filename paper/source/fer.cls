@@ -156,7 +156,7 @@
 	\newpage
  	\setcounter{page}{3}
 	\vspace*{\fill}
-	\hfil {\itshape #1}\hfil
+	{\itshape #1}
 	\vspace*{\fill}
 	\@dodanazahvalatrue
 }
