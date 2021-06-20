@@ -131,8 +131,8 @@ just skip specifying the return type to achieve this behaviour.
 
 A \texttt{let <x> = <y>;} construct is an \textit{initialization assignment statement}.
 This roughly translates to an allocation of memory on the stack (which can be referred
-to as the \textit{location} of <x> from now on), and copying the value of expression <y>
-to the location of identifier <x>.
+to as the \textit{location} of \texttt{<x>} from now on), and copying the value of expression \texttt{<y>}
+to the location of identifier \texttt{<x>}.
 
 Note that the function call \texttt{in} (line 11) is \textit{parametrized} 
 by a \textit{type argument} \texttt{i32}.
@@ -181,7 +181,7 @@ The \texttt{outnl} (output with newline) function is a prime example of this beh
 It is called three times, with argument of types \texttt{i32}, \texttt{i8} and \texttt{i32}.
 Thus, the compiler has to infer two function types, 
 one which can be fed with an \texttt{i8}, and one with \texttt{i32}.
-The success of this inference is mainly to do with compilers ability to infer functionality of 
+The success of this inference depends mainly on the compiler's ability to infer functionality of 
 body of the given function definition.
 
 In this case, inference of function definition body will be possible if both function calls on lines
@@ -271,7 +271,7 @@ Mainly, it's use of clear function definition syntax and \texttt{let} statement 
 embedded deeply into AGT.
 
 The Zen of Python \citep{c_zen} is a set of guidelines for writing clean, \textit{pythonic} code. 
-One of these guidelines - \textit{Explicit is better than implicit}, has had a huge impact on AGT.
+One of these guidelines --- \textit{Explicit is better than implicit}, has had a huge impact on AGT.
 Starting from clean function definition syntax, to explicitly named operator (\textit{dunder}) functions
 (\texttt{\_\_add\_\_, \_\_init\_\_, ...}). We prefer explicitness over surface-level practicality.
 The author would argue that explicit code is more readable, maintainable and safe over long term,
@@ -303,7 +303,7 @@ AGT's type system is \textit{static}, that is,
 all values have types which can be, and are, determined
 at compile time. Furthermore, all polymorphic behaviour is resolved in compile time, unlike in C++,
 where the programmer can use \textit{dynamic dispatch} using \textit{virtual methods} \citep{c_virtual} 
-- a run-time dynamic lookup of functions.
+--- a run-time dynamic lookup of functions.
 This makes AGT even more type-safe, by preventing common mistakes which happen when utilizing
 dynamic polymorphism. The author argues that object oriented principles which heavily rely on
 dynamic polymorphism (such as inheritance), can mostly be eliminated by better program design.
@@ -344,7 +344,7 @@ present in languages such as Java and Python. AGT's storage is split into two ma
 stack allocated and heap allocated storage. 
 
 The stack storage is used to support function
-execution, and is managed implicitly - allocated on function call, deallocated on function ending.
+execution, and is managed implicitly --- allocated on function call, deallocated on function ending.
 While this storage type is highly efficient, it prevents the use of numerous programming patterns.
 To remedy this situation, languages such as C use heap storage. 
 
@@ -355,9 +355,9 @@ While heap storage allows for many useful design patterns, it can bring many dif
 problems to the table, namely:
 
 \begin{itemize}
-    \item Memory leaks - programmer forgets to free unused memory
-    \item Double free - programmer frees unused memory multiple times
-    \item Dangling pointers - programmer uses a pointer which refers to already freed memory
+    \item Memory leaks --- programmer forgets to free unused memory
+    \item Double free --- programmer frees unused memory multiple times
+    \item Dangling pointers --- programmer uses a pointer which refers to already freed memory
 \end{itemize}
 
 These problems have been a major source of headache for programmers over the years and can't be solved
@@ -379,10 +379,10 @@ to one of the compiled languages, such as C++.
 AGT compilation process consists of 4 main phases: 
 
 \begin{enumerate}
-\item Lexical analysis - tokenization of input source code text
-\item Syntactic analysis - rule-based grouping of tokens into an \textit{abstract syntax tree}
-\item Semantic analysis - transformation of the syntax tree into a \textit{semantic tree}
-\item Code generation - inference of the \texttt{main} function type and LLVM-IR generation
+\item Lexical analysis --- tokenization of input source code text
+\item Syntactic analysis --- rule-based grouping of tokens into an \textit{abstract syntax tree}
+\item Semantic analysis --- transformation of the syntax tree into a \textit{semantic tree}
+\item Code generation --- inference of the \texttt{main} function type and LLVM-IR generation
 \end{enumerate}
 
 The process is successful if all the steps succeed.
@@ -396,7 +396,7 @@ The AGT lexical analysis phase is a standard regular expression parsing process.
 Lexical analyzer is fed a stream of characters, which get grouped into tokens,
 according to regular expressions and ambiguity resolution rules.
 
-Lexical analyzer tool used for the AGTC is PLY - Python Lex-Yacc \citep{c_ply_beazley}.
+Lexical analyzer tool used for the AGTC is PLY --- Python Lex-Yacc \citep{c_ply_beazley}.
 Python Lex-Yacc is a tool which attempts to port the functionality of well know
 lexical and syntactic analyzers Lex and Yacc into Python. The main difference
 is that PLY does not \textit{generate} the 
@@ -456,7 +456,7 @@ Example integer literals are:
 \begin{itemize}
     \item \texttt{5} (implicitly \texttt{i32})
     \item \texttt{5i32}
-    \item \texttt{516}
+    \item \texttt{5i6}
     \item \texttt{5i8}
     \item \texttt{5i64}
     \item \texttt{324243} (implicitly \texttt{i32})
@@ -486,7 +486,7 @@ Reserved words are:
 
 \subsection{Operators}
 
-We will now list the operator families, without discussing their semantics in detail, because
+We will now list the operator families, without discussing their semantics in detail, because:
 
 \begin{itemize}
     \item Built-in versions of these operators will be listed in later chapters, and the reader
@@ -599,7 +599,7 @@ this statement is made of (assigned-to expression, assigned-from expression).
 
 This process finishes when stack machine ends up having the starting symbol on top of the stack,
 and no more tokens to parse. 
-The output of a syntactic analysis phase is an abstract syntax tree - a tree structure
+The output of a syntactic analysis phase is an abstract syntax tree --- a tree structure
 which denotes applications of grammar rules to tokens. An example syntax tree, which
 results from the syntax analysis of the statement \texttt{let n = in<i32>();} is given in listing \ref{ast}.
 
@@ -678,7 +678,7 @@ and motivate them. Code generation includes both type inference and LLVM interme
 generation. 
 
 AGT's type inference engine (type engine, TE) can be modeled as a 
-pure mathematical function, because it's main goal is to evaluate \textit{type requests}.
+pure mathematical function, because its main goal is to evaluate \textit{type requests}.
 This \textit{purity} of evaluation means that repeated evaluations always yield the same result.
 In other words, TE can be thought of as a block box which provides two evaluation functions,
 \textit{concrete type request} and \textit{function type request}.
@@ -760,7 +760,7 @@ Since this name is a \textit{discard token}
 
 The user has achieved polymorphic selection using \texttt{enable\_if}. 
 He signalled the compiler that this
-definition of \typett{power} function fits the programmer's intentions.
+definition of \texttt{power} function fits the programmer's intentions.
 
 On the other hand, consider the definition of \texttt{power} at line 9.
 In this case, \texttt{enable\_if} argument will evaluate to \texttt{i0} (false in type context).
@@ -781,7 +781,7 @@ in programming languages:
         For example, parameters of the function exist and can be referenced throughout the function body,
         but stop existing when that specific invocation of the function terminates. 
 
-    \item The context in which objects exist is called their \textit{lifetime}
+    \item The context in which objects exist is called their \textit{lifetime}.
     \item Object's lifetime starts with \textit{initialization} (\textit{construction} in some sources).
         Having precise control over construction can allow programmer
                 to restrict usage of the object or set up invariants.
@@ -870,8 +870,8 @@ The reader should first note the \texttt{outnl} function definition in line 1;
 this function takes a single argument, which is referred to as parameter named \texttt{i},
 and this parameter can take any type (since we haven't limited the function definition 
 with \texttt{enable\_if}).
-Of course, if \texttt{out} in line 2 can't be called with that type, we will be
-reported a compilation error. This is an example of parametric polymorphism.
+Of course, if \texttt{out} in line 2 can't be called with that type, a compilation error will be
+reported. This is an example of parametric polymorphism.
 
 The other example of polymorphic behaviour occurs in definition of function \texttt{fib} in line 10.
 Here we explicitly state that this function is to be considered as a candidate only if
@@ -1016,7 +1016,7 @@ Finally, at the end of the \texttt{main} function, lifetime of \texttt{a} ends t
 and the resource is released.
 
 This approach resolves most of the memory issues, but as mentioned earlier, can result
-in a memory leak nonetheless. This can occur only in presence of \textit{circular references} -
+in a memory leak nonetheless. This can occur only in presence of \textit{circular references} ---
 an interested reader can find more about this phenomenon in various sources on the web.
 
 
@@ -1063,7 +1063,7 @@ The reader may have noticed that we repeated some common function definitions
 (\texttt{outnl}, for example) quite often. This is because AGT doesn't have a multiple source file
 support. There are problems which need to be addressed before implementing it.
 
-For first, a common problem with multiple source files in other languages is multiple inclusion
+Firstly, a common problem with multiple source files in other languages is multiple inclusion
 and multiple definition problems which come with it. In AGT this phenomenon would manifest
 as a presence of multiple candidates for type inference. A quick fix for this problem would be
 to ignore function definitions which come from the same lexical location (source file and line).
@@ -1122,12 +1122,12 @@ Thus, the goal of this thesis has been successfully accomplished.
 \begin{sazetak}
 Cilj ovog diplomskog rada razvoj je novog programskog jezika,
 kombinirajući poželjna svojstva drugih često korištenih jezika.
-Definirali smo AGT programski jezik, prevođeni, statički i jako tipiziran jezik
-s snažnim sustavom tipova, sposobnim izvesti izračune u vremenu prevođenja,
+Definirali smo AGT programski jezik, prevođeni, statički i strogo tipiziran jezik
+sa snažnim sustavom tipova, sposobnim izvesti izračune tijekom prevođenja,
 koji podržava različite oblike statičkog polimorfizma.
 Razvili smo prevoditelj za AGT u programskom jeziku Python,
 koristeći LLVM infrastrukturu prevoditelja za pozadinsko prevođenje.
-U radu opisujemo sintaksu i semantiku AGT programskog jezika, 
+U radu smo opisali sintaksu i semantiku AGT programskog jezika, 
 a dani su i brojni primjeri efikasnog korištenja AGT-a u čestim programerskim situacijama.
 Diplomski rad završili smo planovima za budući razvoj AGT-a.
 

@@ -5,11 +5,11 @@ fn outnl(i){
 
 fn len(cptr) -> i32{
     type _ = enable_if<cptr == @char>;
-    let cl = 0;
-    while (cptr[cl]! !='\0'){
-        cl=cl+1;
+    let k = 0;
+    while (cptr[k]! !='\0'){
+        k=k+1;
     }
-    return cl;
+    return k;
 }
 
 struct string{
@@ -21,13 +21,13 @@ fn __init__(sptr, cptr){
     type _ = enable_if<sptr == @string>;
     type _ = enable_if<cptr == @char>;
     
-    let l = len(cptr);
+    let k = len(cptr);
 
-    sptr!.len = l;
-    sptr!.arr = heap_alloc<char>(l);
-    while (l>!0){
-        sptr!.arr[l-1]! = cptr[l-1]!;
-        l=l-1;
+    sptr!.len = k;
+    sptr!.arr = heap_alloc<char>(k);
+    while (k >! 0){ // >! is strictly greater than
+        sptr!.arr[k-1]! = cptr[k-1]!;
+        k=k-1;
     }
 }
 
@@ -37,12 +37,12 @@ fn __copy__(sptr1, sptr2){
     
     sptr1!.len = sptr2!.len;
 
-    let l = sptr1!.len;
+    let k = sptr1!.len;
     
-    sptr1!.arr = heap_alloc<char>(l);
-    while (l>!0){
-        sptr1!.arr[l-1]! = sptr2!.arr[l-1]!;
-        l=l-1;
+    sptr1!.arr = heap_alloc<char>(k);
+    while (k >! 0){
+        sptr1!.arr[k-1]! = sptr2!.arr[k-1]!;
+        k=k-1;
     }
 }
 
