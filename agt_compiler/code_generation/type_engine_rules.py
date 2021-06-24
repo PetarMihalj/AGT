@@ -517,8 +517,7 @@ def _(self: sa.IndexExpression, tc: TypingContext,
 def _(self: sa.MemberExpression, tc: TypingContext,
         fc: context.FunctionContext):
     e = self.expr.te_visit(tc, fc)
-    if self.expr.lvalue:
-        self.lvalue = self.expr.lvalue
+    self.lvalue = self.expr.lvalue
 
     if not isinstance(fc.types[e], ts.StructType):
         raise ierr.RuntimeExpressionError(f"Can not index a non-struct type, at {self.linespan[0]}!")

@@ -117,7 +117,9 @@ and then is turned into executable by a chain of tools for compiling LLVM-IR and
 linking the resulting object files into executables.
 
 The installation and use guide, thesis and the accompanying source code will be available at:
-GITHUB
+\url{https://github.com/PetarMihalj/AGT/tree/thesis_version}. Note that this version
+might become outdated, so check out the main repository (\url{https://github.com/PetarMihalj/AGT})
+for the latest version.
 
 \section{Example program}
 
@@ -386,7 +388,7 @@ AGT compilation process consists of 4 main phases:
 \item Lexical analysis --- tokenization of input source code text
 \item Syntactic analysis --- rule-based grouping of tokens into an \textit{abstract syntax tree}
 \item Semantic analysis --- transformation of the syntax tree into a \textit{semantic tree}
-\item Code generation --- inference of the \texttt{main} function type and LLVM-IR generation
+\item Type inference and code generation --- inference of the \texttt{main} function type and LLVM-IR generation
 \end{enumerate}
 
 The process is successful if all the steps succeed.
@@ -674,12 +676,11 @@ Another task which is being done in semantic analysis phase is the substitution 
 substituted with a function call \texttt{\_\_add\_\_(5,a)}. 
 
 
-\section{Code generation}\label{sect:codegen}
+\section{Type inference and code generation}\label{sect:codegen}
 
-Code generation is the most complex phase of AGT compilation process.
+Type inference and code generation is the most complex phase of AGT compilation process.
 Before we go head-first into its description, we will lay down some definitions
-and motivate them. Code generation includes both type inference and LLVM intermediate representation
-generation. 
+and motivate them. 
 
 AGT's type inference engine (type engine, TE) can be modeled as a 
 pure mathematical function, because its main goal is to evaluate \textit{type requests}.
@@ -851,8 +852,56 @@ This is crucial to prevent multiple candidates for different concrete types.
 These were the basics of lifetime semantics, we will introduce more use-cases
 in chapter \ref{chap:examples}.
 
+\subsection{Code generation}
 
+Code generation is a process which occurs parallel with type inference, in
+which we generate the necessary LLVM-IR code. We will go through an example of
+code generation corresponding to member indexing expression (dot operator).
 
+\pythoncode{\resdir/compiler/code_gen.py}{codegenpy}{Code generation for dot operator}
+
+Listing \ref{codegenpy} describes the process. 
+
+First, we have to get a \textit{stack symbolic register}
+for a structure we are indexing upon (line 4). \textit{Symbolic registers} are
+names which are assigned to only once on a lexical level. We use a term \textit{stack symbolic register}
+to denote symbolic registers which contain pointers to stack, where the actual values are held.
+This approach, in which we always manipulate the pointers to the stack is suggested in LLVM documentation,
+and greatly simplifies the design. While the reader might suspect this will cause unnecessary
+overhead, it is important to note that LLVM infrastructure optimizer will analyze the code and remove
+the indirection where possible. 
+
+Since an indexed member is an lvalue only when the structure being indexed is, 
+we transfer the \texttt{lvalue} property to the indexed member (line 5).
+
+After checking for some common errors, we introduce destruction code (line 14) if and only if the expression
+is an rvalue (since nothing else refers to it, we have to destruct it now).
+
+Lastly, we call upon a \texttt{get\_member} function, which will insert the necessary code
+to get a stack symbolic register (a pointer) to the member, and return its name.
+
+You can also notice the variables \texttt{fc} (of type \texttt{FunctionContext}) 
+and \texttt{tc} (of type \texttt{TypingContext}).
+The \texttt{FunctionContext} carries information about the current function being inferred,
+while the \texttt{TypingContext} carries information about the data global to the whole program 
+(other functions, structs,...)
+
+\pythoncode{\resdir/compiler/get_mem.py}{getmem}{\texttt{get\_member} function}
+
+The \texttt{get\_member} function will create a new and unique name (line 3) for a
+stack symbolic register which contains a pointer to a requested member.
+
+Then it will update its type in this function context (line 4).
+
+Afterwards, it will extract the \textit{mangled name} of a type being operated upon (struct type),
+which is actually its symbolic name (line 6). The index of a member will be found
+using the member name (line 7).
+
+Finally, the code will be extended by a LLVM-IR command (lines 9 to 12),
+and the name of a newly generated stack symbolic register will be returned.
+
+All functionality of AGT is implemented in a similar way, and an interested reader will
+surely want to consult the source code if he wants to learn more.
 
 \chapter{AGT program examples}\label{chap:examples}
 
@@ -1120,24 +1169,9 @@ Thus, the goal of this thesis has been successfully accomplished.
 
 \newpage
 
-\hrtitle{Oblikovanje strogo tipiziranog programskog jezika}
-\engtitle{Design of a strongly-typed programming language}
-
-\begin{sazetak}
-Cilj ovog diplomskog rada razvoj je novog programskog jezika,
-kombinirajući poželjna svojstva drugih često korištenih jezika.
-Definirali smo AGT programski jezik, prevođeni, statički i strogo tipiziran jezik
-sa snažnim sustavom tipova, sposobnim izvesti izračune tijekom prevođenja,
-koji podržava različite oblike statičkog polimorfizma.
-Razvili smo prevoditelj za AGT u programskom jeziku Python,
-koristeći LLVM infrastrukturu prevoditelja za pozadinsko prevođenje.
-U radu smo opisali sintaksu i semantiku AGT programskog jezika, 
-a dani su i brojni primjeri efikasnog korištenja AGT-a u čestim programerskim situacijama.
-Diplomski rad završili smo planovima za budući razvoj AGT-a.
-
-\kljucnerijeci{Programski jezici, Prevoditelji, Polimorfizam}
 \end{sazetak}
 
+\engtitle{Design of a strongly-typed programming language}
 \begin{abstract}
 The goal of this thesis is to develop a new programming language by combining
 desirable properties of other widely used ones. We have defined the AGT
@@ -1153,5 +1187,21 @@ The thesis is concluded with plans for the future development of AGT.
 
 \keywords{Programming languages, Compilers, Polymorphism}
 \end{abstract}
+
+\hrtitle{Oblikovanje strogo tipiziranog programskog jezika}
+
+\begin{sazetak}
+Cilj ovog diplomskog rada razvoj je novog programskog jezika,
+kombinirajući poželjna svojstva drugih često korištenih jezika.
+Definirali smo AGT programski jezik, prevođeni, statički i strogo tipiziran jezik
+sa snažnim sustavom tipova, sposobnim izvesti izračune tijekom prevođenja,
+koji podržava različite oblike statičkog polimorfizma.
+Razvili smo prevoditelj za AGT u programskom jeziku Python,
+koristeći LLVM infrastrukturu prevoditelja za pozadinsko prevođenje.
+U radu smo opisali sintaksu i semantiku AGT programskog jezika, 
+a dani su i brojni primjeri efikasnog korištenja AGT-a u čestim programerskim situacijama.
+Diplomski rad završili smo planovima za budući razvoj AGT-a.
+
+\kljucnerijeci{Programski jezici, Prevoditelji, Polimorfizam}
 
 \end{document}

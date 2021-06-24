@@ -14,21 +14,22 @@
 \contentsline {subsection}{\numberline {3.1.4}Special operators}{14}{}%
 \contentsline {section}{\numberline {3.2}Syntactic analysis}{14}{}%
 \contentsline {section}{\numberline {3.3}Semantic analysis}{18}{}%
-\contentsline {section}{\numberline {3.4}Code generation}{19}{}%
+\contentsline {section}{\numberline {3.4}Type inference and code generation}{19}{}%
 \contentsline {subsection}{\numberline {3.4.1}Concrete type request}{20}{}%
 \contentsline {subsection}{\numberline {3.4.2}Function type request}{20}{}%
 \contentsline {subsection}{\numberline {3.4.3}Lifetime semantics}{22}{}%
-\contentsline {chapter}{\numberline {4}AGT program examples}{26}{}%
-\contentsline {section}{\numberline {4.1}Limiting polymorphic behaviour}{26}{}%
-\contentsline {section}{\numberline {4.2}Compile time computation}{28}{}%
-\contentsline {section}{\numberline {4.3}Heap object allocation}{29}{}%
-\contentsline {section}{\numberline {4.4}Raw heap allocation}{30}{}%
-\contentsline {section}{\numberline {4.5}A simple string class}{31}{}%
-\contentsline {section}{\numberline {4.6}Ownership semantics and shared pointers}{34}{}%
-\contentsline {chapter}{\numberline {5}Future improvements}{39}{}%
-\contentsline {section}{\numberline {5.1}Pass-by-reference}{39}{}%
-\contentsline {section}{\numberline {5.2}Syntactic and lexical improvements}{39}{}%
-\contentsline {section}{\numberline {5.3}Multiple source file support and namespaces}{40}{}%
-\contentsline {section}{\numberline {5.4}Portability}{40}{}%
-\contentsline {chapter}{\numberline {6}Conclusion}{41}{}%
-\contentsline {chapter}{Bibliography}{42}{}%
+\contentsline {subsection}{\numberline {3.4.4}Code generation}{25}{}%
+\contentsline {chapter}{\numberline {4}AGT program examples}{28}{}%
+\contentsline {section}{\numberline {4.1}Limiting polymorphic behaviour}{28}{}%
+\contentsline {section}{\numberline {4.2}Compile time computation}{30}{}%
+\contentsline {section}{\numberline {4.3}Heap object allocation}{31}{}%
+\contentsline {section}{\numberline {4.4}Raw heap allocation}{32}{}%
+\contentsline {section}{\numberline {4.5}A simple string class}{33}{}%
+\contentsline {section}{\numberline {4.6}Ownership semantics and shared pointers}{36}{}%
+\contentsline {chapter}{\numberline {5}Future improvements}{41}{}%
+\contentsline {section}{\numberline {5.1}Pass-by-reference}{41}{}%
+\contentsline {section}{\numberline {5.2}Syntactic and lexical improvements}{41}{}%
+\contentsline {section}{\numberline {5.3}Multiple source file support and namespaces}{42}{}%
+\contentsline {section}{\numberline {5.4}Portability}{42}{}%
+\contentsline {chapter}{\numberline {6}Conclusion}{43}{}%
+\contentsline {chapter}{Bibliography}{44}{}%

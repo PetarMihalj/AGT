@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex /home/pmihalj/agt/paper/build/diplomski"] 1623055515 "/home/pmihalj/agt/paper/build/diplomski.aux" "/home/pmihalj/agt/paper/build/diplomski.bbl" "/home/pmihalj/agt/paper/build/diplomski" 1624546874
+["bibtex /home/pmihalj/agt/paper/build/diplomski"] 1624549811 "/home/pmihalj/agt/paper/build/diplomski.aux" "/home/pmihalj/agt/paper/build/diplomski.bbl" "/home/pmihalj/agt/paper/build/diplomski" 1624551792
   "/home/pmihalj/.miktex/texmfs/install/bibtex/bst/dinat/dinat.bst" 1620470944 44478 8171722d387d8657f0397923511dcd08 ""
-  "/home/pmihalj/agt/paper/build/diplomski.aux" 1624546872 9919 a137a94ee28992764f059fe7f81650a8 "pdflatex"
+  "/home/pmihalj/agt/paper/build/diplomski.aux" 1624551770 10458 8dee3ea11e21e565fe1dbd1c13ca9b22 "pdflatex"
   "literatura.bib" 1622993564 2404 eec8821f85a37b1a6db40a349e24cd93 ""
   (generated)
-  "/home/pmihalj/agt/paper/build/diplomski.blg"
   "/home/pmihalj/agt/paper/build/diplomski.bbl"
-["pdflatex"] 1624546870 "diplomski.tex" "/home/pmihalj/agt/paper/build/diplomski.pdf" "diplomski" 1624546874
+  "/home/pmihalj/agt/paper/build/diplomski.blg"
+["pdflatex"] 1624551769 "diplomski.tex" "/home/pmihalj/agt/paper/build/diplomski.pdf" "diplomski" 1624551792
   "/home/pmihalj/.miktex/texmfs/data/miktex/data/le/pdftex/pdflatex.fmt" 1620465971 6307435 11e134229a3c07aee0caa62223f63c64 ""
   "/home/pmihalj/.miktex/texmfs/data/pdftex/config/pdftex.map" 1621419844 31708 5634200c3c1d72d7de7b4c8dc3633c6c ""
   "/home/pmihalj/.miktex/texmfs/install/fonts/enc/dvips/base/8r.enc" 1620460547 4993 1194fb36dfcb11d9ae9802f2b00b60a3 ""
@@ -126,11 +126,13 @@
   "/home/pmihalj/.miktex/texmfs/install/tex/latex/tocbibind/tocbibind.sty" 1620460295 8927 46f54e33fc9cef24f78ab3bc811cb63f ""
   "/home/pmihalj/.miktex/texmfs/install/tex/latex/url/url.sty" 1620460293 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "/home/pmihalj/.miktex/texmfs/install/tex/latex/xcolor/xcolor.sty" 1620462866 57049 74963e80d77be39a0b7442967b27c75b ""
-  "/home/pmihalj/agt/paper/build/diplomski.aux" 1624546872 9919 a137a94ee28992764f059fe7f81650a8 "pdflatex"
-  "/home/pmihalj/agt/paper/build/diplomski.bbl" 1623055515 3340 1645fee179b181433c757ca3efaf844e "bibtex /home/pmihalj/agt/paper/build/diplomski"
-  "/home/pmihalj/agt/paper/build/diplomski.toc" 1624546872 2336 978cebf6a1a2987636eaa1a3425af937 "pdflatex"
+  "/home/pmihalj/agt/paper/build/diplomski.aux" 1624551770 10458 8dee3ea11e21e565fe1dbd1c13ca9b22 "pdflatex"
+  "/home/pmihalj/agt/paper/build/diplomski.bbl" 1624549811 3340 1645fee179b181433c757ca3efaf844e "bibtex /home/pmihalj/agt/paper/build/diplomski"
+  "/home/pmihalj/agt/paper/build/diplomski.toc" 1624551770 2425 5a609592fa822167aa3b1a3722659b3d "pdflatex"
   "/home/pmihalj/agt/paper/res/compiler/ast" 1621435267 969 29f96d60d183fd47a9d1e5d1883e13c0 ""
+  "/home/pmihalj/agt/paper/res/compiler/code_gen.py" 1624548840 501 57e8ca66e493924c30e6d4876962ab21 ""
   "/home/pmihalj/agt/paper/res/compiler/contextual.agt" 1621171955 86 a38ff6cbf4e2e6026391cc5ac7ce626d ""
+  "/home/pmihalj/agt/paper/res/compiler/get_mem.py" 1624549591 427 489fb4d368014a03192856a50caf5550 ""
   "/home/pmihalj/agt/paper/res/compiler/inf1.agt" 1623000620 156 d7753e16673bf3eb27382b11c20e4756 ""
   "/home/pmihalj/agt/paper/res/compiler/initex.py" 1621516756 440 f7b2769e1a3dc04e692c2e15e2e68db5 ""
   "/home/pmihalj/agt/paper/res/compiler/lexer.py" 1621101892 597 b49d5081f9ec5544d05166bff610d20b ""
@@ -153,10 +155,10 @@
   "/home/pmihalj/agt/paper/res/programs/string_mgmt.agt" 1624166207 1539 b641f8d80e2822e6fbe1bd17f9db9dc5 ""
   "/home/pmihalj/agt/paper/res/programs/string_mgmt.out" 1621320485 54 ba37261e3995e04905f62af5e433a412 ""
   "/home/pmihalj/agt/paper/res/task.pdf" 1620459931 19638 db4b1c130724843a0391785de582b650 ""
-  "diplomski.tex" 1624546869 60236 30caafffddfc3c45117111c2c0e8b08d ""
+  "diplomski.tex" 1624551767 63157 d44400a328204327a9eaa9b3505ae812 ""
   "fer.cls" 1623053646 10116 433b2af4866580edc0be5287c42ca6ca ""
   (generated)
   "/home/pmihalj/agt/paper/build/diplomski.toc"
-  "/home/pmihalj/agt/paper/build/diplomski.aux"
-  "/home/pmihalj/agt/paper/build/diplomski.log"
   "/home/pmihalj/agt/paper/build/diplomski.pdf"
+  "/home/pmihalj/agt/paper/build/diplomski.log"
+  "/home/pmihalj/agt/paper/build/diplomski.aux"
