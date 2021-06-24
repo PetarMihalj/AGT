@@ -80,6 +80,9 @@ The programming language developed as a part of this thesis is called AGT.
 The name AGT stands for an unfortunate fact that the names of all precious stones
 are taken by other programming languages, hence "All Gems are Taken".
 
+The author's motivation for development of this language stems 
+primarily from learning opportunity this development provides.
+
 \textbf{The AGT programming language} is a statically and 
 strongly \citep{c_strong_typing} typed language, with a highly expressive type system.
 The type system is used for three main purposes:
@@ -253,8 +256,9 @@ whenever possible.
 Of course, AGT is way more implicit in typing than both C and C++, that is, types have to be specified
 only when necessary (for example, when limiting function polymorphism according to types).
 Implicit typing allows the programmer to focus on logic instead of specifying redundant type annotations
-(such as in C), or keywords that signal the compiler to perform automatic type
-inference, such as \texttt{auto} in C++ \citep{c_auto}.
+(such as in C), or keywords that signal the compiler to perform automatic \textit{type
+inference}, such as \texttt{auto} in C++ \citep{c_auto}. Type inference is a process
+in which the compiler deduces types of programming constructs, which can be of varying complexity.
 
 On the other hand, the absence of explicit type specification can make the program more unreadable,
 due to the lack of hints these types provide. 

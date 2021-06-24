@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  20 JUN 2021 07:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  24 JUN 2021 17:01
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -579,24 +579,24 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 6
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ))
 LaTeX Font Info:    Trying to load font information for T1+pcr on input line 12
-5.
+8.
 
 (/home/pmihalj/.miktex/texmfs/install/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 ) [2] [3]
-Underfull \hbox (badness 1609) in paragraph at lines 200--204
+Underfull \hbox (badness 1609) in paragraph at lines 203--207
 []\T1/ptm/m/n/12 Function definition of \T1/pcr/m/n/12 outnl \T1/ptm/m/n/12 int
 roduces a special type of polymorphism,
  []
 
 [4]
-Underfull \hbox (badness 1019) in paragraph at lines 231--235
+Underfull \hbox (badness 1019) in paragraph at lines 234--238
 []\T1/ptm/m/n/12 Chapter 4[] will supplement the reader with plenty of AGT code
  examples.
  []
 
 
-Underfull \hbox (badness 1354) in paragraph at lines 236--239
+Underfull \hbox (badness 1354) in paragraph at lines 239--242
 []\T1/ptm/m/n/12 In chapter 5[] we will address the issues AGT has both on defi
 nition and
  []
@@ -607,7 +607,7 @@ Chapter 2.
 
 ]
 ! Undefined control sequence.
-l.290 definition of what \texit
+l.294 definition of what \texit
                                {type system} actually is, and what we refer ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -618,7 +618,7 @@ and I'll forget about whatever was undefined.
 [7] [8] [9]
 Chapter 3.
 
-Underfull \hbox (badness 1122) in paragraph at lines 385--386
+Underfull \hbox (badness 1122) in paragraph at lines 389--390
 []\T1/ptm/m/n/12 Code generation --- inference of the \T1/pcr/m/n/12 main \T1/p
 tm/m/n/12 function type and LLVM-IR
  []
@@ -631,7 +631,7 @@ File: lstlang1.sty 2020/03/24 1.8d listings language file
 (/home/pmihalj/agt/paper/res/compiler/lexer.py) [11] [12] [13] [14]
 (/home/pmihalj/agt/paper/res/compiler/prio) [15]
 (/home/pmihalj/agt/paper/res/compiler/ast [16])
-Underfull \hbox (badness 10000) in paragraph at lines 615--617
+Underfull \hbox (badness 10000) in paragraph at lines 619--621
 
  []
 
@@ -639,13 +639,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 615--617
 (/home/pmihalj/agt/paper/res/compiler/contextual.agt)
 (/home/pmihalj/agt/paper/res/compiler/initex.py [18]) [19] [20]
 (/home/pmihalj/agt/paper/res/compiler/inf1.agt) [21]
-Underfull \hbox (badness 1117) in paragraph at lines 785--788
+Underfull \hbox (badness 1117) in paragraph at lines 789--792
 []\T1/ptm/m/n/12 Object's lifetime starts with \T1/ptm/m/it/12 initialization \
 T1/ptm/m/n/12 (\T1/ptm/m/it/12 construction \T1/ptm/m/n/12 in some sources).
  []
 
 [22]
-Underfull \hbox (badness 1484) in paragraph at lines 830--832
+Underfull \hbox (badness 1484) in paragraph at lines 834--836
 []\T1/ptm/b/n/12 Definition 4 \T1/ptm/m/n/12 (Copy function)\T1/ptm/b/n/12 . []
 \T1/ptm/m/n/12 A copy function is a function whose name is
  []
@@ -660,7 +660,7 @@ See the keyval package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.867 ... with recursion, Parametric Polymorphism}
+l.871 ... with recursion, Parametric Polymorphism}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -672,7 +672,7 @@ See the keyval package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.867 ... with recursion, Parametric Polymorphism}
+l.871 ... with recursion, Parametric Polymorphism}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -682,12 +682,12 @@ If that doesn't work, type  X <return>  to quit.
 ])
 (/home/pmihalj/agt/paper/res/programs/fib_runtime_recursion.out) [27]
 (/home/pmihalj/agt/paper/res/programs/fib_compile_time.agt)
-Underfull \hbox (badness 10000) in paragraph at lines 903--909
+Underfull \hbox (badness 10000) in paragraph at lines 907--913
 []\T1/ptm/m/n/12 Check out the line 20; we output the result of a call to
  []
 
 
-Underfull \hbox (badness 1331) in paragraph at lines 903--909
+Underfull \hbox (badness 1331) in paragraph at lines 907--913
 \T1/pcr/m/n/12 type_to_value<A,B>()\T1/ptm/m/n/12 . This is a special built-in 
 function, which will,
  []
@@ -696,7 +696,7 @@ function, which will,
 (/home/pmihalj/agt/paper/res/programs/memory_object.agt [29])
 (/home/pmihalj/agt/paper/res/programs/memory_object.in)
 (/home/pmihalj/agt/paper/res/programs/memory_object.out)
-Underfull \hbox (badness 1960) in paragraph at lines 933--937
+Underfull \hbox (badness 1960) in paragraph at lines 937--941
 []\T1/ptm/m/n/12 In line 16, we allocate an \T1/pcr/m/n/12 irect \T1/ptm/m/n/12
  on the heap using a special method
  []
@@ -709,7 +709,7 @@ Underfull \hbox (badness 1960) in paragraph at lines 933--937
 (/home/pmihalj/agt/paper/res/programs/shared_pointer.out) [37] [38]
 Chapter 5.
 
-Underfull \hbox (badness 2529) in paragraph at lines 1036--1039
+Underfull \hbox (badness 2529) in paragraph at lines 1040--1043
 []\T1/ptm/m/n/12 A \T1/ptm/m/it/12 pass-by-reference \T1/ptm/m/n/12 is a contra
 sting method to pass-by-value. When a
  []
@@ -717,7 +717,7 @@ sting method to pass-by-value. When a
 [39
 
 ]
-Underfull \hbox (badness 1253) in paragraph at lines 1089--1092
+Underfull \hbox (badness 1253) in paragraph at lines 1093--1096
 \T1/ptm/m/n/12 we want to support and whether to split the language into minima
 l and full
  []
@@ -725,7 +725,7 @@ l and full
 [40]
 Chapter 6.
 
-Underfull \hbox (badness 2205) in paragraph at lines 1110--1113
+Underfull \hbox (badness 2205) in paragraph at lines 1114--1117
 \T1/ptm/m/n/12 programmer performs. Thus, the goal of this thesis has been succ
 essfully
  []
@@ -741,7 +741,7 @@ ossary . html #
 [42
 
 ]) [43]
-Underfull \hbox (badness 1546) in paragraph at lines 1123--1133
+Underfull \hbox (badness 1546) in paragraph at lines 1127--1137
 \T1/ptm/m/n/12 jezik, prevoženi, stati£ki i strogo tipiziran jezik sa snaºnim s
 ustavom tipova,
  []
@@ -766,7 +766,7 @@ type1/urw/helvetic/uhvb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1
 times/utmb8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/ut
 mr8a.pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/urw/times/utmri8a.pf
 b>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (50 pages, 227828
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (50 pages, 228057
  bytes).
 PDF statistics:
  222 PDF objects out of 1000 (max. 8388607)
