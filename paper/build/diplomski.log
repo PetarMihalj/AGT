@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  24 JUN 2021 18:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.8)  30 JUN 2021 09:06
 entering extended mode
 **./diplomski.tex
 (diplomski.tex
@@ -784,7 +784,7 @@ or  <return>  to continue without it.
 Here is how much of TeX's memory you used:
  9676 strings out of 481257
  144327 string characters out of 2908218
- 733729 words of memory out of 3000000
+ 733725 words of memory out of 3000000
  26626 multiletter control sequences out of 15000+600000
  464991 words of font info for 96 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
@@ -799,7 +799,7 @@ pfb></home/pmihalj/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy10
 alj/.miktex/texmfs/install/fonts/type1/urw/times/utmb8a.pfb></home/pmihalj/.mik
 tex/texmfs/install/fonts/type1/urw/times/utmr8a.pfb></home/pmihalj/.miktex/texm
 fs/install/fonts/type1/urw/times/utmri8a.pfb>
-Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (52 pages, 233951
+Output written on /home/pmihalj/agt/paper/build/diplomski.pdf (52 pages, 233997
  bytes).
 PDF statistics:
  228 PDF objects out of 1000 (max. 8388607)

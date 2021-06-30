@@ -1052,18 +1052,18 @@ This will be achieved by using a shared counter (see line 8 in listing \ref{own_
 The counter will be incremented when making copies of the shared pointer,
 and decremented when destructing them.
 Finally, the last shared pointer which gets destructed (the check at line 27) will release
-the ownership (in this case, free the memory).
+the ownership (in this case, destruct the object and free the memory).
 
 The reader should study the listing \ref{own_sem} and program output in listing \ref{own_sem_out}.
 
-\textcode{\resdir/programs/shared_pointer.agt}{own_sem}{Shared pointers - out}
+\textcode{\resdir/programs/shared_pointer.agt}{own_sem}{Shared pointer}
 
 Output:
-\textcode{\resdir/programs/shared_pointer.out}{own_sem_out}{Shared pointer - out}
+\textcode{\resdir/programs/shared_pointer.out}{own_sem_out}{Shared pointer - output}
 
 We have added messages to signal when certain lifetime operations get executed.
 The main thing to notice is that variable \texttt{b} has a lifetime which ends
-at line 69, the closing of a block. This is the exact time when its destructor is called.
+at line 70, the closing of a block. This is the exact time when its destructor is called.
 One can thus notice that the \texttt{count} gets decreased from 2 to 1 after destruction.
 Finally, at the end of the \texttt{main} function, lifetime of \texttt{a} ends too,
 and the resource is released.
