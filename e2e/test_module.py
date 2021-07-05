@@ -4,7 +4,7 @@ import pathlib
 import os
 import subprocess
 
-from agt_compiler.cli import binary_gen_stub
+from agtc.cli import binary_gen_stub
 
 class Constants:
     PROG = ".agt"
