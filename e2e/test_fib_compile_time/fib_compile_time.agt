@@ -15,13 +15,7 @@ struct fib<T> -> R{
     type R = fib<T-i1>+fib<T-i2>;
 }
 
-fn ct_fib<T>() -> i32{
-    type f = fib<T>;
-    let value = type_to_value<f, i32>();
-    return value;
-}
-
 fn main() -> i32{
-    let v = ct_fib<i10>();
-    return v;
+    out(type_to_value<fib<i12>, i32>());
+    return 0;
 }

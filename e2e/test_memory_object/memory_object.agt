@@ -15,6 +15,5 @@ fn main() -> i32{
     out(rect_heap!.b);
 
     heap_free(rect_heap);
-    out(rect_heap!.a);
-    out(rect_heap!.b);
+    return 0;
 }
