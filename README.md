@@ -1,15 +1,43 @@
 ## AGT programming language
 
-AGT was developed in the course of one semester as my master thesis project.
+AGT was developed as my master thesis project.
 
 AGT is a compiled programming language with a strong and static type system, with the following features:
 
 - Lifetime semantics (initialization, copying and destruction of objects)
-- Parametric Polymorphism
+- Parametric polymorphism
 - Compile time compilation
 - Custom operators
 
-Detailed information can be found in this [file](https://github.com/PetarMihalj/AGT/blob/master/AGT_master_thesis.pdf).
+Detailed information on AGT (including examples) can be found in my [master thesis](https://github.com/PetarMihalj/AGT/blob/master/AGT_master_thesis.pdf).
+
+# Example program
+
+This program will compute 12th Fibonacci number in compile time.
+
+```
+struct fib<T> -> i1{
+    type _ = enable_if<T == i1>;
+}
+struct fib<T> -> i1{
+    type _ = enable_if<T == i2>;
+}
+
+struct fib<T> -> R{
+    type _ = enable_if<T != i1>;
+    type _ = enable_if<T != i2>;
+    type R = fib<T-i1>+fib<T-i2>;
+}
+
+fn main() -> i32{
+    out(type_to_value<fib<i12>, i32>());
+    return 0;
+}
+```
+
+Output: `144`
+
+Other examples can be found in `e2e` folder.
 
 # Installation guide
 
