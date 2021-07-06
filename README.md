@@ -37,7 +37,7 @@ fn main() -> i32{
 
 Output: `144`
 
-Other examples can be found in `e2e` folder.
+Other examples can be found in `e2e` folder and also in the thesis.
 
 # Installation guide
 
