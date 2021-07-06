@@ -1,5 +1,5 @@
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -14,7 +14,7 @@ setup(
     license = "MIT",
     keywords = "agt agtc compiler",
     url = "https://github.com/PetarMihalj/AGT",
-    packages = ["agtc"],
+    packages = find_packages(),
     long_description = read("README.md"),
     classifiers = [
         "Programming Language :: Python :: 3",
@@ -28,6 +28,6 @@ setup(
     install_requires = [
         "ply>=3.11",
         "pytest>=6.2.4",
-        "click",
+        "click>=7.0.0",
     ]
 )
