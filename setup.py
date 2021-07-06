@@ -28,5 +28,6 @@ setup(
     install_requires = [
         "ply>=3.11",
         "pytest>=6.2.4",
+        "click",
     ]
 )
