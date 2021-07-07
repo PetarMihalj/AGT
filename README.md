@@ -6,7 +6,7 @@ AGT is a compiled programming language with a strong and static type system, wit
 
 - Lifetime semantics (initialization, copying and destruction of objects)
 - Parametric polymorphism
-- Compile time compilation
+- Compile time computation
 - Custom operators
 
 Detailed information on AGT (including examples) can be found in my [master thesis](https://github.com/PetarMihalj/AGT/blob/master/AGT_master_thesis.pdf).
